@@ -4,6 +4,12 @@ const path = require('path');
 
 const app = express();
 
+/*
+process.argv[process.argv.lastIndexOf()] (function (val, index, array) {
+  console.log(index + ': ' + val);
+});
+*/
+
 // Serve only the static files form the dist directory
 app.use(express.static(__dirname + '/dist/rehelp-web'));
 

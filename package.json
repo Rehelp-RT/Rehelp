@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "node server",
     "build": "ng build",
-    "test": "ng test",
+    "test": "ng serve && node server",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "heroku-postbuild": "ng build --prod"
@@ -26,7 +26,7 @@
     "@angular/platform-browser": "~8.2.3",
     "@angular/platform-browser-dynamic": "~8.2.3",
     "@angular/router": "~8.2.3",
-    "bootstrap": "^4.3.1",
+    "bootstrap": "^3.4.1",
     "express": "^4.17.1",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",

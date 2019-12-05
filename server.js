@@ -5,17 +5,7 @@ const Sequelize = require('sequelize');
 
 const app = express();
 
-<<<<<<< HEAD
-/*
-process.argv[process.argv.lastIndexOf()] (function (val, index, array) {
-  console.log(index + ': ' + val);
-});
-*/
-
-// Serve only the static files form the dist directory
-=======
 // static files
->>>>>>> dev
 app.use(express.static(__dirname + '/dist/rehelp-web'));
 
 // database

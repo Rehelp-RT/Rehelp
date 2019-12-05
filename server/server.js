@@ -1,11 +1,15 @@
-// Install express server
+// install express server
 const express = require('express');
 const path = require('path');
 const Sequelize = require('sequelize');
 
+// models
+const User = require('models/User.model')
+
+// start Express framework
 const app = express();
 
-// static files
+// static files where Angular is located
 app.use(express.static(__dirname + '/dist/rehelp-web'));
 
 // database

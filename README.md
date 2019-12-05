@@ -22,9 +22,10 @@
 * `brew update`
 * `brew install postgresql`
 * start it with `brew services start postgresql`, stop it with `brew services stop postgresql`
-* run cli with `psql`
+* run cli with `psql` or `psql postgres` to select the user (named "postgres" in this example)
 
 ## Postgresql Commands
 
-* `\q` exit
-* `\list` list databases
+* `\quit` or `\q` exit
+* `\list` or `\l` list databases
+* `\password` change current user's password

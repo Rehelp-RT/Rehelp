@@ -6,13 +6,9 @@ import { InputUserDataFormComponent } from './input-user-data-form/input-user-da
 
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
   { path: 'data', component: DisplayUserDataComponent },
   { path: 'form', component: InputUserDataFormComponent },
-  { path: '',
-    redirectTo: '/home',
-    pathMatch: 'full'
-  }
+  { path: '', component: HomeComponent, pathMatch: 'full' }
 ];
 
 @NgModule({

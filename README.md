@@ -3,7 +3,7 @@
 ## Quick running app
 
 * `npm install`
-* `npm test`
+* `npm run dev`
 * navigate to `http://localhost:4200`
 
 ## Technology Stack

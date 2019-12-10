@@ -1,56 +1,62 @@
-// install express server
+/*--- Requires ---*/
+
 const express = require('express');
+const bodyParser = require('body-parser');
 const path = require('path');
-const Sequelize = require('sequelize');
-
-// start Express framework
-const app = express();
 const api = require('./routes/api');
+const db = require('./config/database');
 
-// static files where Angular is located
+
+
+/*--- Setup ---*/
+
+// start Express
+const app = express();
+
+// test DB
+db.authenticate()
+    .then(() => {
+        console.log('Connection has been established successfully.');
+    })
+    .catch(err => {
+        console.error('Unable to connect to the database:', err);
+    });
+
+// setup client
 const clientPath = path.join(__dirname, '../public')
 app.use(express.static(clientPath));
 
-// database
-const sequelize = new Sequelize('postgres://postgres:mucca@localhost:5432/rehelp');
+// setup parser
+app.use(bodyParser.json()); // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
+    extended: true
+}));
 
-// test the connection
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
 
-// model
-const User = sequelize.define('user', {
-  // attributes
-  firstName: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  lastName: {
-    type: Sequelize.STRING
-    // allowNull defaults to true
-  }
-}, {
-  // options
-});
 
-// API
+/*--- Routes ---*/
+
+// API routes
 app.use('/api', api);
 
-// client
+// client routes
 app.get('*', (req, res) => {
-  res.sendFile(path.join(clientPath, '/index.html'));
+    res.sendFile(path.join(clientPath, '/index.html'));
 });
 
-// start the app by listening on the default Heroku port
-let port = process.env.PORT || 3000;
-app.listen(port, function () {
-  if (process.env.MODE != 'production') {
-    console.log(`ReHelp API running on http://localhost:${port}`);
-  }
+
+
+/*--- Start ---*/
+
+// start the app
+const port = process.env.PORT || 3000;
+const host =
+    process.env.MODE == 'production' ?
+    `birrific.io:${port}` :
+    `localhost:4200`
+app.listen(port, function() {
+    if (process.env.MODE != 'production') {
+        console.log(
+            `ReHelp running on http://${host}/api\nReHelp App running on http://${host}`);
+    }
 });

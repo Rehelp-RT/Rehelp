@@ -7,7 +7,7 @@ const Sequelize = require('sequelize');
 const app = express();
 
 // static files where Angular is located
-app.use(express.static(__dirname + '/dist/rehelp-web'));
+app.use(express.static(__dirname + '/../dist/rehelp-web'));
 
 // database
 const sequelize = new Sequelize('postgres://postgres:mucca@localhost:5432/rehelp');

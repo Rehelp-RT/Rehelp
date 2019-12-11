@@ -4,23 +4,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const api = require('./routes/api');
-const db = require('./config/database');
-
 
 
 /*--- Setup ---*/
 
 // start Express
 const app = express();
-
-// test DB
-db.authenticate()
-    .then(() => {
-        console.log('Connection has been established successfully.');
-    })
-    .catch(err => {
-        console.error('Unable to connect to the database:', err);
-    });
 
 // setup client
 const clientPath = path.join(__dirname, '../public')

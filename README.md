@@ -3,6 +3,7 @@
 ## Quick running app
 
 * `npm install`
+* `createdb` (first time only)
 * `npm run dev`
 * navigate to `http://localhost:4200`
 
@@ -14,7 +15,14 @@
 * Postgresql
 * Sequelize
 
-## Install Postgresql
+## Sequelize
+
+### create a new model
+
+* `sequelize model:create --name User --attributes 'name:string email:string bio:text'`
+* `sequelize db:migrate`
+
+## Postgresql
 
 ### MacOS
 

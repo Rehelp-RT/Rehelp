@@ -14,10 +14,10 @@
         "dialect": "postgres"
     },
     "production": {
-        "username": "postgres",
-        "password": 123456,
-        "database": "rehelp",
-        "host": "127.0.0.1",
-        "dialect": "postgres"
+        "use_env_variable": "DATABASE_URL",
+        "dialect": "postgres",
+        "dialectOptions": {
+            "ssl": true
+        }
     }
 }

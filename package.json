@@ -12,7 +12,7 @@
         "lint": "ng lint",
         "e2e": "ng e2e",
         "migrate": "sequelize --options-path=server/options.js db:migrate",
-        "heroku-postbuild": "ng build --prod --output-path=public"
+        "heroku-postbuild": "ng build --prod --output-path=public && sequelize --options-path=server/options.js db:migrate"
     },
     "engines": {
         "node": "12.9.0",

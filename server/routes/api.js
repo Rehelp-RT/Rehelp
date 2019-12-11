@@ -1,11 +1,6 @@
 const express = require('express');
+const models = require('../models');
 const router = express.Router();
-const db = require('../config/database');
-
-// models
-const Help = require('../models/Help');
-
-
 
 /*--- Version ---*/
 
@@ -20,7 +15,7 @@ router.get('/version', function(req, res) {
 
 // get help list
 router.get('/helps', (req, res) =>
-    Help.findAll()
+    models.Help.findAll()
     .then(helps => {
         res.json(helps)
     })
@@ -36,7 +31,7 @@ router.post('/helps/add', (req, res) => {
     if (body == undefined) {
         res.sendStatus(400)
     } else {
-        Help.create(body)
+        models.Help.create(body)
             .then(help => {
                 console.log(help);
                 res.sendStatus(201)

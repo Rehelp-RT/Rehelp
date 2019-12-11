@@ -1,16 +1,12 @@
-const Sequelize = require('sequelize');
-const db = require('../config/database');
-
-const Help = db.define('help', {
-    title: {
-        type: Sequelize.STRING
-    },
-    description: {
-        type: Sequelize.STRING
-    },
-    category: {
-        type: Sequelize.STRING
-    }
-});
-
-module.exports = Help;
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const Help = sequelize.define('Help', {
+    title: DataTypes.STRING,
+    description: DataTypes.TEXT,
+    category: DataTypes.STRING
+  }, {});
+  Help.associate = function(models) {
+    // associations can be defined here
+  };
+  return Help;
+};

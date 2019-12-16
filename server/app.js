@@ -41,7 +41,7 @@ app.get('*', (req, res) => {
 const port = process.env.PORT || 3000;
 const host =
     process.env.MODE == 'production' ?
-    `birrific.io:${port}` :
+    `rehelp.app:${port}` :
     `localhost:4200`
 app.listen(port, function() {
     if (process.env.MODE != 'production') {

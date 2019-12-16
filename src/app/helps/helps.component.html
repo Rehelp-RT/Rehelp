@@ -1,0 +1,22 @@
+<section class="py-3">
+
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Categoria</th>
+                    <th>Titolo</th>
+                    <th>Descrizione</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let h of helps">
+                    <td>{{ h.category }}</td>
+                    <td>{{ h.title }}</td>
+                    <td>{{ h.description }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</section>

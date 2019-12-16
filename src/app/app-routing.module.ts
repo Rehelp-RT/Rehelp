@@ -6,7 +6,7 @@ import { AuthGuard } from './_guards';
 
 // components
 import { HomeComponent } from './home/home.component';
-import { DisplayUserDataComponent } from './display-user-data/display-user-data.component';
+import { HelpsComponent } from './helps/helps.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
@@ -14,7 +14,7 @@ import { RegisterComponent } from './register/register.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'data', component: DisplayUserDataComponent, canActivate: [AuthGuard] },
+  { path: 'helps', component: HelpsComponent, canActivate: [AuthGuard] },
   { path: '', component: HomeComponent, pathMatch: 'full' }
 ];
 

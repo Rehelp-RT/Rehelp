@@ -9,7 +9,7 @@ const User = require('../models').User;
 /*--- Version ---*/
 
 // GET /api/version
-router.get('/version', function (req, res) {
+router.get('/version', function(req, res) {
     res.send({ version: 'v0.2.0' });
 });
 
@@ -20,13 +20,13 @@ router.get('/version', function (req, res) {
 // get help list
 router.get('/helps', (req, res) =>
     models.Help.findAll()
-        .then(helps => {
-            res.json(helps)
-        })
-        .catch(err => {
-            console.log(err);
-            res.sendStatus(500)
-        })
+    .then(helps => {
+        res.json(helps)
+    })
+    .catch(err => {
+        console.log(err);
+        res.sendStatus(500)
+    })
 );
 
 // add an help
@@ -50,14 +50,14 @@ router.post('/helps/add', (req, res) => {
 /*--- Users ---*/
 
 // POST /api/user
-router.post('/user', function (req, res) {
+router.post('/user', function(req, res) {
     User.create({ firstName: "Jane", lastName: "Doe" }).then(user => {
         res.send({ id: user.id });
     });
 });
 
 // DELETE /api/user
-router.delete('/user', function (req, res) {
+router.delete('/user', function(req, res) {
     User.destroy({
         where: {
             firstName: "Jane"
@@ -68,7 +68,7 @@ router.delete('/user', function (req, res) {
 });
 
 // PUT /api/user
-router.put('/user', function (req, res) {
+router.put('/user', function(req, res) {
     User.update({ lastName: "Doe" }, {
         where: {
             lastName: null
@@ -83,15 +83,23 @@ router.put('/user', function (req, res) {
 
 // Signup
 
-router.post('/signup', function (req, res) {
+router.post('/signup', function(req, res) {
     console.log(req.body);
-    if (!req.body.username || !req.body.password) {
-        res.status(400).send({ msg: 'Please pass usernamer and password.' })
+    if (!req.body.username) {
+        res.status(400).send({ msg: 'Please provide an username.' })
+    } else if (!req.body.password) {
+        res.status(400).send({ msg: 'Please provide a password.' })
+    } else if (!req.body.firstname) {
+        res.status(400).send({ msg: 'Please provide a first name.' })
+    } else if (!req.body.lastname) {
+        res.status(400).send({ msg: 'Please provide a last name.' })
     } else {
         User
             .create({
                 username: req.body.username,
-                password: req.body.password
+                password: req.body.password,
+                firstname: req.body.firstname,
+                lastname: req.body.lastname,
             })
             .then((user) => res.status(201).send(user))
             .catch((error) => {
@@ -103,7 +111,7 @@ router.post('/signup', function (req, res) {
 
 // Signin
 
-router.post('/signin', function (req, res) {
+router.post('/signin', function(req, res) {
     User
         .find({
             where: {
@@ -119,7 +127,7 @@ router.post('/signin', function (req, res) {
             user.comparePassword(req.body.password, (err, isMatch) => {
                 if (isMatch && !err) {
                     var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***', { expiresIn: 86400 * 30 });
-                    jwt.verify(token, '***REMOVED-JWT-SECRET***', function (err, data) {
+                    jwt.verify(token, '***REMOVED-JWT-SECRET***', function(err, data) {
                         console.log(err, data);
                     })
                     res.json({ success: true, token: 'JWT ' + token });
@@ -132,7 +140,7 @@ router.post('/signin', function (req, res) {
 });
 
 // Function to extract token
-getToken = function (headers) {
+getToken = function(headers) {
     if (headers && headers.authorization) {
         var parted = headers.authorization.split(' ');
         if (parted.length === 2) {

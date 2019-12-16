@@ -16,10 +16,12 @@
                     <li class="nav-item" routerLinkActive="active">
                         <a class="nav-link" routerLink="/register">Registrazione</a>
                     </li>
-                    <li class="nav-item" routerLinkActive="active">
+                    <li class="nav-item" *ngIf="currentUser" routerLinkActive="active">
                         <a class="nav-link" routerLink="/data">Visualizza dati</a>
                     </li>
-                    <a class="nav-item nav-link" (click)="logout()">Logout</a>
+                    <li class="nav-litem" *ngIf="currentUser">
+                        <a class="nav-item nav-link" (click)="logout()">Logout</a>
+                    </li>
                 </ul>
             </div>
         </div>

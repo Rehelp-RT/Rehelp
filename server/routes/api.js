@@ -91,7 +91,10 @@ router.post('/signup', function(req, res) {
         User
             .create({
                 username: req.body.username,
-                password: req.body.password
+                password: req.body.password,
+                firstname: req.body.firstname,
+                lastname: req.body.lastname,
+                birthdate: req.body.birthdate
             })
             .then((user) => res.status(201).send(user))
             .catch((error) => {

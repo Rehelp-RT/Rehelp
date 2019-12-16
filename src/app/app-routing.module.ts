@@ -8,10 +8,12 @@ import { AuthGuard } from './_guards';
 import { HomeComponent } from './home/home.component';
 import { DisplayUserDataComponent } from './display-user-data/display-user-data.component';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'data', component: DisplayUserDataComponent, canActivate: [AuthGuard] },
   { path: '', component: HomeComponent, pathMatch: 'full' }
 ];

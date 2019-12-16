@@ -16,7 +16,7 @@ import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
-import { RegisterComponent } from './register';
+import { RegisterComponent } from './register/register.component';
 import { AlertComponent } from './alert/alert.component';
 
 

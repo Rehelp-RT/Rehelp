@@ -3,9 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { DisplayUserDataComponent } from './display-user-data/display-user-data.component';
 import { InputUserDataFormComponent } from './input-user-data-form/input-user-data-form.component';
+import { LoginComponent } from './login/login.component';
 
 
 const routes: Routes = [
+  { path: 'login', component: LoginComponent },
   { path: 'data', component: DisplayUserDataComponent },
   { path: 'form', component: InputUserDataFormComponent },
   { path: '', component: HomeComponent, pathMatch: 'full' }

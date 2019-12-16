@@ -112,31 +112,38 @@ router.post('/signup', function(req, res) {
 // Signin
 
 router.post('/signin', function(req, res) {
-    User
-        .find({
-            where: {
-                username: req.body.username
-            }
-        })
-        .then((user) => {
-            if (!user) {
-                return res.status(401).send({
-                    message: 'Authentication failed. User not found.',
-                });
-            }
-            user.comparePassword(req.body.password, (err, isMatch) => {
-                if (isMatch && !err) {
-                    var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***', { expiresIn: 86400 * 30 });
-                    jwt.verify(token, '***REMOVED-JWT-SECRET***', function(err, data) {
-                        console.log(err, data);
-                    })
-                    res.json({ success: true, token: 'JWT ' + token });
-                } else {
-                    res.status(401).send({ success: false, msg: 'Authentication failed. Wrongg password.' });
+    if (!req.body.username) {
+        res.status(400).send({ msg: 'Please provide an username.' })
+    } else if (!req.body.password) {
+        res.status(400).send({ msg: 'Please provide a password.' })
+    } else {
+        User
+            .findOne({
+                where: {
+                    username: req.body.username
                 }
             })
-        })
-        .catch((error) => res.status(400).send(error));
+            .then((user) => {
+                if (!user) {
+                    return res.status(401).send({
+                        message: 'Authentication failed.',
+                    });
+                }
+                user.comparePassword(req.body.password, (err, isMatch) => {
+                    if (isMatch && !err) {
+                        var token =
+                            jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***', { expiresIn: 86400 * 30 });
+                        jwt.verify(token, '***REMOVED-JWT-SECRET***', function(err, data) {
+                            console.log(err, data);
+                        })
+                        res.json({ success: true, token: 'JWT ' + token });
+                    } else {
+                        res.status(401).send({ success: false, msg: 'Authentication failed. Wrong password.' });
+                    }
+                })
+            })
+            .catch((error) => res.status(400).send(error));
+    }
 });
 
 // Function to extract token

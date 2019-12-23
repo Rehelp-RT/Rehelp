@@ -9,12 +9,17 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
   currentUser: User;
+  navbarOpen = false;
 
   constructor(
       private router: Router,
       private authenticationService: AuthenticationService
   ) {
       this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+  }
+
+  toggleNavbar() {
+    this.navbarOpen = !this.navbarOpen;
   }
 
   logout() {

@@ -4,7 +4,7 @@
             <button aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarMain" data-toggle="collapse" type="button" (click)="toggleNavbar()">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" routerLink="/">ReHelp</a>
+            <a class="navbar-brand" [routerLink]="['/']">ReHelp</a>
             <div class="collapse navbar-collapse" id="navbarMain" [ngClass]="{ 'show': navbarOpen }">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="nav-item" *ngIf="currentUser" routerLinkActive="active">

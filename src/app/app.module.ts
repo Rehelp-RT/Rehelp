@@ -3,8 +3,9 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-
 import { AppRoutingModule } from './app-routing.module';
+
+import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 
 // components
 import { AppComponent } from './app.component';
@@ -13,14 +14,9 @@ import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
-import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { RegisterComponent } from './register/register.component';
 import { AlertComponent } from './alert/alert.component';
 import { HelpsComponent } from './helps/helps.component';
-
-
-
-
 
 @NgModule({
   declarations: [

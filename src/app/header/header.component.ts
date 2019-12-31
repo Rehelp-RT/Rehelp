@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../_models';
-import { AuthenticationService } from '../_services';
+import { User } from '@app/_models';
+import { AuthenticationService } from '@app/_services';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   currentUser: User;
   navbarOpen = false;
 
@@ -17,6 +17,8 @@ export class HeaderComponent {
   ) {
       this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
+
+  ngOnInit() {}
 
   toggleNavbar() {
     this.navbarOpen = !this.navbarOpen;

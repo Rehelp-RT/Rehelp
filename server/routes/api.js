@@ -121,13 +121,15 @@ router.post('/signin', function(req, res) {
             }
             user.comparePassword(req.body.password, (err, isMatch) => {
                 if (isMatch && !err) {
-                    var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***', { expiresIn: 86400 * 30 });
+                    var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
+                    var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
+                    console.log
                     jwt.verify(token, '***REMOVED-JWT-SECRET***', function(err, data) {
                         console.log(err, data);
                     })
-                    res.json({ success: true, token: 'JWT ' + token });
+                    res.json({ success: true, token: 'JWT ' + token, expiresIn: expiresIn});
                 } else {
-                    res.status(401).send({ success: false, msg: 'Authentication failed. Wrongg password.' });
+                    res.status(401).send({ success: false, msg: 'Authentication failed. Wrong password.' });
                 }
             })
         })

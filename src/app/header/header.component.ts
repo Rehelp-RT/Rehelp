@@ -5,7 +5,8 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  templateUrl: './header.component.html'
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
   currentUser: User;
@@ -14,11 +15,13 @@ export class HeaderComponent implements OnInit {
   constructor(
       private router: Router,
       private authenticationService: AuthenticationService
-  ) {
-      this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-  }
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.authenticationService.currentUser.subscribe(x => {
+      this.currentUser = x;
+    });
+  }
 
   toggleNavbar() {
     this.navbarOpen = !this.navbarOpen;

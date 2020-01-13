@@ -9,7 +9,6 @@ import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 
 // components
 import { AppComponent } from './app.component';
-import { DisplayUserDataComponent } from './display-user-data/display-user-data.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
@@ -17,18 +16,19 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AlertComponent } from './alert/alert.component';
 import { HelpsComponent } from './helps/helps.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
     AlertComponent,
     AppComponent,
-    DisplayUserDataComponent,
     HomeComponent,
     FooterComponent,
     HeaderComponent,
     LoginComponent,
     RegisterComponent,
-    HelpsComponent
+    HelpsComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

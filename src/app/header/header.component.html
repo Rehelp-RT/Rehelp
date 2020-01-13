@@ -16,6 +16,16 @@
                         <a class="nav-link" routerLink="/login">Login</a>
                     </li>
                     <li class="nav-item" *ngIf="currentUser">
+                        <a class="nav-link" routerLink="/profile/{{ currentUser.id }}">
+                            <span class="img-avatar rounded-circle">
+                                <img src="{{ currentUser.avatar == null ? 'assets/img/avatar_64.png' : currentUser.avatar }}" 
+                                    alt="{{ currentUser.firstName + ' ' + currentUser.lastName }}"
+                                    title="{{ currentUser.firstName + ' ' + currentUser.lastName }}"
+                                    width="32">
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item" *ngIf="currentUser">
                         <a class="nav-link" href="#" (click)="logout()">Logout</a>
                     </li>
                 </ul>

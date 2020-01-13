@@ -1,0 +1,27 @@
+<section class="py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-4">
+                <img src="{{ currentUser.avatar == null ? 'assets/img/avatar.png' : currentUser.avatar }}" alt="{{ currentUser.firstName + ' ' + currentUser.lastName }}" title="{{ currentUser.firstName + ' ' + currentUser.lastName }}" class="img-fluid">
+                <h4 class="text-center mt-3">
+                    {{ currentUser.firstName }} {{ currentUser.lastName }}
+                </h4>
+                <div>
+                    <span>&#9733;</span> 12
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Aiuti dati</h3>
+                        <p>Nessun aiuto presente.</p>
+                        <hr>
+                        <h3>Aiuti ricevuti</h3>
+                        <p>Nessun aiuto presente.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

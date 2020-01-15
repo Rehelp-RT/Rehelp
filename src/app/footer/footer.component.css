@@ -1,0 +1,12 @@
+.footer-top ul {
+    list-style-type: none;
+}
+
+.footer-top a {
+    color: #404040;
+    text-decoration: none;
+}
+
+.footer-top a:hover {
+    color: #808080;
+}

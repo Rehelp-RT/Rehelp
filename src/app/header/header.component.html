@@ -4,7 +4,9 @@
             <button aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarMain" data-toggle="collapse" type="button" (click)="toggleNavbar()">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" [routerLink]="['/']">ReHelp</a>
+            <a class="navbar-brand" [routerLink]="['/']">
+                <img alt="ReHelp" src="assets/img/logo-rehelp.png" width="200">
+            </a>
             <div class="collapse navbar-collapse" id="navbarMain" [ngClass]="{ 'show': navbarOpen }">
                 <ul class="nav navbar-nav">
                     <li class="nav-item" *ngIf="currentUser" routerLinkActive="active">
@@ -13,7 +15,7 @@
                 </ul>
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item" *ngIf="!currentUser" routerLinkActive="active">
-                        <a class="nav-link" routerLink="/login">Login</a>
+                        <a class="nav-link btn btn-outline-secondary" routerLink="/login">Login</a>
                     </li>
                     <li class="nav-item" *ngIf="currentUser">
                         <a class="nav-link" routerLink="/profile/{{ currentUser.id }}">
@@ -26,7 +28,7 @@
                         </a>
                     </li>
                     <li class="nav-item" *ngIf="currentUser">
-                        <a class="nav-link" href="#" (click)="logout()">Logout</a>
+                        <a class="nav-link btn btn-outline-secondary" href="#" (click)="logout()">Logout</a>
                     </li>
                 </ul>
             </div>

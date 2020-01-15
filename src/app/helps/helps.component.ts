@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import { HelpService } from '../_services';
 import { Help } from '../_models';
 
@@ -24,5 +23,15 @@ export class HelpsComponent implements OnInit {
             this.helps = x;
         });
   }
-
+  /*
+  deleteHelps(id, index) {
+    this.hs.deleteHelps(id)
+      .subscribe(res => {    
+          this.data.splice(index,1);
+        }, (err) => {
+          console.log(err);
+        }
+      );
+  }
+  */
 }

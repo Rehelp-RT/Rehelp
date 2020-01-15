@@ -17,6 +17,8 @@ import { RegisterComponent } from './register/register.component';
 import { AlertComponent } from './alert/alert.component';
 import { HelpsComponent } from './helps/helps.component';
 import { ProfileComponent } from './profile/profile.component';
+import { HelpsAddComponent } from './helps-add/helps-add.component';
+import { HelpsEditComponent } from './helps-edit/helps-edit.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { ProfileComponent } from './profile/profile.component';
     LoginComponent,
     RegisterComponent,
     HelpsComponent,
-    ProfileComponent
+    ProfileComponent,
+    HelpsAddComponent,
+    HelpsEditComponent
   ],
   imports: [
     BrowserModule,

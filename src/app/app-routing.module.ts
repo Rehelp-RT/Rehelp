@@ -7,6 +7,8 @@ import { AuthGuard } from './_guards';
 // components
 import { HomeComponent } from './home/home.component';
 import { HelpsComponent } from './helps/helps.component';
+import { HelpsAddComponent } from './helps-add/helps-add.component';
+import { HelpsEditComponent } from './helps-edit/helps-edit.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
@@ -14,6 +16,8 @@ import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   { path: 'helps', component: HelpsComponent, canActivate: [AuthGuard] },
+  { path: 'helps/add', component: HelpsAddComponent, canActivate: [AuthGuard] },
+  { path: 'helps/edit', component: HelpsEditComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

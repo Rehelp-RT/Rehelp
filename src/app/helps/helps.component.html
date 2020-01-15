@@ -14,9 +14,20 @@
                     <td>{{ h.category }}</td>
                     <td>{{ h.title }}</td>
                     <td>{{ h.description }}</td>
+                    <td width="250">
+                        <button type="button" class="btn btn-danger mr-1"
+                            (click)="deleteHelps(h.id, i)">Delete</button>
+                        <a [routerLink]="['/helps/edit/', h.id]">
+                            <button type="button" class="btn btn-primary">Edit</button>
+                        </a>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
+
+    <a class="float-right" [routerLink]="['/helps/add']">
+        <button type="button" class="btn btn-primary">Add</button>
+    </a>
 
 </section>

@@ -49,7 +49,31 @@ router.post('/helps/add', (req, res) => {
 
 /*--- Users ---*/
 
+// GET /api/user/5
+router.get('/user/:id', (req, res) => {
+    models.User.findByPk(req.params.id)
+        .then(user => {
+            if (!user) {
+                return res.status(404).send({
+                    message: "User not found with id " + req.params.id
+                });
+            }
+            res.send(user);
+        })
+        .catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: "User not found with id " + req.params.id
+                });
+            }
+            return res.status(500).send({
+                message: "Error retrieving user with id " + req.params.id
+            });
+        });
+});
+
 // POST /api/user
+<<<<<<< HEAD
 router.post('/user', function (req, res) {
     User.create({ firstName: "Jane", lastName: "Doe" }).then(user => {
         res.send({ id: user.id });
@@ -76,6 +100,34 @@ router.put('/user', function (req, res) {
     }).then(() => {
         res.send({ id: user.id });
     });
+=======
+router.post('/user', function(req, res) {
+    // User.create({ firstName: "Jane", lastName: "Doe" }).then(user => {
+    //     res.send({ id: user.id });
+    // });
+});
+
+// DELETE /api/user
+router.delete('/user', function(req, res) {
+    // User.destroy({
+    //     where: {
+    //         firstName: "Jane"
+    //     }
+    // }).then(() => {
+    //     res.send({ id: user.id });
+    // });
+});
+
+// PUT /api/user
+router.put('/user', function(req, res) {
+    // User.update({ lastName: "Doe" }, {
+    //     where: {
+    //         lastName: null
+    //     }
+    // }).then(() => {
+    //     res.send({ id: user.id });
+    // });
+>>>>>>> dev
 });
 
 
@@ -134,9 +186,25 @@ router.post('/signin', function (req, res) {
                     jwt.verify(token, '***REMOVED-JWT-SECRET***', function (err, data) {
                         console.log(err, data);
                     })
+<<<<<<< HEAD
                     res.json({ success: true, token: 'JWT ' + token, expiresIn: expiresIn });
+=======
+                    res.json({
+                        success: true,
+                        userId: user.id,
+                        avatar: user.avatar,
+                        username: user.username,
+                        firstName: user.firstname,
+                        lastName: user.lastname,
+                        token: 'JWT ' + token,
+                        expiresIn: expiresIn
+                    });
+>>>>>>> dev
                 } else {
-                    res.status(401).send({ success: false, msg: 'Authentication failed. Wrong password.' });
+                    res.status(401).send({
+                        success: false,
+                        msg: 'Authentication failed. Wrong password.'
+                    });
                 }
             })
         })

@@ -8,13 +8,15 @@ import { AuthGuard } from './_guards';
 import { HomeComponent } from './home/home.component';
 import { HelpsComponent } from './helps/helps.component';
 import { LoginComponent } from './login/login.component';
+import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 
 
 const routes: Routes = [
   { path: 'helps', component: HelpsComponent, canActivate: [AuthGuard] },
-  { path: 'register', component: RegisterComponent },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: '', component: HomeComponent, pathMatch: 'full' }
 ];
 

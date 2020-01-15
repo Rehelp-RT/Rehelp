@@ -1,9 +1,9 @@
 .bg-home {
-    background-image: url('../../assets/img/bg-home1.jpg');
+    background-image: url('../../assets/img/bg-home-1.jpg');
     background-repeat: no-repeat;
     background-size: 100%;
     background-position-y: center;
-    min-height: 200px;
+    min-height: 300px;
 }
 
 .bg-home .lead {

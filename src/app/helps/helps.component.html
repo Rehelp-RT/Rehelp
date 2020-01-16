@@ -16,9 +16,9 @@
                     <td>{{ h.description }}</td>
                     <td width="250">
                         <button type="button" class="btn btn-danger mr-1"
-                            (click)="deleteHelps(h.id, i)">Delete</button>
+                            (click)="deleteHelps(h.id, i)">Cancella</button>
                         <a [routerLink]="['/helps/edit/', h.id]">
-                            <button type="button" class="btn btn-primary">Edit</button>
+                            <button type="button" class="btn btn-primary">Modifica</button>
                         </a>
                     </td>
                 </tr>
@@ -27,7 +27,7 @@
     </div>
 
     <a class="float-right" [routerLink]="['/helps/add']">
-        <button type="button" class="btn btn-primary">Add</button>
+        <button type="button" class="btn btn-primary">Aggiungi</button>
     </a>
 
 </section>

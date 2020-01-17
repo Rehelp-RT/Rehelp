@@ -8,13 +8,23 @@ module.exports = {
                 'id_category', {
                     type: Sequelize.INTEGER
                 }                
-            )
+            ),
+            queryInterface.removeColumn('Help', 'category'),
         ]);
     },
 
     down: (queryInterface, Sequelize) => {
         return Promise.all([
-            queryInterface.removeColumn('Help', 'category'),
-        ]);
+            queryInterface.removeColumn(
+                'Help',
+                'id_category'
+            ),
+            queryInterface.addColumn(
+                'Help',
+                'category',{
+                    type: Sequelize.INTEGER
+                }
+            )
+        ])
     }
 };

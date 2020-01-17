@@ -16,6 +16,8 @@
 * Sequelize
 
 ## Sequelize
+* https://sequelize.org/master/class/lib/query-interface.js~QueryInterface.html
+* `sequelize migration:create --name name-the-migration`
 
 ### create a new model
 

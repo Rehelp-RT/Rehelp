@@ -28,7 +28,7 @@ export class HelpsAddComponent implements OnInit {
     this.hs.addHelps(payload)
       .subscribe(res => {
           let id = res['_id'];
-          this.router.navigate(['/']);
+          this.router.navigate(['/helps']);
         }, (err) => {
           console.log(err);
         });

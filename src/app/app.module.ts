@@ -16,9 +16,9 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AlertComponent } from './alert/alert.component';
 import { HelpsComponent } from './helps/helps.component';
-import { ProfileComponent } from './profile/profile.component';
 import { HelpsAddComponent } from './helps-add/helps-add.component';
 import { HelpsEditComponent } from './helps-edit/helps-edit.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -30,9 +30,9 @@ import { HelpsEditComponent } from './helps-edit/helps-edit.component';
     LoginComponent,
     RegisterComponent,
     HelpsComponent,
-    ProfileComponent,
     HelpsAddComponent,
-    HelpsEditComponent
+    HelpsEditComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const Help = sequelize.define('Help', {
     title: DataTypes.STRING,
     description: DataTypes.TEXT,
-    category: DataTypes.STRING
+    id_category: DataTypes.INTEGER
   }, {});
   Help.associate = function(models) {
     // associations can be defined here

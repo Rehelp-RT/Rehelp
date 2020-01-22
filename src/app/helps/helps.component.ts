@@ -32,6 +32,6 @@ export class HelpsComponent implements OnInit {
           console.log(err);
         }
       );
-  }
-  */
+  }*/
+  
 }

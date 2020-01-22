@@ -15,9 +15,9 @@ import { RegisterComponent } from './register/register.component';
 
 
 const routes: Routes = [
-  { path: 'helps', component: HelpsComponent, canActivate: [AuthGuard] },
-  { path: 'helps/add', component: HelpsAddComponent, canActivate: [AuthGuard] },
-  { path: 'helps/edit', component: HelpsEditComponent, canActivate: [AuthGuard] },
+  { path: 'helps', component: HelpsComponent, data: {title: 'Lista aiuti'}, canActivate: [AuthGuard] },
+  { path: 'helps/add', component: HelpsAddComponent, data: {title: 'Aggiungi aiuto'}, canActivate: [AuthGuard] },
+  { path: 'helps/edit/:id', component: HelpsEditComponent,  data: {title: 'Modifica aiuto'}, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

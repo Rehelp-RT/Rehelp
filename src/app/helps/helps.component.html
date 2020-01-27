@@ -1,31 +1,33 @@
 <section class="py-3">
 
     <div class="container">
+        <a [routerLink]="['/helps/add']" class="btn btn-outline-primary mb-3">
+            Aggiungi
+        </a>
         <table class="table">
             <thead>
                 <tr>
                     <th>Categoria</th>
                     <th>Titolo</th>
                     <th>Descrizione</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let h of helps">
-                    <td>{{ h.category }}</td>
+                    <td>{{ h.HelpCategory.name }}</td>
                     <td>{{ h.title }}</td>
                     <td>{{ h.description }}</td>
-                    <td width="250">
-                        <button type="button" class="btn btn-danger mr-1"
-                            (click)="deleteHelps(h.id, i)">Cancella</button>
-                        <a [routerLink]="['/helps/edit/', h.id]">
-                            <button type="button" class="btn btn-primary">Modifica</button>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-outline-danger m-1" (click)="deleteHelps(h.id, i)">
+                            Cancella
+                        </button>
+                        <a [routerLink]="['/helps/edit/', h.id]" class="btn btn-sm btn-outline-secondary m-1">
+                            Modifica
                         </a>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <a class="" [routerLink]="['/helps/add']">
-            <button type="button" class="btn btn-primary">Aggiungi</button>
-        </a>
     </div>
 </section>

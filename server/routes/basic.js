@@ -1,115 +1,15 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const passport = require('passport');
-const router = express.Router();
-require('../config/passport')(passport);
-const models = require('../models');
-const User = require('../models').User;
-
-/*--- Version ---*/
+var router = require('express').Router();
 
 // GET /api/version
 router.get('/version', function(req, res) {
     res.send({ version: 'v0.2.0' });
 });
 
-
-
-/*--- Helps ---*/
-
-// get help list
-router.get('/helps', (req, res) =>
-    models.Help.findAll()
-    .then(helps => {
-        res.json(helps)
-    })
-    .catch(err => {
-        console.log(err);
-        res.sendStatus(500)
-    })
-);
-
-// add an help
-router.post('/helps/add', (req, res) => {
-    const body = req.body;
-    if (body == undefined) {
-        res.sendStatus(400)
-    } else {
-        models.Help.create(body)
-            .then(help => {
-                console.log(help);
-                res.sendStatus(201)
-            })
-            .catch(err => {
-                console.log(err);
-                res.sendStatus(500)
-            });
-    }
-});
-
-/*--- Users ---*/
-
-// GET /api/user/5
-router.get('/user/:id', (req, res) => {
-    models.User.findByPk(req.params.id)
-        .then(user => {
-            if (!user) {
-                return res.status(404).send({
-                    message: "User not found with id " + req.params.id
-                });
-            }
-            res.send(user);
-        })
-        .catch(err => {
-            if (err.kind === 'ObjectId') {
-                return res.status(404).send({
-                    message: "User not found with id " + req.params.id
-                });
-            }
-            return res.status(500).send({
-                message: "Error retrieving user with id " + req.params.id
-            });
-        });
-});
-
-// POST /api/user
-router.post('/user', function(req, res) {
-    // User.create({ firstName: "Jane", lastName: "Doe" }).then(user => {
-    //     res.send({ id: user.id });
-    // });
-});
-
-// DELETE /api/user
-router.delete('/user', function(req, res) {
-    // User.destroy({
-    //     where: {
-    //         firstName: "Jane"
-    //     }
-    // }).then(() => {
-    //     res.send({ id: user.id });
-    // });
-});
-
-// PUT /api/user
-router.put('/user', function(req, res) {
-    // User.update({ lastName: "Doe" }, {
-    //     where: {
-    //         lastName: null
-    //     }
-    // }).then(() => {
-    //     res.send({ id: user.id });
-    // });
-});
-
-
-/*--- Authentication ---*/
-
-// Signup
-
+// GET /api/signup
 router.post('/signup', function(req, res) {
     console.log(req.body);
     if (!req.body.username || !req.body.password) {
-        res.status(400).send({ msg: 'Please pass usernamer and password.' })
+        res.status(400).send({ msg: 'Please pass username and password.' })
     } else {
         User
             .create({
@@ -130,12 +30,10 @@ router.post('/signup', function(req, res) {
                 console.log(error);
                 res.status(400).send(error);
             });
-
     }
 });
 
-// Signin
-
+// POST /api/signin
 router.post('/signin', function(req, res) {
     User
         .findOne({
@@ -194,7 +92,6 @@ getToken = function(headers) {
         return null;
     }
 };
-
 
 // exports
 module.exports = router;

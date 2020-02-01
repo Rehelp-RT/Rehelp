@@ -27,7 +27,6 @@ router.get('/:id', (req, res) => {
         });
 });
 
-
 // POST /api/user
 router.post('/', function(req, res) {
     // User.create({ firstName: "Jane", lastName: "Doe" }).then(user => {

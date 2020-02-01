@@ -16,13 +16,19 @@
 * Sequelize
 
 ## Sequelize
-* https://sequelize.org/master/class/lib/query-interface.js~QueryInterface.html
-* `sequelize migration:create --name name-the-migration`
 
-### create a new model
+Use sequalize command `npm run sequelize *` and substitute the * with one of the following command:
 
-* `sequelize model:create --name User --attributes 'name:string email:string bio:text'`
-* `sequelize db:migrate`
+| Operation | Command |
+| --- | --- |
+| list of applied migrations | `db:migrate:status` |
+| create generic migration | `migration:create --name name-the-migration` |
+| create model based migration | `model:create --name User --attributes 'name:string email:string bio:text'` |
+| apply migrations | `db:migrate` |
+| apply all seeds | `db:seed:all` |
+| undo all seeds | `db:seed:undo:all` |
+
+For migration command look QueryInterface documentation: <https://sequelize.org/master/class/lib/query-interface.js~QueryInterface.html>
 
 ## Postgresql
 

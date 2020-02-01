@@ -11,10 +11,9 @@
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
-        "seed": "sequelize --options-path=server/options.js db:seed:all",
-        "migrate": "sequelize --options-path=server/options.js db:migrate",
-        "migrate-status": "sequelize --options-path=server/options.js db:migrate:status",
-        "heroku-postbuild": "ng build --prod --output-path=public && sequelize --options-path=server/options.js db:migrate"
+        "sequelize": "sequelize --options-path=server/options.js ",
+        "migrate": "npm run sequelize db:migrate",
+        "heroku-postbuild": "ng build --prod --output-path=public && npm run sequelize db:migrate"
     },
     "engines": {
         "node": "12.9.0",

@@ -17,7 +17,7 @@
 
 ## Sequelize
 
-Use sequalize command `npm run sequelize *` and substitute the * with one of the following command:
+Use sequalize command `sequelize --options-path=server/options.js *` (or `npm run sequelize *` in certain cases still works) and substitute the * with one of the following command:
 
 | Operation | Command |
 | --- | --- |

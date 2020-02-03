@@ -12,6 +12,9 @@
                 <div class="card-body">
                     <form #helpForm="ngForm" (ngSubmit)="onSubmit()">
 
+                        <input type="hidden" [(ngModel)]="model.idCreator" name="idCreator">
+                        <input type="hidden" [(ngModel)]="model.idType" name="idType">
+
                         <div class="form-row mb-3">
                             <label class="col-md-4" for="title">Titolo</label>
                             <input class="col-md-8 form-control" type="text" [(ngModel)]="model.title" name="title" required />
@@ -19,8 +22,8 @@
 
                         <div class="form-row mb-3">
                             <label class="col-md-4" for="category">Categoria</label>
-                            <select class="col-md-8 form-control" [(ngModel)]="model.category" name="category" required>
-                                <option *ngFor="let cat of categories" [value]="cat.code">
+                            <select class="col-md-8 form-control" [(ngModel)]="model.idCategory" name="idCategory" required>
+                                <option *ngFor="let cat of categories" [value]="cat.id">
                                     {{ cat.name }}
                                 </option>
                             </select>

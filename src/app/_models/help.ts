@@ -3,5 +3,8 @@ export class Help {
     title: string;
     description: string;
     type: string;
+    idCategory: number;
+    idType: number;
+    idCreator: number;
     category: string;
 }

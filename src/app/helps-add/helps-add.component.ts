@@ -1,52 +1,63 @@
-import { Component } from '@angular/core';
-// import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { HelpService } from '../_services';
-import { Router } from '@angular/router';
-import { Help, Category } from '@app/_models';
-import { CategoryService } from '@app/_services/category.service';
+import { Component } from "@angular/core";
+import {
+  AuthenticationService,
+  CategoryService,
+  HelpService
+} from "../_services";
+import { Router } from "@angular/router";
+import { Category, Help, User } from "@app/_models";
 
 @Component({
-  selector: 'app-helps-add',
-  templateUrl: './helps-add.component.html',
-  styleUrls: ['./helps-add.component.css']
+  selector: "app-helps-add",
+  templateUrl: "./helps-add.component.html",
+  styleUrls: ["./helps-add.component.css"]
 })
 export class HelpsAddComponent {
-
   categories: Category[] = [];
-  model = new Help();
+  model: Help = null;
   submitted = false;
+  currentUser: User;
 
   constructor(
     private cs: CategoryService,
     private router: Router,
-    private hs: HelpService) {
-    this.cs.getAll()
-    .subscribe(x => {
-        this.categories = x;
+    private hs: HelpService,
+    private as: AuthenticationService
+  ) {
+    this.as.currentUser.subscribe(x => {
+      console.log(x);
+      this.currentUser = x;
+      this.model = new Help();
+      this.model.idCreator = this.currentUser.id;
+      this.model.idType = 1;
+    });
+    this.cs.getAll().subscribe(x => {
+      this.categories = x;
     });
   }
 
   onSubmit() {
     this.submitted = true;
-    this.hs.addHelp(this.model)
-      .subscribe(res => {
-        this.router.navigate(['/helps']);
+    this.hs.addHelp(this.model).subscribe(
+      res => {
+        this.router.navigate(["/helps"]);
       },
-      (err) => {
+      err => {
         console.log(err);
-      });
+      }
+    );
   }
 
   // addHelps() {
   //   const payload = {
   //     title: this.helpsForm.controls.title.value,
   //   };
-    // this.hs.addHelps(payload)
-    //   .subscribe(res => {
-    //       let id = res['_id'];
-    //       this.router.navigate(['/helps']);
-    //     }, (err) => {
-    //       console.log(err);
-    //     });
+  // this.hs.addHelps(payload)
+  //   .subscribe(res => {
+  //       let id = res['_id'];
+  //       this.router.navigate(['/helps']);
+  //     }, (err) => {
+  //       console.log(err);
+  //     });
   // }
 }

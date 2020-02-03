@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HelpService } from '../_services';
 import { Help } from '../_models';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-helps-detail',
@@ -10,20 +10,19 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class HelpsDetailComponent implements OnInit {
 
-  help: Help;
-  helpId: number;
+  help: Help = null;
 
   constructor(private hs: HelpService, private actRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.helpId = this.actRoute.snapshot.params['id'];
-    this.getHelp();
+    const id = this.actRoute.snapshot.params['id'];
+    this.getHelp(id);
   }
 
-  getHelp(): void {
-    this.hs.getById(this.helpId)
+  getHelp(id: number): void {
+    this.hs.getById(id)
         .subscribe(x => {
-            console.log(x);
+          this.help = x;
         });
   }
 }

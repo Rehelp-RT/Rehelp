@@ -59,7 +59,7 @@ router.post('/signin', function(req, res) {
                     })
                     res.json({
                         success: true,
-                        userId: user.id,
+                        id: user.id,
                         avatar: user.avatar,
                         username: user.username,
                         firstName: user.firstname,

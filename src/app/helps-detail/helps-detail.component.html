@@ -1,22 +1,36 @@
 <section class="py-3">
     <div class="container">
+
         <div class="row">
-            <div class="col-lg-3 col-md-4">                
-                <h4 class="text-center mt-3">
-                    {{ currentUser.firstName }} {{ currentUser.lastName }}
-                </h4>
-                <div>
-                    <span>&#9733;</span> 12
-                </div>
+
+            <div class="col-lg-2 col-md-3">
+                <a class="offset-md-4" [routerLink]="['/helps']">Indietro</a>
             </div>
-            <div class="col-lg-9 col-md-8">
+
+            <div class="col-lg-10 col-md-9">
+
                 <div class="card">
                     <div class="card-body">
-                        <h3>Aiuti dati</h3>
-                        <p>Nessun aiuto presente.</p>
-                        <hr>
-                        <h3>Aiuti ricevuti</h3>
-                        <p>Nessun aiuto presente.</p>
+                        <div class="row mb-3">
+                            <div class="col-md-4"><strong>Tipo</strong></div>
+                            <div class="col-md-4">{{ help?.HelpType?.name }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4"><strong>Titolo</strong></div>
+                            <div class="col-md-8">{{ help?.title }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4"><strong>Categoria</strong></div>
+                            <div class="col-md-4">{{ help?.HelpCategory?.name }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4"><strong>Creatore</strong></div>
+                            <div class="col-md-4">{{ help?.User?.firstname + ' ' + help?.User?.lastname }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4"><strong>Descrizione</strong></div>
+                            <div class="col-md-4">{{ help?.description }}</div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -26,7 +26,7 @@ export class HelpService {
   }
 
   getById(id: number) {
-    return this.http.get(`${environment.apiUrl}/helps/${id}`);
+    return this.http.get<Help>(`${environment.apiUrl}/helps/${id}`);
   }
 
   addHelp(help: Help) {

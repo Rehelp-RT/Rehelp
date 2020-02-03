@@ -2,7 +2,7 @@
 const db = require('../models');
 
 module.exports = (sequelize, DataTypes) => {
-    const HelpResponse = sequelize.define('HelpResponses', {
+    const HelpResponse = sequelize.define('HelpResponse', {
         id_help: {
             type: DataTypes.INTEGER,
             references: {

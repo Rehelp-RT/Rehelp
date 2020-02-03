@@ -20,6 +20,11 @@ import { HelpsAddComponent } from './helps-add/helps-add.component';
 import { HelpsEditComponent } from './helps-edit/helps-edit.component';
 import { ProfileComponent } from './profile/profile.component';
 
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { faSquare, faCheckSquare, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
+import { faSquare as farSquare, faCheckSquare as farCheckSquare } from '@fortawesome/free-regular-svg-icons';
+// import { faStackOverflow, faGithub, faMedium } from '@fortawesome/free-brands-svg-icons';
+
 @NgModule({
   declarations: [
     AlertComponent,
@@ -39,7 +44,8 @@ import { ProfileComponent } from './profile/profile.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FontAwesomeModule
   ],
   providers: [
       { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
@@ -47,4 +53,8 @@ import { ProfileComponent } from './profile/profile.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor(private library: FaIconLibrary) {
+    library.addIcons(faSquare, faCheckSquare, farSquare, farCheckSquare, faAngleDoubleRight);
+  }
+}

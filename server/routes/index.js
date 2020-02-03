@@ -3,6 +3,7 @@ const router = require('express').Router();
 router.use('/', require('./basic'));
 router.use('/users', require('./users'));
 router.use('/helps', require('./helps'));
+router.use('/responses', require('./responses'));
 
 router.use(function(err, req, res, next) {
     if (err.name === 'ValidationError') {

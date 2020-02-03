@@ -19,6 +19,7 @@ import { HelpsComponent } from './helps/helps.component';
 import { HelpsAddComponent } from './helps-add/helps-add.component';
 import { HelpsEditComponent } from './helps-edit/helps-edit.component';
 import { ProfileComponent } from './profile/profile.component';
+import { HelpsDetailComponent } from './helps-detail/helps-detail.component';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faSquare, faCheckSquare, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
@@ -37,7 +38,8 @@ import { faSquare as farSquare, faCheckSquare as farCheckSquare } from '@fortawe
     HelpsComponent,
     HelpsAddComponent,
     HelpsEditComponent,
-    ProfileComponent
+    ProfileComponent,
+    HelpsDetailComponent
   ],
   imports: [
     BrowserModule,

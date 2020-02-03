@@ -25,8 +25,9 @@ Use sequalize command `sequelize --options-path=server/options.js *` (or `npm ru
 | create generic migration | `migration:create --name name-the-migration` |
 | create model based migration | `model:create --name User --attributes 'name:string email:string bio:text'` |
 | apply migrations | `db:migrate` |
-| apply all seeds | `db:seed:all` |
-| undo all seeds | `db:seed:undo:all` |
+| create a seeder | `seed:create --name new-seed` |
+| apply all seeders | `db:seed:all` |
+| undo all seeders | `db:seed:undo:all` |
 
 For migration command look QueryInterface documentation: <https://sequelize.org/master/class/lib/query-interface.js~QueryInterface.html>
 

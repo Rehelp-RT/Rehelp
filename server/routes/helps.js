@@ -11,8 +11,8 @@ router.get('/', (req, res) =>
             { attributes: ['username', 'firstname', 'lastname'], model: db.User, required: true }
         ]
     })
-    .then(helps => {
-        res.json(helps)
+    .then(x => {
+        res.json(x)
     })
     .catch(err => {
         console.log(err);
@@ -22,7 +22,7 @@ router.get('/', (req, res) =>
 
 // GET /api/helps/5
 router.get('/:id', (req, res) => {
-    models.User.findByPk(
+    models.Help.findByPk(
             req.params.id, {
                 include: [
                     { attributes: ['code', 'name'], model: db.HelpType, required: true },

@@ -9,8 +9,8 @@ router.get('/', (req, res) =>
             { attributes: ['username', 'firstname', 'lastname'], model: db.User, required: true }
         ]
     })
-    .then(helps => {
-        res.json(helps)
+    .then(x => {
+        res.json(x)
     })
     .catch(err => {
         console.log(err);
@@ -20,18 +20,17 @@ router.get('/', (req, res) =>
 
 // GET /api/responses/5
 router.get('/:id', (req, res) => {
-    models.User.findByPk(
+    models.HelpResponse.findByPk(
             req.params.id, {
                 include: [
-                    { attributes: ['code', 'name'], model: db.HelpType, required: true },
-                    { attributes: ['code', 'name'], model: db.HelpCategory, required: true },
+                    { attributes: ['id', 'title'], model: db.Help, required: true },
                     { attributes: ['username', 'firstname', 'lastname'], model: db.User, required: true }
                 ]
             })
-        .then(user => {
-            if (!user) {
+        .then(x => {
+            if (!usexr) {
                 return res.status(404).send({
-                    message: 'Help with id ' + req.params.id + ' not found.'
+                    message: 'Response with id ' + req.params.id + ' not found.'
                 });
             }
             res.send(user);
@@ -39,7 +38,7 @@ router.get('/:id', (req, res) => {
         .catch(err => {
             if (err.kind === 'ObjectId') {
                 return res.status(404).send({
-                    message: 'Help with id ' + req.params.id + ' not found.'
+                    message: 'Response with id ' + req.params.id + ' not found.'
                 });
             }
             return res.status(500).send({
@@ -53,25 +52,31 @@ router.post('/add', (req, res) => {
     const body = req.body;
     if (body == undefined) {
         res.sendStatus(400)
-    } else if (body.title === undefined) {
-        res.status(400).send({ message: 'title is missing' });
-    } else if (body.description === undefined) {
-        res.status(400).send({ message: 'description is missing' });
-    } else if (body.id_category === undefined) {
-        res.status(400).send({ message: 'id_category is missing' });
-    } else if (body.id_type === undefined) {
-        res.status(400).send({ message: 'id_type is missing' });
+    } else if (body.accepted === undefined) {
+        res.status(400).send({ message: 'accepted is missing' });
+    } else if (body.completed === undefined) {
+        res.status(400).send({ message: 'completed is missing' });
+    } else if (body.isTutor === undefined) {
+        res.status(400).send({ message: 'isTutor is missing' });
+    } else if (body.id_tradeType === undefined) {
+        res.status(400).send({ message: 'id_tradeType is missing' });
+    } else if (body.id_help === undefined) {
+        res.status(400).send({ message: 'id_help is missing' });
+    } else if (body.id_responder === undefined) {
+        res.status(400).send({ message: 'id_responder is missing' });
     } else {
 
-        db.Help.create({
-                title: body.title,
-                description: body.description,
-                id_type: body.id_type,
-                id_category: body.id_category
+        db.HelpResponse.create({
+                accepted: body.accepted,
+                completed: body.completed,
+                isTutor: body.isTutor,
+                id_tradeType: body.id_tradeType,
+                id_help: body.id_help,
+                id_responder: body.id_responder
             })
-            .then(help => {
+            .then(x => {
                 res.status(201).send({
-                    id: help.id
+                    id: x.id
                 })
             })
             .catch(err => {

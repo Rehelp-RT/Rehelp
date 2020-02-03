@@ -4,7 +4,7 @@ const db = require('../models');
 // GET /api/responses
 router.get('/', (req, res) =>
     db.HelpResponse.findAll({
-        attributes: ['accepted', 'completed', 'isTutor'],
+        attributes: ['id', 'accepted', 'completed', 'isTutor'],
         include: [
             { attributes: ['id', 'title'], model: db.Help, required: true },
             { attributes: ['username', 'firstname', 'lastname'], model: db.User, required: true }

@@ -13,18 +13,17 @@ export class HelpsDetailComponent implements OnInit {
   help: Help;
   helpId: number;
 
-  constructor(private hs: HelpService,
-    private actRoute: ActivatedRoute) { }
-  
-  ngOnInit() {  
+  constructor(private hs: HelpService, private actRoute: ActivatedRoute) { }
+
+  ngOnInit() {
     this.helpId = this.actRoute.snapshot.params['id'];
-    this.getHelp();  
+    this.getHelp();
   }
 
   getHelp(): void {
     this.hs.getById(this.helpId)
         .subscribe(x => {
-            this.help = x;
+            console.log(x);
         });
   }
 }

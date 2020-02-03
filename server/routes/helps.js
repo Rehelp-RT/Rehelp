@@ -22,7 +22,7 @@ router.get('/', (req, res) =>
 
 // GET /api/helps/5
 router.get('/:id', (req, res) => {
-    models.Help.findByPk(
+    db.Help.findByPk(
             req.params.id, {
                 include: [
                     { attributes: ['code', 'name'], model: db.HelpType, required: true },
@@ -30,8 +30,8 @@ router.get('/:id', (req, res) => {
                     { attributes: ['username', 'firstname', 'lastname'], model: db.User, required: true }
                 ]
             })
-        .then(user => {
-            if (!user) {
+        .then(x => {
+            if (!x) {
                 return res.status(404).send({
                     message: 'Help with id ' + req.params.id + ' not found.'
                 });

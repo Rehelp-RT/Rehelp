@@ -21,7 +21,7 @@ router.get('/', (req, res) =>
 
 // GET /api/responses/5
 router.get('/:id', (req, res) => {
-    models.HelpResponse.findByPk(
+    db.HelpResponse.findByPk(
             req.params.id, {
                 include: [
                     { attributes: ['id', 'title'], model: db.Help, required: true },

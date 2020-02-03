@@ -7,19 +7,19 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th>Img</th>
                     <th>Tipo</th>
                     <th>Categoria</th>
                     <th>Titolo</th>
-                    <th>Descrizione</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let h of helps">
+                    <td>{{ h.image }}</td>
                     <td>{{ h.HelpType.name }}</td>
                     <td>{{ h.HelpCategory.name }}</td>
                     <td>{{ h.title }}</td>
-                    <td>{{ h.description }}</td>
                     <td>
                         <a [routerLink]="['/helps/edit/', h.id]" class="btn btn-sm btn-outline-secondary m-1">
                             Modifica

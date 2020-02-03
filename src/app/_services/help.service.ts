@@ -22,46 +22,43 @@ export class HelpService {
   constructor(private http: HttpClient) {}
 
   getAll() {
-    return this.http.get<Help[]>(`${environment.apiUrl}/helps`)
-    .pipe(catchError(this.handleError<Help>()));
+    return this.http.get<Help[]>(`${environment.apiUrl}/helps`);
   }
 
   getById(id: number) {
-    return this.http.get(`${environment.apiUrl}/helps/${id}`)
-    .pipe(catchError(this.handleError<Help>()));
+    return this.http.get(`${environment.apiUrl}/helps/${id}`);
   }
 
   // getHelps(id: number): Observable<Help> {
   //   const url = `${api}?id=${id}`;
   //   return this.http.get<Help>(url).pipe(
-  //     tap(_ => console.log(`fetched help id=${id}`)),
+  //     tap(() => console.log(`fetched help id=${id}`)),
   //     catchError(this.handleError<Help>(`getHelps id=${id}`))
   //   );
   // }
 
-  addHelps(help): Observable<Help> {
-    return this.http.post<Help>(`${api}/create.php`, help, httpOptions).pipe(
-      tap(() => console.log(`added help w/ id=${help.id}`)),
-      catchError(this.handleError<Help>('addHelps'))
-    );
-  }
+  // addHelps(help): Observable<Help> {
+  //   return this.http.post<Help>(`${api}/create.php`, help, httpOptions).pipe(
+  //     tap(() => console.log(`added help w/ id=${help.id}`)),
+  //     catchError(this.handleError<Help>('addHelps'))
+  //   );
+  // }
 
-  updateHelps(id, help): Observable<any> {
-    const url = `${api}/update.php?id=${id}`;
-    return this.http.put(url, help, httpOptions).pipe(
-      tap(_ => console.log(`updated help id=${id}`)),
-      catchError(this.handleError<any>('updateHelps'))
-    );
-  }
+  // updateHelps(id, help): Observable<any> {
+  //   const url = `${api}/update.php?id=${id}`;
+  //   return this.http.put(url, help, httpOptions).pipe(
+  //     tap(_ => console.log(`updated help id=${id}`)),
+  //     catchError(this.handleError<any>('updateHelps'))
+  //   );
+  // }
 
-  deleteHelps(id): Observable<Help> {
-    const url = `${api}/delete.php?id=${id}`;
-
-    return this.http.delete<Help>(url, httpOptions).pipe(
-      tap(_ => console.log(`deleted help id=${id}`)),
-      catchError(this.handleError<Help>('deleteHelps'))
-    );
-  }
+  // deleteHelps(id): Observable<Help> {
+  //   const url = `${api}/delete.php?id=${id}`;
+  //   return this.http.delete<Help>(url, httpOptions).pipe(
+  //     tap(_ => console.log(`deleted help id=${id}`)),
+  //     catchError(this.handleError<Help>('deleteHelps'))
+  //   );
+  // }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

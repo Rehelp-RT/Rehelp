@@ -47,6 +47,10 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: "CASCADE",
             foreignKey: 'id_creator'
         });
+        models.Help.hasMany(models.HelpResponse, {
+            foreignKey: 'id_help',
+            as: 'responses'
+        });
     };
 
     return Help;

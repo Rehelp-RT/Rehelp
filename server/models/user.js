@@ -28,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'id_creator',
             as: 'userHelps'
         });
+        models.User.hasMany(models.HelpResponse, {
+            foreignKey: 'id_responder',
+            as: 'userResponses'
+        });
     };
     return User;
 };

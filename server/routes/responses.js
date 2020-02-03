@@ -1,0 +1,86 @@
+var router = require('express').Router();
+const db = require('../models');
+
+// GET /api/responses
+router.get('/', (req, res) =>
+    db.Help.findAll({
+        attributes: ['id', 'title', 'image'],
+        include: [
+            { attributes: ['code', 'name'], model: db.HelpType, required: true },
+            { attributes: ['code', 'name'], model: db.HelpCategory, required: true },
+            { attributes: ['username', 'firstname', 'lastname'], model: db.User, required: true }
+        ]
+    })
+    .then(helps => {
+        res.json(helps)
+    })
+    .catch(err => {
+        console.log(err);
+        res.sendStatus(500)
+    })
+);
+
+// GET /api/responses/5
+router.get('/:id', (req, res) => {
+    models.User.findByPk(
+            req.params.id, {
+                include: [
+                    { attributes: ['code', 'name'], model: db.HelpType, required: true },
+                    { attributes: ['code', 'name'], model: db.HelpCategory, required: true },
+                    { attributes: ['username', 'firstname', 'lastname'], model: db.User, required: true }
+                ]
+            })
+        .then(user => {
+            if (!user) {
+                return res.status(404).send({
+                    message: 'Help with id ' + req.params.id + ' not found.'
+                });
+            }
+            res.send(user);
+        })
+        .catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: 'Help with id ' + req.params.id + ' not found.'
+                });
+            }
+            return res.status(500).send({
+                message: err
+            });
+        });
+});
+
+// POST /api/responses/add
+router.post('/add', (req, res) => {
+    const body = req.body;
+    if (body == undefined) {
+        res.sendStatus(400)
+    } else if (body.title === undefined) {
+        res.status(400).send({ message: 'title is missing' });
+    } else if (body.description === undefined) {
+        res.status(400).send({ message: 'description is missing' });
+    } else if (body.id_category === undefined) {
+        res.status(400).send({ message: 'id_category is missing' });
+    } else if (body.id_type === undefined) {
+        res.status(400).send({ message: 'id_type is missing' });
+    } else {
+
+        db.Help.create({
+                title: body.title,
+                description: body.description,
+                id_type: body.id_type,
+                id_category: body.id_category
+            })
+            .then(help => {
+                res.status(201).send({
+                    id: help.id
+                })
+            })
+            .catch(err => {
+                res.status(500).send(err)
+            });
+    }
+});
+
+// exports
+module.exports = router;

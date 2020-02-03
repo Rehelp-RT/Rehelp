@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         title: DataTypes.STRING,
         description: DataTypes.TEXT,
+        image: DataTypes.STRING,
         halfhourValidity: DataTypes.INTEGER,
         dateStartValidity: DataTypes.DATE,
         dateEndValidity: DataTypes.DATE,

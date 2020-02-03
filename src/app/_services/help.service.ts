@@ -29,6 +29,20 @@ export class HelpService {
     return this.http.get(`${environment.apiUrl}/helps/${id}`);
   }
 
+  addHelp(help: Help) {
+    return this.http.post<any>(`${environment.apiUrl}/helps/add`, help)
+    .pipe(map(x => {
+        return x;
+    }));
+  }
+
+  // addHelps(help): Observable<Help> {
+  //   return this.http.post<Help>(`${api}/create.php`, help, httpOptions).pipe(
+  //     tap(() => console.log(`added help w/ id=${help.id}`)),
+  //     catchError(this.handleError<Help>('addHelps'))
+  //   );
+  // }
+
   // getHelps(id: number): Observable<Help> {
   //   const url = `${api}?id=${id}`;
   //   return this.http.get<Help>(url).pipe(
@@ -37,12 +51,6 @@ export class HelpService {
   //   );
   // }
 
-  // addHelps(help): Observable<Help> {
-  //   return this.http.post<Help>(`${api}/create.php`, help, httpOptions).pipe(
-  //     tap(() => console.log(`added help w/ id=${help.id}`)),
-  //     catchError(this.handleError<Help>('addHelps'))
-  //   );
-  // }
 
   // updateHelps(id, help): Observable<any> {
   //   const url = `${api}/update.php?id=${id}`;

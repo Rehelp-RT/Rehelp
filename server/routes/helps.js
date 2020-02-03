@@ -63,13 +63,21 @@ router.post('/add', (req, res) => {
         res.status(400).send({ message: 'id_category is missing' });
     } else if (body.id_type === undefined) {
         res.status(400).send({ message: 'id_type is missing' });
+    } else if (body.id_creator === undefined) {
+        res.status(400).send({ message: 'id_creator is missing' });
     } else {
 
         db.Help.create({
                 title: body.title,
                 description: body.description,
                 id_type: body.id_type,
-                id_category: body.id_category
+                id_category: body.id_category,
+                id_creator: body.id_creator,
+                halfhourValidity: body.halfhourValidity,
+                dateStartValidity: body.dateStartValidity,
+                dateEndValidity: body.dateEndValidity,
+                dateCompletion: null,
+                image: body.image
             })
             .then(help => {
                 res.status(201).send({

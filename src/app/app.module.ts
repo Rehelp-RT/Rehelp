@@ -19,6 +19,7 @@ import { HelpsComponent } from './helps/helps.component';
 import { HelpsAddComponent } from './helps-add/helps-add.component';
 import { HelpsEditComponent } from './helps-edit/helps-edit.component';
 import { ProfileComponent } from './profile/profile.component';
+import { HelpsDetailComponent } from './helps-detail/helps-detail.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ProfileComponent } from './profile/profile.component';
     HelpsComponent,
     HelpsAddComponent,
     HelpsEditComponent,
-    ProfileComponent
+    ProfileComponent,
+    HelpsDetailComponent
   ],
   imports: [
     BrowserModule,

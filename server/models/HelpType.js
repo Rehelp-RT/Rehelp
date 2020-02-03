@@ -3,13 +3,13 @@ module.exports = (sequelize, DataTypes) => {
     const HelpType = sequelize.define(
         "HelpType", {
             code: DataTypes.STRING,
-            description: DataTypes.STRING
+            name: DataTypes.STRING
         }, {}
     );
     HelpType.associate = function(models) {
         models.HelpCategory.hasMany(models.Help, {
             foreignKey: 'id_type',
-            as: 'helps'
+            as: 'typeHelps'
         });
     };
     return HelpType;

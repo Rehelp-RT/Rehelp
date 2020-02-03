@@ -26,12 +26,12 @@ export class HelpsComponent implements OnInit {
   /*
   deleteHelps(id, index) {
     this.hs.deleteHelps(id)
-      .subscribe(res => {    
+      .subscribe(res => {
           this.data.splice(index,1);
         }, (err) => {
           console.log(err);
         }
       );
   }*/
-  
+
 }

@@ -7,6 +7,7 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th>Tipo</th>
                     <th>Categoria</th>
                     <th>Titolo</th>
                     <th>Descrizione</th>
@@ -15,13 +16,11 @@
             </thead>
             <tbody>
                 <tr *ngFor="let h of helps">
+                    <td>{{ h.HelpType.name }}</td>
                     <td>{{ h.HelpCategory.name }}</td>
                     <td>{{ h.title }}</td>
                     <td>{{ h.description }}</td>
                     <td>
-                        <button type="button" class="btn btn-sm btn-outline-danger m-1" (click)="deleteHelps(h.id, i)">
-                            Cancella
-                        </button>
                         <a [routerLink]="['/helps/edit/', h.id]" class="btn btn-sm btn-outline-secondary m-1">
                             Modifica
                         </a>

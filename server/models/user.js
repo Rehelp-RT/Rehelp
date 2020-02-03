@@ -14,16 +14,19 @@ module.exports = (sequelize, DataTypes) => {
             user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null);
         }
     });
-    User.prototype.comparePassword = function (passw, cb) {
-        bcrypt.compare(passw, this.password, function (err, isMatch) {
+    User.prototype.comparePassword = function(passw, cb) {
+        bcrypt.compare(passw, this.password, function(err, isMatch) {
             if (err) {
                 return cb(err);
             }
             cb(null, isMatch);
         });
-      };
-    User.associate = function (models) {
-        // associations can be defined here
+    };
+    User.associate = function(models) {
+        models.User.hasMany(models.Help, {
+            foreignKey: 'id_creator',
+            as: 'userHelps'
+        });
     };
     return User;
 };

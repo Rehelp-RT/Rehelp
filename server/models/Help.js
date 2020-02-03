@@ -18,8 +18,19 @@ module.exports = (sequelize, DataTypes) => {
                 key: 'id',
             }
         },
+        id_creator: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: db.User,
+                key: 'id',
+            }
+        },
         title: DataTypes.STRING,
-        description: DataTypes.TEXT
+        description: DataTypes.TEXT,
+        halfhourValidity: DataTypes.INTEGER,
+        dateStartValidity: DataTypes.DATE,
+        dateEndValidity: DataTypes.DATE,
+        dateCompletion: DataTypes.DATE
     }, {});
 
     Help.associate = function(models) {
@@ -30,6 +41,10 @@ module.exports = (sequelize, DataTypes) => {
         models.Help.belongsTo(models.HelpCategory, {
             onDelete: "CASCADE",
             foreignKey: 'id_category'
+        });
+        models.Help.belongsTo(models.User, {
+            onDelete: "CASCADE",
+            foreignKey: 'id_creator'
         });
     };
 

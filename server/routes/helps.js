@@ -4,10 +4,12 @@ const db = require('../models');
 // GET /api/helps
 router.get('/', (req, res) =>
     db.Help.findAll({
-        include: [{
-            model: db.HelpCategory,
-            required: true
-        }]
+        attributes: ['id', 'title'],
+        include: [
+            { attributes: ['code', 'name'], model: db.HelpType, required: true },
+            { attributes: ['code', 'name'], model: db.HelpCategory, required: true },
+            { attributes: ['username', 'firstname', 'lastname'], model: db.User, required: true }
+        ]
     })
     .then(helps => {
         res.json(helps)
@@ -29,11 +31,14 @@ router.post('/add', (req, res) => {
         res.status(400).send({ message: 'description is missing' });
     } else if (body.id_category === undefined) {
         res.status(400).send({ message: 'id_category is missing' });
+    } else if (body.id_type === undefined) {
+        res.status(400).send({ message: 'id_type is missing' });
     } else {
 
         db.Help.create({
                 title: body.title,
                 description: body.description,
+                id_type: body.id_type,
                 id_category: body.id_category
             })
             .then(help => {

@@ -8,10 +8,10 @@ module.exports = {
                     type: Sequelize.INTEGER
                 }
             )
-        ])
+        ]);
     },
 
     down: (queryInterface, Sequelize) => {
-        return queryInterface.removeConstraint('Help', 'custom_fkey_help_helpTypes')
+        return queryInterface.removeColumn('Help', 'id_type')
     }
 };

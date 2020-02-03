@@ -59,20 +59,20 @@ router.post('/add', (req, res) => {
         res.status(400).send({ message: 'title is missing' });
     } else if (body.description === undefined) {
         res.status(400).send({ message: 'description is missing' });
-    } else if (body.id_category === undefined) {
-        res.status(400).send({ message: 'id_category is missing' });
-    } else if (body.id_type === undefined) {
-        res.status(400).send({ message: 'id_type is missing' });
-    } else if (body.id_creator === undefined) {
-        res.status(400).send({ message: 'id_creator is missing' });
+    } else if (body.idCategory === undefined) {
+        res.status(400).send({ message: 'idCategory is missing' });
+    } else if (body.idType === undefined) {
+        res.status(400).send({ message: 'idType is missing' });
+    } else if (body.idCreator === undefined) {
+        res.status(400).send({ message: 'idCreator is missing' });
     } else {
 
         db.Help.create({
                 title: body.title,
                 description: body.description,
-                id_type: body.id_type,
-                id_category: body.id_category,
-                id_creator: body.id_creator,
+                id_type: body.idType,
+                id_category: body.idCategory,
+                id_creator: body.idCreator,
                 halfhourValidity: body.halfhourValidity,
                 dateStartValidity: body.dateStartValidity,
                 dateEndValidity: body.dateEndValidity,

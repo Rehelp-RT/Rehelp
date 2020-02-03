@@ -3,7 +3,7 @@ const db = require('../models');
 
 // GET /api/categories
 router.get('/', (req, res) =>
-    db.HelpCategory.findAll({ attributes: ['code', 'name'] })
+    db.HelpCategory.findAll({ attributes: ['id', 'code', 'name'] })
     .then(x => {
         res.json(x)
     })

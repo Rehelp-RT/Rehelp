@@ -13,7 +13,8 @@
         "e2e": "ng e2e",
         "sequelize": "sequelize --options-path=server/options.js",
         "migrate": "npm run sequelize db:migrate",
-        "heroku-postbuild": "ng build --prod --output-path=public && npm run migrate"
+        "seed": "npm run sequelize db:seed:all",
+        "heroku-postbuild": "ng build --prod --output-path=public && npm run migrate && npm run seed"
     },
     "engines": {
         "node": "12.9.0",

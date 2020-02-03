@@ -20,6 +20,36 @@ router.get('/', (req, res) =>
     })
 );
 
+// GET /api/helps/5
+router.get('/:id', (req, res) => {
+    models.User.findByPk(
+            req.params.id, {
+                include: [
+                    { attributes: ['code', 'name'], model: db.HelpType, required: true },
+                    { attributes: ['code', 'name'], model: db.HelpCategory, required: true },
+                    { attributes: ['username', 'firstname', 'lastname'], model: db.User, required: true }
+                ]
+            })
+        .then(user => {
+            if (!user) {
+                return res.status(404).send({
+                    message: 'Help with id ' + req.params.id + ' not found.'
+                });
+            }
+            res.send(user);
+        })
+        .catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: 'Help with id ' + req.params.id + ' not found.'
+                });
+            }
+            return res.status(500).send({
+                message: err
+            });
+        });
+});
+
 // POST /api/helps/add
 router.post('/add', (req, res) => {
     const body = req.body;

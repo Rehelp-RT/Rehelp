@@ -1,4 +1,7 @@
 var router = require('express').Router();
+const User = require('../models').User;
+const jwt = require('jsonwebtoken');
+
 
 // GET /api/version
 router.get('/version', function(req, res) {

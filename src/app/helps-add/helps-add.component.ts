@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 // import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { HelpService } from '../_services';
 import { Router } from '@angular/router';
-import { Help } from '@app/_models';
+import { Help, Category } from '@app/_models';
+import { CategoryService } from '@app/_services/category.service';
 
 @Component({
   selector: 'app-helps-add',
@@ -11,21 +12,30 @@ import { Help } from '@app/_models';
 })
 export class HelpsAddComponent {
 
-  powers = [
-    'Really Smart',
-    'Super Flexible',
-    'Super Hot',
-    'Weather Changer'];
-
+  categories: Category[] = [];
   model = new Help();
   submitted = false;
 
-  onSubmit() {
-    this.submitted = true;
+  constructor(
+    private cs: CategoryService,
+    private router: Router,
+    private hs: HelpService) {
+    this.cs.getAll()
+    .subscribe(x => {
+        this.categories = x;
+    });
   }
 
-  // TODO: Remove this when we're done
-  get diagnostic() { return JSON.stringify(this.model); }
+  onSubmit() {
+    this.submitted = true;
+    this.hs.addHelp(this.model)
+      .subscribe(res => {
+        this.router.navigate(['/helps']);
+      },
+      (err) => {
+        console.log(err);
+      });
+  }
 
   // addHelps() {
   //   const payload = {

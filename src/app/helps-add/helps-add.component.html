@@ -10,25 +10,26 @@
             <h2 class="display-4">Meet & Help</h2>
             <div class="card my-3">
                 <div class="card-body">
-                    <form (ngSubmit)="onSubmit()">
+                    <form #helpForm="ngForm" (ngSubmit)="onSubmit()">
 
                         <div class="form-row mb-3">
                             <label class="col-md-4" for="title">Titolo</label>
-                            <input class="col-md-8 form-control" type="text" id="title" required />
+                            <input class="col-md-8 form-control" type="text" [(ngModel)]="model.title" name="title" required />
                         </div>
 
                         <div class="form-row mb-3">
-                            <label class="col-md-4" for="power">Hero Power</label>
-                            <select class="col-md-8 form-control" id="power" required>
-                                <option *ngFor="let pow of powers" [value]="pow">
-                                    {{pow}}
+                            <label class="col-md-4" for="category">Categoria</label>
+                            <select class="col-md-8 form-control" [(ngModel)]="model.category" name="category" required>
+                                <option *ngFor="let cat of categories" [value]="cat.code">
+                                    {{ cat.name }}
                                 </option>
                             </select>
                         </div>
 
                         <div class="form-row mb-3">
                             <label class="col-md-4" for="description">Descrizione</label>
-                            <textarea class="col-md-8 form-control" rows="4" id="description" required></textarea>
+                            <textarea class="col-md-8 form-control" rows="4" [(ngModel)]="model.description" name="description" required>
+                            </textarea>
                         </div>
 
                         <div class="form-row mb-3">

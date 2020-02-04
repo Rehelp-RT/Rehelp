@@ -47,7 +47,7 @@
                                     <a class="btn btn-outline-success text-secondary float-right" (click)="accept(r)">
                                         <fa-icon [icon]="['fas', 'check']"></fa-icon> Accept
                                     </a>
-                                    <a [routerLink]="['profile', r.responder.id ]">
+                                    <a [routerLink]="['/profile', r.responder.id ]">
                                         <span class="img-avatar rounded-circle">
                                             <img src="{{ r.responder.avatar == null ? 'assets/img/avatar_64.png' : r.responder.avatar }}" 
                                                 alt="{{ r.responder.firstname + ' ' + r.responder.lastname }}"

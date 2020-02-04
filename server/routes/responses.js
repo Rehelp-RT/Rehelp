@@ -12,7 +12,7 @@ router.get('/', (req, res) =>
                 as: 'help'
             },
             {
-                attributes: ['username', 'firstname', 'lastname', 'avatar'],
+                attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
                 model: db.User,
                 required: true,
                 as: 'responder'
@@ -102,22 +102,22 @@ router.put('/accept/id', (req, res) => {
         res.sendStatus(400)
     } else {
         db.HelpResponse.find({ where: { id: req.params.id } })
-        .on('success', function (response) {
-          // Check if record exists in db
-          if (response) {
-            response.update({
-              completed: true              
-            })                    
-            .then(x => {
-                res.status(201).send({
-                    id: x.id
-                })
+            .on('success', function(response) {
+                // Check if record exists in db
+                if (response) {
+                    response.update({
+                            completed: true
+                        })
+                        .then(x => {
+                            res.status(201).send({
+                                id: x.id
+                            })
+                        })
+                        .catch(err => {
+                            res.status(500).send(err)
+                        });
+                }
             })
-            .catch(err => {
-                res.status(500).send(err)
-            });
-          }
-        })    
     }
 });
 

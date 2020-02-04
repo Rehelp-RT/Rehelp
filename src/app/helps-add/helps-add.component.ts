@@ -25,11 +25,14 @@ export class HelpsAddComponent {
     private as: AuthenticationService
   ) {
     this.as.currentUser.subscribe(x => {
+      console.log('user ==>');
       console.log(x);
       this.currentUser = x;
       this.model = new Help();
       this.model.idCreator = this.currentUser.id;
       this.model.idType = 1;
+      console.log('model ==>');
+      console.log(this.model);
     });
     this.cs.getAll().subscribe(x => {
       this.categories = x;

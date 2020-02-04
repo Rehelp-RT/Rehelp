@@ -1,14 +1,11 @@
 <section class="py-3">
     <div class="container">
-
         <div class="row">
-
             <div class="col-lg-2 col-md-3">
                 <a class="offset-md-4" [routerLink]="['/helps']">Indietro</a>
             </div>
 
             <div class="col-lg-10 col-md-9">
-
                 <div class="card">
                     <div class="card-body">
                         <div class="row mb-3">
@@ -25,32 +22,53 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-4"><strong>Creatore</strong></div>
-                            <div class="col-md-4">{{ creator?.firstname + ' ' + creator?.lastname }}</div>
+                            <div class="col-md-4">
+                                {{ creator?.firstname + " " + creator?.lastname }}
+                            </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-4"><strong>Data creazione</strong></div>
-                            <div class="col-md-4">{{ help?.createdAt | date: 'dd/MM/yyyy'}}</div>
+                            <div class="col-md-4">
+                                {{ help?.createdAt | date: "dd/MM/yyyy" }}
+                            </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-4"><strong>Descrizione</strong></div>
                             <div class="col-md-4">{{ help?.description }}</div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-md-4"><strong>Utente loggato</strong></div>
-                            <div class="col-md-4">{{ currentUser?.firstname + ' ' + currentUser?.lastname }}</div>
+
+                        <div *ngIf="author; else notAuthor" class="mb-3">
+                            <a class="btn btn-outline-secondary offset-md-4 mb-3" [routerLink]="['/helps/edit/:id']">
+                                Modifica
+                            </a>
+                            <h4>Responses</h4>
+                            <ul class="list-group">
+                                <li class="list-group-item" *ngFor="let r of help.responses">
+                                    <a class="btn btn-outline-success float-right" (click)="accept(r)">
+                                        Accept
+                                    </a>
+                                    <a class="nav-link" routerLink="/profile">
+                                        <span class="img-avatar rounded-circle">
+                                            <img src="{{ r.responder.avatar == null ? 'assets/img/avatar_64.png' : r.responder.avatar }}" 
+                                                alt="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
+                                                title="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
+                                                width="32">
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
-                        <div *ngIf="author; else notAuthor" class="row mb-3">
-                            <a class="col-md-4" [routerLink]="['/helps/edit/:id']">Modifica</a>
-                        </div>
+
                         <ng-template #notAuthor>
-                            <div class="row mb-3">
-                                <a class="col-md-4" [routerLink]="['/helps/response/:id']">Rispondi</a>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <a class="col-md-4" [routerLink]="['/helps/response/:id']">Rispondi</a>
+                                </div>
                             </div>
                         </ng-template>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </section>

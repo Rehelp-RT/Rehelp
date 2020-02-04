@@ -13,4 +13,5 @@ export class Help {
     User: User;
     createdAt: Date;
     updatedAt: Date;
+    responses: Response[];
 }

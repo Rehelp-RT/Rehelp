@@ -46,4 +46,8 @@ export class HelpsDetailComponent implements OnInit {
       this.author = false;
     }
   }
+
+  accept(response: Response): void {
+    console.log(response);
+  }
 }

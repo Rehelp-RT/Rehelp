@@ -26,7 +26,18 @@ router.get('/:id', (req, res) => {
             include: [
                 { attributes: ['code', 'name'], model: db.HelpType, required: true },
                 { attributes: ['code', 'name'], model: db.HelpCategory, required: true },
-                { attributes: ['username', 'firstname', 'lastname'], model: db.User, required: true }
+                { attributes: ['username', 'firstname', 'lastname'], model: db.User, required: true },
+                {
+                    attributes: ['id', 'completed'],
+                    include: [{
+                        attributes: ['username', 'firstname', 'lastname', 'avatar'],
+                        model: db.User,
+                        required: true,
+                        as: 'responder'
+                    }],
+                    model: db.HelpResponse,
+                    as: 'responses'
+                }
             ]
         })
         .then(x => {

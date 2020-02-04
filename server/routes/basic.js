@@ -62,8 +62,8 @@ router.post('/signin', function(req, res) {
                         id: user.id,
                         avatar: user.avatar,
                         username: user.username,
-                        firstName: user.firstname,
-                        lastName: user.lastname,
+                        firstname: user.firstname,
+                        lastname: user.lastname,
                         token: 'JWT ' + token,
                         expiresIn: expiresIn
                     });

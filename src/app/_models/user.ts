@@ -4,8 +4,8 @@ export class User {
     password: string;
     avatar: string;
     email: string;
-    firstName: string;
-    lastName: string;
-    birthDate: Date;
+    firstname: string;
+    lastname: string;
+    birthdate: Date;
     token: string;
 }

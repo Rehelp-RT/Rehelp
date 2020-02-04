@@ -8,19 +8,19 @@
                         <hr />
                         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
                             <div class="form-row mb-3">
-                                <label class="col-md-4" for="firstName">Nome</label>
-                                <input class="col-md-8 form-control" type="text" formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
-                                <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
-                                    <div *ngIf="f.firstName.errors.required">
+                                <label class="col-md-4" for="firstname">Nome</label>
+                                <input class="col-md-8 form-control" type="text" formControlName="firstname" [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }" />
+                                <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
+                                    <div *ngIf="f.firstname.errors.required">
                                         Il nome è obbligatorio
                                     </div>
                                 </div>
                             </div>
                             <div class="form-row mb-3">
-                                <label class="col-md-4" for="lastName">Cognome</label>
-                                <input class="col-md-8 form-control" type="text" formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
-                                <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
-                                    <div *ngIf="f.lastName.errors.required">
+                                <label class="col-md-4" for="lastname">Cognome</label>
+                                <input class="col-md-8 form-control" type="text" formControlName="lastname" [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }" />
+                                <div *ngIf="submitted && f.lastname.errors" class="invalid-feedback">
+                                    <div *ngIf="f.lastname.errors.required">
                                         Il cognome è obbligatorio
                                     </div>
                                 </div>

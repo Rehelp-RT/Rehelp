@@ -13,7 +13,7 @@
         "e2e": "ng e2e",
         "sequelize": "sequelize --options-path=server/options.js",
         "migrate": "npm run sequelize db:migrate",
-        "heroku-postbuild": "ng build --prod --output-path=public && npm run migrate"
+        "heroku-postbuild": "ng build --prod --output-path=public && npm run migrate && sequelize --options-path=server/options.js db:seed:all"
     },
     "engines": {
         "node": "12.9.0",
@@ -36,6 +36,7 @@
         "@fortawesome/free-brands-svg-icons": "^5.12.0",
         "@fortawesome/free-regular-svg-icons": "^5.12.0",
         "@fortawesome/free-solid-svg-icons": "^5.12.0",
+        "@ng-bootstrap/ng-bootstrap": "^5.2.1",
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.19.0",
         "bootstrap": "^4.4.1",
@@ -43,7 +44,6 @@
         "font-awesome": "^4.7.0",
         "jquery": "^3.4.1",
         "jsonwebtoken": "^8.5.1",
-        "ng-bootstrap": "^1.6.3",
         "passport": "^0.4.1",
         "passport-jwt": "^4.0.0",
         "path": "^0.12.7",
@@ -66,7 +66,7 @@
         "codelyzer": "^5.0.0",
         "concurrently": "^5.1.0",
         "enhanced-resolve": "^4.1.1",
-        "jasmine-core": "~3.4.0",
+        "jasmine-core": "^3.4.0",
         "jasmine-spec-reporter": "~4.2.1",
         "karma": "~4.1.0",
         "karma-chrome-launcher": "~2.2.0",

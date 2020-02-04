@@ -101,7 +101,7 @@ router.put('/accept/id', (req, res) => {
     if (body == undefined) {
         res.sendStatus(400)
     } else {
-        db.HelpResponse.find({ where: { id: req.params.id } })
+        db.HelpResponse.findByPk({ where: { id: req.params.id } })
         .on('success', function (response) {
           // Check if record exists in db
           if (response) {

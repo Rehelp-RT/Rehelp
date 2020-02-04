@@ -28,7 +28,6 @@ export class HelpsDetailComponent implements OnInit {
       .subscribe(x => {
         this.help = x;
         this.creator = x.User;
-        console.log(x.User)
         this.getAutore();
       });
   }
@@ -38,7 +37,6 @@ export class HelpsDetailComponent implements OnInit {
       .subscribe(x => {
         this.currentUser = x;
       });
-    console.log(this.currentUser);
   }
 
   getAutore(): void {

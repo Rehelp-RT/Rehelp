@@ -21,10 +21,10 @@ import { FooterHowComponent } from './footer-how/footer-how.component';
 
 
 const routes: Routes = [
-  { path: 'about', component: FooterAboutComponent, data: {title: 'Chi siamo'}, canActivate: [AuthGuard] },
-  { path: 'contact', component: FooterContactComponent, data: {title: 'Contattaci'}, canActivate: [AuthGuard] },
-  { path: 'faq', component: FooterFaqComponent, data: {title: 'Domande frequenti'}, canActivate: [AuthGuard] },
-  { path: 'how-it-works', component: FooterHowComponent, data: {title: 'Come funziona'}, canActivate: [AuthGuard] },
+  { path: 'about', component: FooterAboutComponent, data: {title: 'Chi siamo'} },
+  { path: 'contact', component: FooterContactComponent, data: {title: 'Contattaci'} },
+  { path: 'faq', component: FooterFaqComponent, data: {title: 'Domande frequenti'} },
+  { path: 'how-it-works', component: FooterHowComponent, data: {title: 'Come funziona'} },
   { path: 'helps', component: HelpsComponent, data: {title: 'Lista aiuti'}, canActivate: [AuthGuard] },
   { path: 'helps/add', component: HelpsAddComponent, data: {title: 'Aggiungi aiuto'}, canActivate: [AuthGuard] },
   { path: 'helps/:id', component: HelpsDetailComponent,  data: {title: 'Dettagli aiuto'}, canActivate: [AuthGuard] },

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HelpService } from '../_services';
-import { Help } from '../_models';
+import { HelpService } from '@app/_services';
+import { HelpCategory, Help, User } from "@app/_models";
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

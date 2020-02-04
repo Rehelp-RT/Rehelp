@@ -30,7 +30,7 @@ router.get('/:id', (req, res) => {
                 {
                     attributes: ['id', 'completed'],
                     include: [{
-                        attributes: ['username', 'firstname', 'lastname', 'avatar'],
+                        attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
                         model: db.User,
                         required: true,
                         as: 'responder'

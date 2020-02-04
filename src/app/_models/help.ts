@@ -11,4 +11,6 @@ export class Help {
     HelpCategory: HelpCategory;
     HelpType: HelpType;
     User: User;
+    createdAt: Date;
+    updatedAt: Date;
 }

@@ -1,19 +1,19 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 import {
   AuthenticationService,
   CategoryService,
   HelpService
-} from "../_services";
-import { Router } from "@angular/router";
-import { Category, Help, User } from "@app/_models";
+} from '@app/_services';
+import { Router } from '@angular/router';
+import { HelpCategory, Help, User } from '@app/_models';
 
 @Component({
-  selector: "app-helps-add",
-  templateUrl: "./helps-add.component.html",
-  styleUrls: ["./helps-add.component.css"]
+  selector: 'app-helps-add',
+  templateUrl: './helps-add.component.html',
+  styleUrls: ['./helps-add.component.css']
 })
 export class HelpsAddComponent {
-  categories: Category[] = [];
+  categories: HelpCategory[] = [];
   model: Help = null;
   submitted = false;
   currentUser: User;
@@ -25,11 +25,14 @@ export class HelpsAddComponent {
     private as: AuthenticationService
   ) {
     this.as.currentUser.subscribe(x => {
+      console.log('user ==>');
       console.log(x);
       this.currentUser = x;
       this.model = new Help();
       this.model.idCreator = this.currentUser.id;
       this.model.idType = 1;
+      console.log('model ==>');
+      console.log(this.model);
     });
     this.cs.getAll().subscribe(x => {
       this.categories = x;
@@ -40,7 +43,7 @@ export class HelpsAddComponent {
     this.submitted = true;
     this.hs.addHelp(this.model).subscribe(
       res => {
-        this.router.navigate(["/helps"]);
+        this.router.navigate(['/helps']);
       },
       err => {
         console.log(err);

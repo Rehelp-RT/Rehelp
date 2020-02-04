@@ -1,3 +1,5 @@
+import { HelpCategory, HelpType, User } from './';
+
 export class Help {
     id: number;
     title: string;
@@ -6,5 +8,7 @@ export class Help {
     idCategory: number;
     idType: number;
     idCreator: number;
-    category: string;
+    HelpCategory: HelpCategory;
+    HelpType: HelpType;
+    User: User;
 }

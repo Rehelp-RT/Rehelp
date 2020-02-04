@@ -24,6 +24,7 @@ import { HelpsDetailComponent } from './helps-detail/helps-detail.component';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faSquare, faCheckSquare, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
 import { faSquare as farSquare, faCheckSquare as farCheckSquare } from '@fortawesome/free-regular-svg-icons';
+import { HelpsResponseComponent } from './helps-response/helps-response.component';
 // import { faStackOverflow, faGithub, faMedium } from '@fortawesome/free-brands-svg-icons';
 
 @NgModule({
@@ -39,7 +40,8 @@ import { faSquare as farSquare, faCheckSquare as farCheckSquare } from '@fortawe
     HelpsAddComponent,
     HelpsEditComponent,
     ProfileComponent,
-    HelpsDetailComponent
+    HelpsDetailComponent,
+    HelpsResponseComponent
   ],
   imports: [
     BrowserModule,

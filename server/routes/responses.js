@@ -108,13 +108,15 @@ router.put('/accept/id', (req, res) => {
                     response.update({
                         completed: true
                     })
-                        .then(x => {
-                            res.status(201).send({
-                                id: x.id
-                            })
+                    .then(x => {
+                        res.status(201).send({
+                            id: x.id
                         })
+                    })
                 }
-            });
+            })
+        }
+});
 
-        // exports
-        module.exports = router;
+// exports
+module.exports = router;

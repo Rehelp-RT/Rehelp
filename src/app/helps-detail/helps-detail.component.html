@@ -39,15 +39,15 @@
 
                         <div *ngIf="author; else notAuthor" class="mb-3">
                             <a class="btn btn-outline-secondary offset-md-4 mb-3" [routerLink]="['/helps/edit/:id']">
-                                Modifica
+                                <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon> Modifica
                             </a>
                             <h4>Responses</h4>
                             <ul class="list-group">
                                 <li class="list-group-item" *ngFor="let r of help.responses">
-                                    <a class="btn btn-outline-success float-right" (click)="accept(r)">
-                                        Accept
+                                    <a class="btn btn-outline-success text-secondary float-right" (click)="accept(r)">
+                                        <fa-icon [icon]="['fas', 'check']"></fa-icon> Accept
                                     </a>
-                                    <a class="nav-link" routerLink="/profile">
+                                    <a [routerLink]="['profile', r.responder.id ]">
                                         <span class="img-avatar rounded-circle">
                                             <img src="{{ r.responder.avatar == null ? 'assets/img/avatar_64.png' : r.responder.avatar }}" 
                                                 alt="{{ r.responder.firstname + ' ' + r.responder.lastname }}"

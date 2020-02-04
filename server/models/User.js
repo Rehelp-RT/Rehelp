@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
         avatar: DataTypes.STRING,
         firstname: DataTypes.STRING,
         lastname: DataTypes.STRING,
-        birthdate: DataTypes.DATEONLY
+        birthdate: DataTypes.DATEONLY,
+        likehelps: DataTypes.INTEGER
     }, {});
     User.beforeSave((user, options) => {
         if (user.changed('password')) {

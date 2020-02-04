@@ -5,9 +5,18 @@ const db = require('../models');
 router.get('/', (req, res) =>
     db.HelpResponse.findAll({
         attributes: ['id', 'accepted', 'completed', 'isTutor'],
-        include: [
-            { attributes: ['id', 'title'], model: db.Help, required: true },
-            { attributes: ['username', 'firstname', 'lastname'], model: db.User, required: true }
+        include: [{
+                attributes: ['id', 'title'],
+                model: db.Help,
+                required: true,
+                as: 'help'
+            },
+            {
+                attributes: ['username', 'firstname', 'lastname', 'avatar'],
+                model: db.User,
+                required: true,
+                as: 'responder'
+            }
         ]
     })
     .then(x => {

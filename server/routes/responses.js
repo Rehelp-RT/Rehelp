@@ -95,5 +95,31 @@ router.post('/add', (req, res) => {
     }
 });
 
+// PUT /api/responses/accept/id
+router.put('/accept/id', (req, res) => {
+    const body = req.body;
+    if (body == undefined) {
+        res.sendStatus(400)
+    } else {
+        db.HelpResponse.find({ where: { id: req.params.id } })
+        .on('success', function (response) {
+          // Check if record exists in db
+          if (response) {
+            response.update({
+              completed: true              
+            })                    
+            .then(x => {
+                res.status(201).send({
+                    id: x.id
+                })
+            })
+            .catch(err => {
+                res.status(500).send(err)
+            });
+          }
+        })    
+    }
+});
+
 // exports
 module.exports = router;

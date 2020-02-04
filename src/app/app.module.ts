@@ -25,10 +25,10 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { faSquare, faCheckSquare, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
 import { faSquare as farSquare, faCheckSquare as farCheckSquare } from '@fortawesome/free-regular-svg-icons';
 import { HelpsResponseComponent } from './helps-response/helps-response.component';
-import { FooterAboutComponent } from './footer-about/footer-about.component';
-import { FooterFaqComponent } from './footer-faq/footer-faq.component';
-import { FooterContactComponent } from './footer-contact/footer-contact.component';
-import { FooterHowComponent } from './footer-how/footer-how.component';
+import { AboutComponent } from './about/about.component';
+import { FaqComponent } from './faq/faq.component';
+import { ContactComponent } from './contact/contact.component';
+import { HowItWorksComponent } from './how-it-works/how-it-works.component';
 // import { faStackOverflow, faGithub, faMedium } from '@fortawesome/free-brands-svg-icons';
 
 @NgModule({
@@ -46,10 +46,10 @@ import { FooterHowComponent } from './footer-how/footer-how.component';
     ProfileComponent,
     HelpsDetailComponent,
     HelpsResponseComponent,
-    FooterAboutComponent,
-    FooterFaqComponent,
-    FooterContactComponent,
-    FooterHowComponent
+    AboutComponent,
+    FaqComponent,
+    ContactComponent,
+    HowItWorksComponent
   ],
   imports: [
     BrowserModule,

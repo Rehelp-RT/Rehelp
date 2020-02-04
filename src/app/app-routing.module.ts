@@ -14,17 +14,17 @@ import { HelpsResponseComponent } from './helps-response/helps-response.componen
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
-import { FooterAboutComponent } from './footer-about/footer-about.component';
-import { FooterContactComponent } from './footer-contact/footer-contact.component';
-import { FooterFaqComponent } from './footer-faq/footer-faq.component';
-import { FooterHowComponent } from './footer-how/footer-how.component';
+import { AboutComponent } from './about/about.component';
+import { ContactComponent } from './contact/contact.component';
+import { FaqComponent } from './faq/faq.component';
+import { HowItWorksComponent } from './how-it-works/how-it-works.component';
 
 
 const routes: Routes = [
-  { path: 'about', component: FooterAboutComponent, data: {title: 'Chi siamo'}, canActivate: [AuthGuard] },
-  { path: 'contact', component: FooterContactComponent, data: {title: 'Contattaci'}, canActivate: [AuthGuard] },
-  { path: 'faq', component: FooterFaqComponent, data: {title: 'Domande frequenti'}, canActivate: [AuthGuard] },
-  { path: 'how-it-works', component: FooterHowComponent, data: {title: 'Come funziona'}, canActivate: [AuthGuard] },
+  { path: 'about', component: AboutComponent, data: {title: 'Chi siamo'} },
+  { path: 'contact', component: ContactComponent, data: {title: 'Contattaci'} },
+  { path: 'faq', component: FaqComponent, data: {title: 'Domande frequenti'} },
+  { path: 'how-it-works', component: HowItWorksComponent, data: {title: 'Come funziona'} },
   { path: 'helps', component: HelpsComponent, data: {title: 'Lista aiuti'}, canActivate: [AuthGuard] },
   { path: 'helps/add', component: HelpsAddComponent, data: {title: 'Aggiungi aiuto'}, canActivate: [AuthGuard] },
   { path: 'helps/:id', component: HelpsDetailComponent,  data: {title: 'Dettagli aiuto'}, canActivate: [AuthGuard] },

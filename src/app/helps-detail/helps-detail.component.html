@@ -47,15 +47,18 @@
                             <ul class="list-group">
                                 <li class="list-group-item" *ngFor="let r of help.responses">
                                     <a class="btn btn-outline-success float-right" (click)="accept(r)">
-                                        Accetta
+                                        <fa-icon [icon]="['fas', 'check']"></fa-icon> Accetta
                                     </a>
                                     <a [routerLink]="['/profile', r.responder.id ]">
                                         <span class="img-avatar rounded-circle">
                                             <img src="{{ r.responder.avatar == null ? 'assets/img/avatar_64.png' : r.responder.avatar }}" 
                                                 alt="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
                                                 title="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
-                                                width="32">
+                                                width="32"
+                                                class="mr-3">
+                                            <span class="text-dark">
                                                 {{ r.responder.firstname + ' ' + r.responder.lastname }}
+                                            </span>
                                         </span>
                                     </a>
                                 </li>

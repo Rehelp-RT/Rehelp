@@ -28,6 +28,7 @@ import { HelpsResponseComponent } from './helps-response/helps-response.componen
 import { FooterAboutComponent } from './footer-about/footer-about.component';
 import { FooterFaqComponent } from './footer-faq/footer-faq.component';
 import { FooterContactComponent } from './footer-contact/footer-contact.component';
+import { FooterHowComponent } from './footer-how/footer-how.component';
 // import { faStackOverflow, faGithub, faMedium } from '@fortawesome/free-brands-svg-icons';
 
 @NgModule({
@@ -47,7 +48,8 @@ import { FooterContactComponent } from './footer-contact/footer-contact.componen
     HelpsResponseComponent,
     FooterAboutComponent,
     FooterFaqComponent,
-    FooterContactComponent
+    FooterContactComponent,
+    FooterHowComponent
   ],
   imports: [
     BrowserModule,

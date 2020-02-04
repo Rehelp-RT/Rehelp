@@ -2,7 +2,9 @@
     <div class="row">
 
         <div class="col-lg-2 col-md-3">
-            <a class="offset-md-4" [routerLink]="['/helps']">Indietro</a>
+            <a class="btn btn-outline-secondary" [routerLink]="['/helps']">
+                <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon> Indietro
+            </a>
         </div>
 
         <div class="col-lg-10 col-md-9">
@@ -37,7 +39,7 @@
 
                         <div class="form-row mb-3">
                             <button class="btn btn-outline-primary offset-md-4 col-md-8 mb-3" type="submit">
-                              Aggiungi
+                                <fa-icon [icon]="['fas', 'plus']"></fa-icon> Aggiungi
                             </button>
                         </div>
 

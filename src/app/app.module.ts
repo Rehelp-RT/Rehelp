@@ -30,7 +30,9 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import {
   faAngleDoubleRight,
   faCheck,
-  faPencilAlt
+  faChevronLeft,
+  faPencilAlt,
+  faPlus
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faSquare as farSquare,
@@ -77,7 +79,9 @@ export class AppModule {
     library.addIcons(
       faAngleDoubleRight,
       faCheck,
+      faChevronLeft,
       faPencilAlt,
+      faPlus,
       farSquare,
       farCheckSquare);
   }

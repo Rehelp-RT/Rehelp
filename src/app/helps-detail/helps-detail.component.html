@@ -25,7 +25,7 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-4"><strong>Creatore</strong></div>
-                            <div class="col-md-4">{{ help?.User?.firstName + ' ' + help?.User?.lastName }}</div>
+                            <div class="col-md-4">{{ creator?.firstname + ' ' + creator?.lastname }}</div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-4"><strong>Data creazione</strong></div>
@@ -36,12 +36,8 @@
                             <div class="col-md-4">{{ help?.description }}</div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-md-4"><strong>Creatore da costruttore</strong></div>
-                            <div class="col-md-4">{{ creator?.firstName + ' ' + creator?.lastName }}</div>
-                        </div>
-                        <div class="row mb-3">
                             <div class="col-md-4"><strong>Utente loggato</strong></div>
-                            <div class="col-md-4">{{ currentUser?.firstName + ' ' + currentUser?.lastName }}</div>
+                            <div class="col-md-4">{{ currentUser?.firstname + ' ' + currentUser?.lastname }}</div>
                         </div>
                         <div *ngIf="author; else notAuthor" class="row mb-3">
                             <a class="col-md-4" [routerLink]="['/helps/edit/:id']">Modifica</a>

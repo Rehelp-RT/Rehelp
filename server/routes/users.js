@@ -29,7 +29,7 @@ router.get('/:id', (req, res) => {
 
 // POST /api/user
 router.post('/', function(req, res) {
-    // User.create({ firstName: "Jane", lastName: "Doe" }).then(user => {
+    // User.create({ firstname: "Jane", lastname: "Doe" }).then(user => {
     //     res.send({ id: user.id });
     // });
 });
@@ -38,7 +38,7 @@ router.post('/', function(req, res) {
 router.delete('/', function(req, res) {
     // User.destroy({
     //     where: {
-    //         firstName: "Jane"
+    //         firstname: "Jane"
     //     }
     // }).then(() => {
     //     res.send({ id: user.id });
@@ -47,9 +47,9 @@ router.delete('/', function(req, res) {
 
 // PUT /api/user
 router.put('/', function(req, res) {
-    // User.update({ lastName: "Doe" }, {
+    // User.update({ lastname: "Doe" }, {
     //     where: {
-    //         lastName: null
+    //         lastname: null
     //     }
     // }).then(() => {
     //     res.send({ id: user.id });

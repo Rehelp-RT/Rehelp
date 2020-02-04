@@ -27,13 +27,7 @@ export class HelpsDetailComponent implements OnInit {
     this.hs.getById(id)
       .subscribe(x => {
         this.help = x;
-      });
-  }
-
-  getCreator(id: number): void {
-    this.us.getById(id)
-      .subscribe(x => {
-        this.creator = x;
+        this.creator = x.User;
       });
   }
 

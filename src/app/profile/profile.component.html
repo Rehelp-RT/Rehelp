@@ -2,13 +2,15 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-4">
-                <img src="{{ currentUser.avatar == null ? 'assets/img/avatar_512.png' : currentUser.avatar }}" alt="{{ currentUser.firstname + ' ' + currentUser.lastname }}" title="{{ currentUser.firstname + ' ' + currentUser.lastname }}" class="img-fluid">
+                <img src="{{ user.avatar == null ? 'assets/img/avatar_512.png' : user.avatar }}" alt="{{ user.firstname + ' ' + user.lastname }}" title="{{ user.firstname + ' ' + user.lastname }}" class="img-fluid">
                 <h4 class="text-center mt-3">
-                    {{ currentUser.firstname }} {{ currentUser.lastname }}
+                    {{ user.firstname }} {{ user.lastname }}
                 </h4>
-                <div>
-                    <span>&#9733;</span> 12
-                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <label class="float-left mr-3">LikeHelps:</label> {{ user.likehelps }} &#9733;
+                    </li>
+                </ul>
             </div>
             <div class="col-lg-9 col-md-8">
                 <div class="card">

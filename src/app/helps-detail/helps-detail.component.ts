@@ -15,7 +15,10 @@ export class HelpsDetailComponent implements OnInit {
   currentUser: User = null;
   author: boolean = null;
 
-  constructor(private hs: HelpService, private actRoute: ActivatedRoute, private us: UserService, private as: AuthenticationService) { }
+  constructor(
+    private hs: HelpService,
+    private actRoute: ActivatedRoute,
+    private as: AuthenticationService) { }
 
   ngOnInit() {
     const id = this.actRoute.snapshot.params.id;

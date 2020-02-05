@@ -8,4 +8,5 @@ export class User {
     lastname: string;
     birthdate: Date;
     token: string;
+    likehelps: number;
 }

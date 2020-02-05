@@ -6,8 +6,9 @@ const db = require('../models');
 
 // GET /api/users/5
 router.get('/:id', (req, res) => {
-    models.User.findByPk(req.params.id)
-        .then(user => {
+    db.User.findByPk(req.params.id, {
+            attributes: ['id', 'username', 'firstname', 'lastname', 'birthdate', 'likehelps']
+        }).then(user => {
             if (!user) {
                 return res.status(404).send({
                     message: "User not found with id " + req.params.id

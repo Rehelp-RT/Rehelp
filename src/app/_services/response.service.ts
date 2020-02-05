@@ -22,6 +22,7 @@ export class ResponseService {
   constructor(private http: HttpClient) {}
 
   addResponse(response: Response) {
+    console.log(response)
     return this.http.put<any>(`${environment.apiUrl}/responses/accept/id`, response)
     .pipe(map(x => {
         return x;

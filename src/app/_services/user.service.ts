@@ -13,7 +13,7 @@ export class UserService {
     }
 
     getById(id: number) {
-        return this.http.get<User>(`${environment.apiUrl}/user/${id}`);
+        return this.http.get<User>(`${environment.apiUrl}/users/${id}`);
     }
 
     register(user: User) {

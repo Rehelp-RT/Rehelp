@@ -4,7 +4,7 @@ export class Help {
     id: number;
     title: string;
     description: string;
-    type: string;
+    image: string;
     idCategory: number;
     idType: number;
     idCreator: number;

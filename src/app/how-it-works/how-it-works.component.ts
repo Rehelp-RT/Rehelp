@@ -10,6 +10,7 @@ export class HowItWorksComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
   }
 
 }

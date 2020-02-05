@@ -22,32 +22,5 @@ export class HelpsEditComponent implements OnInit {
 
   ngOnInit() {
 
-    // this.getDetail(this.activeAouter.snapshot.params['id']);
-
-    // this.helpsForm = this.formBuilder.group({
-    //   title: ['', Validators.compose([Validators.required])],
-    // });
   }
-
-  // getDetail(id) {
-  //   this.hs.getById(id)
-  //     .subscribe(data => {
-  //       this.id = data.id;
-  //       this.helpsForm.setValue({
-  //         title: data.title
-  //       });
-  //       console.log(data);
-  //     });
-  // }
-
-  // updateHelps(form: NgForm) {
-  //   this.hs.updateHelps(this.id, form)
-  //     .subscribe(res => {
-  //       this.router.navigate(['/']);
-  //     }, (err) => {
-  //       console.log(err);
-  //     }
-  //     );
-  // }
-
 }

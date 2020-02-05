@@ -21,12 +21,12 @@ const httpOptions = {
 export class ResponseService {
   constructor(private http: HttpClient) {}
 
-  addResponse(response: Response) {
-    console.log(response)
-    return this.http.put<any>(`${environment.apiUrl}/responses/accept/id`, response)
-    .pipe(map(x => {
-        return x;
-    }));
+  acceptResponse(response: Response) {
+    return this.http.put<any>(`${environment.apiUrl}/responses/accept/` + response.id, {});
+  }
+
+  cancelResponse(response: Response) {
+    return this.http.put<any>(`${environment.apiUrl}/responses/cancel/` + response.id, {});
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

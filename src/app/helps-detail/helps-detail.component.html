@@ -43,26 +43,35 @@
                             <a class="btn btn-outline-secondary offset-md-4 mb-3" [routerLink]="['/helps/edit/:id']">
                                 <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon> Modifica
                             </a>
-                            <h4>Risposte</h4>
-                            <ul class="list-group">
-                                <li class="list-group-item" *ngFor="let r of help.responses">
-                                    <a class="btn btn-outline-success float-right" (click)="accept(r)">
-                                        <fa-icon [icon]="['fas', 'check']"></fa-icon> Accetta
-                                    </a>
-                                    <a [routerLink]="['/profile', r.responder.id ]">
-                                        <span class="img-avatar rounded-circle">
-                                            <img src="{{ r.responder.avatar == null ? 'assets/img/avatar_64.png' : r.responder.avatar }}" 
-                                                alt="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
-                                                title="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
-                                                width="32"
-                                                class="mr-3">
-                                            <span class="text-dark">
-                                                {{ r.responder.firstname + ' ' + r.responder.lastname }}
-                                            </span>
-                                        </span>
-                                    </a>
-                                </li>
-                            </ul>
+
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <h4>Risposte</h4>
+                                    <ul class="list-group">
+                                        <li class="list-group-item" *ngFor="let r of help.responses" [ngClass]="{'bg-success': r.accepted}">
+                                            <a class="btn btn-outline-success ml-3 float-right" (click)="accept(r)" *ngIf="!r.accepted">
+                                                <fa-icon [icon]="['fas', 'check']"></fa-icon> Accetta
+                                            </a>
+                                            <a class="btn btn-outline-secondary ml-3 float-right" (click)="cancel(r)" *ngIf="r.accepted">
+                                                Cancella
+                                            </a>
+                                            <a [routerLink]="['/profile', r.responder.id ]">
+                                                <span class="img-avatar rounded-circle">
+                                                    <img src="{{ r.responder.avatar == null ? 'assets/img/avatar_64.png' : r.responder.avatar }}" 
+                                                        alt="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
+                                                        title="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
+                                                        width="32"
+                                                        class="mr-3">
+                                                    <span class="text-dark">
+                                                        {{ r.responder.firstname + ' ' + r.responder.lastname }}
+                                                    </span>
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
 
                         <ng-template #notAuthor>

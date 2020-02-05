@@ -65,7 +65,8 @@ router.post('/signin', function(req, res) {
                         firstname: user.firstname,
                         lastname: user.lastname,
                         token: 'JWT ' + token,
-                        expiresIn: expiresIn
+                        expiresIn: expiresIn,
+                        likehelps: user.likehelps
                     });
                 } else {
                     res.status(401).send({

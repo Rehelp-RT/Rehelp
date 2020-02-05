@@ -6,37 +6,37 @@ router.get('/', (req, res) =>
     db.HelpResponse.findAll({
         attributes: ['id', 'accepted', 'completed'],
         include: [{
-            attributes: ['id', 'title'],
-            model: db.Help,
-            required: true,
-            as: 'help'
-        },
-        {
-            attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
-            model: db.User,
-            required: true,
-            as: 'responder'
-        }
+                attributes: ['id', 'title'],
+                model: db.Help,
+                required: true,
+                as: 'help'
+            },
+            {
+                attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
+                model: db.User,
+                required: true,
+                as: 'responder'
+            }
         ]
     })
-        .then(x => {
-            res.json(x)
-        })
-        .catch(err => {
-            console.log(err);
-            res.sendStatus(500)
-        })
+    .then(x => {
+        res.json(x)
+    })
+    .catch(err => {
+        console.log(err);
+        res.sendStatus(500)
+    })
 );
 
 // GET /api/responses/5
 router.get('/:id', (req, res) => {
     db.HelpResponse.findByPk(
-        req.params.id, {
-        include: [
-            { attributes: ['id', 'title'], model: db.Help, required: true },
-            { attributes: ['username', 'firstname', 'lastname'], model: db.User, required: true }
-        ]
-    })
+            req.params.id, {
+                include: [
+                    { attributes: ['id', 'title'], model: db.Help, required: true },
+                    { attributes: ['username', 'firstname', 'lastname'], model: db.User, required: true }
+                ]
+            })
         .then(x => {
             if (!x) {
                 return res.status(404).send({
@@ -77,13 +77,13 @@ router.post('/add', (req, res) => {
     } else {
 
         db.HelpResponse.create({
-            accepted: body.accepted,
-            completed: body.completed,
-            isTutor: body.isTutor,
-            id_tradeType: body.id_tradeType,
-            id_help: body.id_help,
-            id_responder: body.id_responder
-        })
+                accepted: body.accepted,
+                completed: body.completed,
+                isTutor: body.isTutor,
+                id_tradeType: body.id_tradeType,
+                id_help: body.id_help,
+                id_responder: body.id_responder
+            })
             .then(x => {
                 res.status(201).send({
                     id: x.id
@@ -102,21 +102,41 @@ router.put('/accept/:id', (req, res) => {
         res.sendStatus(400)
     } else {
         db.HelpResponse.findByPk(
-            req.params.id)
-            .then(function (response) {
+                req.params.id)
+            .then(function(response) {
                 // Check if record exists in db
                 if (response) {
                     response.update({
-                        accepted: true
-                    })
-                    .then(x => {
-                        res.status(201).send({
-                            id: x.id
+                            accepted: true
                         })
-                    })
+                        .then(x => {
+                            res.status(200).send(response)
+                        })
                 }
             })
-        }
+    }
+});
+
+// PUT /api/responses/cancel/id
+router.put('/cancel/:id', (req, res) => {
+    const body = req.body;
+    if (body == undefined) {
+        res.sendStatus(400)
+    } else {
+        db.HelpResponse.findByPk(
+                req.params.id)
+            .then(function(response) {
+                // Check if record exists in db
+                if (response) {
+                    response.update({
+                            accepted: false
+                        })
+                        .then(x => {
+                            res.status(200).send(response)
+                        })
+                }
+            })
+    }
 });
 
 // exports

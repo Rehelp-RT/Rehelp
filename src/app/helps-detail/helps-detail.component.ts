@@ -52,7 +52,16 @@ export class HelpsDetailComponent implements OnInit {
   }
 
   accept(response: Response): void {
-    this.rs.addResponse(response);
-    console.log(response);
+    this.rs.acceptResponse(response)
+      .subscribe(x => {
+        this.getHelp(x.id_help);
+      });
+  }
+
+  cancel(response: Response): void {
+    this.rs.cancelResponse(response)
+      .subscribe(x => {
+        this.getHelp(x.id_help);
+      });
   }
 }

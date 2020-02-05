@@ -1,6 +1,8 @@
 import { User } from './';
 
-export class Response {
+export class HelpResponse {
     id: number;
+    accepted: boolean;
+    completed: boolean;
     responder: User;
 }

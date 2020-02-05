@@ -1,4 +1,4 @@
-import { HelpCategory, HelpType, User } from './';
+import { HelpCategory, HelpResponse, HelpType, User } from './';
 
 export class Help {
     id: number;
@@ -13,5 +13,5 @@ export class Help {
     User: User;
     createdAt: Date;
     updatedAt: Date;
-    responses: Response[];
+    responses: HelpResponse[];
 }

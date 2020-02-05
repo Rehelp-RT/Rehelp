@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HelpService, ResponseService, AuthenticationService } from '@app/_services';
-import { Help, User } from '@app/_models';
+import { AuthenticationService, HelpService, ResponseService } from '@app/_services';
+import { Help, HelpResponse, User } from '@app/_models';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -10,10 +10,10 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class HelpsDetailComponent implements OnInit {
 
+  author: boolean;
   help: Help = null;
   creator: User = null;
   currentUser: User = null;
-  author: boolean = null;
 
   constructor(
     private hs: HelpService,
@@ -51,14 +51,14 @@ export class HelpsDetailComponent implements OnInit {
     }
   }
 
-  accept(response: Response): void {
+  accept(response: HelpResponse): void {
     this.rs.acceptResponse(response)
       .subscribe(x => {
         this.getHelp(x.id_help);
       });
   }
 
-  cancel(response: Response): void {
+  cancel(response: HelpResponse): void {
     this.rs.cancelResponse(response)
       .subscribe(x => {
         this.getHelp(x.id_help);

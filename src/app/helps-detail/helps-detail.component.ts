@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HelpService, UserService, AuthenticationService } from '@app/_services';
-import { HelpCategory, Help, User } from '@app/_models';
+import { HelpService, ResponseService, AuthenticationService } from '@app/_services';
+import { Help, User } from '@app/_models';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -18,7 +18,8 @@ export class HelpsDetailComponent implements OnInit {
   constructor(
     private hs: HelpService,
     private actRoute: ActivatedRoute,
-    private as: AuthenticationService) { }
+    private as: AuthenticationService,
+    private rs: ResponseService) { }
 
   ngOnInit() {
     const id = this.actRoute.snapshot.params.id;
@@ -51,6 +52,7 @@ export class HelpsDetailComponent implements OnInit {
   }
 
   accept(response: Response): void {
+    this.rs.addResponse(response);
     console.log(response);
   }
 }

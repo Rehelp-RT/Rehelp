@@ -96,17 +96,18 @@ router.post('/add', (req, res) => {
 });
 
 // PUT /api/responses/accept/id
-router.put('/accept/id', (req, res) => {
+router.put('/accept/:id', (req, res) => {
     const body = req.body;
     if (body == undefined) {
         res.sendStatus(400)
     } else {
-        db.HelpResponse.findByPk({ where: { id: req.params.id } })
-            .on('success', function (response) {
+        db.HelpResponse.findByPk(
+            req.params.id)
+            .then(function (response) {
                 // Check if record exists in db
                 if (response) {
                     response.update({
-                        completed: true
+                        accepted: true
                     })
                     .then(x => {
                         res.status(201).send({

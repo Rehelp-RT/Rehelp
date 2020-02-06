@@ -101,5 +101,59 @@ router.post('/add', (req, res) => {
     }
 });
 
+// DELETE /api/helps/delete/id
+router.delete('/delete/:id', (req, res) => {
+    const body = req.body;
+    if (body == undefined) {
+        res.sendStatus(400)
+    } else {
+        db.Help.findByPk(req.params.id)
+            .then(function(help) {
+                // Check if record exists in db
+                if (help) {
+                    help.destroy()
+                        .then(x => {
+                            res.status(200).send(help.id)
+                        })
+                }
+                res.send(help);
+            })
+            .catch(err => {
+                res.status(500).send(err)
+            });
+
+    }
+});
+
+// PUT /api/helps/edit/id
+router.put('/edit/:id', (req, res) => {
+    const body = req.body;
+    if (body == undefined) {
+        res.sendStatus(400)
+    } else {
+        db.Help.findByPk(req.params.id)
+            .then(function(help) {
+                // Check if record exists in db
+                if (help) {
+                    help.update({
+                        title: body.title,
+                        description: body.description,
+                        id_type: body.idType,
+                        id_category: body.idCategory,
+                        id_creator: body.idCreator,
+                        halfhourValidity: body.halfhourValidity,
+                        dateStartValidity: body.dateStartValidity,
+                        dateEndValidity: body.dateEndValidity,
+                        dateCompletion: null,
+                        image: body.image
+                    })
+                        .then(x => {
+                            res.status(200).send(help)
+                        })
+                }
+            })
+    }
+});
+
 // exports
 module.exports = router;

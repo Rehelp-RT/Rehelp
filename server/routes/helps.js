@@ -11,35 +11,35 @@ router.get('/', (req, res) =>
             { attributes: ['username', 'firstname', 'lastname'], model: db.User, required: true }
         ]
     })
-    .then(x => {
-        res.json(x)
-    })
-    .catch(err => {
-        console.log(err);
-        res.sendStatus(500)
-    })
+        .then(x => {
+            res.json(x)
+        })
+        .catch(err => {
+            console.log(err);
+            res.sendStatus(500)
+        })
 );
 
 // GET /api/helps/5
 router.get('/:id', (req, res) => {
     db.Help.findByPk(req.params.id, {
-            include: [
-                { attributes: ['code', 'name'], model: db.HelpType, required: true },
-                { attributes: ['code', 'name'], model: db.HelpCategory, required: true },
-                { attributes: ['username', 'firstname', 'lastname'], model: db.User, required: true },
-                {
-                    attributes: ['id', 'accepted', 'completed'],
-                    include: [{
-                        attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
-                        model: db.User,
-                        required: true,
-                        as: 'responder'
-                    }],
-                    model: db.HelpResponse,
-                    as: 'responses'
-                }
-            ]
-        })
+        include: [
+            { attributes: ['code', 'name'], model: db.HelpType, required: true },
+            { attributes: ['code', 'name'], model: db.HelpCategory, required: true },
+            { attributes: ['username', 'firstname', 'lastname'], model: db.User, required: true },
+            {
+                attributes: ['id', 'accepted', 'completed'],
+                include: [{
+                    attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
+                    model: db.User,
+                    required: true,
+                    as: 'responder'
+                }],
+                model: db.HelpResponse,
+                as: 'responses'
+            }
+        ]
+    })
         .then(x => {
             if (!x) {
                 return res.status(404).send({
@@ -79,17 +79,17 @@ router.post('/add', (req, res) => {
     } else {
 
         db.Help.create({
-                title: body.title,
-                description: body.description,
-                id_type: body.idType,
-                id_category: body.idCategory,
-                id_creator: body.idCreator,
-                halfhourValidity: body.halfhourValidity,
-                dateStartValidity: body.dateStartValidity,
-                dateEndValidity: body.dateEndValidity,
-                dateCompletion: null,
-                image: body.image
-            })
+            title: body.title,
+            description: body.description,
+            id_type: body.idType,
+            id_category: body.idCategory,
+            id_creator: body.idCreator,
+            halfhourValidity: body.halfhourValidity,
+            dateStartValidity: body.dateStartValidity,
+            dateEndValidity: body.dateEndValidity,
+            dateCompletion: null,
+            image: body.image
+        })
             .then(help => {
                 res.status(201).send({
                     id: help.id
@@ -108,15 +108,14 @@ router.delete('/delete/:id', (req, res) => {
         res.sendStatus(400)
     } else {
         db.Help.findByPk(req.params.id)
-            .then(function(help) {
+            .then(function (help) {
                 // Check if record exists in db
                 if (help) {
                     help.destroy()
                         .then(x => {
-                            res.status(200).send(help.id)
+                            res.status(200)
                         })
                 }
-                res.send(help);
             })
             .catch(err => {
                 res.status(500).send(err)
@@ -125,14 +124,14 @@ router.delete('/delete/:id', (req, res) => {
     }
 });
 
-// PUT /api/helps/edit/id
-router.put('/edit/:id', (req, res) => {
+// PUT /api/helps/update/id
+router.put('/update/:id', (req, res) => {
     const body = req.body;
     if (body == undefined) {
         res.sendStatus(400)
     } else {
         db.Help.findByPk(req.params.id)
-            .then(function(help) {
+            .then(function (help) {
                 // Check if record exists in db
                 if (help) {
                     help.update({

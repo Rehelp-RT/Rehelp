@@ -32,7 +32,8 @@ import {
   faCheck,
   faChevronLeft,
   faPencilAlt,
-  faPlus
+  faPlus,
+  faTrashAlt
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faSquare as farSquare,
@@ -82,6 +83,7 @@ export class AppModule {
       faChevronLeft,
       faPencilAlt,
       faPlus,
+      faTrashAlt,
       farSquare,
       farCheckSquare);
   }

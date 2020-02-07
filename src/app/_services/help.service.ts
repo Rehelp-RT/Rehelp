@@ -35,6 +35,10 @@ export class HelpService {
         return x;
     }));
   }
+  
+  deleteHelp(help: Help) {
+    return this.http.delete<any>(`${environment.apiUrl}/helps/delete/` + help.id, {})
+  }
 
   // addHelps(help): Observable<Help> {
   //   return this.http.post<Help>(`${api}/create.php`, help, httpOptions).pipe(

@@ -40,8 +40,11 @@
                         </div>
 
                         <div *ngIf="author; else notAuthor" class="mb-3">
-                            <a class="btn btn-outline-secondary offset-md-4 mb-3" [routerLink]="['/helps/edit/:id']">
+                            <a class="btn btn-outline-secondary offset-md-4 mb-3" [routerLink]="['/helps/edit/', help.id]">
                                 <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon> Modifica
+                            </a>
+                            <a class="btn btn-outline-secondary offset-md-1 mb-3" (click)="deleteHelp(help)">
+                                <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon> Elimina
                             </a>
 
                             <div class="row">

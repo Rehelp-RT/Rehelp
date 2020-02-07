@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService, HelpService, ResponseService } from '@app/_services';
 import { Help, HelpResponse, User } from '@app/_models';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-helps-detail',
+  template: '<div class="app"><counter [init]="initialCount"></counter></div>',
   templateUrl: './helps-detail.component.html',
   styleUrls: ['./helps-detail.component.css']
 })
@@ -18,6 +19,7 @@ export class HelpsDetailComponent implements OnInit {
   constructor(
     private hs: HelpService,
     private actRoute: ActivatedRoute,
+    private router: Router,
     private as: AuthenticationService,
     private rs: ResponseService) { }
 
@@ -62,6 +64,16 @@ export class HelpsDetailComponent implements OnInit {
     this.rs.cancelResponse(response)
       .subscribe(x => {
         this.getHelp(x.id_help);
+      });
+  }
+
+  deleteHelp(help: Help): void{
+    this.hs.deleteHelp(help).subscribe(
+      res => {
+        this.router.navigate(['/helps']);
+      },
+      err => {
+        console.log(err);
       });
   }
 }

@@ -1,14 +1,17 @@
 <section class="py-3">
 
     <div class="container">
-        <a [routerLink]="['/helps/add']" class="btn btn-outline-primary mb-3">
-            <fa-icon [icon]="['fas', 'plus']"></fa-icon> Aggiungi
-        </a>
+        <h4 class="display-4">Meet & Help</h4>
+        <div class="text-right">
+            <a [routerLink]="['/helps/add']" class="btn btn-outline-primary mb-3">
+                <fa-icon [icon]="['fas', 'plus']"></fa-icon> Aggiungi
+            </a>
+        </div>
         <table class="table">
             <thead>
                 <tr>
                     <th>Img</th>
-                    <th>Tipo</th>
+                    <th>Persona</th>
                     <th>Categoria</th>
                     <th>Titolo</th>
                     <th></th>
@@ -17,7 +20,11 @@
             <tbody>
                 <tr *ngFor="let h of helps">
                     <td>{{ h.image }}</td>
-                    <td>{{ h.HelpType.name }}</td>
+                    <td>
+                        <span class="img-avatar rounded-circle">
+                          <img src="assets/{{ h.User.avatar == null ? 'img/avatar_64.png' : 'uploaded/' + h.User.avatar }}" alt="{{ h.User.firstname + ' ' + h.User.lastname }}" title="{{ h.User.firstname + ' ' + h.User.lastname }}" width="32">
+                        </span>
+                    </td>
                     <td>{{ h.HelpCategory.name }}</td>
                     <td>{{ h.title }}</td>
                     <td>

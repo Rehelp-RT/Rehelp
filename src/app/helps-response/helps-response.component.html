@@ -1,3 +1,38 @@
-<div class="container">
-    <h4>Rispondi alla richiesta</h4>
+<div class="container py-3">
+    <div class="row">
+        <div class="col-lg-2 col-md-3 mb-3">
+            <a class="btn btn-block btn-outline-secondary" [routerLink]="['/helps/' + response.help.id ]">
+                <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon> Dettaglio aiuto
+            </a>
+        </div>
+
+        <div class="col-lg-10 col-md-9">
+            <h2 class="display-4">Offri il tuo aiuto</h2>
+            <div class="card my-3">
+                <div class="card-body">
+                    <form #helpForm="ngForm" (ngSubmit)="onSubmit()">
+                        <input type="hidden" [(ngModel)]="response.help.id" name="idHelp" />
+
+                        <div class="form-row mb-3">
+                            <label class="col-md-4">Richiesta</label>
+                            <div class="col-md-8">
+                                {{ response.help.title }}
+                            </div>
+                        </div>
+
+                        <div class="form-row mb-3">
+                            <label class="col-md-4" for="description">Messaggio (opzionale)</label>
+                            <textarea class="col-md-8 form-control" rows="4" [(ngModel)]="response.message" name="message" required></textarea>
+                        </div>
+
+                        <div class="form-row mb-3">
+                            <button class="btn btn-outline-primary offset-md-4 col-md-8 mb-3" type="submit">
+                <fa-icon [icon]="['fas', 'plus']"></fa-icon> Rispondi
+              </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

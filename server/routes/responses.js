@@ -32,9 +32,16 @@ router.get('/', (req, res) =>
 router.get('/:id', (req, res) => {
     db.HelpResponse.findByPk(
             req.params.id, {
-                include: [
-                    { attributes: ['id', 'title'], model: db.Help, required: true },
-                    { attributes: ['username', 'firstname', 'lastname'], model: db.User, required: true }
+                include: [{
+                        attributes: ['id', 'title'],
+                        model: db.Help,
+                        required: true
+                    },
+                    {
+                        attributes: ['username', 'firstname', 'lastname'],
+                        model: db.User,
+                        required: true
+                    }
                 ]
             })
         .then(x => {

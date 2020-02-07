@@ -21,6 +21,22 @@
                         </div>
 
                         <div class="form-row mb-3">
+                            <label class="col-md-4">Creatore</label>
+                            <div class="col-md-8">
+                                <span class="img-avatar rounded-circle">
+                                <img src="assets/{{ response.help.User.avatar == null ? 'img/avatar_64.png' : 'uploaded/' + response.help.User.avatar }}"
+                                    alt="{{ response.help.User.firstname + ' ' + response.help.User.lastname }}"
+                                    title="{{ response.help.User.firstname + ' ' + response.help.User.lastname }}"
+                                    width="32"
+                                    class="mr-3">
+                            </span>
+                                <span class="text-dark">
+                                {{ response.help.User.firstname + ' ' + response.help.User.lastname }}
+                            </span>
+                            </div>
+                        </div>
+
+                        <div class="form-row mb-3">
                             <label class="col-md-4" for="description">Messaggio (opzionale)</label>
                             <textarea class="col-md-8 form-control" rows="4" [(ngModel)]="response.message" name="message" required></textarea>
                         </div>

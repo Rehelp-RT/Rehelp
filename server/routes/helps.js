@@ -5,9 +5,16 @@ const db = require('../models');
 router.get('/', (req, res) =>
     db.Help.findAll({
         attributes: ['id', 'title', 'image'],
-        include: [
-            { attributes: ['code', 'name'], model: db.HelpType, required: true },
-            { attributes: ['code', 'name'], model: db.HelpCategory, required: true },
+        include: [{
+                attributes: ['code', 'name'],
+                model: db.HelpType,
+                required: true
+            },
+            {
+                attributes: ['code', 'name'],
+                model: db.HelpCategory,
+                required: true
+            },
             { attributes: ['username', 'firstname', 'lastname', 'avatar'], model: db.User, required: true }
         ]
     })
@@ -23,23 +30,26 @@ router.get('/', (req, res) =>
 // GET /api/helps/5
 router.get('/:id', (req, res) => {
     db.Help.findByPk(req.params.id, {
-        include: [
-            { attributes: ['code', 'name'], model: db.HelpType, required: true },
-            { attributes: ['code', 'name'], model: db.HelpCategory, required: true },
-            { attributes: ['username', 'firstname', 'lastname', 'avatar'], model: db.User, required: true },
-            {
-                attributes: ['id', 'accepted', 'completed'],
-                include: [{
-                    attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
-                    model: db.User,
-                    required: true,
-                    as: 'responder'
-                }],
-                model: db.HelpResponse,
-                as: 'responses'
-            }
-        ]
-    })
+            include: [
+                { attributes: ['code', 'name'], model: db.HelpType, required: true },
+                { attributes: ['code', 'name'], model: db.HelpCategory, required: true },
+                { attributes: ['username', 'firstname', 'lastname', 'avatar'], model: db.User, required: true },
+                {
+                    attributes: ['id', 'accepted', 'completed'],
+                    include: [{
+                        attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
+                        model: db.User,
+                        required: true,
+                        as: 'responder'
+                    }],
+                    model: db.HelpResponse,
+                    as: 'responses',
+                    order: [
+                        ['id', 'ASC']
+                    ]
+                }
+            ]
+        })
         .then(x => {
             if (!x) {
                 return res.status(404).send({

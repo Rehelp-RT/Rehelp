@@ -2,8 +2,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-2 col-md-3 mb-3">
-                <a class="btn btn-outline-secondary" [routerLink]="['/helps']">
-                    <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon> Indietro
+                <a class="btn btn-block btn-outline-secondary" [routerLink]="['/helps']">
+                    <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon> Aiuti
                 </a>
             </div>
 
@@ -61,14 +61,14 @@
                                             </a>
                                             <a [routerLink]="['/profile', r.responder.id ]">
                                                 <span class="img-avatar rounded-circle">
-                                                    <img src="{{ r.responder.avatar == null ? 'assets/img/avatar_64.png' : r.responder.avatar }}" 
+                                                    <img src="assets/{{ r.responder.avatar == null ? 'img/avatar_64.png' : 'uploaded/' + r.responder.avatar }}"
                                                         alt="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
                                                         title="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
                                                         width="32"
                                                         class="mr-3">
-                                                    <span class="text-dark">
-                                                        {{ r.responder.firstname + ' ' + r.responder.lastname }}
-                                                    </span>
+                                                </span>
+                                                <span class="text-dark">
+                                                    {{ r.responder.firstname + ' ' + r.responder.lastname }}
                                                 </span>
                                             </a>
                                         </li>
@@ -79,9 +79,9 @@
 
                         <ng-template #notAuthor>
                             <div class="mb-3">
-                                <div class="row">
-                                    <a class="col-md-4" [routerLink]="['/helps/response/:id']">Rispondi</a>
-                                </div>
+                                <a class="btn btn-outline-secondary" [routerLink]="['/helps/' + help.id + '/response/']">
+                                  Rispondi
+                                </a>
                             </div>
                         </ng-template>
                     </div>

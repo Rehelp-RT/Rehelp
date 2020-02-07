@@ -1,3 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~font-awesome/css/font-awesome.css";
+.img-avatar {
+    width: 32px;
+    height: 32px;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.rounded-circle {
+    border-radius: 50%!important;
+}

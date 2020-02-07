@@ -11,7 +11,7 @@ export class Help {
     HelpCategory: HelpCategory;
     HelpType: HelpType;
     User: User;
+    responses: HelpResponse[];
     createdAt: Date;
     updatedAt: Date;
-    responses: HelpResponse[];
 }

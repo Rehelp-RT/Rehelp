@@ -125,8 +125,8 @@ router.delete('/delete/:id', (req, res) => {
     }
 });
 
-// PUT /api/helps/edit/id
-router.put('/edit/:id', (req, res) => {
+// PUT /api/helps/update/id
+router.put('/update/:id', (req, res) => {
     const body = req.body;
     if (body == undefined) {
         res.sendStatus(400)

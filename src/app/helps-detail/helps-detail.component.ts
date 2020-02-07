@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-helps-detail',
+  template: '<div class="app"><counter [init]="initialCount"></counter></div>',
   templateUrl: './helps-detail.component.html',
   styleUrls: ['./helps-detail.component.css']
 })

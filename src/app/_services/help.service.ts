@@ -40,6 +40,13 @@ export class HelpService {
     return this.http.delete<any>(`${environment.apiUrl}/helps/delete/` + help.id, {})
   }
 
+  updateHelp(help: Help) {
+    return this.http.put<any>(`${environment.apiUrl}/helps/update/` + help.id, {})
+    .pipe(map(x => {
+        return x;
+    }));
+  }
+
   // addHelps(help): Observable<Help> {
   //   return this.http.post<Help>(`${api}/create.php`, help, httpOptions).pipe(
   //     tap(() => console.log(`added help w/ id=${help.id}`)),

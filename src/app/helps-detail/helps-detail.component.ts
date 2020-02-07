@@ -21,12 +21,13 @@ export class HelpsDetailComponent implements OnInit {
     private actRoute: ActivatedRoute,
     private router: Router,
     private as: AuthenticationService,
-    private rs: ResponseService) { }
+    private rs: ResponseService) { 
+      const id = this.actRoute.snapshot.params.id;
+      this.getHelp(id);
+      this.getCurrentUser();
+    }
 
   ngOnInit() {
-    const id = this.actRoute.snapshot.params.id;
-    this.getHelp(id);
-    this.getCurrentUser();
   }
 
   getHelp(id: number): void {
@@ -34,7 +35,7 @@ export class HelpsDetailComponent implements OnInit {
       .subscribe(x => {
         this.help = x;
         this.creator = x.User;
-        this.getAutore();
+        this.checkAuthor();
       });
   }
 
@@ -45,7 +46,7 @@ export class HelpsDetailComponent implements OnInit {
       });
   }
 
-  getAutore(): void {
+  checkAuthor(): void {
     if (this.currentUser.username === this.creator.username) {
       this.author = true;
     } else {
@@ -70,7 +71,7 @@ export class HelpsDetailComponent implements OnInit {
   deleteHelp(help: Help): void{
     this.hs.deleteHelp(help).subscribe(
       res => {
-        this.router.navigate(['/helps']);
+          this.router.navigate(['/helps']);
       },
       err => {
         console.log(err);

@@ -135,15 +135,20 @@ router.delete('/delete/:id', (req, res) => {
 });
 
 // PUT /api/helps/update/id
-router.put('/update/:id', (req, res) => {
+router.put('/update/:id', (req, res) => {    
+    console.log("3");
     const body = req.body;
-    if (body == undefined) {
+    if (body == undefined) { 
+        console.log("3bis");
         res.sendStatus(400)
-    } else {
+    } else { 
+        console.log("4");
         db.Help.findByPk(req.params.id)
             .then(function (help) {
+                console.log("5");
                 // Check if record exists in db
                 if (help) {
+                    console.log("6");
                     help.update({
                         title: body.title,
                         description: body.description,

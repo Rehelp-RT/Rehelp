@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService, HelpService, ResponseService } from '@app/_services';
 import { Help, HelpResponse, User } from '@app/_models';
-import { ActivatedRoute, Router } from '@angular/router';
+import {  Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-helps-detail',
@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class HelpsDetailComponent implements OnInit {
 
   author: boolean;
-  help: Help = null;
+  model: Help = null;
   creator: User = null;
   currentUser: User = null;
 
@@ -33,7 +33,7 @@ export class HelpsDetailComponent implements OnInit {
   getHelp(id: number): void {
     this.hs.getById(id)
       .subscribe(x => {
-        this.help = x;
+        this.model = x;
         this.creator = x.User;
         this.checkAuthor();
       });
@@ -68,8 +68,8 @@ export class HelpsDetailComponent implements OnInit {
       });
   }
 
-  deleteHelp(help: Help): void{
-    this.hs.deleteHelp(help).subscribe(
+  deleteHelp(): void{
+    this.hs.deleteHelp(this.model).subscribe(
       res => {
           this.router.navigate(['/helps']);
       },

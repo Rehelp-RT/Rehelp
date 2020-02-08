@@ -38,12 +38,16 @@ export class HelpService {
   
   deleteHelp(help: Help) {
     return this.http.delete<any>(`${environment.apiUrl}/helps/delete/` + help.id, {})
+    .pipe(map(x => {
+        return x;
+    }));
   }
 
   updateHelp(help: Help) {
+    console.log("1");
     return this.http.put<any>(`${environment.apiUrl}/helps/update/` + help.id, {})
     .pipe(map(x => {
-      console.log("accesso API")
+      console.log("2");
         return x;
     }));
   }

@@ -7,4 +7,6 @@ export class HelpResponse {
     message: string;
     accepted: boolean;
     completed: boolean;
+    id_help: number;
+    id_responder: number;
 }

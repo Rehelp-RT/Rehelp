@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService, HelpService, ResponseService } from '@app/_services';
 import { Help, HelpResponse, User } from '@app/_models';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-helps-response',
@@ -18,12 +18,14 @@ export class HelpsResponseComponent implements OnInit {
   constructor(
     private hs: HelpService,
     private actRoute: ActivatedRoute,
+    private router: Router,
     private as: AuthenticationService,
-    private rs: ResponseService) { }
+    private rs: ResponseService) {
+      const id = this.actRoute.snapshot.params.id;
+      this.getHelp(id);
+     }
 
   ngOnInit() {
-    const id = this.actRoute.snapshot.params.id;
-    this.getHelp(id);
     this.getCurrentUser();
   }
 
@@ -32,7 +34,9 @@ export class HelpsResponseComponent implements OnInit {
       .subscribe(x => {
         this.response = new HelpResponse();
         this.response.help = x;
-        this.response.responder = x.User;
+        this.response.responder = this.currentUser
+        this.response.id_help = x.id;
+        this.response.id_responder = this.currentUser.id
       });
   }
 
@@ -44,6 +48,14 @@ export class HelpsResponseComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.response);
+    console.log(this.response)
+    this.rs.addResponse(this.response).subscribe(
+      res => {
+        this.router.navigate(['/helps/', this.response.help.id]);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 }

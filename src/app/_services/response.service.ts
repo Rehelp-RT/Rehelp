@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HelpResponse } from '@app/_models';
+import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 
@@ -9,6 +10,13 @@ import { environment } from '@environments/environment';
 })
 export class ResponseService {
   constructor(private http: HttpClient) {}
+
+  addResponse(response: HelpResponse) {
+    return this.http.post<any>(`${environment.apiUrl}/responses/add`, response)
+      .pipe(map(x => {
+        return x;
+      }));
+  }
 
   acceptResponse(response: HelpResponse) {
     return this.http.put<any>(`${environment.apiUrl}/responses/accept/` + response.id, {});

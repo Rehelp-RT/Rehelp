@@ -13,7 +13,7 @@
             <h2 class="display-4">Modifica Help</h2>
             <div class="card mt-3">
                 <div class="card-body">
-                    <form #helpForm="ngForm" (ngSubmit)="onSubmit()">
+                    <form *ngIf="model" #helpForm="ngForm" (ngSubmit)="onSubmit()">
 
                         <div class="form-row mb-3">
                             <label class="col-md-4" for="title">Titolo</label>
@@ -23,7 +23,7 @@
 
                         <div class="form-row mb-3">
                             <label class="col-md-4" for="category">Categoria</label>
-                            <select class="col-md-8 form-control" [(ngModel)]="model.idCategory" name="idCategory"
+                            <select class="col-md-8 form-control" [(ngModel)]="model.id_category" name="id_category"
                                 required>
                                 <option *ngFor="let cat of categories" [value]="cat.id">
                                     {{ cat.name }}

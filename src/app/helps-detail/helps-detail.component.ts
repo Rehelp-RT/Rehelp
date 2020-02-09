@@ -68,13 +68,10 @@ export class HelpsDetailComponent implements OnInit {
       });
   }
 
-  deleteHelp(): void{
-    this.hs.deleteHelp(this.model).subscribe(
-      res => {
-          this.router.navigate(['/helps']);
-      },
-      err => {
-        console.log(err);
-      });
+  deleteHelp() {
+    this.hs.deleteHelp(this.model)
+    .subscribe(x =>
+      this.router.navigate(['/helps'])
+    );
   }
 }

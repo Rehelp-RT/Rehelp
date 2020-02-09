@@ -27,7 +27,6 @@ export class HelpsEditComponent implements OnInit {
     private hs: HelpService
   ) { 
     const id = this.activeRouter.snapshot.params.id;
-    console.log(id)
     this.hs.getById(id).subscribe(x => {
           this.model = x;
           this.model.title = x.title;
@@ -44,10 +43,8 @@ export class HelpsEditComponent implements OnInit {
 
   onSubmit(){
     this.submitted = true;
-    console.log("salva?")
     this.hs.updateHelp(this.model).subscribe(
       res => {
-        console.log("forse?")
         this.router.navigate(['/helps']);
       },
       err => {

@@ -11,22 +11,24 @@
             <thead>
                 <tr>
                     <th>Img</th>
-                    <th>Persona</th>
-                    <th>Categoria</th>
                     <th>Titolo</th>
+                    <th>Categoria</th>
+                    <th>Autore</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let h of helps">
-                    <td>{{ h.image }}</td>
+                    <td>
+                        <img src="assets/{{ h.image == null ? 'img/placeholder-help.png' : 'uploaded/' + h.image }}" alt="{{ h.title }} image" width="100" class="help-img">
+                    </td>
+                    <td>{{ h.title }}</td>
+                    <td>{{ h.HelpCategory.name }}</td>
                     <td>
                         <span class="img-avatar rounded-circle">
                           <img src="assets/{{ h.User.avatar == null ? 'img/avatar_64.png' : 'uploaded/' + h.User.avatar }}" alt="{{ h.User.firstname + ' ' + h.User.lastname }}" title="{{ h.User.firstname + ' ' + h.User.lastname }}" width="32">
                         </span>
                     </td>
-                    <td>{{ h.HelpCategory.name }}</td>
-                    <td>{{ h.title }}</td>
                     <td>
                         <a [routerLink]="['/helps/', h.id]" class="btn btn-sm btn-outline-secondary m-1">
                             Dettagli

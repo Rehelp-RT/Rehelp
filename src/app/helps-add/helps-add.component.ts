@@ -1,17 +1,23 @@
-import { Component, ViewChild, ElementRef, NgZone, OnInit } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  ElementRef,
+  NgZone,
+  OnInit
+} from "@angular/core";
 import {
   AuthenticationService,
   CategoryService,
   HelpService
-} from '@app/_services';
-import { Router } from '@angular/router';
-import { HelpCategory, Help, User } from '@app/_models';
-import { MapsAPILoader, MouseEvent } from '@agm/core';
+} from "@app/_services";
+import { Router } from "@angular/router";
+import { HelpCategory, Help, User } from "@app/_models";
+import { MapsAPILoader, MouseEvent } from "@agm/core";
 
 @Component({
-  selector: 'app-helps-add',
-  templateUrl: './helps-add.component.html',
-  styleUrls: ['./helps-add.component.css']
+  selector: "app-helps-add",
+  templateUrl: "./helps-add.component.html",
+  styleUrls: ["./helps-add.component.css"]
 })
 export class HelpsAddComponent implements OnInit {
   categories: HelpCategory[] = [];
@@ -24,7 +30,7 @@ export class HelpsAddComponent implements OnInit {
   address: string;
   private geoCoder;
 
-  @ViewChild('search', {static: false})
+  @ViewChild("search", { static: false })
   public searchElementRef: ElementRef;
 
   constructor(
@@ -36,14 +42,26 @@ export class HelpsAddComponent implements OnInit {
     private ngZone: NgZone
   ) {
     this.as.currentUser.subscribe(x => {
-      console.log('user ==>');
+      console.log("user ==>");
       console.log(x);
       this.currentUser = x;
       this.model = new Help();
       this.model.idCreator = this.currentUser.id;
       this.model.idType = 1;
-      console.log('model ==>');
-      console.log(this.model);
+      // if ("geolocation" in navigator) {
+      //   navigator.geolocation.getCurrentPosition(position => {
+      //     this.model.latitude = position.coords.latitude;
+      //     this.model.longitude = position.coords.longitude;
+      //     this.zoom = 8;
+      //     this.getAddress(this.model.latitude, this.model.longitude);
+      //   });
+      //   // this.model.latitude = this.latitude;
+      //   // this.model.longitude = this.longitude;
+      //   // this.model.address = this.address;
+      //   console.log("model ==>");
+      //   console.log(this.model, "model");
+      //   console.log(this.model.latitude, "this.latitude");
+      // }
     });
     this.cs.getAll().subscribe(x => {
       this.categories = x;
@@ -52,14 +70,15 @@ export class HelpsAddComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    this.hs.addHelp(this.model).subscribe(
-      res => {
-        this.router.navigate(['/helps']);
-      },
-      err => {
-        console.log(err);
-      }
-    );
+    console.log(this.model);
+    // this.hs.addHelp(this.model).subscribe(
+    //   res => {
+    //     this.router.navigate(['/helps']);
+    //   },
+    //   err => {
+    //     console.log(err);
+    //   }
+    // );
   }
 
   ngOnInit() {
@@ -67,10 +86,13 @@ export class HelpsAddComponent implements OnInit {
       this.setCurrentLocation();
       this.geoCoder = new google.maps.Geocoder();
 
-      const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ['address']
-      });
-      autocomplete.addListener('place_changed', () => {
+      const autocomplete = new google.maps.places.Autocomplete(
+        this.searchElementRef.nativeElement,
+        {
+          types: ["address"]
+        }
+      );
+      autocomplete.addListener("place_changed", () => {
         this.ngZone.run(() => {
           // get the place result
           const place: google.maps.places.PlaceResult = autocomplete.getPlace();
@@ -91,8 +113,8 @@ export class HelpsAddComponent implements OnInit {
 
   // Get current location coordinates
   private setCurrentLocation() {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(position => {
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
         this.zoom = 8;
@@ -109,21 +131,23 @@ export class HelpsAddComponent implements OnInit {
   }
 
   getAddress(latitude, longitude) {
-    this.geoCoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
-      console.log(results);
-      console.log(status);
-      if (status === 'OK') {
-        if (results[0]) {
-          this.zoom = 12;
-          this.address = results[0].formatted_address;
+    this.geoCoder.geocode(
+      { location: { lat: latitude, lng: longitude } },
+      (results, status) => {
+        console.log(results);
+        console.log(status);
+        if (status === "OK") {
+          if (results[0]) {
+            this.zoom = 12;
+            this.address = results[0].formatted_address;
+          } else {
+            window.alert("No results found");
+          }
         } else {
-          window.alert('No results found');
+          window.alert("Geocoder failed due to: " + status);
         }
-      } else {
-        window.alert('Geocoder failed due to: ' + status);
       }
-
-    });
+    );
   }
 
   // addHelps() {

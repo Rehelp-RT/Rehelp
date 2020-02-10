@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
         id_tradeType: DataTypes.INTEGER,
         isTutor: DataTypes.BOOLEAN,
         accepted: DataTypes.BOOLEAN,
-        completed: DataTypes.BOOLEAN
+        completed: DataTypes.BOOLEAN,
+        Message: DataTypes.STRING
     }, {});
 
     HelpResponse.associate = function(models) {

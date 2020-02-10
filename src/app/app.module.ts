@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
@@ -24,7 +25,6 @@ import { AboutComponent } from './about/about.component';
 import { FaqComponent } from './faq/faq.component';
 import { ContactComponent } from './contact/contact.component';
 import { HowItWorksComponent } from './how-it-works/how-it-works.component';
-import { AgmCoreModule } from '@agm/core';
 
 
 // fontawesome
@@ -43,6 +43,7 @@ import {
   faCheckSquare as farCheckSquare
 } from '@fortawesome/free-regular-svg-icons';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
+import { HelpsAdd2Component } from './helps-add2/helps-add2.component';
 // import { faStackOverflow, faGithub, faMedium } from '@fortawesome/free-brands-svg-icons';
 
 @NgModule({
@@ -64,7 +65,8 @@ import { ProfileEditComponent } from './profile-edit/profile-edit.component';
     LoginComponent,
     ProfileComponent,
     RegisterComponent,
-    ProfileEditComponent
+    ProfileEditComponent,
+    HelpsAdd2Component
   ],
   imports: [
     BrowserModule,
@@ -80,7 +82,8 @@ import { ProfileEditComponent } from './profile-edit/profile-edit.component';
   ],
   providers: [
       { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-      { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+      { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+      GoogleMapsAPIWrapper
   ],
   bootstrap: [AppComponent]
 })

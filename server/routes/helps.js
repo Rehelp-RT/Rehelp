@@ -21,13 +21,13 @@ router.get('/', (req, res) =>
             ['id', 'desc']
         ]
     })
-        .then(x => {
-            res.json(x)
-        })
-        .catch(err => {
-            console.log(err);
-            res.sendStatus(500)
-        })
+    .then(x => {
+        res.json(x)
+    })
+    .catch(err => {
+        console.log(err);
+        res.sendStatus(500)
+    })
 );
 
 /* GET /api/helps/5
@@ -83,6 +83,13 @@ router.get('/:id', (req, res) => {
                 { attributes: ['code', 'name'], model: db.HelpCategory, required: true },
                 { attributes: ['username', 'firstname', 'lastname', 'avatar'], model: db.User, required: true },
                 {
+                    attributes: ['id', 'accepted', 'completed', 'Message'],
+                    include: [{
+                        attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
+                        model: db.User,
+                        required: true,
+                        as: 'responder'
+                    }],
                     model: db.HelpResponse,
                     as: 'responses',
                     order: [
@@ -133,17 +140,17 @@ router.post('/add', (req, res) => {
     } else {
 
         db.Help.create({
-            title: body.title,
-            description: body.description,
-            id_type: body.idType,
-            id_category: body.idCategory,
-            id_creator: body.idCreator,
-            halfhourValidity: body.halfhourValidity,
-            dateStartValidity: body.dateStartValidity,
-            dateEndValidity: body.dateEndValidity,
-            dateCompletion: null,
-            image: body.image
-        })
+                title: body.title,
+                description: body.description,
+                id_type: body.idType,
+                id_category: body.idCategory,
+                id_creator: body.idCreator,
+                halfhourValidity: body.halfhourValidity,
+                dateStartValidity: body.dateStartValidity,
+                dateEndValidity: body.dateEndValidity,
+                dateCompletion: null,
+                image: body.image
+            })
             .then(help => {
                 res.status(201).send({
                     id: help.id
@@ -162,7 +169,7 @@ router.delete('/delete/:id', (req, res) => {
         res.sendStatus(400)
     } else {
         db.Help.findByPk(req.params.id)
-            .then(function (help) {
+            .then(function(help) {
                 // Check if record exists in db
                 if (help) {
                     help.destroy()
@@ -181,23 +188,23 @@ router.delete('/delete/:id', (req, res) => {
 // PUT /api/helps/update/id
 router.put('/update/:id', (req, res) => {
     const body = req.body;
-    if (body == undefined) { 
+    if (body == undefined) {
         res.sendStatus(400)
-    } else { 
+    } else {
         db.Help.findByPk(req.params.id)
-            .then(function (help) {
+            .then(function(help) {
                 // Check if record exists in db
                 if (help) {
                     help.update({
-                        title: body.title,
-                        description: body.description,
-                        id_category: body.id_category,
-                        halfhourValidity: body.halfhourValidity,
-                        dateStartValidity: body.dateStartValidity,
-                        dateEndValidity: body.dateEndValidity,
-                        dateCompletion: null,
-                        image: body.image
-                    })
+                            title: body.title,
+                            description: body.description,
+                            id_category: body.id_category,
+                            halfhourValidity: body.halfhourValidity,
+                            dateStartValidity: body.dateStartValidity,
+                            dateEndValidity: body.dateEndValidity,
+                            dateCompletion: null,
+                            image: body.image
+                        })
                         .then(x => {
                             res.status(200).send(help)
                         })

@@ -77,7 +77,7 @@ router.get('/:id', (req, res) => {
 
 // GET /api/helps/5
 router.get('/:id', (req, res) => {
-    db.Help.findAll({
+    db.Help.findByPk(req.params.id, {
             include: [
                 { attributes: ['code', 'name'], model: db.HelpType, required: true },
                 { attributes: ['code', 'name'], model: db.HelpCategory, required: true },
@@ -96,10 +96,7 @@ router.get('/:id', (req, res) => {
                         [{ model: db.Help.HelpResponse, as: 'responses' }, 'ddd', 'desc']
                     ]
                 }
-            ],
-            where: {
-                id: req.params.id
-            }
+            ]
         })
         .then(x => {
             if (!x) {

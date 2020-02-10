@@ -10,13 +10,20 @@
             <h2 class="display-4">Offri il tuo aiuto</h2>
             <div class="card my-3">
                 <div class="card-body">
-                    <form #helpForm="ngForm" (ngSubmit)="onSubmit()">
-                        <input type="hidden" [(ngModel)]="response.help.id" name="idHelp" />
+                    <form *ngIf="response" #helpForm="ngForm" (ngSubmit)="onSubmit()">
+                        <input type="hidden" [(ngModel)]="response.help.id" name="id_help" />
 
                         <div class="form-row mb-3">
                             <label class="col-md-4">Richiesta</label>
                             <div class="col-md-8">
                                 {{ response.help.title }}
+                            </div>
+                        </div>
+
+                        <div class="form-row mb-3">
+                            <label class="col-md-4">Descrizione</label>
+                            <div class="col-md-8">
+                                {{ response.help.description }}
                             </div>
                         </div>
 
@@ -33,6 +40,13 @@
                                 <span class="text-dark">
                                 {{ response.help.User.firstname + ' ' + response.help.User.lastname }}
                             </span>
+                            </div>
+                        </div>
+
+                        <div class="form-row mb-3">
+                            <label class="col-md-4">Data creazione</label>
+                            <div class="col-md-8">
+                                {{ response.help.createdAt | date: "dd/MM/yyyy" }}
                             </div>
                         </div>
 

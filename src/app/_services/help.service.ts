@@ -19,7 +19,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class HelpService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAll() {
     return this.http.get<Help[]>(`${environment.apiUrl}/helps`);
@@ -31,9 +31,20 @@ export class HelpService {
 
   addHelp(help: Help) {
     return this.http.post<any>(`${environment.apiUrl}/helps/add`, help)
-    .pipe(map(x => {
+      .pipe(map(x => {
         return x;
-    }));
+      }));
+  }
+
+  deleteHelp(help: Help) {
+    return this.http.delete<Help>(`${environment.apiUrl}/helps/delete/` + help.id)
+  }
+
+  updateHelp(help: Help) {
+    return this.http.put<any>(`${environment.apiUrl}/helps/update/` + help.id, help)
+      .pipe(map(x => {
+        return x;
+      }));
   }
 
   // addHelps(help): Observable<Help> {

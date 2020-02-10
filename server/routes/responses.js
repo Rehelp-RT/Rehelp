@@ -34,13 +34,15 @@ router.get('/:id', (req, res) => {
             req.params.id, {
                 include: [{
                         attributes: ['id', 'title'],
-                        model: db.Help,
-                        required: true
+                        model: db.Help,                        
+                        required: true,
+                        as: 'help'
                     },
                     {
                         attributes: ['username', 'firstname', 'lastname'],
                         model: db.User,
-                        required: true
+                        required: true,
+                        as: 'responder'
                     }
                 ]
             })
@@ -69,7 +71,7 @@ router.post('/add', (req, res) => {
     const body = req.body;
     if (body == undefined) {
         res.sendStatus(400)
-    } else if (body.accepted === undefined) {
+    } /*else if (body.accepted === undefined) {
         res.status(400).send({ message: 'accepted is missing' });
     } else if (body.completed === undefined) {
         res.status(400).send({ message: 'completed is missing' });
@@ -77,7 +79,7 @@ router.post('/add', (req, res) => {
         res.status(400).send({ message: 'isTutor is missing' });
     } else if (body.id_tradeType === undefined) {
         res.status(400).send({ message: 'id_tradeType is missing' });
-    } else if (body.id_help === undefined) {
+    }*/ else if (body.id_help === undefined) {
         res.status(400).send({ message: 'id_help is missing' });
     } else if (body.id_responder === undefined) {
         res.status(400).send({ message: 'id_responder is missing' });

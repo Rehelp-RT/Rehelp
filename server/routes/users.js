@@ -46,15 +46,30 @@ router.delete('/', function(req, res) {
     // });
 });
 
-// PUT /api/user
-router.put('/', function(req, res) {
-    // User.update({ lastname: "Doe" }, {
-    //     where: {
-    //         lastname: null
-    //     }
-    // }).then(() => {
-    //     res.send({ id: user.id });
-    // });
+// PUT /api/user/update/id
+router.put('/update/:id', function(req, res) {
+    const body = req.body;
+    if (body == undefined) { 
+        res.sendStatus(400)
+    } else { 
+        db.User.findByPk(req.params.id)
+        .then(function(user){
+            // Check if record exists in db
+            if (user) {
+                user.update({
+                    firstname: body.firstname,
+                    lastname: body.lastname,
+                    birthdate: body.birthdate,
+                    username: body.username,
+                    password: body.password,
+                    avatar: body.avatar
+                })
+                    .then(x => {
+                        res.status(200).send(user)
+                    })
+            }
+        })
+    }
 });
 
 // exports

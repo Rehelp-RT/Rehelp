@@ -1,38 +1,41 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService, HelpService, ResponseService } from '@app/_services';
 import { Help, HelpResponse, User } from '@app/_models';
-import { ActivatedRoute } from '@angular/router';
+import {  Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-helps-detail',
+  template: '<div class="app"><counter [init]="initialCount"></counter></div>',
   templateUrl: './helps-detail.component.html',
   styleUrls: ['./helps-detail.component.css']
 })
 export class HelpsDetailComponent implements OnInit {
 
   author: boolean;
-  help: Help = null;
+  model: Help = null;
   creator: User = null;
   currentUser: User = null;
 
   constructor(
     private hs: HelpService,
     private actRoute: ActivatedRoute,
+    private router: Router,
     private as: AuthenticationService,
-    private rs: ResponseService) { }
+    private rs: ResponseService) { 
+      const id = this.actRoute.snapshot.params.id;
+      this.getHelp(id);
+      this.getCurrentUser();
+    }
 
   ngOnInit() {
-    const id = this.actRoute.snapshot.params.id;
-    this.getHelp(id);
-    this.getCurrentUser();
   }
 
   getHelp(id: number): void {
     this.hs.getById(id)
       .subscribe(x => {
-        this.help = x;
+        this.model = x;
         this.creator = x.User;
-        this.getAutore();
+        this.checkAuthor();
       });
   }
 
@@ -43,7 +46,7 @@ export class HelpsDetailComponent implements OnInit {
       });
   }
 
-  getAutore(): void {
+  checkAuthor(): void {
     if (this.currentUser.username === this.creator.username) {
       this.author = true;
     } else {
@@ -63,5 +66,12 @@ export class HelpsDetailComponent implements OnInit {
       .subscribe(x => {
         this.getHelp(x.id_help);
       });
+  }
+
+  deleteHelp() {
+    this.hs.deleteHelp(this.model)
+    .subscribe(x =>
+      this.router.navigate(['/helps'])
+    );
   }
 }

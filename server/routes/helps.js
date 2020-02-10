@@ -21,13 +21,13 @@ router.get('/', (req, res) =>
             ['id', 'desc']
         ]
     })
-    .then(x => {
-        res.json(x)
-    })
-    .catch(err => {
-        console.log(err);
-        res.sendStatus(500)
-    })
+        .then(x => {
+            res.json(x)
+        })
+        .catch(err => {
+            console.log(err);
+            res.sendStatus(500)
+        })
 );
 
 /* GET /api/helps/5
@@ -133,17 +133,17 @@ router.post('/add', (req, res) => {
     } else {
 
         db.Help.create({
-                title: body.title,
-                description: body.description,
-                id_type: body.idType,
-                id_category: body.idCategory,
-                id_creator: body.idCreator,
-                halfhourValidity: body.halfhourValidity,
-                dateStartValidity: body.dateStartValidity,
-                dateEndValidity: body.dateEndValidity,
-                dateCompletion: null,
-                image: body.image
-            })
+            title: body.title,
+            description: body.description,
+            id_type: body.idType,
+            id_category: body.idCategory,
+            id_creator: body.idCreator,
+            halfhourValidity: body.halfhourValidity,
+            dateStartValidity: body.dateStartValidity,
+            dateEndValidity: body.dateEndValidity,
+            dateCompletion: null,
+            image: body.image
+        })
             .then(help => {
                 res.status(201).send({
                     id: help.id
@@ -152,6 +152,57 @@ router.post('/add', (req, res) => {
             .catch(err => {
                 res.status(500).send(err)
             });
+    }
+});
+
+// DELETE /api/helps/delete/id
+router.delete('/delete/:id', (req, res) => {
+    const body = req.body;
+    if (body == undefined) {
+        res.sendStatus(400)
+    } else {
+        db.Help.findByPk(req.params.id)
+            .then(function (help) {
+                // Check if record exists in db
+                if (help) {
+                    help.destroy()
+                        .then(x => {
+                            res.status(200)
+                        })
+                }
+            })
+            .catch(err => {
+                res.status(500).send(err)
+            });
+
+    }
+});
+
+// PUT /api/helps/update/id
+router.put('/update/:id', (req, res) => {
+    const body = req.body;
+    if (body == undefined) { 
+        res.sendStatus(400)
+    } else { 
+        db.Help.findByPk(req.params.id)
+            .then(function (help) {
+                // Check if record exists in db
+                if (help) {
+                    help.update({
+                        title: body.title,
+                        description: body.description,
+                        id_category: body.id_category,
+                        halfhourValidity: body.halfhourValidity,
+                        dateStartValidity: body.dateStartValidity,
+                        dateEndValidity: body.dateEndValidity,
+                        dateCompletion: null,
+                        image: body.image
+                    })
+                        .then(x => {
+                            res.status(200).send(help)
+                        })
+                }
+            })
     }
 });
 

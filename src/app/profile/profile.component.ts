@@ -10,11 +10,16 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProfileComponent implements OnInit {
   user: User;
+  currentUser: User;
 
   constructor(
     private actRoute: ActivatedRoute,
     private as: AuthenticationService,
-    private us: UserService) { }
+    private us: UserService) { 
+      this.as.currentUser.subscribe(x => {
+        this.currentUser = x;
+      });
+    }
 
   ngOnInit() {
     const id = this.actRoute.snapshot.params.id;

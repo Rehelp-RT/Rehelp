@@ -1,5 +1,5 @@
 <div class="container py-3">
-    <div class="row">
+    <div class="row" *ngIf="response">
         <div class="col-lg-2 col-md-3 mb-3">
             <a class="btn btn-block btn-outline-secondary" [routerLink]="['/helps/' + response.help.id ]">
                 <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon> Dettaglio aiuto
@@ -10,7 +10,7 @@
             <h2 class="display-4">Offri il tuo aiuto</h2>
             <div class="card my-3">
                 <div class="card-body">
-                    <form *ngIf="response" #helpForm="ngForm" (ngSubmit)="onSubmit()">
+                    <form #helpForm="ngForm" (ngSubmit)="onSubmit()">
                         <input type="hidden" [(ngModel)]="response.help.id" name="id_help" />
 
                         <div class="form-row mb-3">

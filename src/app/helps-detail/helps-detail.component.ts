@@ -5,7 +5,6 @@ import {  Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-helps-detail',
-  template: '<div class="app"><counter [init]="initialCount"></counter></div>',
   templateUrl: './helps-detail.component.html',
   styleUrls: ['./helps-detail.component.css']
 })
@@ -21,7 +20,7 @@ export class HelpsDetailComponent implements OnInit {
     private actRoute: ActivatedRoute,
     private router: Router,
     private as: AuthenticationService,
-    private rs: ResponseService) { 
+    private rs: ResponseService) {
       const id = this.actRoute.snapshot.params.id;
       this.getHelp(id);
       this.getCurrentUser();

@@ -1,0 +1,51 @@
+<div class="container py-3">
+    <div class="row">
+
+        <div class="col-lg-2 col-md-3 mb-3">
+            <a class="btn btn-outline-secondary" [routerLink]="['/profile']">
+                <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon> Indietro
+            </a>
+        </div>
+
+
+        <div class="col-lg-10 col-md-9">
+
+            <h2 class="display-4">Modifica dati personali</h2>
+            <div class="card mt-3">
+                <div class="card-body">
+                    <form *ngIf="model" #helpForm="ngForm" (ngSubmit)="onSubmit()">
+
+                        <div class="form-row mb-3">
+                            <label class="col-md-4" for="firstname">Nome</label>
+                            <input class="col-md-8 form-control" type="text" [(ngModel)]="model.firstname" name="firstname"
+                                required />
+                        </div>
+
+                        <div class="form-row mb-3">
+                            <label class="col-md-4" for="lastname">Cognome</label>
+                            <input class="col-md-8 form-control" type="text" [(ngModel)]="model.lastname" name="lastname"
+                                required />
+                        </div>
+                        
+                        <div class="form-row mb-3">
+                            <label class="col-md-4" for="username">Username</label>
+                            <input class="col-md-8 form-control" type="text" [(ngModel)]="model.username" name="username"
+                                required />
+                        </div>
+                        
+                        <div class="form-row mb-3">
+                            <label class="col-md-4" for="password">Password</label>
+                            <input class="col-md-8 form-control" type="password" [(ngModel)]="model.password" name="password"
+                                required />
+                        </div>
+
+                        <div class="form-row mb-3">
+                            <button class="btn btn-outline-primary offset-md-4 col-md-8 mb-3" type="submit">
+                                <fa-icon [icon]="['fas', 'save']"></fa-icon> Salva
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

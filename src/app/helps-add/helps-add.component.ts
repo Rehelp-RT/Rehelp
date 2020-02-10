@@ -42,8 +42,6 @@ export class HelpsAddComponent implements OnInit {
       this.model = new Help();
       this.model.idCreator = this.currentUser.id;
       this.model.idType = 1;
-      this.model.latitude = 0;
-      this.model.longitude = 0;
       console.log('model ==>');
       console.log(this.model);
     });

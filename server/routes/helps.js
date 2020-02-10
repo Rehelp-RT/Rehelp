@@ -16,6 +16,9 @@ router.get('/', (req, res) =>
                 required: true
             },
             { attributes: ['username', 'firstname', 'lastname', 'avatar'], model: db.User, required: true }
+        ],
+        order: [
+            ['id', 'desc']
         ]
     })
     .then(x => {
@@ -27,28 +30,69 @@ router.get('/', (req, res) =>
     })
 );
 
+/* GET /api/helps/5
+router.get('/:id', (req, res) => {
+  db.Help.findByPk(req.params.id, {
+          include: [
+              { attributes: ['code', 'name'], model: db.HelpType, required: true },
+              { attributes: ['code', 'name'], model: db.HelpCategory, required: true },
+              { attributes: ['username', 'firstname', 'lastname', 'avatar'], model: db.User, required: true },
+              {
+                  attributes: ['id', 'accepted', 'completed'],
+                  include: [{
+                      attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
+                      model: db.User,
+                      required: true,
+                      as: 'responder'
+                  }],
+                  model: db.HelpResponse,
+                  as: 'responses',
+                  order: [
+                      ['id', 'ASC']
+                  ]
+              }
+          ]
+      })
+      .then(x => {
+          if (!x) {
+              return res.status(404).send({
+                  message: 'Help with id ' + req.params.id + ' not found.'
+              });
+          }
+          res.send(x);
+      })
+      .catch(err => {
+          if (err.kind === 'ObjectId') {
+              return res.status(404).send({
+                  message: 'Help with id ' + req.params.id + ' not found.'
+              });
+          }
+          return res.status(500).send({
+              message: err.message,
+              stacktrace: err.stacktrace
+          });
+      });
+});
+*/
+
 // GET /api/helps/5
 router.get('/:id', (req, res) => {
-    db.Help.findByPk(req.params.id, {
+    db.Help.findAll({
             include: [
                 { attributes: ['code', 'name'], model: db.HelpType, required: true },
                 { attributes: ['code', 'name'], model: db.HelpCategory, required: true },
                 { attributes: ['username', 'firstname', 'lastname', 'avatar'], model: db.User, required: true },
                 {
-                    attributes: ['id', 'accepted', 'completed'],
-                    include: [{
-                        attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
-                        model: db.User,
-                        required: true,
-                        as: 'responder'
-                    }],
                     model: db.HelpResponse,
                     as: 'responses',
                     order: [
-                        ['id', 'ASC']
+                        [{ model: db.Help.HelpResponse, as: 'responses' }, 'ddd', 'desc']
                     ]
                 }
-            ]
+            ],
+            where: {
+                id: req.params.id
+            }
         })
         .then(x => {
             if (!x) {

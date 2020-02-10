@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, ViewChild, ElementRef, NgZone, OnInit } from '@angular/core';
 import {
   AuthenticationService,
   CategoryService,
@@ -13,7 +13,7 @@ import { MapsAPILoader, MouseEvent } from '@agm/core';
   templateUrl: './helps-add.component.html',
   styleUrls: ['./helps-add.component.css']
 })
-export class HelpsAddComponent {
+export class HelpsAddComponent implements OnInit {
   categories: HelpCategory[] = [];
   model: Help = null;
   submitted = false;
@@ -42,6 +42,8 @@ export class HelpsAddComponent {
       this.model = new Help();
       this.model.idCreator = this.currentUser.id;
       this.model.idType = 1;
+      this.model.latitude = 0;
+      this.model.longitude = 0;
       console.log('model ==>');
       console.log(this.model);
     });
@@ -65,22 +67,22 @@ export class HelpsAddComponent {
   ngOnInit() {
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
-      this.geoCoder = new google.maps.Geocoder;
- 
-      let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ["address"]
+      this.geoCoder = new google.maps.Geocoder();
+
+      const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+        types: ['address']
       });
-      autocomplete.addListener("place_changed", () => {
+      autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {
-          //get the place result
-          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
- 
-          //verify result
+          // get the place result
+          const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+          // verify result
           if (place.geometry === undefined || place.geometry === null) {
             return;
           }
- 
-          //set latitude, longitude and zoom
+
+          // set latitude, longitude and zoom
           this.latitude = place.geometry.location.lat();
           this.longitude = place.geometry.location.lng();
           this.zoom = 12;
@@ -109,7 +111,7 @@ export class HelpsAddComponent {
   }
 
   getAddress(latitude, longitude) {
-    this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
+    this.geoCoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
       console.log(results);
       console.log(status);
       if (status === 'OK') {
@@ -122,7 +124,7 @@ export class HelpsAddComponent {
       } else {
         window.alert('Geocoder failed due to: ' + status);
       }
- 
+
     });
   }
 

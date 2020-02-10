@@ -12,7 +12,7 @@
                     <div class="card-body">
                         <h3>{{ model.title }}</h3>
                         <div>
-                            <img src="assets/{{ model.image == null ? 'img/placeholder-help.png' : 'uploaded/' + h.image }}" alt="{{ model.title }} image" width="300" class="help-img">
+                            <img src="assets/{{ model.image == null ? 'img/placeholder-help.png' : 'uploaded/' + model.image }}" alt="{{ model.title }} image" width="300" class="help-img">
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-4"><strong>Tipo</strong></div>

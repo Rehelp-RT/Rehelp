@@ -22,6 +22,7 @@
     },
     "private": true,
     "dependencies": {
+        "@agm/core": "^1.1.0",
         "@angular/animations": "~8.2.3",
         "@angular/cli": "^8.3.24",
         "@angular/common": "~8.2.3",
@@ -61,6 +62,7 @@
     "devDependencies": {
         "@angular-devkit/build-angular": "^0.803.24",
         "@angular/language-service": "~8.2.3",
+        "@types/googlemaps": "^3.39.2",
         "@types/jasmine": "~3.3.8",
         "@types/jasminewd2": "~2.0.3",
         "@types/node": "~8.9.4",

@@ -19,12 +19,14 @@
 
                         <div class="form-row mb-3">
                             <label class="col-md-4" for="title">Titolo</label>
-                            <input class="col-md-8 form-control" type="text" [(ngModel)]="model.title" name="title" required />
+                            <input class="col-md-8 form-control" type="text" [(ngModel)]="model.title" name="title"
+                                required />
                         </div>
 
                         <div class="form-row mb-3">
                             <label class="col-md-4" for="category">Categoria</label>
-                            <select class="col-md-8 form-control" [(ngModel)]="model.idCategory" name="idCategory" required>
+                            <select class="col-md-8 form-control" [(ngModel)]="model.idCategory" name="idCategory"
+                                required>
                                 <option *ngFor="let cat of categories" [value]="cat.id">
                                     {{ cat.name }}
                                 </option>
@@ -33,9 +35,28 @@
 
                         <div class="form-row mb-3">
                             <label class="col-md-4" for="description">Descrizione</label>
-                            <textarea class="col-md-8 form-control" rows="4" [(ngModel)]="model.description" name="description" required>
+                            <textarea class="col-md-8 form-control" rows="4" [(ngModel)]="model.description"
+                                name="description" required>
                             </textarea>
                         </div>
+
+                        <div class="form-row mb-3">
+                            <label class="col-md-4" for="location">Zona</label>
+                            <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+                                <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+                                (dragEnd)="markerDragEnd($event)">
+                                </agm-marker>
+                            </agm-map>
+                        </div>
+                        
+                        <input type="hidden" [(ngModel)]="model.latitude" name="latitude">
+                        <input type="hidden" [(ngModel)]="model.longitude" name="longitude">
+
+
+                        <div class="form-row mb-3">
+                            <label class="col-md-4" for="address">Aggiungi Indirizzo</label>
+                            <input type="text" class="col-md-8 form-control" [(ngModel)]="model.address" (keydown.enter)="$event.preventDefault()" placeholder="{{address}}" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
+                          </div>
 
                         <div class="form-row mb-3">
                             <button class="btn btn-outline-primary offset-md-4 col-md-8 mb-3" type="submit">

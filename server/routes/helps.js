@@ -122,6 +122,7 @@ router.get('/:id', (req, res) => {
 // POST /api/helps/add
 router.post('/add', (req, res) => {
     const body = req.body;
+    console.log(body)
     if (body == undefined) {
         res.sendStatus(400)
     } else if (body.title === undefined) {
@@ -134,7 +135,13 @@ router.post('/add', (req, res) => {
         res.status(400).send({ message: 'idType is missing' });
     } else if (body.idCreator === undefined) {
         res.status(400).send({ message: 'idCreator is missing' });
-    } else {
+    } 
+    else if (body.latitude === undefined) {
+        res.status(400).send({ message: 'latitude is missing' });
+    }
+    else if (body.longitude === undefined) {
+        res.status(400).send({ message: 'longitude is missing' });
+    }  else {
 
         db.Help.create({
                 title: body.title,
@@ -146,7 +153,9 @@ router.post('/add', (req, res) => {
                 dateStartValidity: body.dateStartValidity,
                 dateEndValidity: body.dateEndValidity,
                 dateCompletion: null,
-                image: body.image
+                image: body.image,
+                latitude: body.latitude,
+                longitude: body.longitude
             })
             .then(help => {
                 res.status(201).send({

@@ -135,13 +135,11 @@ router.post('/add', (req, res) => {
         res.status(400).send({ message: 'idType is missing' });
     } else if (body.idCreator === undefined) {
         res.status(400).send({ message: 'idCreator is missing' });
-    }
-    else if (body.latitude === undefined) {
+    } else if (body.latitude === undefined) {
         res.status(400).send({ message: 'latitude is missing' });
-    }
-    else if (body.longitude === undefined) {
+    } else if (body.longitude === undefined) {
         res.status(400).send({ message: 'longitude is missing' });
-    }  else {
+    } else {
 
         db.Help.create({
                 title: body.title,

@@ -43,7 +43,6 @@ import {
   faCheckSquare as farCheckSquare
 } from '@fortawesome/free-regular-svg-icons';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
-import { HelpsAdd2Component } from './helps-add2/helps-add2.component';
 // import { faStackOverflow, faGithub, faMedium } from '@fortawesome/free-brands-svg-icons';
 
 @NgModule({
@@ -65,8 +64,7 @@ import { HelpsAdd2Component } from './helps-add2/helps-add2.component';
     LoginComponent,
     ProfileComponent,
     RegisterComponent,
-    ProfileEditComponent,
-    HelpsAdd2Component
+    ProfileEditComponent
   ],
   imports: [
     BrowserModule,

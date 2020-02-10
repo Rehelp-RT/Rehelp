@@ -121,27 +121,13 @@ export class HelpsAddComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     console.log(this.model);
-    // this.hs.addHelp(this.model).subscribe(
-    //   res => {
-    //     this.router.navigate(['/helps']);
-    //   },
-    //   err => {
-    //     console.log(err);
-    //   }
-    // );
+    this.hs.addHelp(this.model).subscribe(
+      res => {
+        this.router.navigate(['/helps']);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
-
-
-  // addHelps() {
-  //   const payload = {
-  //     title: this.helpsForm.controls.title.value,
-  //   };
-  // this.hs.addHelps(payload)
-  //   .subscribe(res => {
-  //       let id = res['_id'];
-  //       this.router.navigate(['/helps']);
-  //     }, (err) => {
-  //       console.log(err);
-  //     });
-  // }
 }

@@ -8,7 +8,6 @@ import { AuthGuard } from './_guards';
 import { HomeComponent } from './home/home.component';
 import { HelpsComponent } from './helps/helps.component';
 import { HelpsAddComponent } from './helps-add/helps-add.component';
-import { HelpsAdd2Component } from './helps-add2/helps-add2.component';
 import { HelpsDetailComponent } from './helps-detail/helps-detail.component';
 import { HelpsEditComponent } from './helps-edit/helps-edit.component';
 import { HelpsResponseComponent } from './helps-response/helps-response.component';
@@ -28,7 +27,6 @@ const routes: Routes = [
   { path: 'faq', component: FaqComponent, data: {title: 'Domande frequenti'} },
   { path: 'how-it-works', component: HowItWorksComponent, data: {title: 'Come funziona'} },
   { path: 'helps', component: HelpsComponent, data: {title: 'Lista aiuti'}, canActivate: [AuthGuard] },
-  { path: 'helps/add2', component: HelpsAdd2Component, data: {title: 'Aggiungi aiuto'}, canActivate: [AuthGuard] },
   { path: 'helps/add', component: HelpsAddComponent, data: {title: 'Aggiungi aiuto'}, canActivate: [AuthGuard] },
   { path: 'helps/:id', component: HelpsDetailComponent,  data: {title: 'Dettagli aiuto'}, canActivate: [AuthGuard] },
   { path: 'helps/edit/:id', component: HelpsEditComponent,  data: {title: 'Modifica aiuto'}, canActivate: [AuthGuard] },

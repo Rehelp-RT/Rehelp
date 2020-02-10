@@ -37,12 +37,13 @@ export class HelpService {
   }
 
   deleteHelp(help: Help) {
-    return this.http.delete<Help>(`${environment.apiUrl}/helps/delete/` + help.id)
+    return this.http.delete<Help>(`${environment.apiUrl}/helps/delete/` + help.id);
   }
 
   updateHelp(help: Help) {
     return this.http.put<any>(`${environment.apiUrl}/helps/update/` + help.id, help)
       .pipe(map(x => {
+        console.log(x, 'x');
         return x;
       }));
   }

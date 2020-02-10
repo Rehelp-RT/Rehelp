@@ -14,4 +14,7 @@ export class Help {
     responses: HelpResponse[];
     createdAt: Date;
     updatedAt: Date;
+    latitude: number;
+    longitude: number;
+    address: string;
 }

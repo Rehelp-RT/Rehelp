@@ -63,31 +63,29 @@ export class HelpsAddComponent {
   }
 
   ngOnInit() {
-    //Load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
       this.geoCoder = new google.maps.Geocoder;
-
-      let autocomplete = new google.maps.places.Autocomplete(
-        this.searchElementRef.nativeElement, {
-          types: ["address"]
+ 
+      let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+        types: ["address"]
+      });
+      autocomplete.addListener("place_changed", () => {
+        this.ngZone.run(() => {
+          //get the place result
+          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+ 
+          //verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+ 
+          //set latitude, longitude and zoom
+          this.latitude = place.geometry.location.lat();
+          this.longitude = place.geometry.location.lng();
+          this.zoom = 12;
         });
-        autocomplete.addListener("place_changed", () => {
-          this.ngZone.run(() => {
-            //get the place result
-            let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-
-            //verify result
-            if (place.geometry === undefined || place.geometry === null) {
-              return;
-            }
-
-            // set latitude, longitude and zoom
-            this.latitude = place.geometry.location.lat();
-            this.longitude = place.geometry.location.lng();
-            this.zoom = 12;
-          });
-        });
+      });
     });
   }
 
@@ -111,9 +109,7 @@ export class HelpsAddComponent {
   }
 
   getAddress(latitude, longitude) {
-    this.geoCoder.geocode({
-      'location': { lat: latitude, lng: longitude }
-    }, (results, status) => {
+    this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
       console.log(results);
       console.log(status);
       if (status === 'OK') {
@@ -121,12 +117,13 @@ export class HelpsAddComponent {
           this.zoom = 12;
           this.address = results[0].formatted_address;
         } else {
-          window.alert('Non sono stati trovati risultati');
+          window.alert('No results found');
         }
       } else {
-        window.alert('Geocoder fallito a causa di: ' + status)
+        window.alert('Geocoder failed due to: ' + status);
       }
-    })
+ 
+    });
   }
 
   // addHelps() {

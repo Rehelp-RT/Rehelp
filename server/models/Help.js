@@ -31,7 +31,10 @@ module.exports = (sequelize, DataTypes) => {
         halfhourValidity: DataTypes.INTEGER,
         dateStartValidity: DataTypes.DATE,
         dateEndValidity: DataTypes.DATE,
-        dateCompletion: DataTypes.DATE
+        dateCompletion: DataTypes.DATE,
+        latitude: DataTypes.FLOAT,
+        longitude: DataTypes.FLOAT,
+        address: DataTypes.STRING
     }, {});
 
     Help.associate = function(models) {

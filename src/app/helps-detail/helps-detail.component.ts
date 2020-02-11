@@ -14,6 +14,8 @@ export class HelpsDetailComponent implements OnInit {
   model: Help = null;
   creator: User = null;
   currentUser: User = null;
+  accepted = false;
+  completed = false;
 
   constructor(
     private hs: HelpService,
@@ -34,6 +36,12 @@ export class HelpsDetailComponent implements OnInit {
       .subscribe(x => {
         this.model = x;
         this.creator = x.User;
+        this.accepted = x.responses.some((y) => {
+          return y.accepted;
+        });
+        this.completed = x.responses.some((y) => {
+          return y.completed;
+        });
         this.checkAuthor();
       });
   }
@@ -54,6 +62,7 @@ export class HelpsDetailComponent implements OnInit {
   }
 
   accept(response: HelpResponse): void {
+    this.accepted = true;
     this.rs.acceptResponse(response)
       .subscribe(x => {
         this.getHelp(x.id_help);
@@ -61,7 +70,16 @@ export class HelpsDetailComponent implements OnInit {
   }
 
   cancel(response: HelpResponse): void {
+    this.accepted = false;
     this.rs.cancelResponse(response)
+      .subscribe(x => {
+        this.getHelp(x.id_help);
+      });
+  }
+
+  complete(response: HelpResponse): void {
+    this.completed = true;
+    this.rs.completeResponse(response)
       .subscribe(x => {
         this.getHelp(x.id_help);
       });

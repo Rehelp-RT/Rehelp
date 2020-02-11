@@ -34,9 +34,9 @@ export class HelpsResponseComponent implements OnInit {
       .subscribe(x => {
         this.response = new HelpResponse();
         this.response.help = x;
-        this.response.responder = this.currentUser
-        this.response.id_help = x.id;
-        this.response.id_responder = this.currentUser.id
+        this.response.responder = this.currentUser;
+        this.response.idHelp = x.id;
+        this.response.idResponder = this.currentUser.id;
       });
   }
 
@@ -48,7 +48,7 @@ export class HelpsResponseComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.response)
+    console.log(this.response);
     this.rs.addResponse(this.response).subscribe(
       res => {
         this.router.navigate(['/helps/', this.response.help.id]);

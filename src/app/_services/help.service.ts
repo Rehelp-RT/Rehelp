@@ -43,7 +43,6 @@ export class HelpService {
   updateHelp(help: Help) {
     return this.http.put<any>(`${environment.apiUrl}/helps/update/` + help.id, help)
       .pipe(map(x => {
-        console.log(x, 'x');
         return x;
       }));
   }

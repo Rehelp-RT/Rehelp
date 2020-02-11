@@ -63,7 +63,7 @@ export class HelpsDetailComponent implements OnInit {
     this.accepted = true;
     this.rs.acceptResponse(response)
       .subscribe(x => {
-        this.getHelp(x.id_help);
+        this.getHelp(x.idHelp);
       });
   }
 
@@ -71,7 +71,7 @@ export class HelpsDetailComponent implements OnInit {
     this.accepted = false;
     this.rs.cancelResponse(response)
       .subscribe(x => {
-        this.getHelp(x.id_help);
+        this.getHelp(x.idHelp);
       });
   }
 
@@ -79,7 +79,7 @@ export class HelpsDetailComponent implements OnInit {
     this.completed = true;
     this.rs.completeResponse(response)
       .subscribe(x => {
-        this.getHelp(x.id_help);
+        this.getHelp(x.idHelp);
       });
   }
 

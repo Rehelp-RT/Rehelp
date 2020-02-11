@@ -3,21 +3,21 @@ const db = require('../models');
 
 module.exports = (sequelize, DataTypes) => {
     const HelpResponse = sequelize.define('HelpResponse', {
-        id_help: {
+        idHelp: {
             type: DataTypes.INTEGER,
             references: {
                 model: db.Help,
                 key: 'id',
             }
         },
-        id_responder: {
+        idResponder: {
             type: DataTypes.INTEGER,
             references: {
                 model: db.User,
                 key: 'id',
             }
         },
-        id_tradeType: DataTypes.INTEGER,
+        idTradeType: DataTypes.INTEGER,
         isTutor: DataTypes.BOOLEAN,
         accepted: DataTypes.BOOLEAN,
         completed: DataTypes.BOOLEAN,

@@ -45,7 +45,7 @@ export class HelpsEditComponent implements OnInit {
       this.model.description = x.description;
       this.model.latitude = x.latitude;
       this.model.longitude = x.longitude;
-      console.log(this.model);
+      this.setCurrentLocation();
     });
     this.cs.getAll().subscribe(x => {
       this.categories = x;
@@ -54,9 +54,9 @@ export class HelpsEditComponent implements OnInit {
 
   ngOnInit() {
     this.mapsAPILoader.load().then(() => {
-      this.setCurrentLocation();
-      this.geoCoder = new google.maps.Geocoder();
 
+      this.geoCoder = new google.maps.Geocoder();
+      setTimeout(() => {}, 500);
       const autocomplete = new google.maps.places.Autocomplete(
         this.searchElementRef.nativeElement,
         {
@@ -122,7 +122,6 @@ export class HelpsEditComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    console.log(this.model, 'model');
     this.hs.updateHelp(this.model).subscribe(
       res => {
         this.router.navigate(['/helps']);

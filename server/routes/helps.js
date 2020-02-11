@@ -170,7 +170,10 @@ router.put('/update/:id', (req, res) => {
                             dateStartValidity: body.dateStartValidity,
                             dateEndValidity: body.dateEndValidity,
                             dateCompletion: null,
-                            image: body.image
+                            image: body.image,
+                            latitude: body.latitude,
+                            longitude: body.longitude,
+                            address: body.address
                         })
                         .then(x => {
                             res.status(200).send(help)

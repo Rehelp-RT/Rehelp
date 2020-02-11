@@ -173,28 +173,37 @@ router.put('/complete/:id', (req, res) => {
                 ]
             })
             .then(function(response) {
-                // Check if record exists in db
+                // check if record exists in db
                 if (response) {
                     const currentDate = new Date();
                     const creatorLh = response.help.creator.likehelps;
                     const responderLh = response.responder.likehelps;
 
+                    // update response
                     response.update({
                             completed: true,
                             completedAt: currentDate
                         })
                         .then(x => {
-                            response.help.User.update({
-                                    likehelps: creatorLh - 1
+                            // update help
+                            response.help.update({
+                                    dateCompletion: currentDate
                                 })
-                                .then(y => {
-                                    response.responder.update({
-                                            likehelps: responderLh + 1
+                                .then(x => {
+                                    // update creator
+                                    response.help.creator.update({
+                                            likehelps: creatorLh - 1
                                         })
                                         .then(y => {
-                                            res.status(200).send(response);
+                                            // update responder
+                                            response.responder.update({
+                                                    likehelps: responderLh + 1
+                                                })
+                                                .then(y => {
+                                                    res.status(200).send(response);
+                                                })
                                         })
-                                })
+                                });
                         })
 
                 }

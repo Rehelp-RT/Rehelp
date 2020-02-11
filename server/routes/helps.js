@@ -83,7 +83,7 @@ router.get('/:id', (req, res) => {
                 { attributes: ['code', 'name'], model: db.HelpCategory, required: true },
                 { attributes: ['username', 'firstname', 'lastname', 'avatar'], model: db.User, required: true },
                 {
-                    attributes: ['id', 'accepted', 'completed', 'Message'],
+                    attributes: ['id', 'accepted', 'completed', 'message'],
                     include: [{
                         attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
                         model: db.User,

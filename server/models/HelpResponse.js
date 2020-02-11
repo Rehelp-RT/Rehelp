@@ -21,7 +21,10 @@ module.exports = (sequelize, DataTypes) => {
         isTutor: DataTypes.BOOLEAN,
         accepted: DataTypes.BOOLEAN,
         completed: DataTypes.BOOLEAN,
-        Message: DataTypes.STRING
+        acceptedAt: DataTypes.DATE,
+        canceledAt: DataTypes.DATE,
+        completedAt: DataTypes.DATE,
+        message: DataTypes.STRING
     }, {});
 
     HelpResponse.associate = function(models) {

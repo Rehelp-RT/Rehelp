@@ -25,4 +25,9 @@ export class ResponseService {
   cancelResponse(response: HelpResponse) {
     return this.http.put<any>(`${environment.apiUrl}/responses/cancel/` + response.id, {});
   }
+
+  completeResponse(response: HelpResponse) {
+    return this.http.put<any>(`${environment.apiUrl}/responses/complete/` + response.id, {});
+  }
+
 }

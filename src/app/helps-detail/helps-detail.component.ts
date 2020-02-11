@@ -12,7 +12,6 @@ export class HelpsDetailComponent implements OnInit {
 
   author: boolean;
   model: Help = null;
-  creator: User = null;
   currentUser: User = null;
   accepted = false;
   completed = false;
@@ -35,7 +34,6 @@ export class HelpsDetailComponent implements OnInit {
     this.hs.getById(id)
       .subscribe(x => {
         this.model = x;
-        this.creator = x.User;
         this.accepted = x.responses.some((y) => {
           return y.accepted;
         });
@@ -54,7 +52,7 @@ export class HelpsDetailComponent implements OnInit {
   }
 
   checkAuthor(): void {
-    if (this.currentUser.username === this.creator.username) {
+    if (this.currentUser.username === this.model.creator.username) {
       this.author = true;
     } else {
       this.author = false;

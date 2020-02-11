@@ -4,25 +4,28 @@ const db = require('../models');
 module.exports = (sequelize, DataTypes) => {
 
     const Help = sequelize.define('Help', {
-        id_type: {
+        idType: {
             type: DataTypes.INTEGER,
             references: {
                 model: db.HelpType,
                 key: 'id',
+                as: 'type'
             }
         },
-        id_category: {
+        idCategory: {
             type: DataTypes.INTEGER,
             references: {
                 model: db.HelpCategory,
                 key: 'id',
+                as: 'category'
             }
         },
-        id_creator: {
+        idCreator: {
             type: DataTypes.INTEGER,
             references: {
                 model: db.User,
                 key: 'id',
+                as: 'creator'
             }
         },
         title: DataTypes.STRING,
@@ -40,18 +43,21 @@ module.exports = (sequelize, DataTypes) => {
     Help.associate = function(models) {
         models.Help.belongsTo(models.HelpType, {
             onDelete: "CASCADE",
-            foreignKey: 'id_type'
+            foreignKey: 'idType',
+            as: 'type'
         });
         models.Help.belongsTo(models.HelpCategory, {
             onDelete: "CASCADE",
-            foreignKey: 'id_category'
+            foreignKey: 'idCategory',
+            as: 'category'
         });
         models.Help.belongsTo(models.User, {
             onDelete: "CASCADE",
-            foreignKey: 'id_creator'
+            foreignKey: 'idCreator',
+            as: 'creator'
         });
         models.Help.hasMany(models.HelpResponse, {
-            foreignKey: 'id_help',
+            foreignKey: 'idHelp',
             as: 'responses'
         });
     };

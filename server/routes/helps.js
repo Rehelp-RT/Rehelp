@@ -8,14 +8,21 @@ router.get('/', (req, res) =>
         include: [{
                 attributes: ['code', 'name'],
                 model: db.HelpType,
-                required: true
+                required: true,
+                as: 'type'
             },
             {
                 attributes: ['code', 'name'],
                 model: db.HelpCategory,
-                required: true
+                required: true,
+                as: 'category'
             },
-            { attributes: ['username', 'firstname', 'lastname', 'avatar'], model: db.User, required: true }
+            {
+                attributes: ['username', 'firstname', 'lastname', 'avatar'],
+                model: db.User,
+                required: true,
+                as: 'creator'
+            }
         ],
         order: [
             ['id', 'desc']
@@ -30,58 +37,13 @@ router.get('/', (req, res) =>
     })
 );
 
-/* GET /api/helps/5
-router.get('/:id', (req, res) => {
-  db.Help.findByPk(req.params.id, {
-          include: [
-              { attributes: ['code', 'name'], model: db.HelpType, required: true },
-              { attributes: ['code', 'name'], model: db.HelpCategory, required: true },
-              { attributes: ['username', 'firstname', 'lastname', 'avatar'], model: db.User, required: true },
-              {
-                  attributes: ['id', 'accepted', 'completed'],
-                  include: [{
-                      attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
-                      model: db.User,
-                      required: true,
-                      as: 'responder'
-                  }],
-                  model: db.HelpResponse,
-                  as: 'responses',
-                  order: [
-                      ['id', 'ASC']
-                  ]
-              }
-          ]
-      })
-      .then(x => {
-          if (!x) {
-              return res.status(404).send({
-                  message: 'Help with id ' + req.params.id + ' not found.'
-              });
-          }
-          res.send(x);
-      })
-      .catch(err => {
-          if (err.kind === 'ObjectId') {
-              return res.status(404).send({
-                  message: 'Help with id ' + req.params.id + ' not found.'
-              });
-          }
-          return res.status(500).send({
-              message: err.message,
-              stacktrace: err.stacktrace
-          });
-      });
-});
-*/
-
 // GET /api/helps/5
 router.get('/:id', (req, res) => {
     db.Help.findByPk(req.params.id, {
             include: [
-                { attributes: ['code', 'name'], model: db.HelpType, required: true },
-                { attributes: ['code', 'name'], model: db.HelpCategory, required: true },
-                { attributes: ['username', 'firstname', 'lastname', 'avatar'], model: db.User, required: true },
+                { attributes: ['code', 'name'], model: db.HelpType, required: true, as: 'type' },
+                { attributes: ['code', 'name'], model: db.HelpCategory, required: true, as: 'category' },
+                { attributes: ['username', 'firstname', 'lastname', 'avatar'], model: db.User, required: true, as: 'creator' },
                 {
                     attributes: ['id', 'accepted', 'completed', 'message'],
                     include: [{
@@ -144,9 +106,9 @@ router.post('/add', (req, res) => {
         db.Help.create({
                 title: body.title,
                 description: body.description,
-                id_type: body.idType,
-                id_category: body.idCategory,
-                id_creator: body.idCreator,
+                idType: body.idType,
+                idCategory: body.idCategory,
+                idCreator: body.idCreator,
                 halfhourValidity: body.halfhourValidity,
                 dateStartValidity: body.dateStartValidity,
                 dateEndValidity: body.dateEndValidity,
@@ -203,7 +165,7 @@ router.put('/update/:id', (req, res) => {
                     help.update({
                             title: body.title,
                             description: body.description,
-                            id_category: body.id_category,
+                            idCategory: body.idCategory,
                             halfhourValidity: body.halfhourValidity,
                             dateStartValidity: body.dateStartValidity,
                             dateEndValidity: body.dateEndValidity,

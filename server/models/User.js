@@ -26,12 +26,12 @@ module.exports = (sequelize, DataTypes) => {
     };
     User.associate = function(models) {
         models.User.hasMany(models.Help, {
-            foreignKey: 'id_creator',
-            as: 'userHelps'
+            foreignKey: 'idCreator',
+            as: 'helps'
         });
         models.User.hasMany(models.HelpResponse, {
-            foreignKey: 'id_responder',
-            as: 'userResponses'
+            foreignKey: 'idResponder',
+            as: 'responses'
         });
     };
     return User;

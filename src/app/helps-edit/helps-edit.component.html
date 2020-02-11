@@ -2,8 +2,8 @@
     <div class="row">
 
         <div class="col-lg-2 col-md-3 mb-3">
-            <a class="btn btn-outline-secondary" [routerLink]="['/helps']">
-                <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon> Indietro
+            <a class="btn btn-block btn-outline-secondary" [routerLink]="['/helps']">
+                <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon> Richiesta
             </a>
         </div>
 
@@ -17,14 +17,12 @@
 
                         <div class="form-row mb-3">
                             <label class="col-md-4" for="title">Titolo</label>
-                            <input class="col-md-8 form-control" type="text" [(ngModel)]="model.title" name="title"
-                                required />
+                            <input class="col-md-8 form-control" type="text" [(ngModel)]="model.title" name="title" required />
                         </div>
 
                         <div class="form-row mb-3">
                             <label class="col-md-4" for="category">Categoria</label>
-                            <select class="col-md-8 form-control" [(ngModel)]="model.id_category" name="id_category"
-                                required>
+                            <select class="col-md-8 form-control" [(ngModel)]="model.idCategory" name="idCategory" required>
                                 <option *ngFor="let cat of categories" [value]="cat.id">
                                     {{ cat.name }}
                                 </option>
@@ -33,17 +31,16 @@
 
                         <div class="form-row mb-3">
                             <label class="col-md-4" for="description">Descrizione</label>
-                            <textarea class="col-md-8 form-control" rows="4" [(ngModel)]="model.description"
-                                name="description" required>
+                            <textarea class="col-md-8 form-control" rows="4" [(ngModel)]="model.description" name="description" required>
                         </textarea>
                         </div>
 
                         <div class="form-row mb-3">
-                          <label class="col-md-4" for="location">Zona</label>
-                          <agm-map class="col-md-8" [latitude]="model.latitude" [longitude]="model.longitude" [zoom]="zoom">
-                              <agm-marker [latitude]="model.latitude" [longitude]="model.longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
-                              </agm-marker>
-                          </agm-map>
+                            <label class="col-md-4" for="location">Zona</label>
+                            <agm-map class="col-md-8" [latitude]="model.latitude" [longitude]="model.longitude" [zoom]="zoom">
+                                <agm-marker [latitude]="model.latitude" [longitude]="model.longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
+                                </agm-marker>
+                            </agm-map>
                         </div>
 
                         <div class="form-row mb-3">

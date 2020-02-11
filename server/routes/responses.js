@@ -185,12 +185,8 @@ router.put('/complete/:id', (req, res) => {
             .then(function(response) {
                 // Check if record exists in db
                 if (response) {
-                    /*
-                      const idCreator = response.help.User.id;
-                      const idResponder = response.responder.id;
-                      res.status(200).send({ idCreator: idCreator, idResponder: idResponder });*/
                     const currentDate = new Date();
-                    const creatorLh = response.help.User.likehelps;
+                    const creatorLh = response.help.creator.likehelps;
                     const responderLh = response.responder.likehelps;
 
                     response.update({

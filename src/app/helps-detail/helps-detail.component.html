@@ -16,17 +16,17 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-3"><strong>Tipo</strong></div>
-                            <div class="col-md-9">{{ model?.HelpType?.name }}</div>
+                            <div class="col-md-9">{{ model?.type?.name }}</div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-3"><strong>Categoria</strong></div>
-                            <div class="col-md-9">{{ model.HelpCategory?.name }}</div>
+                            <div class="col-md-9">{{ model.category?.name }}</div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-3"><strong>Creatore</strong></div>
                             <div class="col-md-9">
-                                {{ creator?.firstname + " " + creator?.lastname }}
+                                {{ model.creator?.firstname + " " + model.creator?.lastname }}
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -36,8 +36,8 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                          <div class="col-md-3"><strong>Descrizione</strong></div>
-                          <div class="col-md-9">{{ model.description }}</div>
+                            <div class="col-md-3"><strong>Descrizione</strong></div>
+                            <div class="col-md-9">{{ model.description }}</div>
                         </div>
 
                         <div class="row mb-3">
@@ -45,12 +45,12 @@
                             <div class="col-md-9">{{ model.address }}</div>
                         </div>
                         <div class="form-row mb-3">
-                          <label class="col-md-3" for="location"><strong>Zona</strong></label>
-                          <agm-map class="col-md-9" [latitude]="model.latitude" [longitude]="model.longitude">
-                              <agm-marker [latitude]="model.latitude" [longitude]="model.longitude">
-                              </agm-marker>
-                          </agm-map>
-                      </div>
+                            <label class="col-md-3" for="location"><strong>Zona</strong></label>
+                            <agm-map class="col-md-9" [latitude]="model.latitude" [longitude]="model.longitude">
+                                <agm-marker [latitude]="model.latitude" [longitude]="model.longitude">
+                                </agm-marker>
+                            </agm-map>
+                        </div>
 
                         <div *ngIf="author; else notAuthor" class="mb-3">
                             <a class="btn btn-outline-secondary offset-md-4 mb-3" [routerLink]="['/helps/edit/', model.id]">

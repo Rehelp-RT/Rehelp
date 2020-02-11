@@ -30,12 +30,12 @@ module.exports = (sequelize, DataTypes) => {
     HelpResponse.associate = function(models) {
         models.HelpResponse.belongsTo(models.Help, {
             onDelete: "CASCADE",
-            foreignKey: 'id_help',
+            foreignKey: 'idHelp',
             as: 'help'
         });
         models.HelpResponse.belongsTo(models.User, {
             onDelete: "CASCADE",
-            foreignKey: 'id_responder',
+            foreignKey: 'idResponder',
             as: 'responder'
         });
     };

@@ -1,3 +1,5 @@
+import { Help } from './';
+
 export class User {
     id: number;
     username: string;
@@ -9,4 +11,6 @@ export class User {
     birthdate: Date;
     token: string;
     likehelps: number;
+
+    helps: Help[];
 }

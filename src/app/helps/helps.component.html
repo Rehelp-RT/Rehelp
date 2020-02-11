@@ -23,10 +23,10 @@
                         <img src="assets/{{ h.image == null ? 'img/placeholder-help.png' : 'uploaded/' + h.image }}" alt="{{ h.title }} image" width="100" class="help-img">
                     </td>
                     <td>{{ h.title }}</td>
-                    <td>{{ h.HelpCategory.name }}</td>
+                    <td>{{ h.category.name }}</td>
                     <td>
                         <span class="img-avatar rounded-circle">
-                          <img src="assets/{{ h.User.avatar == null ? 'img/avatar_64.png' : 'uploaded/' + h.User.avatar }}" alt="{{ h.User.firstname + ' ' + h.User.lastname }}" title="{{ h.User.firstname + ' ' + h.User.lastname }}" width="32">
+                          <img src="assets/{{ h.creator.avatar == null ? 'img/avatar_64.png' : 'uploaded/' + h.creator.avatar }}" alt="{{ h.creator.firstname + ' ' + h.creator.lastname }}" title="{{ h.creator.firstname + ' ' + h.creator.lastname }}" width="32">
                         </span>
                     </td>
                     <td>

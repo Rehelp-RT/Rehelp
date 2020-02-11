@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
 
     HelpCategory.associate = function(models) {
         models.HelpCategory.hasMany(models.Help, {
-            foreignKey: 'id_category',
+            foreignKey: 'idCategory',
             as: 'helps'
         });
     };

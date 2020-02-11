@@ -1,17 +1,15 @@
 import {
   Component,
   OnInit,
-  Input,
   ViewChild,
   ElementRef,
   NgZone
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { HelpService, CategoryService } from '@app/_services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Help, HelpCategory } from '@app/_models';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
-import { ɵNullViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-helps-edit',
@@ -33,7 +31,6 @@ export class HelpsEditComponent implements OnInit {
 
   constructor(
     private cs: CategoryService,
-    private formBuilder: FormBuilder,
     private activeRouter: ActivatedRoute,
     private router: Router,
     private hs: HelpService,
@@ -48,6 +45,7 @@ export class HelpsEditComponent implements OnInit {
       this.model.description = x.description;
       this.model.latitude = x.latitude;
       this.model.longitude = x.longitude;
+      console.log(this.model);
     });
     this.cs.getAll().subscribe(x => {
       this.categories = x;

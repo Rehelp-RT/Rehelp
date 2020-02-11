@@ -8,13 +8,14 @@ export class Help {
     idCategory: number;
     idType: number;
     idCreator: number;
-    HelpCategory: HelpCategory;
-    HelpType: HelpType;
-    User: User;
-    responses: HelpResponse[];
     createdAt: Date;
     updatedAt: Date;
     latitude: number;
     longitude: number;
     address: string;
+
+    type: HelpType;
+    creator: User;
+    category: HelpCategory;
+    responses: HelpResponse[];
 }

@@ -3,8 +3,11 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
-
+import { FileUploadModule } from 'ng2-file-upload';
+import { CloudinaryModule, CloudinaryConfiguration, provideCloudinary } from '@cloudinary/angular-5.x';
+import * as  Cloudinary from 'cloudinary-core';
 import { AppRoutingModule } from './app-routing.module';
+
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 
 // components
@@ -43,6 +46,8 @@ import {
   faCheckSquare as farCheckSquare
 } from '@fortawesome/free-regular-svg-icons';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
+import { UploadComponent } from './upload/upload.component';
+import { UploadNigComponent } from './upload-nig/upload-nig.component';
 // import { faStackOverflow, faGithub, faMedium } from '@fortawesome/free-brands-svg-icons';
 
 @NgModule({
@@ -64,7 +69,9 @@ import { ProfileEditComponent } from './profile-edit/profile-edit.component';
     LoginComponent,
     ProfileComponent,
     RegisterComponent,
-    ProfileEditComponent
+    ProfileEditComponent,
+    UploadComponent,
+    UploadNigComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +83,11 @@ import { ProfileEditComponent } from './profile-edit/profile-edit.component';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAbbsrna-196ECj0O-Gc2-BWQcT5IfVj-8',
       libraries: ['places']
-    })
+    }),
+    CloudinaryModule.forRoot(Cloudinary, {
+        cloud_name: 'hwbyvepex'
+    }),
+    FileUploadModule
   ],
   providers: [
       { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -211,5 +211,28 @@ router.put('/complete/:id', (req, res) => {
     }
 });
 
+// DELETE /api/responses/delete/id
+router.delete('/delete/:id', (req, res) => {
+    const body = req.body;
+    if (body == undefined) {
+        res.sendStatus(400)
+    } else {
+        db.HelpResponse.findByPk(req.params.id)
+            .then(function(helpResponse) {
+                // Check if record exists in db
+                if (helpResponse) {
+                    helpResponse.destroy()
+                        .then(x => {
+                            res.status(200)
+                        })
+                }
+            })
+            .catch(err => {
+                res.status(500).send(err)
+            });
+
+    }
+});
+
 // exports
 module.exports = router;

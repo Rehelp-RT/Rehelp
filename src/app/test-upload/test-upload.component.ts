@@ -13,7 +13,7 @@ export class TestUploadComponent implements OnInit {
   @Input()
   responses: Array<any>;
 
-  private hasBaseDropZoneOver = false;
+  public hasBaseDropZoneOver = false;
   public uploader: FileUploader;
   private title: string;
 

@@ -13,8 +13,8 @@ export class UploadComponent implements OnInit {
   @Input()
   responses: Array<any>;
 
-  private hasBaseDropZoneOver: boolean = false;
-  private uploader: FileUploader;
+  private hasBaseDropZoneOver = false;
+  public uploader: FileUploader;
   private title: string;
 
   constructor(
@@ -29,7 +29,7 @@ export class UploadComponent implements OnInit {
   ngOnInit(): void {
     // Create the file uploader, wire it to upload to your account
     const uploaderOptions: FileUploaderOptions = {
-      url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/samples`,
+      url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/upload`,
       // Upload files automatically upon addition to upload queue
       autoUpload: true,
       // Use xhrTransport in favor of iframeTransport
@@ -124,7 +124,7 @@ export class UploadComponent implements OnInit {
   // Delete an uploaded image
   // Requires setting "Return delete token" to "Yes" in your upload preset configuration
   // See also https://support.cloudinary.com/hc/en-us/articles/202521132-How-to-delete-an-image-from-the-client-side-
-  deleteImage = function (data: any, index: number) {
+  deleteImage = function(data: any, index: number) {
     const url = `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/delete_by_token`;
     const headers = new Headers({ 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' });
     const options = { headers };

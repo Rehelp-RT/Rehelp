@@ -19,8 +19,7 @@ import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { FaqComponent } from './faq/faq.component';
 import { HowItWorksComponent } from './how-it-works/how-it-works.component';
-import { UploadComponent } from './upload/upload.component';
-import { UploadNigComponent } from './upload-nig/upload-nig.component';
+import { TestUploadComponent } from './test-upload/test-upload.component';
 
 
 const routes: Routes = [
@@ -36,8 +35,7 @@ const routes: Routes = [
   { path: 'profile/edit/:id', component: ProfileEditComponent,  data: {title: 'Modifica dati personali'}, canActivate: [AuthGuard] },
   { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'upload', component: UploadComponent, data: {title: 'Upload'}, canActivate: [AuthGuard] },
-  { path: 'upload-nig', component: UploadComponent, data: {title: 'Upload Nigga'}, canActivate: [AuthGuard] },
+  { path: 'upload', component: TestUploadComponent, data: {title: 'Upload'}, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: '', component: HomeComponent, pathMatch: 'full' }

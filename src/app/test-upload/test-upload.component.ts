@@ -4,11 +4,11 @@ import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-fi
 import { Cloudinary } from '@cloudinary/angular-5.x';
 
 @Component({
-  selector: 'app-upload',
-  templateUrl: './upload.component.html',
-  styleUrls: ['./upload.component.css']
+  selector: 'app-test-upload',
+  templateUrl: './test-upload.component.html',
+  styleUrls: ['./test-upload.component.css']
 })
-export class UploadComponent implements OnInit {
+export class TestUploadComponent implements OnInit {
 
   @Input()
   responses: Array<any>;

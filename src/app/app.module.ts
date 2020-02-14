@@ -12,22 +12,23 @@ import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 
 // components
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { HomeComponent } from './home/home.component';
-import { FooterComponent } from './footer/footer.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+import { AboutComponent } from './about/about.component';
 import { AlertComponent } from './alert/alert.component';
+import { ContactComponent } from './contact/contact.component';
+import { HeaderComponent } from './header/header.component';
 import { HelpsComponent } from './helps/helps.component';
 import { HelpsAddComponent } from './helps-add/helps-add.component';
 import { HelpsEditComponent } from './helps-edit/helps-edit.component';
-import { ProfileComponent } from './profile/profile.component';
 import { HelpsDetailComponent } from './helps-detail/helps-detail.component';
 import { HelpsResponseComponent } from './helps-response/helps-response.component';
-import { AboutComponent } from './about/about.component';
-import { FaqComponent } from './faq/faq.component';
-import { ContactComponent } from './contact/contact.component';
+import { HomeComponent } from './home/home.component';
 import { HowItWorksComponent } from './how-it-works/how-it-works.component';
+import { FaqComponent } from './faq/faq.component';
+import { FooterComponent } from './footer/footer.component';
+import { LoginComponent } from './login/login.component';
+import { ProfileComponent } from './profile/profile.component';
+import { RegisterComponent } from './register/register.component';
+import { TestUploadComponent } from './test-upload/test-upload.component';
 
 
 // fontawesome
@@ -46,8 +47,6 @@ import {
   faCheckSquare as farCheckSquare
 } from '@fortawesome/free-regular-svg-icons';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
-import { UploadComponent } from './upload/upload.component';
-import { UploadNigComponent } from './upload-nig/upload-nig.component';
 // import { faStackOverflow, faGithub, faMedium } from '@fortawesome/free-brands-svg-icons';
 
 @NgModule({
@@ -70,8 +69,7 @@ import { UploadNigComponent } from './upload-nig/upload-nig.component';
     ProfileComponent,
     RegisterComponent,
     ProfileEditComponent,
-    UploadComponent,
-    UploadNigComponent
+    TestUploadComponent
   ],
   imports: [
     BrowserModule,

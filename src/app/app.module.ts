@@ -88,7 +88,7 @@ import { UploadNigComponent } from './upload-nig/upload-nig.component';
         cloud_name: 'hwbyvepex',
         api_key: '179729361229299',
         api_secret: 'bvVksVM28wciVB6_e2GG-dne3bI',
-        upload_preset: 'wgyo9myb'
+        upload_preset: 'preset_avatar'
     }),
     FileUploadModule
   ],

@@ -30,4 +30,7 @@ export class ResponseService {
     return this.http.put<any>(`${environment.apiUrl}/responses/complete/` + response.id, {});
   }
 
+  deleteResponse(response: HelpResponse) {
+    return this.http.delete<any>(`${environment.apiUrl}/responses/delete/` + response.id, {});
+  }
 }

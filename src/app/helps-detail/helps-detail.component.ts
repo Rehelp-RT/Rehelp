@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService, HelpService, ResponseService } from '@app/_services';
 import { Help, HelpResponse, User } from '@app/_models';
-import {  Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-helps-detail',
@@ -15,6 +15,7 @@ export class HelpsDetailComponent implements OnInit {
   currentUser: User = null;
   accepted = false;
   completed = false;
+  userResponse: boolean;
 
   constructor(
     private hs: HelpService,
@@ -22,10 +23,10 @@ export class HelpsDetailComponent implements OnInit {
     private router: Router,
     private as: AuthenticationService,
     private rs: ResponseService) {
-      const id = this.actRoute.snapshot.params.id;
-      this.getHelp(id);
-      this.getCurrentUser();
-    }
+    const id = this.actRoute.snapshot.params.id;
+    this.getHelp(id);
+    this.getCurrentUser();
+  }
 
   ngOnInit() {
   }
@@ -40,6 +41,7 @@ export class HelpsDetailComponent implements OnInit {
         this.completed = x.responses.some((y) => {
           return y.completed;
         });
+        this.userResponse = this.checkUserResponse(x.responses, this.currentUser.id);
         this.checkAuthor();
       });
   }
@@ -85,8 +87,21 @@ export class HelpsDetailComponent implements OnInit {
 
   deleteHelp() {
     this.hs.deleteHelp(this.model)
-    .subscribe(x =>
-      this.router.navigate(['/helps'])
-    );
+      .subscribe(x =>
+        this.router.navigate(['/helps'])
+      );
+  }
+
+  checkUserResponse(arr, val) {
+    return arr.some(function (arrVal) {
+      return val === arrVal.responder.id;
+    });
+  }
+
+  deleteResponse(response: HelpResponse): void {
+    this.rs.deleteResponse(response)
+      .subscribe(x =>
+        this.router.navigate(['/helps/, model.id'])
+      );
   }
 }

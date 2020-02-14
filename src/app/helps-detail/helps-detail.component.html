@@ -12,7 +12,8 @@
                     <div class="card-body">
                         <h3>{{ model.title }}</h3>
                         <div>
-                            <img src="assets/{{ model.image == null ? 'img/placeholder-help.png' : 'uploaded/' + model.image }}" alt="{{ model.title }} image" width="300" class="help-img">
+                            <img src="assets/{{ model.image == null ? 'img/placeholder-help.png' : 'uploaded/' + model.image }}"
+                                alt="{{ model.title }} image" width="300" class="help-img">
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-3"><strong>Tipo</strong></div>
@@ -53,7 +54,8 @@
                         </div>
 
                         <div *ngIf="author; else notAuthor" class="mb-3">
-                            <a class="btn btn-outline-secondary offset-md-4 mb-3" [routerLink]="['/helps/edit/', model.id]">
+                            <a class="btn btn-outline-secondary offset-md-4 mb-3"
+                                [routerLink]="['/helps/edit/', model.id]">
                                 <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon> Modifica
                             </a>
                             <a class="btn btn-outline-secondary offset-md-1 mb-3" (click)="deleteHelp()">
@@ -64,37 +66,41 @@
                                 <div class="col-md-12">
 
                                     <h4>Risposte</h4>
-                                    <p *ngIf="model.responses.length == 0">Non hai ancora ricevuto risposta da nessuno.</p>
+                                    <p *ngIf="model.responses.length == 0">Non hai ancora ricevuto risposta da nessuno.
+                                    </p>
                                     <ul class="list-group">
-                                        <li class="list-group-item" *ngFor="let r of model.responses" [ngClass]="{ 'bg-success' : r.accepted, 'bg-info' : r.completed }">
+                                        <li class="list-group-item" *ngFor="let r of model.responses"
+                                            [ngClass]="{ 'bg-success' : r.accepted, 'bg-info' : r.completed }">
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <a [routerLink]="['/profile', r.responder.id ]">
                                                         <span class="img-avatar rounded-circle">
-                                                    <img src="assets/{{ r.responder.avatar == null ? 'img/avatar_64.png' : 'uploaded/' + r.responder.avatar }}"
-                                                        alt="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
-                                                        title="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
-                                                        width="32"
-                                                        class="mr-3">
-                                                </span>
+                                                            <img src="assets/{{ r.responder.avatar == null ? 'img/avatar_64.png' : 'uploaded/' + r.responder.avatar }}"
+                                                                alt="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
+                                                                title="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
+                                                                width="32" class="mr-3">
+                                                        </span>
                                                         <span class="text-dark">
-                                                    {{ r.responder.firstname + ' ' + r.responder.lastname }}
-                                                </span>
+                                                            {{ r.responder.firstname + ' ' + r.responder.lastname }}
+                                                        </span>
                                                     </a>
                                                 </div>
                                                 <div class="col-md-6">
                                                     {{ r.message }}
                                                 </div>
                                                 <div class="col-md-3 text-right">
-                                                    <a class="btn btn-outline-success ml-3" (click)="accept(r)" *ngIf="!r.accepted && !accepted && !completed">
+                                                    <a class="btn btn-outline-success ml-3" (click)="accept(r)"
+                                                        *ngIf="!r.accepted && !accepted && !completed">
                                                         <fa-icon [icon]="['fas', 'check']"></fa-icon> Accetta
                                                     </a>
-                                                    <a class="btn btn-outline-secondary ml-3" (click)="cancel(r)" *ngIf="r.accepted && !completed">
-                                                  Cancella
-                                              </a>
-                                                    <a class="btn btn-outline-primary ml-3" (click)="complete(r)" *ngIf="r.accepted && !completed">
-                                            Completa
-                                        </a>
+                                                    <a class="btn btn-outline-secondary ml-3" (click)="cancel(r)"
+                                                        *ngIf="r.accepted && !completed">
+                                                        Cancella
+                                                    </a>
+                                                    <a class="btn btn-outline-primary ml-3" (click)="complete(r)"
+                                                        *ngIf="r.accepted && !completed">
+                                                        Completa
+                                                    </a>
                                                 </div>
 
                                             </div>
@@ -103,11 +109,47 @@
                                 </div>
                             </div>
                         </div>
-
                         <ng-template #notAuthor>
+                            <div *ngIf="userResponse; else notUserResponse">
+                                <ul class="list-group">
+                                    <li class="list-group-item" *ngFor="let r of model.responses"
+                                        [ngClass]="{ 'bg-success' : r.accepted, 'bg-info' : r.completed }">
+                                        <div *ngIf="r.responder.id == currentUser.id" class="row">
+                                            <div class="col-md-3">
+                                                <a [routerLink]="['/profile', r.responder.id ]">
+                                                    <span class="img-avatar rounded-circle">
+                                                        <img src="assets/{{ r.responder.avatar == null ? 'img/avatar_64.png' : 'uploaded/' + r.responder.avatar }}"
+                                                            alt="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
+                                                            title="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
+                                                            width="32" class="mr-3">
+                                                    </span>
+                                                    <span class="text-dark">
+                                                        {{ r.responder.firstname + ' ' + r.responder.lastname }}
+                                                    </span>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {{ r.message }}
+                                            </div>
+                                            <div class="col-md-3 text-right">
+                                                <a class="btn btn-outline-secondary ml-3" (click)="deleteResponse(r)"
+                                                    *ngIf="!(r.accepted)">
+                                                    Cancella
+                                                </a>
+                                                <p *ngIf="r.accepted && completed">
+                                                    Completata
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </ng-template>
+                        <ng-template #notUserResponse>
                             <div class="mb-3 row">
-                                <a class="btn btn-lg btn-outline-primary offset-md-3" [routerLink]="['/helps/' + model?.id + '/response/']">
-                                  Rispondi
+                                <a class="btn btn-lg btn-outline-primary offset-md-3"
+                                    [routerLink]="['/helps/' + model?.id + '/response/']">
+                                    Rispondi
                                 </a>
                             </div>
                         </ng-template>

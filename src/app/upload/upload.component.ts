@@ -29,7 +29,7 @@ export class UploadComponent implements OnInit {
   ngOnInit(): void {
     // Create the file uploader, wire it to upload to your account
     const uploaderOptions: FileUploaderOptions = {
-      url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/avatar`,
+      url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/samples`,
       // Upload files automatically upon addition to upload queue
       autoUpload: true,
       // Use xhrTransport in favor of iframeTransport

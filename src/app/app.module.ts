@@ -85,7 +85,10 @@ import { UploadNigComponent } from './upload-nig/upload-nig.component';
       libraries: ['places']
     }),
     CloudinaryModule.forRoot(Cloudinary, {
-        cloud_name: 'hwbyvepex'
+        cloud_name: 'hwbyvepex',
+        api_key: '179729361229299',
+        api_secret: 'bvVksVM28wciVB6_e2GG-dne3bI',
+        upload_preset: 'wgyo9myb'
     }),
     FileUploadModule
   ],

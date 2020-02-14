@@ -29,9 +29,7 @@ if (process.env.NODE_ENV !== 'production') {
     const certificate = fs.readFileSync('ssl/server.crt', 'utf8');
     credentials = {
         key: privateKey,
-        cert: certificate,
-        requestCert: true,
-        rejectUnauthorized: false
+        cert: certificate
     };
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
 }

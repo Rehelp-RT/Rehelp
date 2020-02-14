@@ -52,15 +52,20 @@ app.get('*', (req, res) => {
 
 // start the app
 const port = process.env.PORT || 3000;
-const host =
-    process.env.MODE == 'production' ?
-    `rehelp.app:${port}` :
-    `localhost:4200`
 
-https.createServer(credentials, app)
-    .listen(port, function() {
+if (process.env.NODE_ENV === 'production') {
+    app.listen(port, function() {
         if (process.env.MODE != 'production') {
             console.log(
-                `ReHelp running on https://${host}/api/version\nReHelp App running on https://${host}`);
+                `ReHelp running on https://rehelp.app:${port}/api/version\nReHelp App running on https://rehelp.app:${port}`);
         }
     });
+} else {
+    https.createServer(credentials, app)
+        .listen(port, function() {
+            if (process.env.MODE != 'production') {
+                console.log(
+                    `ReHelp running on https://localhost:4200/api/version\nReHelp App running on https://localhost:4200`);
+            }
+        });
+}

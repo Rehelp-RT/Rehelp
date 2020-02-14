@@ -41,8 +41,14 @@ For migration command look QueryInterface documentation: <https://sequelize.org/
 * start it with `brew services start postgresql`, stop it with `brew services stop postgresql`
 * run cli with `psql` or `psql postgres` to select the user (named "postgres" in this example)
 
-## Postgresql Commands
+### Postgresql Commands
 
 * `\quit` or `\q` exit
 * `\list` or `\l` list databases
 * `\password` change current user's password
+
+## Local SSL
+
+* first install the certificate server.crt included in ssl folder, using the private key server.key into you local machine
+* than you will be able to run the application using `npm run dev` using SSL in localhost
+* if it all works than you need to run chrome without CORS policy, following this guide <https://alfilatov.com/posts/run-chrome-without-cors/> in order to test /upload section

@@ -17,7 +17,7 @@ export class ProfileEditComponent implements OnInit {
     private us: UserService,
     private router: Router,
     private activeRouter: ActivatedRoute
-    ) { 
+    ) {
       const id = this.activeRouter.snapshot.params.id;
       this.us.getById(id).subscribe(x => {
         this.model = x;

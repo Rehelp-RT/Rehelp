@@ -25,7 +25,7 @@ export class UserService {
     }
 
     uploadAvatar(id: number, path: string) {
-      return this.http.put<User>(`${environment.apiUrl}/users/${id}/upload-avatar`, path);
+      return this.http.put<User>(`${environment.apiUrl}/users/${id}/upload-avatar`, { path });
     }
 
     delete(id: number) {

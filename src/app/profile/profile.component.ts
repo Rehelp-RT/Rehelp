@@ -34,14 +34,15 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  getAge(birthdate: Date) {
+  getAge(birthdate) {
     const datenew = new Date();
+    const dateold = new Date(birthdate);
     const ynew = datenew.getFullYear();
     const mnew = datenew.getMonth();
     const dnew = datenew.getDate();
-    const yold = birthdate.getFullYear();
-    const mold = birthdate.getMonth();
-    const dold = birthdate.getDate();
+    const yold = dateold.getFullYear();
+    const mold = dateold.getMonth();
+    const dold = dateold.getDate();
     let diff = ynew - yold;
     if (mold > mnew) {
       diff--;

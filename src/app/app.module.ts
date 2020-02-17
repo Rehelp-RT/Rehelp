@@ -52,6 +52,8 @@ import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { UploadAvatarComponent } from './upload-avatar/upload-avatar.component';
 // import { faStackOverflow, faGithub, faMedium } from '@fortawesome/free-brands-svg-icons';
 
+export const cloudinaryLib = { Cloudinary };
+
 @NgModule({
   declarations: [
     AboutComponent,
@@ -86,7 +88,7 @@ import { UploadAvatarComponent } from './upload-avatar/upload-avatar.component';
       apiKey: 'AIzaSyAbbsrna-196ECj0O-Gc2-BWQcT5IfVj-8',
       libraries: ['places']
     }),
-    CloudinaryModule.forRoot(Cloudinary, {
+    CloudinaryModule.forRoot(cloudinaryLib, {
         cloud_name: 'hwbyvepex',
         api_key: '179729361229299',
         api_secret: 'bvVksVM28wciVB6_e2GG-dne3bI',

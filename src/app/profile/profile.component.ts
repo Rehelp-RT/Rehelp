@@ -15,7 +15,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private actRoute: ActivatedRoute,
     private as: AuthenticationService,
-    private us: UserService) { 
+    private us: UserService) {
       this.as.currentUser.subscribe(x => {
         this.currentUser = x;
       });
@@ -24,14 +24,36 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     const id = this.actRoute.snapshot.params.id;
     if (id == null) {
-      this.as.currentUser.subscribe(x => {
+      this.us.getById(this.currentUser.id).subscribe(x => {
         this.user = x;
       });
     } else {
       this.us.getById(id).subscribe(x => {
-        this.user = x ;
+        this.user = x;
       });
     }
   }
+
+  getAge(birthdate) {
+    const datenew = new Date();
+    const dateold = new Date(birthdate);
+    const ynew = datenew.getFullYear();
+    const mnew = datenew.getMonth();
+    const dnew = datenew.getDate();
+    const yold = dateold.getFullYear();
+    const mold = dateold.getMonth();
+    const dold = dateold.getDate();
+    let diff = ynew - yold;
+    if (mold > mnew) {
+      diff--;
+    } else {
+        if (mold === mnew) {
+            if (dold > dnew) {
+              diff--;
+            }
+        }
+    }
+    return diff;
+}
 
 }

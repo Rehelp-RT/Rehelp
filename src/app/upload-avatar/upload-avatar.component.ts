@@ -1,7 +1,13 @@
 import { Component, OnInit, Input, NgZone } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
+import {
+  FileUploader,
+  FileUploaderOptions,
+  ParsedResponseHeaders
+} from 'ng2-file-upload';
 import { Cloudinary } from '@cloudinary/angular-5.x';
+import { UserService } from '@app/_services';
+import { ActivatedRoute, Router } from '@angular/router';
+import { User } from '@app/_models';
 
 @Component({
   selector: 'app-upload-avatar',
@@ -9,27 +15,34 @@ import { Cloudinary } from '@cloudinary/angular-5.x';
   styleUrls: ['./upload-avatar.component.css']
 })
 export class UploadAvatarComponent implements OnInit {
-
   @Input()
   responses: Array<any>;
 
+  user: User = null;
   public hasBaseDropZoneOver = false;
   public uploader: FileUploader;
-  private title: string;
+  private isUploaded = false;
 
   constructor(
     private cloudinary: Cloudinary,
     private zone: NgZone,
-    private http: HttpClient
+    private us: UserService,
+    private router: Router,
+    private activeRouter: ActivatedRoute
   ) {
+    const id = this.activeRouter.snapshot.params.id;
+    this.us.getById(id).subscribe(x => {
+      this.user = x;
+    });
     this.responses = [];
-    this.title = '';
   }
 
   ngOnInit(): void {
     // Create the file uploader, wire it to upload to your account
     const uploaderOptions: FileUploaderOptions = {
-      url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/upload`,
+      url: `https://api.cloudinary.com/v1_1/${
+        this.cloudinary.config().cloud_name
+      }/upload`,
       // Upload files automatically upon addition to upload queue
       autoUpload: true,
       // Use xhrTransport in favor of iframeTransport
@@ -49,19 +62,12 @@ export class UploadAvatarComponent implements OnInit {
     this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
       // Add Cloudinary's unsigned upload preset to the upload form
       form.append('upload_preset', this.cloudinary.config().upload_preset);
-      // Add built-in and custom tags for displaying the uploaded photo in the list
-      let tags = 'myphotoalbum';
-      if (this.title) {
-        form.append('context', `photo=${this.title}`);
-        tags = `myphotoalbum,${this.title}`;
-      }
       // Upload to a custom folder
       // Note that by default, when uploading via the API, folders are not automatically created in your Media Library.
       // In order to automatically create the folders based on the API requests,
       // please go to your account upload settings and set the 'Auto-create folders' option to enabled.
       form.append('folder', 'angular_sample');
-      // Add custom tags
-      form.append('tags', tags);
+
       // Add file to upload
       form.append('file', fileItem);
 
@@ -72,7 +78,6 @@ export class UploadAvatarComponent implements OnInit {
 
     // Insert or update an entry in the responses array
     const upsertResponse = fileItem => {
-
       // Run the update in a custom zone since for some reason change detection isn't performed
       // as part of the XHR request to upload the files.
       // Running in a custom zone forces change detection
@@ -86,9 +91,13 @@ export class UploadAvatarComponent implements OnInit {
           }
           return prev;
         }, -1);
+
         if (existingId > -1) {
           // Update existing item with new data
-          this.responses[existingId] = Object.assign(this.responses[existingId], fileItem);
+          this.responses[existingId] = Object.assign(
+            this.responses[existingId],
+            fileItem
+          );
         } else {
           // Create new response
           this.responses.push(fileItem);
@@ -97,57 +106,43 @@ export class UploadAvatarComponent implements OnInit {
     };
 
     // Update model on completion of uploading a file
-    this.uploader.onCompleteItem = (item: any, response: string, status: number, headers: ParsedResponseHeaders) =>
-      upsertResponse(
-        {
-          file: item.file,
-          status,
-          data: JSON.parse(response)
-        }
-      );
+    this.uploader.onCompleteItem = (
+      item: any,
+      response: string,
+      status: number,
+      headers: ParsedResponseHeaders
+    ) => {
+      // put image into users table
+      const avatarPath = JSON.parse(response).public_id;
+
+      this.us.uploadAvatar(this.user.id, avatarPath).subscribe(
+          res => {
+            this.router.navigate(['/profile']);
+          },
+          err => {
+            console.error(err);
+          }
+        );
+
+      upsertResponse({
+        file: item.file,
+        status,
+        data: JSON.parse(response)
+      });
+    };
 
     // Update model on upload progress event
-    this.uploader.onProgressItem = (fileItem: any, progress: any) =>
-      upsertResponse(
-        {
-          file: fileItem.file,
-          progress,
-          data: {}
-        }
-      );
-  }
+    this.uploader.onProgressItem = (fileItem: any, progress: any) => {
 
-  updateTitle(value: string) {
-    this.title = value;
-  }
-
-  // Delete an uploaded image
-  // Requires setting "Return delete token" to "Yes" in your upload preset configuration
-  // See also https://support.cloudinary.com/hc/en-us/articles/202521132-How-to-delete-an-image-from-the-client-side-
-  deleteImage = function(data: any, index: number) {
-    const url = `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/delete_by_token`;
-    const headers = new Headers({ 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' });
-    const options = { headers };
-    const body = {
-      token: data.delete_token
+      upsertResponse({
+        file: fileItem.file,
+        progress,
+        data: {}
+      });
     };
-    this.http.post(url, body, options).subscribe(response => {
-      console.log(`Deleted image - ${data.public_id} ${response.result}`);
-      // Remove deleted item for responses
-      this.responses.splice(index, 1);
-    });
-  };
+  }
 
   fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
-  }
-
-  getFileProperties(fileProperties: any) {
-    // Transforms Javascript Object to an iterable to be used by *ngFor
-    if (!fileProperties) {
-      return null;
-    }
-    return Object.keys(fileProperties)
-      .map((key) => ({ key, value: fileProperties[key] }));
   }
 }

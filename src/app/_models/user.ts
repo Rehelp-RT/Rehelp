@@ -10,6 +10,9 @@ export class User {
     lastname: string;
     birthdate: Date;
     token: string;
+    latitude: number;
+    longitude: number;
+    address: string;
     likehelps: number;
 
     helps: Help[];

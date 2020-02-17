@@ -23,12 +23,10 @@
                     </div>
                 </div>
             </form>
+
             <h2 *ngIf="responses.length > 0">Status</h2>
             <div class="file" *ngFor="let response of responses; let i = index">
                 <h4>{{ response.data.public_id }}</h4>
-                <button class="btn btn-outline-danger" *ngIf="!!response.data.delete_token" (click)="deleteImage(response.data, i)">
-                  Elimina
-                </button>
                 <div class="status">
                     Caricamento... {{ response.progress }}%
                     <div *ngIf="!response.status">In progress</div>

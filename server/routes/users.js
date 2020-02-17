@@ -46,29 +46,50 @@ router.delete('/', function(req, res) {
     // });
 });
 
-// PUT /api/user/update/id
-router.put('/update/:id', function(req, res) {
+// PUT /api/user/5/update
+router.put('/:id/update', function(req, res) {
     const body = req.body;
-    if (body == undefined) { 
+    if (body == undefined) {
         res.sendStatus(400)
-    } else { 
+    } else {
         db.User.findByPk(req.params.id)
-        .then(function(user){
-            // Check if record exists in db
-            if (user) {
-                user.update({
-                    firstname: body.firstname,
-                    lastname: body.lastname,
-                    birthdate: body.birthdate,
-                    username: body.username,
-                    password: body.password,
-                    avatar: body.avatar
-                })
-                    .then(x => {
-                        res.status(200).send(user)
-                    })
-            }
-        })
+            .then(function(user) {
+                // Check if record exists in db
+                if (user) {
+                    user.update({
+                            firstname: body.firstname,
+                            lastname: body.lastname,
+                            latitude: body.latitude,
+                            longitude: body.longitude,
+                            address: body.address,
+                            birthdate: body.birthdate,
+                            username: body.username,
+                            password: body.password
+                        })
+                        .then(x => {
+                            res.status(200).send(user)
+                        })
+                }
+            })
+    }
+});
+
+// PUT /api/user/5/upload-avatar
+router.put('/:id/upload-avatar', function(req, res) {
+    const body = req.body;
+    if (body == undefined) {
+        res.sendStatus(400)
+    } else {
+        db.User.findByPk(req.params.id)
+            .then(function(user) {
+                // Check if record exists in db
+                if (user) {
+                    user.update({ avatar: body.path })
+                        .then(x => {
+                            res.status(200).send(user)
+                        })
+                }
+            })
     }
 });
 

@@ -136,12 +136,15 @@
                                                     *ngIf="!(r.accepted)">
                                                     Cancella
                                                 </a>
+                                                <p *ngIf="r.accepted && !completed">
+                                                    Accettata
+                                                </p>
                                                 <p *ngIf="r.accepted && completed">
                                                     Completata
                                                 </p>
                                             </div>
                                         </div>
-                                    </li>
+                                    </li> 
                                 </ul>
                             </div>
                         </ng-template>

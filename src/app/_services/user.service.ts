@@ -21,7 +21,11 @@ export class UserService {
     }
 
     update(user: User) {
-        return this.http.put<User>(`${environment.apiUrl}/users/update/${user.id}`, user);
+        return this.http.put<User>(`${environment.apiUrl}/users/${user.id}/update`, user);
+    }
+
+    uploadAvatar(id: number, path: string) {
+      return this.http.put<User>(`${environment.apiUrl}/users/${id}/upload-avatar`, path);
     }
 
     delete(id: number) {

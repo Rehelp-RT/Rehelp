@@ -20,7 +20,7 @@
                     <li class="nav-item" *ngIf="currentUser">
                         <a class="nav-link" routerLink="/profile">
                             <span class="img-avatar rounded-circle">
-                                <img src="assets/{{ currentUser.avatar == null ? 'img/avatar_64.png' : 'uploaded/' + currentUser.avatar }}"
+                                <img src="{{ currentUser.avatar == null ? 'assets/img/avatar_64.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + currentUser.avatar }}" alt="{{ currentUser.firstname + ' ' + currentUser.lastname }}"
                                     alt="{{ currentUser.firstname + ' ' + currentUser.lastname }}"
                                     title="{{ currentUser.firstname + ' ' + currentUser.lastname }}"
                                     width="32">

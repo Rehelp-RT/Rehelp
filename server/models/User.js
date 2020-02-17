@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
         firstname: DataTypes.STRING,
         lastname: DataTypes.STRING,
         birthdate: DataTypes.DATEONLY,
+        latitude: DataTypes.FLOAT,
+        longitude: DataTypes.FLOAT,
+        address: DataTypes.STRING,
         likehelps: DataTypes.INTEGER
     }, {});
     User.beforeSave((user, options) => {

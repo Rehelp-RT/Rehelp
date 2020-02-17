@@ -1,0 +1,62 @@
+<div class="container py-3">
+    <div class="row">
+
+        <div class="col-lg-2 col-md-3 mb-3">
+            <a class="btn btn-block btn-outline-secondary" [routerLink]="['/profile']">
+                <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon> Profilo
+            </a>
+        </div>
+
+        <div class="col-lg-10 col-md-9">
+            <h2>Upload avatar</h2>
+            <p>Trascina qui la foto da caricare</p>
+            <form id="direct_upload" ng2FileDrop [uploader]="uploader" (fileOver)="fileOverBase($event)" [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }">
+                <div class="py-3">
+                    <div class="form_controls">
+                        <div class="upload_button_holder">
+                            <label class="btn btn-outline-secondary" for="fileupload">
+                                <fa-icon [icon]="['fas', 'cloud-upload-alt']"></fa-icon> Sfoglia
+                            </label>
+                            <!-- onChange hanlder resets the input value to get the change event when uploading the same file consecutively -->
+                            <input type="file" id="fileupload" #fileInput ng2FileSelect [style.display]="'none'" [uploader]="uploader" (change)="fileInput.value = ''" multiple />
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <h2 *ngIf="responses.length > 0">Status</h2>
+            <div class="file" *ngFor="let response of responses; let i = index">
+                <h3>{{ response.file.name }}</h3>
+                <h4>{{ response.data.public_id }}</h4>
+                <button class="delete-image" *ngIf="!!response.data.delete_token" (click)="deleteImage(response.data, i)">
+              Delete image
+            </button>
+                <div class="status">
+                    Uploading... {{ response.progress }}%
+                    <div *ngIf="!response.status">In progress</div>
+                    <div class="status-code" *ngIf="response.status">
+                        Upload completed with status code {{ response.status }}
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress" role="progressbar" [style.width.%]="response.progress"></div>
+                </div>
+                <div class="form_line">
+                    <div class="form_controls">
+                        <div class="preview">
+                            <!-- Consider using https://github.com/valor-software/ng2-file-upload/issues/461 for image preview -->
+                        </div>
+                    </div>
+                </div>
+                <div class="info">
+                    <table>
+                        <tr *ngFor="let property of getFileProperties(response.data)">
+                            <td>{{ property.key }}</td>
+                            <td>{{ property.value | json }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

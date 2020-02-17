@@ -35,8 +35,10 @@ import { TestUploadComponent } from './test-upload/test-upload.component';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import {
   faAngleDoubleRight,
+  faCamera,
   faCheck,
   faChevronLeft,
+  faCloudUploadAlt,
   faPencilAlt,
   faPlus,
   faSave,
@@ -47,6 +49,7 @@ import {
   faCheckSquare as farCheckSquare
 } from '@fortawesome/free-regular-svg-icons';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
+import { UploadAvatarComponent } from './upload-avatar/upload-avatar.component';
 // import { faStackOverflow, faGithub, faMedium } from '@fortawesome/free-brands-svg-icons';
 
 @NgModule({
@@ -69,7 +72,8 @@ import { ProfileEditComponent } from './profile-edit/profile-edit.component';
     ProfileComponent,
     RegisterComponent,
     ProfileEditComponent,
-    TestUploadComponent
+    TestUploadComponent,
+    UploadAvatarComponent
   ],
   imports: [
     BrowserModule,
@@ -101,13 +105,15 @@ export class AppModule {
   constructor(private library: FaIconLibrary) {
     library.addIcons(
       faAngleDoubleRight,
+      faCamera,
       faCheck,
       faChevronLeft,
+      faCloudUploadAlt,
       faPencilAlt,
       faPlus,
       faSave,
       faTrashAlt,
-      farSquare,
-      farCheckSquare);
+      farCheckSquare,
+      farSquare);
   }
 }

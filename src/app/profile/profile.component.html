@@ -2,10 +2,10 @@
     <div class="container">
         <div *ngIf="user" class="row">
             <div class="col-lg-3 col-md-4">
-                <img src="assets/{{ user.avatar == null ? 'img/avatar_512.png' : 'uploaded/' + user.avatar }}" alt="{{ user.firstname + ' ' + user.lastname }}" title="{{ user.firstname + ' ' + user.lastname }}" class="img-fluid">
-                <h4 class="text-center mt-3">
-                    {{ user.firstname }} {{ user.lastname }}
-                </h4>
+                <img src="assets/{{ user.avatar == null ? 'img/avatar_512.png' : 'uploaded/' + user.avatar }}" alt="{{ user.firstname + ' ' + user.lastname }}" title="{{ user.firstname + ' ' + user.lastname }}" class="img-fluid mb-3">
+                <a class="btn btn-block btn-outline-secondary mb-3" *ngIf="user.username == currentUser?.username" [routerLink]="['/profile/upload-avatar/', user.id]">
+                    <fa-icon [icon]="['fas', 'camera']"></fa-icon> Upload
+                </a>
                 <ul class="list-group">
                     <li class="list-group-item">
                         <label class="float-left mr-3">LikeHelps:</label> {{ user.likehelps }} &#9733;
@@ -13,6 +13,9 @@
                 </ul>
             </div>
             <div class="col-lg-9 col-md-8">
+                <h2 class="text-left mt-3">
+                    {{ user.firstname }} {{ user.lastname }}
+                </h2>
                 <div class="card">
                     <div class="card-body">
                         <h3>Aiuti dati</h3>
@@ -22,9 +25,9 @@
                         <p>Nessun aiuto presente.</p>
                     </div>
                 </div>
-                <div *ngIf="user.username == currentUser?.username">                    
+                <div *ngIf="user.username == currentUser?.username">
                     <a class="btn btn-outline-secondary" style="margin-top: 2%;" [routerLink]="['/profile/edit/', user.id]">
-                        <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon> Modifica dati personali
+                        <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon> Modifica
                     </a>
                 </div>
             </div>

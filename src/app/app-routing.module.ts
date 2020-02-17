@@ -5,21 +5,22 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './_guards';
 
 // components
-import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
+import { ContactComponent } from './contact/contact.component';
+import { FaqComponent } from './faq/faq.component';
 import { HelpsComponent } from './helps/helps.component';
 import { HelpsAddComponent } from './helps-add/helps-add.component';
 import { HelpsDetailComponent } from './helps-detail/helps-detail.component';
 import { HelpsEditComponent } from './helps-edit/helps-edit.component';
 import { HelpsResponseComponent } from './helps-response/helps-response.component';
+import { HomeComponent } from './home/home.component';
+import { HowItWorksComponent } from './how-it-works/how-it-works.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { RegisterComponent } from './register/register.component';
-import { AboutComponent } from './about/about.component';
-import { ContactComponent } from './contact/contact.component';
-import { FaqComponent } from './faq/faq.component';
-import { HowItWorksComponent } from './how-it-works/how-it-works.component';
 import { TestUploadComponent } from './test-upload/test-upload.component';
+import { UploadAvatarComponent } from './upload-avatar/upload-avatar.component';
 
 
 const routes: Routes = [
@@ -32,9 +33,10 @@ const routes: Routes = [
   { path: 'helps/:id', component: HelpsDetailComponent,  data: {title: 'Dettagli aiuto'}, canActivate: [AuthGuard] },
   { path: 'helps/edit/:id', component: HelpsEditComponent,  data: {title: 'Modifica aiuto'}, canActivate: [AuthGuard] },
   { path: 'helps/:id/response', component: HelpsResponseComponent,  data: {title: 'Offri Aiuto'}, canActivate: [AuthGuard] },
-  { path: 'profile/edit/:id', component: ProfileEditComponent,  data: {title: 'Modifica dati personali'}, canActivate: [AuthGuard] },
-  { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'profile/edit/:id', component: ProfileEditComponent,  data: {title: 'Modifica dati personali'}, canActivate: [AuthGuard] },
+  { path: 'profile/upload-avatar/:id', component: UploadAvatarComponent, data: {title: 'Upload avatar'}, canActivate: [AuthGuard] },
   { path: 'upload', component: TestUploadComponent, data: {title: 'Upload'}, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

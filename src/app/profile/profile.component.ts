@@ -24,12 +24,12 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     const id = this.actRoute.snapshot.params.id;
     if (id == null) {
-      this.as.currentUser.subscribe(x => {
+      this.us.getById(this.currentUser.id).subscribe(x => {
         this.user = x;
       });
     } else {
       this.us.getById(id).subscribe(x => {
-        this.user = x ;
+        this.user = x;
       });
     }
   }

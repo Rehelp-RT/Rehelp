@@ -15,7 +15,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private actRoute: ActivatedRoute,
     private as: AuthenticationService,
-    private us: UserService) { 
+    private us: UserService) {
       this.as.currentUser.subscribe(x => {
         this.currentUser = x;
       });
@@ -33,5 +33,26 @@ export class ProfileComponent implements OnInit {
       });
     }
   }
+
+  getAge(birthdate: Date) {
+    const datenew = new Date();
+    const ynew = datenew.getFullYear();
+    const mnew = datenew.getMonth();
+    const dnew = datenew.getDate();
+    const yold = birthdate.getFullYear();
+    const mold = birthdate.getMonth();
+    const dold = birthdate.getDate();
+    let diff = ynew - yold;
+    if (mold > mnew) {
+      diff--;
+    } else {
+        if (mold === mnew) {
+            if (dold > dnew) {
+              diff--;
+            }
+        }
+    }
+    return diff;
+}
 
 }

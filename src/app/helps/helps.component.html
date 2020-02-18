@@ -26,7 +26,7 @@
                     <td>{{ h.category.name }}</td>
                     <td>
                         <span class="img-avatar rounded-circle">
-                          <img src="assets/{{ h.creator.avatar == null ? 'img/avatar_64.png' : 'uploaded/' + h.creator.avatar }}" alt="{{ h.creator.firstname + ' ' + h.creator.lastname }}" title="{{ h.creator.firstname + ' ' + h.creator.lastname }}" width="32">
+                          <img src="{{ h.creator.avatar == null ? 'assets/img/avatar_64.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + h.creator.avatar }}" alt="{{ h.creator.firstname + ' ' + h.creator.lastname }}" title="{{ h.creator.firstname + ' ' + h.creator.lastname }}" width="32">
                         </span>
                     </td>
                     <td>

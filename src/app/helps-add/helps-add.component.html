@@ -45,29 +45,30 @@
                                               <fa-icon [icon]="['fas', 'cloud-upload-alt']"></fa-icon> Sfoglia
                                           </label>
                                           <!-- onChange hanlder resets the input value to get the change event when uploading the same file consecutively -->
-                                          <input type="file" id="fileupload" #fileInput ng2FileSelect [style.display]="'none'" [uploader]="uploader" (change)="fileInput.value = ''" multiple />
+                                          <input type="file" id="fileupload" #fileInput ng2FileSelect [style.display]="'none'"  [uploader]="uploader" (change)="fileInput.value = ''" multiple />
                                       </div>
                                   </div>
                               </div>
                           </form>
-                          <h2 *ngIf="responses.length > 0">Status</h2>
+
                           <div class="file" *ngFor="let response of responses; let i = index">
-                              <h4>{{ response.data.public_id }}</h4>
-                              <button class="btn btn-outline-danger" *ngIf="!!response.data.delete_token" (click)="deleteImage(response.data, i)">
-                                Elimina
-                              </button>
                               <div class="status">
                                   Caricamento... {{ response.progress }}%
                                   <div *ngIf="!response.status">In progress</div>
                                   <div class="status-code" *ngIf="response.status">
-                                      Caricamento completo, status: {{ response.status }}
+                                      Caricamento completo, status: {{ response.data.public_id }}
                                   </div>
+                                  <input type="hidden" [(ngModel)]="model.image" [value]="response.data.public_id " name="image" />
                               </div>
                               <div class="progress-bar">
                                   <div class="progress" role="progressbar" [style.width.%]="response.progress"></div>
                               </div>
+                              <a target="_blank" href="{{ response.data.url}}">
+                                <img src="{{ response.data.url}}" alt="{{ response.data.public_id }}">
+                              </a>
                             </div>
                           </div>
+
 
                         <div class="form-row mb-3">
                             <label class="col-md-4" for="description">Descrizione</label>

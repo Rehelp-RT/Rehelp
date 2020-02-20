@@ -264,7 +264,9 @@ export class HelpsEditComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     const image = this.responses[0];
-    this.model.image = image.data.public_id;
+    if(image != null){
+      this.model.image = image.data.public_id;
+    }
     this.hs.updateHelp(this.model).subscribe(
       res => {
         this.router.navigate(['/helps']);

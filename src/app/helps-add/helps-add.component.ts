@@ -263,7 +263,9 @@ export class HelpsAddComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    console.log(this.model);
+    var image = this.responses[0];
+    this.model.image = image.data.public_id;
+    console.log(this.model);    
     this.hs.addHelp(this.model).subscribe(
       res => {
         this.router.navigate(['/helps']);

@@ -93,7 +93,7 @@ export class HelpsDetailComponent implements OnInit {
   }
 
   checkUserResponse(arr, val) {
-    return arr.some(function (arrVal) {
+    return arr.some((arrVal) => {
       return val === arrVal.responder.id;
     });
   }

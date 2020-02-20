@@ -50,6 +50,7 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { UploadAvatarComponent } from './upload-avatar/upload-avatar.component';
+import { MeetAndHelpComponent } from './meet-and-help/meet-and-help.component';
 // import { faStackOverflow, faGithub, faMedium } from '@fortawesome/free-brands-svg-icons';
 
 export const cloudinaryLib = { Cloudinary: CloudinaryCore };
@@ -75,7 +76,8 @@ export const cloudinaryLib = { Cloudinary: CloudinaryCore };
     RegisterComponent,
     ProfileEditComponent,
     TestUploadComponent,
-    UploadAvatarComponent
+    UploadAvatarComponent,
+    MeetAndHelpComponent
   ],
   imports: [
     BrowserModule,

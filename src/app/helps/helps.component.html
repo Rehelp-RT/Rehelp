@@ -20,7 +20,7 @@
             <tbody>
                 <tr *ngFor="let h of helps">
                     <td>
-                        <img src="assets/{{ h.image == null ? 'img/placeholder-help.png' : 'uploaded/' + h.image }}" alt="{{ h.title }} image" width="100" class="help-img">
+                        <img src="{{ h.image == null ? 'assets/img/placeholder-help.png' : 'http://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + h.image }}" alt="{{ h.title }} image" width="100" class="help-img">
                     </td>
                     <td>{{ h.title }}</td>
                     <td>{{ h.category.name }}</td>

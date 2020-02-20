@@ -56,7 +56,7 @@
                                   Caricamento... {{ response.progress }}%
                                   <div *ngIf="!response.status">In progress</div>
                                   <div class="status-code" *ngIf="response.status">
-                                      Caricamento completo, status: {{ response.data.public_id }}
+                                      Caricamento completo, status: {{ response.status }}
                                   </div>
                                   <input type="hidden" [(ngModel)]="model.image" [value]="response.data.public_id " name="image" />
                               </div>

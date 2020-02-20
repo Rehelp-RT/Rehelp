@@ -120,7 +120,7 @@ export class HelpsAddComponent implements OnInit {
       form.append('upload_preset', 'preset_help');
       console.log(this.cloudinary.config().upload_preset);
       // Add built-in and custom tags for displaying the uploaded photo in the list
-      let tags = 'myphotoalbum';
+      const tags = 'myphotoalbum';
       // Upload to a custom folder
       // Note that by default, when uploading via the API, folders are not automatically created in your Media Library.
       // In order to automatically create the folders based on the API requests,
@@ -263,9 +263,9 @@ export class HelpsAddComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    var image = this.responses[0];
+    const image = this.responses[0];
     this.model.image = image.data.public_id;
-    console.log(this.model);    
+    console.log(this.model);
     this.hs.addHelp(this.model).subscribe(
       res => {
         this.router.navigate(['/helps']);

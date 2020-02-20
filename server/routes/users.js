@@ -7,7 +7,12 @@ const db = require('../models');
 // GET /api/users/5
 router.get('/:id', (req, res) => {
     db.User.findByPk(req.params.id, {
-            attributes: ['id', 'avatar', 'username', 'firstname', 'lastname', 'birthdate', 'likehelps']
+            attributes: ['id', 'avatar', 'username', 'firstname', 'lastname', 'birthdate', 'likehelps'],
+            include: [{
+                attributes: ['id', 'title', 'image'],
+                model: db.Help,
+                as: 'helps'
+            }]
         }).then(user => {
             if (!user) {
                 return res.status(404).send({

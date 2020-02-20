@@ -1,5 +1,5 @@
 <section class="py-3">
-    <div class="container">
+    <div class="container" *ngIf="user">
 
         <h2 class="display-4 mb-4">
             {{ user.firstname }} {{ user.lastname }}
@@ -40,11 +40,39 @@
 
                 <div class="card mt-3">
                     <div class="card-body">
-                        <h3>Aiuti dati</h3>
-                        <p>Nessun aiuto presente.</p>
+                        <h3 class="mb-3">Richieste di aiuto</h3>
+
+                        <div *ngIf="user.helps.length > 0">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Img</th>
+                                        <th>Titolo</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let h of user.helps">
+                                        <td>
+                                            <img src="{{ h.image == null ? 'assets/img/placeholder-help.png' : 'http://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + h.image }}" alt="{{ h.title }} image" width="100" class="help-img">
+                                        </td>
+                                        <td>{{ h.title }}</td>
+                                        <td>
+                                            <a [routerLink]="['/helps/', h.id]" class="btn btn-sm btn-outline-secondary m-1">
+                                            Dettagli
+                                        </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p *ngIf="user.helps.length == 0">Nessuna richiesta pubblicata.</p>
+
                         <hr>
-                        <h3>Aiuti ricevuti</h3>
-                        <p>Nessun aiuto presente.</p>
+
+                        <h3 class="mb-3">Offerte di aiuto</h3>
+
+                        <p>Nessun aiuto offerto.</p>
                     </div>
                 </div>
 

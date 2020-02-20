@@ -16,4 +16,5 @@ export class User {
     likehelps: number;
 
     helps: Help[];
+    responses: Response[];
 }

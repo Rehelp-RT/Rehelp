@@ -32,7 +32,18 @@
                                 <div class="row mb-3">
                                     <div class="col-md-4"><strong>Creatore</strong></div>
                                     <div class="col-md-8">
-                                        {{ model.creator?.firstname + " " + model.creator?.lastname }}
+
+                                        <a [routerLink]="['/profile', model.creator.id ]" *ngIf="model.creator">
+                                            <span class="img-avatar rounded-circle">
+                                            <img src="{{ model.creator.avatar == null ? 'assets/img/avatar_64.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + model.creator.avatar }}"
+                                                alt="{{ model.creator.firstname + ' ' + model.creator.lastname }}"
+                                                title="{{ model.creator.firstname + ' ' + model.creator.lastname }}"
+                                                width="32" class="mr-3">
+                                          </span>
+                                            <span class="text-dark">
+                                              {{ model.creator.firstname + ' ' + model.creator.lastname }}
+                                          </span>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="row mb-3">

@@ -11,9 +11,10 @@
                 <div class="card">
                     <div class="card-body">
                         <h3>{{ model.title }}</h3>
-                        <div>
-                            <img src="{{ model.image == null ? 'assets/img/placeholder-help.png' : model.image }}" alt="{{ model.title }} image" width="300" class="help-img">
-                        </div>
+                        <div class="row mb-3">
+                          <div class="col-md-3"><strong>Immagine</strong></div>
+                          <div class="col-md-9"><img src="{{ model.image == null ? 'assets/img/placeholder-help.png' : 'http://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + model.image }}" alt="{{ model.title }} image" width="100%" class="help-img"></div>
+                       </div>
                         <div class="row mb-3">
                             <div class="col-md-3"><strong>Tipo</strong></div>
                             <div class="col-md-9">{{ model?.type?.name }}</div>

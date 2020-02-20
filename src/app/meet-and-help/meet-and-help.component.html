@@ -1,14 +1,18 @@
 <section class="py-3">
-    <div class="row">
-        <div class="col-md-6">
-            <a [routerLink]="['/helps']">
-              Cerca qualcuno che può aiutarti
-          </a>
-        </div>
-        <div class="col-md-6">
-            <a [routerLink]="['/helps']">
-              Pubblica una richiesta d'aiuto
-          </a>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <a [routerLink]="['/helps']">
+                    <img src="https://via.placeholder.com/1000x500" class="img-fluid">
+                    <h3 class="text-dark">Cerca qualcuno che possa aiutarti</h3>
+                </a>
+            </div>
+            <div class="col-md-6 text-center">
+                <a [routerLink]="['/helps/add']">
+                    <img src="https://via.placeholder.com/1000x500" class="img-fluid">
+                    <h3 class="text-dark">Pubblica una richiesta d'aiuto</h3>
+                </a>
+            </div>
         </div>
     </div>
 </section>

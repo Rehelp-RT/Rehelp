@@ -29,6 +29,54 @@
                             </select>
                         </div>
 
+                        <div class="row mb-3">
+                            <label class="col-md-4" for="category">immagine</label>
+                            <div class="col-md-8"><img src="{{ model.image == null ? 'assets/img/placeholder-help.png' : 'http://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + model.image }}" alt="{{ model.title }} image" width="100%" class="help-img"></div>
+                         </div>
+
+                        <div class="form-row mb-3">
+                            <label class="col-md-4" for="image">Sostituisci immagine
+                                <sub style="color:grey;">
+                                    <p>Trascina sul riquadro la foto da caricare</p>
+                                </sub>
+                            </label>
+
+                            <form id="direct_upload" ng2FileDrop [uploader]="uploader" (fileOver)="fileOverBase($event)"
+                                [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }">
+                                <div class="py-3">
+                                    <div class="form_controls">
+                                        <div class="upload_button_holder">
+                                            <label class="btn btn-outline-secondary" for="fileupload">
+                                                <fa-icon [icon]="['fas', 'cloud-upload-alt']"></fa-icon> Sfoglia
+                                            </label>
+                                            <!-- onChange hanlder resets the input value to get the change event when uploading the same file consecutively -->
+                                            <input type="file" id="fileupload" #fileInput ng2FileSelect
+                                                [style.display]="'none'" [uploader]="uploader"
+                                                (change)="fileInput.value = ''" multiple />
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="file" *ngFor="let response of responses; let i = index">
+                                <div class="status">
+                                    Caricamento... {{ response.progress }}%
+                                    <div *ngIf="!response.status">In progress</div>
+                                    <div class="status-code" *ngIf="response.status">
+                                        Caricamento completo, status: {{ response.status }}
+                                    </div>
+                                    <input type="hidden" [(ngModel)]="model.image" [value]="response.data.public_id "
+                                        name="image" />
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress" role="progressbar" [style.width.%]="response.progress"></div>
+                                </div>
+                                <a target="_blank" href="{{ response.data.url}}">
+                                    <img src="{{ response.data.url}}" alt="{{ response.data.public_id }}">
+                                </a>
+                            </div>
+                        </div>
+
                         <div class="form-row mb-3">
                             <label class="col-md-4" for="description">Descrizione</label>
                             <textarea class="col-md-8 form-control" rows="4" [(ngModel)]="model.description" name="description" required>

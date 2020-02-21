@@ -108,7 +108,7 @@
                                                     <a class="btn btn-outline-secondary ml-3" (click)="cancel(r)" *ngIf="r.accepted && !completed">
                                                         Cancella
                                                     </a>
-                                                    <a class="btn btn-outline-primary ml-3" (click)="complete(r)" *ngIf="r.accepted && !completed">
+                                                    <a class="btn btn-outline-primary ml-3" [routerLink]="['/helps/complete', model.id]" *ngIf="r.accepted && !completed">
                                                         Completa
                                                     </a>
                                                 </div>

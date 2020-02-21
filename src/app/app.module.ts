@@ -51,6 +51,7 @@ import {
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { UploadAvatarComponent } from './upload-avatar/upload-avatar.component';
 import { MeetAndHelpComponent } from './meet-and-help/meet-and-help.component';
+import { HelpsCompleteComponent } from './helps-complete/helps-complete.component';
 // import { faStackOverflow, faGithub, faMedium } from '@fortawesome/free-brands-svg-icons';
 
 export const cloudinaryLib = { Cloudinary: CloudinaryCore };
@@ -77,7 +78,8 @@ export const cloudinaryLib = { Cloudinary: CloudinaryCore };
     ProfileEditComponent,
     TestUploadComponent,
     UploadAvatarComponent,
-    MeetAndHelpComponent
+    MeetAndHelpComponent,
+    HelpsCompleteComponent
   ],
   imports: [
     BrowserModule,

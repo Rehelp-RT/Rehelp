@@ -25,9 +25,7 @@ router.post('/signup', function(req, res) {
             .then((user) => {
                 var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
                 var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
-                //res.status(201).send(user, token, expiresIn);
                 res.json({ success: true, user: user, token: 'JWT ' + token, expiresIn: expiresIn });
-                // res.json({ success: true, token: 'JWT ' + token, expiresIn: expiresIn });
             })
             .catch((error) => {
                 console.log(error);

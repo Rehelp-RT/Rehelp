@@ -1,5 +1,4 @@
 'use strict';
-
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return Promise.all([
@@ -17,3 +16,5 @@ module.exports = {
     queryInterface.removeConstraint('Help', 'custom_fkey_help_helpCategories')
   }
 };
+
+

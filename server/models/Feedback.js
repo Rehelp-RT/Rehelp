@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         createdAt: DataTypes.DATE,
-        message: DataTypes.STRING
+        message: DataTypes.STRING,
+        rating: DataTypes.INTEGER
     }, {});
 
     Feedback.associate = function(models) {
@@ -31,6 +32,11 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: "CASCADE",
             foreignKey: 'idReviewed',
             as: 'reviewed'
+        });
+        models.Feedback.belongsTo(models.Help, {
+            onDelete: "CASCADE",
+            foreignKey: 'idHelp',
+            as: 'help'
         });
     };
 

@@ -1,10 +1,14 @@
-import { User } from '.';
+import { User, Help } from '.';
 
 export class Feedback {
     id: number;
-    responder: User;
+    reviewer: User;
+    reviewed: User;
     idReviewer: number;
     idReviewed: number;
+    idHelp: number;
+    help: Help;
     message: string;
     createdAt: Date;
+    rating; number;
 }

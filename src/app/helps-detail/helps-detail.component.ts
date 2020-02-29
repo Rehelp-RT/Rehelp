@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService, HelpService, ResponseService } from '@app/_services';
 import { Help, HelpResponse, User } from '@app/_models';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ModalService } from '../_modal';
 
 @Component({
   selector: 'app-helps-detail',
@@ -22,7 +23,9 @@ export class HelpsDetailComponent implements OnInit {
     private actRoute: ActivatedRoute,
     private router: Router,
     private as: AuthenticationService,
-    private rs: ResponseService) {
+    private rs: ResponseService,
+    private modalService: ModalService
+    ) {
     const id = this.actRoute.snapshot.params.id;
     this.getHelp(id);
     this.getCurrentUser();
@@ -103,5 +106,13 @@ export class HelpsDetailComponent implements OnInit {
       .subscribe(x =>
         this.router.navigate(['/helps/, model.id'])
       );
+  }
+
+  openModal(id: string) {
+    this.modalService.open(id);
+  }
+
+  closeModal(id: string) {
+    this.modalService.close(id);
   }
 }

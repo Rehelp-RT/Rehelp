@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService, HelpService, ResponseService } from '@app/_services';
+import {
+  AuthenticationService,
+  HelpService,
+  ResponseService
+} from '@app/_services';
 import { Help, HelpResponse, User } from '@app/_models';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -9,7 +13,6 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./helps-response.component.css']
 })
 export class HelpsResponseComponent implements OnInit {
-
   author: boolean;
   response: HelpResponse;
   creator: User = null;
@@ -20,31 +23,30 @@ export class HelpsResponseComponent implements OnInit {
     private actRoute: ActivatedRoute,
     private router: Router,
     private as: AuthenticationService,
-    private rs: ResponseService) {
-      const id = this.actRoute.snapshot.params.id;
-      this.getHelp(id);
-     }
+    private rs: ResponseService
+  ) {
+    const id = this.actRoute.snapshot.params.id;
+    this.getHelp(id);
+  }
 
   ngOnInit() {
     this.getCurrentUser();
   }
 
   getHelp(id: number): void {
-    this.hs.getById(id)
-      .subscribe(x => {
-        this.response = new HelpResponse();
-        this.response.help = x;
-        this.response.responder = this.currentUser;
-        this.response.idHelp = x.id;
-        this.response.idResponder = this.currentUser.id;
-      });
+    this.hs.getById(id).subscribe(x => {
+      this.response = new HelpResponse();
+      this.response.help = x;
+      this.response.responder = this.currentUser;
+      this.response.idHelp = x.id;
+      this.response.idResponder = this.currentUser.id;
+    });
   }
 
   getCurrentUser(): void {
-    this.as.getCurrentUser()
-      .subscribe(x => {
-        this.currentUser = x;
-      });
+    this.as.getCurrentUser().subscribe(x => {
+      this.currentUser = x;
+    });
   }
 
   onSubmit() {

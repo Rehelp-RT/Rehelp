@@ -24,8 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         acceptedAt: DataTypes.DATE,
         canceledAt: DataTypes.DATE,
         completedAt: DataTypes.DATE,
-        message: DataTypes.STRING,
-        feedback: DataTypes.STRING
+        message: DataTypes.STRING
     }, {});
 
     HelpResponse.associate = function(models) {

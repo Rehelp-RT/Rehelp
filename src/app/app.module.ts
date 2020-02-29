@@ -52,11 +52,8 @@ import {
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { UploadAvatarComponent } from './upload-avatar/upload-avatar.component';
 import { MeetAndHelpComponent } from './meet-and-help/meet-and-help.component';
-<<<<<<< HEAD
-import { StarRatingComponent } from './star-rating/star-rating.component';
-=======
 import { HelpsCompleteComponent } from './helps-complete/helps-complete.component';
->>>>>>> e76a6f4462ce8d39a567ca8c9c759d8e70883c13
+import { StarRatingComponent } from './star-rating/star-rating.component';
 // import { faStackOverflow, faGithub, faMedium } from '@fortawesome/free-brands-svg-icons';
 
 export const cloudinaryLib = { Cloudinary: CloudinaryCore };
@@ -84,11 +81,8 @@ export const cloudinaryLib = { Cloudinary: CloudinaryCore };
     TestUploadComponent,
     UploadAvatarComponent,
     MeetAndHelpComponent,
-<<<<<<< HEAD
+    HelpsCompleteComponent,
     StarRatingComponent
-=======
-    HelpsCompleteComponent
->>>>>>> e76a6f4462ce8d39a567ca8c9c759d8e70883c13
   ],
   imports: [
     BrowserModule,

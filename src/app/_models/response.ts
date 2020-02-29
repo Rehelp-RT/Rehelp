@@ -9,4 +9,5 @@ export class HelpResponse {
     completed: boolean;
     idHelp: number;
     idResponder: number;
+    feedback: string;
 }

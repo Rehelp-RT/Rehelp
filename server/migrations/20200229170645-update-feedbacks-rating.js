@@ -2,13 +2,7 @@
 
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return Promise.all([
-            queryInterface.addColumn(
-                'Feedbacks', 'rating', {
-                    type: Sequelize.INTEGER
-                }
-            )
-        ]);
+        return queryInterface.addColumn('Feedbacks', 'rating', { type: Sequelize.INTEGER })
     },
 
     down: (queryInterface, Sequelize) => {

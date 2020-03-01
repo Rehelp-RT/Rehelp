@@ -1,0 +1,60 @@
+.overlay-wrapper {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+}
+
+figcaption {
+    display: block;
+}
+
+.overlay-panel {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 4px 16px;
+    background-color: rgba(0, 102, 204, .85);
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    max-height: 56px;
+}
+
+.overlay-panel.overlay-black {
+    background-color: rgba(0, 0, 0, .54);
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+    background-color: #ffffff;
+}
+
+.btn-circle:hover {
+    background-color: #a0c0e0;
+}
+
+.btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 10px 10px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 25px;
+}
+
+.btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    font-size: 24px;
+    line-height: 1.33;
+    border-radius: 35px;
+}

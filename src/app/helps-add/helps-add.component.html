@@ -47,7 +47,7 @@
                                                   <fa-icon [icon]="['fas', 'cloud-upload-alt']"></fa-icon> Sfoglia
                                               </label>
                                                 <!-- onChange hanlder resets the input value to get the change event when uploading the same file consecutively -->
-                                                <input type="file" id="fileupload" #fileInput ng2FileSelect [style.display]="'none'" [uploader]="uploader" (change)="fileInput.value = ''" multiple />
+                                                <input type="file" id="fileupload" accept=".png, .jpg, image/jpg, image/png" #fileInput ng2FileSelect [style.display]="'none'" [uploader]="uploader" (change)="fileInput.value = ''" multiple />
                                             </div>
                                         </div>
                                     </div>
@@ -57,8 +57,11 @@
                                     <div class="status">
                                         Caricamento... {{ response.progress }}%
                                         <div *ngIf="!response.status">In progress</div>
-                                        <div class="status-code" *ngIf="response.status">
-                                            Caricamento completo, status: {{ response.status }}
+                                        <div class="status-code" *ngIf="response.status==200">
+                                            Caricamento completo
+                                        </div>
+                                        <div class="status-code" *ngIf="response.status!=200">
+                                            Errore: {{ response.message }}
                                         </div>
                                         <input type="hidden" [(ngModel)]="model.image" [value]="response.data.public_id " name="image" />
                                     </div>

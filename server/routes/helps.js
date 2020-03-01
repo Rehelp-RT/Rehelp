@@ -4,7 +4,7 @@ const db = require('../models');
 // GET /api/helps
 router.get('/', (req, res) =>
     db.Help.findAll({
-        attributes: ['id', 'title', 'image'],
+        attributes: ['id', 'title', 'address', 'createdAt', 'image'],
         include: [{
                 attributes: ['code', 'name'],
                 model: db.HelpType,
@@ -47,7 +47,7 @@ router.get('/type/:code', (req, res) => {
             } else {
                 console.log(type);
                 db.Help.findAll({
-                        attributes: ['id', 'title', 'image'],
+                        attributes: ['id', 'title', 'address', 'createdAt', 'image'],
                         where: { idType: type.id },
                         include: [{
                                 attributes: ['code', 'name'],

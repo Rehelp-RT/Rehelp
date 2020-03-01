@@ -37,6 +37,50 @@ router.get('/', (req, res) =>
     })
 );
 
+// GET /api/helps/type/MEH
+router.get('/type/:code', (req, res) => {
+    db.HelpType.findOne({ where: { code: req.params.code } })
+        .then(type => {
+            if (type === null) {
+                console.log('type is null');
+                res.json([]);
+            } else {
+                console.log(type);
+                db.Help.findAll({
+                        attributes: ['id', 'title', 'image'],
+                        where: { idType: type.id },
+                        include: [{
+                                attributes: ['code', 'name'],
+                                model: db.HelpCategory,
+                                required: true,
+                                as: 'category'
+                            },
+                            {
+                                attributes: ['username', 'firstname', 'lastname', 'avatar'],
+                                model: db.User,
+                                required: true,
+                                as: 'creator'
+                            }
+                        ],
+                        order: [
+                            ['id', 'desc']
+                        ]
+                    })
+                    .then(x => {
+                        res.json(x)
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.sendStatus(500)
+                    })
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.sendStatus(500)
+        });
+});
+
 // GET /api/helps/5
 router.get('/:id', (req, res) => {
     db.Help.findByPk(req.params.id, {

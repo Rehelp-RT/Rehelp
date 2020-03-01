@@ -14,11 +14,12 @@ export class HelpsComponent implements OnInit {
   constructor(private hs: HelpService) { }
 
   ngOnInit() {
-    this.getHelps();
+    const type = 'MEH';
+    this.getHelps(type);
   }
 
-  getHelps(): void {
-    this.hs.getAll()
+  getHelps(type: string): void {
+    this.hs.getByType(type)
         .subscribe(x => {
             this.helps = x;
         });

@@ -60,6 +60,10 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'idHelp',
             as: 'responses'
         });
+        models.Help.hasMany(models.Feedback, {
+            foreignKey: 'idHelp',
+            as: 'feedbacks'
+        });
     };
 
     return Help;

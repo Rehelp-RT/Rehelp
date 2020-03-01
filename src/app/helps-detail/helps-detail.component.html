@@ -108,9 +108,31 @@
                                                     <a class="btn btn-outline-secondary ml-3" (click)="cancel(r)" *ngIf="r.accepted && !completed">
                                                         Cancella
                                                     </a>
-                                                    <a class="btn btn-outline-primary ml-3" (click)="complete(r)" *ngIf="r.accepted && !completed">
+                                                    <button class="btn btn-outline-primary ml-3" (click)="openModal('modal-complete')" *ngIf="r.accepted && !completed">Completa</button>
+                                                    <!-- <a class="btn btn-outline-primary ml-3" (click)="complete(r)" *ngIf="r.accepted && !completed">
                                                         Completa
-                                                    </a>
+                                                    </a> -->
+                                                    <app-modal id="modal-complete">
+                                                      <div class="card my-4">
+                                                        <div class="card-body">
+                                                          <h1>Lascia un feedback e completa la richiesta</h1>
+                                                          <div class="form-row mb-3">
+                                                            <label class="col-md-4" for="message">Messaggio</label>
+                                                            <textarea class="col-md-8 form-control" rows="4" name="message">
+                                                            </textarea>
+                                                          </div>
+                                                          <div class="form-row mb-3">
+                                                            <label class="col-md-4" for="star-rating">Valutazione</label>
+                                                            <div class="col-md-8">
+                                                              <app-star-rating></app-star-rating>
+                                                            </div>
+                                                          </div>
+                                                            <a class="btn btn-outline-primary ml-3" (click)="complete(r)">
+                                                              Completa
+                                                            </a>
+                                                        </div>
+                                                      </div>
+                                                  </app-modal>
                                                 </div>
 
                                             </div>

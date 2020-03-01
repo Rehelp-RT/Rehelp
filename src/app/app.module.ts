@@ -9,6 +9,7 @@ import { Cloudinary as CloudinaryCore } from 'cloudinary-core';
 import { AppRoutingModule } from './app-routing.module';
 
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
+import { ModalModule } from './_modal';
 
 // components
 import { AppComponent } from './app.component';
@@ -51,6 +52,7 @@ import {
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { UploadAvatarComponent } from './upload-avatar/upload-avatar.component';
 import { MeetAndHelpComponent } from './meet-and-help/meet-and-help.component';
+import { StarRatingComponent } from './star-rating/star-rating.component';
 // import { faStackOverflow, faGithub, faMedium } from '@fortawesome/free-brands-svg-icons';
 
 export const cloudinaryLib = { Cloudinary: CloudinaryCore };
@@ -77,11 +79,13 @@ export const cloudinaryLib = { Cloudinary: CloudinaryCore };
     ProfileEditComponent,
     TestUploadComponent,
     UploadAvatarComponent,
-    MeetAndHelpComponent
+    MeetAndHelpComponent,
+    StarRatingComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ModalModule,
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,

@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     HelpCategory.associate = function(models) {
         models.HelpCategory.hasMany(models.HelpCategory, {
             foreignKey: 'idParent',
-            as: 'childs'
+            as: 'children'
         });
     };
 

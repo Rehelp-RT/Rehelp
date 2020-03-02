@@ -12,13 +12,23 @@ router.get('/', (req, res) =>
                 as: 'type'
             },
             {
-                attributes: ['code', 'name'],
+                attributes: ['id', 'code', 'name'],
                 model: db.HelpCategory,
+                include: [{
+                    attributes: ['id', 'code', 'name'],
+                    model: db.HelpCategory,
+                    include: [{
+                        attributes: ['id', 'code', 'name'],
+                        model: db.HelpCategory,
+                        as: 'parent'
+                    }],
+                    as: 'parent'
+                }],
                 required: true,
                 as: 'category'
             },
             {
-                attributes: ['username', 'firstname', 'lastname', 'avatar'],
+                attributes: ['username', 'firstname', 'lastname', 'avatar', 'id'],
                 model: db.User,
                 required: true,
                 as: 'creator'
@@ -56,7 +66,7 @@ router.get('/type/:code', (req, res) => {
                                 as: 'category'
                             },
                             {
-                                attributes: ['username', 'firstname', 'lastname', 'avatar'],
+                                attributes: ['username', 'firstname', 'lastname', 'avatar', 'id'],
                                 model: db.User,
                                 required: true,
                                 as: 'creator'

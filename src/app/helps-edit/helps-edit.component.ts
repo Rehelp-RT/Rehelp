@@ -57,21 +57,20 @@ export class HelpsEditComponent implements OnInit {
     const id = this.activeRouter.snapshot.params.id;
     this.hs.getById(id).subscribe(x => {
       this.model = x;
-      console.log(this.model);
+      console.log(this.model.category);
 
-      if (x.category.parent.parent !== undefined) {
+      if (x.category.parent.parent !== undefined && x.category.parent.parent !== null ) {
         this.idCat3 = x.idCategory;
         this.idCat2 = x.category.parent.id;
         this.idCat1 = x.category.parent.parent.id;
-      } else if (x.category.parent !== undefined) {
+      } else if (x.category.parent !== undefined && x.category.parent !== null) {
         this.idCat2 = x.idCategory;
         this.idCat1 = x.category.parent.id;
       } else {
         this.idCat1 = x.idCategory;
       }
-
-      this.responses = [];
       this.setCurrentLocation();
+      this.responses = [];
     });
     this.cs.getAll().subscribe(x => {
       this.categories = x;
@@ -237,12 +236,19 @@ export class HelpsEditComponent implements OnInit {
   // Get current location coordinates
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.model.latitude = position.coords.latitude;
-        this.model.longitude = position.coords.longitude;
-        this.zoom = 8;
-        this.getAddress(this.model.latitude, this.model.longitude);
-      });
+      if (this.model.latitude != null && this.model.longitude != null) {
+        navigator.geolocation.getCurrentPosition(position => {
+          this.zoom = 8;
+          this.getAddress(this.model.latitude, this.model.longitude);
+        });
+      } else {
+        navigator.geolocation.getCurrentPosition(position => {
+          this.model.latitude = position.coords.latitude;
+          this.model.longitude = position.coords.longitude;
+          this.zoom = 8;
+          this.getAddress(this.model.latitude, this.model.longitude);
+        });
+      }
     }
   }
 

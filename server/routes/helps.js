@@ -87,13 +87,13 @@ router.get('/:id', (req, res) => {
             include: [
                 { attributes: ['code', 'name'], model: db.HelpType, required: true, as: 'type' },
                 {
-                    attributes: ['code', 'name'],
+                    attributes: ['id', 'code', 'name'],
                     model: db.HelpCategory,
                     include: [{
-                        attributes: ['code', 'name'],
+                        attributes: ['id', 'code', 'name'],
                         model: db.HelpCategory,
                         include: [{
-                            attributes: ['code', 'name'],
+                            attributes: ['id', 'code', 'name'],
                             model: db.HelpCategory,
                             as: 'parent'
                         }],

@@ -42,8 +42,15 @@ export class HelpsAddComponent implements OnInit {
   address: string;
   private geoCoder;
 
+  public idCat1 = null;
+  public idCat2 = null;
+  public idCat3 = null;
+
   @ViewChild('search', { static: false })
   public searchElementRef: ElementRef;
+
+  object: {[key: number]: string} = {2: 'foo', 1: 'bar'};
+  map = new Map([[2, 'foo'], [1, 'bar']]);
 
   constructor(
     private cloudinary: Cloudinary,
@@ -263,11 +270,17 @@ export class HelpsAddComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+
+    // image
     const image = this.responses[0];
     this.model.image = image.data.public_id;
+
+    // category
+    this.model.idCategory = this.idCat3 != null ? this.idCat3 : this.idCat2;
+
     console.log(this.model);
     this.hs.addHelp(this.model).subscribe(
-      res => {
+      () => {
         this.router.navigate(['/helps']);
       },
       err => {

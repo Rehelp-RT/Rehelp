@@ -28,7 +28,7 @@ router.get('/', (req, res) =>
                 as: 'category'
             },
             {
-                attributes: ['username', 'firstname', 'lastname', 'avatar'],
+                attributes: ['username', 'firstname', 'lastname', 'avatar', 'id'],
                 model: db.User,
                 required: true,
                 as: 'creator'
@@ -66,7 +66,7 @@ router.get('/type/:code', (req, res) => {
                                 as: 'category'
                             },
                             {
-                                attributes: ['username', 'firstname', 'lastname', 'avatar'],
+                                attributes: ['username', 'firstname', 'lastname', 'avatar', 'id'],
                                 model: db.User,
                                 required: true,
                                 as: 'creator'

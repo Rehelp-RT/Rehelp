@@ -21,13 +21,14 @@ Use sequalize command `sequelize --options-path=server/options.js *` (or `npm ru
 
 | Operation | Command |
 | --- | --- |
-| list of applied migrations | `db:migrate:status` |
-| create generic migration | `migration:create --name name-the-migration` |
-| create model based migration | `model:create --name User --attributes 'name:string email:string bio:text'` |
-| apply migrations | `db:migrate` |
-| create a seeder | `seed:create --name new-seed` |
-| apply all seeders | `db:seed:all` |
-| undo all seeders | `db:seed:undo:all` |
+| list of applied migrations | `sequelize --options-path=server/options.js db:migrate:status` |
+| create generic migration | `sequelize --options-path=server/options.js migration:create --name name-the-migration` |
+| create model based migration | `sequelize --options-path=server/options.js model:create --name User --attributes 'name:string email:string bio:text'` |
+| apply migrations | `sequelize --options-path=server/options.js db:migrate` |
+| create a seeder | `sequelize --options-path=server/options.js seed:create --name new-seed` |
+| apply all seeders | `sequelize --options-path=server/options.js db:seed:all` |
+| undo all seeders | `sequelize --options-path=server/options.js db:seed:undo:all` |
+| run specific seed | `sequelize --options-path=server/options.js db:seed --seed 20200301180220-recreate-categories` |
 
 For migration command look QueryInterface documentation: <https://sequelize.org/master/class/lib/query-interface.js~QueryInterface.html>
 

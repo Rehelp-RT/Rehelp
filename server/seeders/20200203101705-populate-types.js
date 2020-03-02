@@ -1,5 +1,4 @@
 'use strict';
-
 module.exports = {
     up: (queryInterface, Sequelize) => {
         const date = new Date();
@@ -17,3 +16,4 @@ module.exports = {
         return queryInterface.bulkDelete('HelpTypes', null, {});
     }
 };
+

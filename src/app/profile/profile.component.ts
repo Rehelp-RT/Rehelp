@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ProfileComponent implements OnInit {
   user: User;
   currentUser: User;
+  isSyncAnimated = true;
 
   constructor(
     private actRoute: ActivatedRoute,

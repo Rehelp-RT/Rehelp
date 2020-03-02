@@ -2,17 +2,18 @@
 
     <div class="container">
         <h4 class="display-4">Meet & Help</h4>
+
         <div class="text-right">
-            <a [routerLink]="['/helps/add']" class="btn btn-outline-primary mb-3">
+            <a [routerLink]="['/helps/add']" class="btn btn-outline-secondary mb-3">
                 <fa-icon [icon]="['fas', 'plus']"></fa-icon> Aggiungi
             </a>
         </div>
+
         <table class="table">
             <thead>
                 <tr>
-                    <th>Img</th>
-                    <th>Titolo</th>
-                    <th>Categoria</th>
+                    <th>Richiesta</th>
+                    <th>Creata</th>
                     <th>Autore</th>
                     <th></th>
                 </tr>
@@ -20,17 +21,27 @@
             <tbody>
                 <tr *ngFor="let h of helps">
                     <td>
-                        <img src="{{ h.image == null ? 'assets/img/placeholder-help.png' : 'http://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + h.image }}" alt="{{ h.title }} image" width="100" class="help-img">
+                        <img class="help-img" src="{{ h.image == null ? 'assets/img/placeholder-help.png' : 'http://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + h.image }}" alt="{{ h.title }} image" width="100">
+
+                        <div class="help-desc">
+                            <strong>{{ h.category.name }}</strong>
+                            <p>{{ h.title }}</p>
+                            <p>
+                                <fa-icon [icon]="['fas', 'map-marker-alt']"></fa-icon>
+                                {{ h.address }}
+                            </p>
+                        </div>
                     </td>
-                    <td>{{ h.title }}</td>
-                    <td>{{ h.category.name }}</td>
+                    <td>
+                        {{ h.createdAt | date: "dd/MM/yyyy" }}
+                    </td>
                     <td>
                         <span class="img-avatar rounded-circle">
                           <img src="{{ h.creator.avatar == null ? 'assets/img/avatar_64.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + h.creator.avatar }}" alt="{{ h.creator.firstname + ' ' + h.creator.lastname }}" title="{{ h.creator.firstname + ' ' + h.creator.lastname }}" width="32">
                         </span>
                     </td>
                     <td>
-                        <a [routerLink]="['/helps/', h.id]" class="btn btn-sm btn-outline-secondary m-1">
+                        <a [routerLink]="['/helps/', h.id]" class="btn btn-block btn-sm btn-outline-primary m-1">
                             Dettagli
                         </a>
                     </td>

@@ -39,10 +39,18 @@ import {
   faCamera,
   faCheck,
   faChevronLeft,
+  faCircle,
   faCloudUploadAlt,
+  faCoffee,
+  faEnvelope,
+  faMapMarkerAlt,
   faPencilAlt,
   faPlus,
   faSave,
+  faSpinner,
+  faSquare,
+  faStarOfLife,
+  faSync,
   faTrashAlt
 } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -74,13 +82,13 @@ export const cloudinaryLib = { Cloudinary: CloudinaryCore };
     HomeComponent,
     HowItWorksComponent,
     LoginComponent,
+    MeetAndHelpComponent,
+    ProfileEditComponent,
     ProfileComponent,
     RegisterComponent,
-    ProfileEditComponent,
+    StarRatingComponent,
     TestUploadComponent,
-    UploadAvatarComponent,
-    MeetAndHelpComponent,
-    StarRatingComponent
+    UploadAvatarComponent
   ],
   imports: [
     BrowserModule,
@@ -114,12 +122,20 @@ export class AppModule {
     library.addIcons(
       faAngleDoubleRight,
       faCamera,
+      faCircle,
       faCheck,
       faChevronLeft,
       faCloudUploadAlt,
+      faCoffee,
+      faEnvelope,
+      faMapMarkerAlt,
       faPencilAlt,
       faPlus,
       faSave,
+      faSpinner,
+      faSquare,
+      faStarOfLife,
+      faSync,
       faTrashAlt,
       farCheckSquare,
       farSquare);

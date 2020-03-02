@@ -25,6 +25,10 @@ export class HelpService {
     return this.http.get<Help[]>(`${environment.apiUrl}/helps`);
   }
 
+  getByType(code: string) {
+    return this.http.get<Help[]>(`${environment.apiUrl}/helps/type/${code}`);
+  }
+
   getById(id: number) {
     return this.http.get<Help>(`${environment.apiUrl}/helps/${id}`);
   }

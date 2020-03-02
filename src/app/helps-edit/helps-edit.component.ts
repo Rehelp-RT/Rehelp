@@ -81,29 +81,33 @@ export class HelpsEditComponent implements OnInit {
     this.mapsAPILoader.load().then(() => {
 
       this.geoCoder = new google.maps.Geocoder();
-      setTimeout(() => {}, 500);
-      const autocomplete = new google.maps.places.Autocomplete(
-        this.searchElementRef.nativeElement,
-        {
-          types: ['address']
-        }
-      );
-      autocomplete.addListener('place_changed', () => {
-        this.ngZone.run(() => {
-          // get the place result
-          const place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
-          // verify result
-          if (place.geometry === undefined || place.geometry === null) {
-            return;
+      setTimeout(() => {
+
+        const autocomplete = new google.maps.places.Autocomplete(
+          this.searchElementRef.nativeElement, {
+            types: ['address']
           }
+        );
 
-          // set latitude, longitude and zoom
-          this.model.latitude = place.geometry.location.lat();
-          this.model.longitude = place.geometry.location.lng();
-          this.zoom = 12;
+        autocomplete.addListener('place_changed', () => {
+          this.ngZone.run(() => {
+            // get the place result
+            const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+            // verify result
+            if (place.geometry === undefined || place.geometry === null) {
+              return;
+            }
+
+            // set latitude, longitude and zoom
+            this.model.latitude = place.geometry.location.lat();
+            this.model.longitude = place.geometry.location.lng();
+            this.zoom = 12;
+          });
         });
-      });
+      }, 500);
+
     });
 
     // Create the file uploader, wire it to upload to your account

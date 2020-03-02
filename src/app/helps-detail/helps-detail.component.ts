@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService, HelpService, ResponseService } from '@app/_services';
 import { Help, HelpResponse, User } from '@app/_models';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ModalService } from '../_modal';
+import { ModalService } from '@app/_modal';
 
 @Component({
   selector: 'app-helps-detail',

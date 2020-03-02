@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HelpService } from '../_services';
-import { Help } from '../_models';
+import { HelpService, AuthenticationService } from '@app/_services';
+import { Help, User } from '@app/_models';
 
 @Component({
   selector: 'app-helps',
@@ -10,18 +10,31 @@ import { Help } from '../_models';
 export class HelpsComponent implements OnInit {
 
   helps: Help[] = [];
+  currentUser: User = null;
 
-  constructor(private hs: HelpService) { }
+  constructor(
+    private hs: HelpService,
+    private as: AuthenticationService) {
+      this.getCurrentUser();
+    }
 
   ngOnInit() {
     const type = 'MEH';
     this.getHelps(type);
   }
 
+  getCurrentUser(): void {
+    this.as.getCurrentUser()
+      .subscribe(x => {
+        this.currentUser = x;
+      });
+  }
+
   getHelps(type: string): void {
+
     this.hs.getByType(type)
         .subscribe(x => {
-            this.helps = x;
+            this.helps = x.filter(y => y.idCreator !== this.currentUser.id );
         });
   }
   /*

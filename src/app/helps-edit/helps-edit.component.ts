@@ -23,13 +23,16 @@ import { Cloudinary } from '@cloudinary/angular-5.x';
   templateUrl: './helps-edit.component.html',
   styleUrls: ['./helps-edit.component.css']
 })
-export class HelpsEditComponent implements OnInit { 
+export class HelpsEditComponent implements OnInit {
    @Input()
   responses: Array<any>;
 
   public hasBaseDropZoneOver = false;
   public uploader: FileUploader;
-  
+  public idCat1 = null;
+  public idCat2 = null;
+  public idCat3 = null;
+
   categories: HelpCategory[] = [];
   helpsForm: FormGroup;
   id: number = null;
@@ -95,7 +98,7 @@ export class HelpsEditComponent implements OnInit {
         });
       });
     });
-    
+
     // Create the file uploader, wire it to upload to your account
     const uploaderOptions: FileUploaderOptions = {
       url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/upload`,
@@ -222,7 +225,7 @@ export class HelpsEditComponent implements OnInit {
       value: fileProperties[key]
     }));
   }
-  
+
   // Get current location coordinates
   private setCurrentLocation() {
     if ('geolocation' in navigator) {

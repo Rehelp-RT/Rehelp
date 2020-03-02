@@ -9,7 +9,8 @@
             </a>
         </div>
 
-        <table class="table">
+        <p *ngIf="helps.length == 0">Non ci sono richieste di aiuto.</p>
+        <table class="table" *ngIf="helps.length > 0">
             <thead>
                 <tr>
                     <th>Richiesta</th>

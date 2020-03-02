@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService, HelpService, ResponseService } from '@app/_services';
+import { AuthenticationService, FeedbackService, HelpService, ResponseService } from '@app/_services';
 import { Help, HelpResponse, User } from '@app/_models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ModalService } from '../_modal';
@@ -23,6 +23,7 @@ export class HelpsDetailComponent implements OnInit {
     private actRoute: ActivatedRoute,
     private router: Router,
     private as: AuthenticationService,
+    private fs: FeedbackService,
     private rs: ResponseService,
     private modalService: ModalService
     ) {
@@ -80,12 +81,19 @@ export class HelpsDetailComponent implements OnInit {
       });
   }
 
-  complete(response: HelpResponse): void {
+  complete(response: HelpResponse, message: String, star: number ): void {
     this.completed = true;
+    console.log(message);
+    console.log(star);
     this.rs.completeResponse(response)
       .subscribe(x => {
         this.getHelp(x.idHelp);
       });
+      /*
+    this.fs.addFeedback()
+    .subscribe(x => {
+
+    })*/
   }
 
   deleteHelp() {

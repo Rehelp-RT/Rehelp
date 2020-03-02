@@ -34,7 +34,9 @@ export class HelpsComponent implements OnInit {
 
     this.hs.getByType(type)
         .subscribe(x => {
-            this.helps = x.filter(y => y.idCreator !== this.currentUser.id );
+            const helps = x.filter(y => y.idCreator !== this.currentUser.id );
+            console.log('helps', helps);
+            this.helps = helps;
         });
   }
   /*

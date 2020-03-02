@@ -12,8 +12,18 @@ router.get('/', (req, res) =>
                 as: 'type'
             },
             {
-                attributes: ['code', 'name'],
+                attributes: ['id', 'code', 'name'],
                 model: db.HelpCategory,
+                include: [{
+                    attributes: ['id', 'code', 'name'],
+                    model: db.HelpCategory,
+                    include: [{
+                        attributes: ['id', 'code', 'name'],
+                        model: db.HelpCategory,
+                        as: 'parent'
+                    }],
+                    as: 'parent'
+                }],
                 required: true,
                 as: 'category'
             },

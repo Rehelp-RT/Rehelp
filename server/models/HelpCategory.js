@@ -17,17 +17,19 @@ module.exports = (sequelize, DataTypes) => {
     }, {});
 
     HelpCategory.associate = function(models) {
-        models.HelpCategory.hasMany(models.Help, {
-            foreignKey: 'idCategory',
-            as: 'helps'
-        });
-    };
-
-    HelpCategory.associate = function(models) {
-        models.HelpCategory.hasMany(models.HelpCategory, {
-            foreignKey: 'idParent',
-            as: 'childs'
-        });
+        models.HelpCategory.belongsTo(models.HelpCategory, {
+                onDelete: "CASCADE",
+                foreignKey: 'idParent',
+                as: 'parent'
+            }),
+            models.HelpCategory.hasMany(models.Help, {
+                foreignKey: 'idCategory',
+                as: 'helps'
+            }),
+            models.HelpCategory.hasMany(models.HelpCategory, {
+                foreignKey: 'idParent',
+                as: 'children'
+            });
     };
 
     return HelpCategory;

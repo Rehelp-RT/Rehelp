@@ -86,7 +86,22 @@ router.get('/:id', (req, res) => {
     db.Help.findByPk(req.params.id, {
             include: [
                 { attributes: ['code', 'name'], model: db.HelpType, required: true, as: 'type' },
-                { attributes: ['code', 'name'], model: db.HelpCategory, required: true, as: 'category' },
+                {
+                    attributes: ['id', 'code', 'name'],
+                    model: db.HelpCategory,
+                    include: [{
+                        attributes: ['id', 'code', 'name'],
+                        model: db.HelpCategory,
+                        include: [{
+                            attributes: ['id', 'code', 'name'],
+                            model: db.HelpCategory,
+                            as: 'parent'
+                        }],
+                        as: 'parent'
+                    }],
+                    required: true,
+                    as: 'category'
+                },
                 { attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'], model: db.User, required: true, as: 'creator' },
                 {
                     attributes: ['id', 'accepted', 'completed', 'message'],

@@ -23,13 +23,16 @@ import { Cloudinary } from '@cloudinary/angular-5.x';
   templateUrl: './helps-edit.component.html',
   styleUrls: ['./helps-edit.component.css']
 })
-export class HelpsEditComponent implements OnInit { 
+export class HelpsEditComponent implements OnInit {
    @Input()
   responses: Array<any>;
 
   public hasBaseDropZoneOver = false;
   public uploader: FileUploader;
-  
+  public idCat1 = null;
+  public idCat2 = null;
+  public idCat3 = null;
+
   categories: HelpCategory[] = [];
   helpsForm: FormGroup;
   id: number = null;
@@ -54,11 +57,19 @@ export class HelpsEditComponent implements OnInit {
     const id = this.activeRouter.snapshot.params.id;
     this.hs.getById(id).subscribe(x => {
       this.model = x;
-      this.model.title = x.title;
-      this.model.idCategory = x.idCategory;
-      this.model.description = x.description;
-      this.model.latitude = x.latitude;
-      this.model.longitude = x.longitude;
+      console.log(this.model);
+
+      if (x.category.parent.parent !== undefined) {
+        this.idCat3 = x.idCategory;
+        this.idCat2 = x.category.parent.id;
+        this.idCat1 = x.category.parent.parent.id;
+      } else if (x.category.parent !== undefined) {
+        this.idCat2 = x.idCategory;
+        this.idCat1 = x.category.parent.id;
+      } else {
+        this.idCat1 = x.idCategory;
+      }
+
       this.responses = [];
       this.setCurrentLocation();
     });
@@ -95,7 +106,7 @@ export class HelpsEditComponent implements OnInit {
         });
       });
     });
-    
+
     // Create the file uploader, wire it to upload to your account
     const uploaderOptions: FileUploaderOptions = {
       url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/upload`,
@@ -222,7 +233,7 @@ export class HelpsEditComponent implements OnInit {
       value: fileProperties[key]
     }));
   }
-  
+
   // Get current location coordinates
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
@@ -263,12 +274,18 @@ export class HelpsEditComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+
+    // image
     const image = this.responses[0];
-    if(image != null){
+    if (image != null) {
       this.model.image = image.data.public_id;
     }
+
+    // category
+    this.model.idCategory = this.idCat3 != null ? this.idCat3 : this.idCat2;
+
     this.hs.updateHelp(this.model).subscribe(
-      res => {
+      () => {
         this.router.navigate(['/helps']);
       },
       err => {

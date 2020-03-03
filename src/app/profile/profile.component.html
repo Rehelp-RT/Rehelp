@@ -7,7 +7,7 @@
 
                 <figure class="overlay-wrapper rounded-circle mb-3">
                     <img class="img-fluid" src="{{ user.avatar == null ? 'assets/img/avatar_512.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + user.avatar }}" alt="{{ user.firstname + ' ' + user.lastname }}" title="{{ user.firstname + ' ' + user.lastname }}">
-                    <figcaption *ngIf="user.username == currentUser?.username" class="overlay-panel overlay-black text-center">
+                    <figcaption *ngIf="user.username == currentUser" class="overlay-panel overlay-black text-center">
                         <a class="btn btn-lg btn-outline-secondary btn-circle mb-3" [routerLink]="['/profile/upload-avatar/', user.id]">
                             <fa-icon [icon]="['fas', 'camera']" size="lg"></fa-icon>
                         </a>
@@ -26,19 +26,24 @@
 
                 <table class="table text-left">
                     <tr>
-                        <th>Like Helps</th>
+                        <th>Età</th>
+                        <td>{{ user.birthdate ? getAge(user.birthdate) : '-' }}</td>
+                    </tr>
+                    <tr>
+                        <th>LikeHelps</th>
                         <td>
                             {{ user.likehelps }}
                             <fa-icon [icon]="['fas', 'star-of-life']"></fa-icon>
                         </td>
                     </tr>
                     <tr>
-                        <th>Età</th>
-                        <td>{{ user.birthdate ? getAge(user.birthdate) : '-' }}</td>
+                        <th>Recensioni</th>
+                        <td>
+                        </td>
                     </tr>
                 </table>
 
-                <div class="text-right" *ngIf="user.username == currentUser?.username">
+                <div class="text-right" *ngIf="user.username == currentUser">
                     <a class="btn btn-outline-secondary btn-circle" title="Modifica" [routerLink]="['/profile/edit/', user.id]">
                         <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon>
                     </a>

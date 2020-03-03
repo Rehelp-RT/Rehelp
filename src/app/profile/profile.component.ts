@@ -10,29 +10,31 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProfileComponent implements OnInit {
   user: User;
-  currentUser: User;
+  currentUser: string = null;
   isSyncAnimated = true;
 
   constructor(
     private actRoute: ActivatedRoute,
     private as: AuthenticationService,
-    private us: UserService) {
-      this.as.currentUser.subscribe(x => {
-        this.currentUser = x;
-      });
-    }
+    private us: UserService) { }
 
   ngOnInit() {
-    const id = this.actRoute.snapshot.params.id;
-    if (id == null) {
-      this.us.getById(this.currentUser.id).subscribe(x => {
-        this.user = x;
+      // get current user
+      console.log('currentUser', this.as.getCurrentUser());
+      this.as.currentUser.subscribe(cu => {
+          this.currentUser = cu.username;
+          const id = this.actRoute.snapshot.params.id;
+          // get user profile
+          if (id == null) {
+              this.us.getById(cu.id).subscribe(x => {
+                  this.user = x;
+              });
+          } else {
+              this.us.getById(id).subscribe(x => {
+                  this.user = x;
+              });
+          }
       });
-    } else {
-      this.us.getById(id).subscribe(x => {
-        this.user = x;
-      });
-    }
   }
 
   getAge(birthdate) {
@@ -55,6 +57,5 @@ export class ProfileComponent implements OnInit {
         }
     }
     return diff;
-}
-
+  }
 }

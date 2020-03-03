@@ -5,7 +5,7 @@ import {
   ParsedResponseHeaders
 } from 'ng2-file-upload';
 import { Cloudinary } from '@cloudinary/angular-5.x';
-import { UserService } from '@app/_services';
+import { UserService, AuthenticationService } from '@app/_services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '@app/_models';
 
@@ -26,6 +26,7 @@ export class UploadAvatarComponent implements OnInit {
   constructor(
     private cloudinary: Cloudinary,
     private zone: NgZone,
+    private as: AuthenticationService,
     private us: UserService,
     private router: Router,
     private activeRouter: ActivatedRoute
@@ -117,6 +118,8 @@ export class UploadAvatarComponent implements OnInit {
 
       this.us.uploadAvatar(this.user.id, avatarPath).subscribe(
           res => {
+            this.user.avatar = avatarPath;
+            this.as.refresh(this.user);
             this.router.navigate(['/profile']);
           },
           err => {

@@ -7,45 +7,45 @@ router.get('/', (req, res) =>
         attributes: ['id', 'message', 'rating', 'idHelp', 'createdAt'],
         include: [{
             attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
-                model: db.User,
-                required: true,
-                as: 'reviewer'
-            },
-            {
-                attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
-                model: db.User,
-                required: true,
-                as: 'reviewed'
-            }
+            model: db.User,
+            required: true,
+            as: 'reviewer'
+        },
+        {
+            attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
+            model: db.User,
+            required: true,
+            as: 'reviewed'
+        }
         ]
     })
-    .then(x => {
-        res.json(x)
-    })
-    .catch(err => {
-        console.log(err);
-        res.sendStatus(500)
-    })
+        .then(x => {
+            res.json(x)
+        })
+        .catch(err => {
+            console.log(err);
+            res.sendStatus(500)
+        })
 );
 
 // GET /api/feedback/5
 router.get('/:id', (req, res) => {
     db.HelpResponse.findByPk(
-            req.params.id, {
-                include: [{
-                        attributes: ['id', 'title'],
-                        model: db.Help,
-                        required: true,
-                        as: 'help'
-                    },
-                    {
-                        attributes: ['username', 'firstname', 'lastname'],
-                        model: db.User,
-                        required: true,
-                        as: 'responder'
-                    }
-                ]
-            })
+        req.params.id, {
+        include: [{
+            attributes: ['id', 'title'],
+            model: db.Help,
+            required: true,
+            as: 'help'
+        },
+        {
+            attributes: ['username', 'firstname', 'lastname'],
+            model: db.User,
+            required: true,
+            as: 'responder'
+        }
+        ]
+    })
         .then(x => {
             if (!x) {
                 return res.status(404).send({
@@ -75,16 +75,20 @@ router.post('/add', (req, res) => {
         res.status(400).send({ message: 'message is missing' });
     } else if (body.rating === undefined) {
         res.status(400).send({ message: 'rating is missing' });
+    } else if (body.idReviewer === undefined) {
+        res.status(400).send({ message: 'idReviewer is missing' });
+    } else if (body.idReviewed === undefined) {
+        res.status(400).send({ message: 'idReviewed is missing' });
     } else {
         const currentDate = new Date();
         db.Feedback.create({
-                idReviewer: body.idReviewer,
-                idReviewed: body.idReviewed,
-                createdAt: currentDate,
-                message: body.message,
-                rating: body.rating,
-                idHelp: body.idHelp
-            })
+            idReviewer: body.idReviewer,
+            idReviewed: body.idReviewed,
+            createdAt: currentDate,
+            message: body.message,
+            rating: body.rating,
+            idHelp: body.idHelp
+        })
             .then(x => {
                 res.status(201).send({
                     id: x.id
@@ -104,7 +108,7 @@ router.delete('/delete/:id', (req, res) => {
         res.sendStatus(400)
     } else {
         db.HelpResponse.findByPk(req.params.id)
-            .then(function(helpResponse) {
+            .then(function (helpResponse) {
                 // Check if record exists in db
                 if (helpResponse) {
                     helpResponse.destroy()

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService, FeedbackService, HelpService, ResponseService } from '@app/_services';
-import { Help, HelpResponse, User } from '@app/_models';
+import { Help, HelpResponse, User, Feedback } from '@app/_models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ModalService } from '@app/_modal';
 
@@ -17,6 +17,10 @@ export class HelpsDetailComponent implements OnInit {
   accepted = false;
   completed = false;
   userResponse: boolean;
+  stars: number[] = [1, 2, 3, 4, 5];
+  selectedValue: number;
+  feedback: Feedback = null;
+  acceptedResponse: HelpResponse;
 
   constructor(
     private hs: HelpService,
@@ -47,6 +51,7 @@ export class HelpsDetailComponent implements OnInit {
         });
         this.userResponse = this.checkUserResponse(x.responses, this.currentUser.id);
         this.checkAuthor();
+        this.acceptedResponse = x.responses.find(x => x.accepted === true);
       });
   }
 
@@ -81,19 +86,26 @@ export class HelpsDetailComponent implements OnInit {
       });
   }
 
-  complete(response: HelpResponse, message: String, star: number ): void {
+  complete(response: HelpResponse, message: string): void {
     this.completed = true;
-    console.log(message);
-    console.log(star);
-    this.rs.completeResponse(response)
-      .subscribe(x => {
-        this.getHelp(x.idHelp);
-      });
-      /*
-    this.fs.addFeedback()
+    this.feedback = new Feedback();
+    this.feedback.message = message;
+    this.feedback.rating = this.selectedValue;
+    this.feedback.idHelp = this.model.id;
+    this.feedback.idReviewer = this.currentUser.id;
+    this.feedback.idReviewed = this.acceptedResponse.responder.id;
+    const idModel = this.model.id;
+    this.fs.addFeedback(this.feedback)
     .subscribe(x => {
-
-    })*/
+      this.modalService.close('modal-complete');
+      this.router.navigate(['/helps/', idModel])
+    })
+    /*
+    this.rs.completeResponse(response)
+    .subscribe(x => {
+      this.getHelp(x.idHelp);
+    });
+    */
   }
 
   deleteHelp() {
@@ -122,5 +134,9 @@ export class HelpsDetailComponent implements OnInit {
 
   closeModal(id: string) {
     this.modalService.close(id);
+  }
+  
+  countStar(star) {
+    this.selectedValue = star;
   }
 }

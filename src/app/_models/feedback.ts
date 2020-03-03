@@ -10,5 +10,5 @@ export class Feedback {
     help: Help;
     message: string;
     createdAt: Date;
-    rating; number;
+    rating: number;
 }

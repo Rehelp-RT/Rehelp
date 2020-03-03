@@ -13,7 +13,8 @@
                     <div class="card-body">
                         <h3 class="mb-3">{{ model.title }}</h3>
                         <hr>
-                        <img src="{{ model.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + model.image }}" alt="{{ model.title }} image" class="img-fluid mb-3">
+                        <img src="{{ model.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + model.image }}"
+                            alt="{{ model.title }} image" class="img-fluid mb-3">
 
                         <div class="row mb-3">
                             <div class="col-4"><strong>Tipo</strong></div>
@@ -22,7 +23,8 @@
                         <div class="row mb-3">
                             <div class="col-4"><strong>Categoria</strong></div>
                             <div class="col-8">
-                                <span class="badge badge-secondary">{{ model.category?.parent?.parent?.name }}</span>&nbsp;
+                                <span
+                                    class="badge badge-secondary">{{ model.category?.parent?.parent?.name }}</span>&nbsp;
                                 <span class="badge badge-secondary">{{ model.category?.parent?.name }}</span>&nbsp;
                                 <span class="badge badge-secondary">{{ model.category?.name }}</span>
                             </div>
@@ -33,14 +35,14 @@
 
                                 <a [routerLink]="['/profile', model.creator.id ]" *ngIf="model.creator">
                                     <span class="img-avatar rounded-circle">
-                                            <img src="{{ model.creator.avatar == null ? 'assets/img/avatar_64.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + model.creator.avatar }}"
-                                                alt="{{ model.creator.firstname + ' ' + model.creator.lastname }}"
-                                                title="{{ model.creator.firstname + ' ' + model.creator.lastname }}"
-                                                width="32" class="mr-3">
-                                          </span>
+                                        <img src="{{ model.creator.avatar == null ? 'assets/img/avatar_64.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + model.creator.avatar }}"
+                                            alt="{{ model.creator.firstname + ' ' + model.creator.lastname }}"
+                                            title="{{ model.creator.firstname + ' ' + model.creator.lastname }}"
+                                            width="32" class="mr-3">
+                                    </span>
                                     <span class="text-dark">
-                                              {{ model.creator.firstname + ' ' + model.creator.lastname }}
-                                          </span>
+                                        {{ model.creator.firstname + ' ' + model.creator.lastname }}
+                                    </span>
                                 </a>
                             </div>
                         </div>
@@ -93,32 +95,37 @@
                                     <p *ngIf="model.responses.length == 0">Non hai ancora ricevuto risposta da nessuno.
                                     </p>
                                     <ul class="list-group">
-                                        <li class="list-group-item" *ngFor="let r of model.responses" [ngClass]="{ 'bg-success' : r.accepted, 'bg-info' : r.completed }">
+                                        <li class="list-group-item" *ngFor="let r of model.responses"
+                                            [ngClass]="{ 'bg-success' : r.accepted, 'bg-info' : r.completed }">
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <a [routerLink]="['/profile', r.responder.id ]">
                                                         <span class="img-avatar rounded-circle">
-                                                    <img src="{{ r.responder.avatar == null ? 'assets/img/avatar_64.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + r.responder.avatar }}"
-                                                        alt="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
-                                                        title="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
-                                                        width="32" class="mr-3">
-                                                </span>
+                                                            <img src="{{ r.responder.avatar == null ? 'assets/img/avatar_64.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + r.responder.avatar }}"
+                                                                alt="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
+                                                                title="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
+                                                                width="32" class="mr-3">
+                                                        </span>
                                                         <span class="text-dark">
-                                                    {{ r.responder.firstname + ' ' + r.responder.lastname }}
-                                                </span>
+                                                            {{ r.responder.firstname + ' ' + r.responder.lastname }}
+                                                        </span>
                                                     </a>
                                                 </div>
                                                 <div class="col-md-6">
                                                     {{ r.message }}
                                                 </div>
                                                 <div class="col-md-3 text-right">
-                                                    <a class="btn btn-outline-success ml-3" (click)="accept(r)" *ngIf="!r.accepted && !accepted && !completed">
+                                                    <a class="btn btn-outline-success ml-3" (click)="accept(r)"
+                                                        *ngIf="!r.accepted && !accepted && !completed">
                                                         <fa-icon [icon]="['fas', 'check']"></fa-icon> Accetta
                                                     </a>
-                                                    <a class="btn btn-outline-secondary ml-3" (click)="cancel(r)" *ngIf="r.accepted && !completed">
-                                                Cancella
-                                            </a>
-                                                    <button class="btn btn-outline-primary ml-3" (click)="openModal('modal-complete')" *ngIf="r.accepted && !completed">Completa</button>
+                                                    <a class="btn btn-outline-secondary ml-3" (click)="cancel(r)"
+                                                        *ngIf="r.accepted && !completed">
+                                                        Cancella
+                                                    </a>
+                                                    <button class="btn btn-outline-primary ml-3"
+                                                        (click)="openModal('modal-complete')"
+                                                        *ngIf="r.accepted && !completed">Completa</button>
                                                     <!-- <a class="btn btn-outline-primary ml-3" (click)="complete(r)" *ngIf="r.accepted && !completed">
                                                 Completa
                                             </a> -->
@@ -127,19 +134,34 @@
                                                             <div class="card-body">
                                                                 <h1>Lascia un feedback e completa la richiesta</h1>
                                                                 <div class="form-row mb-3">
-                                                                    <label class="col-md-4" for="message">Messaggio</label>
-                                                                    <textarea class="col-md-8 form-control" rows="4" name="message">
-                                                    </textarea>
+                                                                    <label class="col-md-4"
+                                                                        for="message">Messaggio</label>
+                                                                    <textarea class="col-md-8 form-control" rows="4"
+                                                                        [(ngModel)]="message" name="message">
+                                                                    </textarea>
                                                                 </div>
                                                                 <div class="form-row mb-3">
-                                                                    <label class="col-md-4" for="star-rating">Valutazione</label>
+                                                                    <label class="col-md-4"
+                                                                        for="star-rating">Valutazione</label>
                                                                     <div class="col-md-8">
-                                                                        <app-star-rating></app-star-rating>
+                                                                        <div class="row">
+                                                                            <div class="col-sm-12">
+                                                                                <ul class="list-inline rating-list"
+                                                                                    *ngFor="let star of stars"
+                                                                                    style="display: inline-block">
+                                                                                    <li (click)="countStar(star)"
+                                                                                        [ngClass]="{'selected': (star <= selectedValue)}">
+                                                                                        <i class="fa fa-star"></i>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                                <a class="btn btn-outline-primary ml-3" (click)="complete(r)">
-                                                      Completa
-                                                    </a>
+                                                                <a class="btn btn-outline-primary ml-3"
+                                                                    (click)="complete(r, message)">
+                                                                    Completa
+                                                                </a>
                                                             </div>
                                                         </div>
                                                     </app-modal>
@@ -154,28 +176,30 @@
                         <ng-template #notAuthor>
                             <div *ngIf="userResponse; else notUserResponse">
                                 <ul class="list-group">
-                                    <li class="list-group-item" *ngFor="let r of model.responses" [ngClass]="{ 'bg-success' : r.accepted, 'bg-info' : r.completed }">
+                                    <li class="list-group-item" *ngFor="let r of model.responses"
+                                        [ngClass]="{ 'bg-success' : r.accepted, 'bg-info' : r.completed }">
                                         <div *ngIf="r.responder.id == currentUser.id" class="row">
                                             <div class="col-md-3">
                                                 <a [routerLink]="['/profile', r.responder.id ]">
                                                     <span class="img-avatar rounded-circle">
-                                                <img src="{{ r.responder.avatar == null ? 'assets/img/avatar_64.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + r.responder.avatar }}"
-                                                    alt="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
-                                                    title="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
-                                                    width="32" class="mr-3">
-                                            </span>
+                                                        <img src="{{ r.responder.avatar == null ? 'assets/img/avatar_64.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + r.responder.avatar }}"
+                                                            alt="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
+                                                            title="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
+                                                            width="32" class="mr-3">
+                                                    </span>
                                                     <span class="text-dark">
-                                                {{ r.responder.firstname + ' ' + r.responder.lastname }}
-                                            </span>
+                                                        {{ r.responder.firstname + ' ' + r.responder.lastname }}
+                                                    </span>
                                                 </a>
                                             </div>
                                             <div class="col-md-6">
                                                 {{ r.message }}
                                             </div>
                                             <div class="col-md-3 text-right">
-                                                <a class="btn btn-outline-secondary ml-3" (click)="deleteResponse(r)" *ngIf="!(r.accepted)">
-                                            Cancella
-                                        </a>
+                                                <a class="btn btn-outline-secondary ml-3" (click)="deleteResponse(r)"
+                                                    *ngIf="!(r.accepted)">
+                                                    Cancella
+                                                </a>
                                                 <p *ngIf="r.accepted && !completed">
                                                     Accettata
                                                 </p>
@@ -190,9 +214,10 @@
                         </ng-template>
                         <ng-template #notUserResponse>
                             <div class="mb-3 row">
-                                <a class="btn btn-lg btn-outline-primary offset-md-3" [routerLink]="['/helps/' + model?.id + '/response/']">
-                            Rispondi
-                        </a>
+                                <a class="btn btn-lg btn-outline-primary offset-md-3"
+                                    [routerLink]="['/helps/' + model?.id + '/response/']">
+                                    Rispondi
+                                </a>
                             </div>
                         </ng-template>
                     </div>

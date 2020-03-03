@@ -19,8 +19,16 @@ export class FeedbackService {
     return this.http.get<Help>(`${environment.apiUrl}/helps/${id}`);
   }
   */
-  addFeedback(feedback: Feedback) {
+
+  creatorFeedback(feedback: Feedback) {
     return this.http.post<any>(`${environment.apiUrl}/feedback/`, feedback)
+      .pipe(map(x => {
+        return x;
+      }));
+  }
+
+  responderFeedback(feedback: Feedback) {
+    return this.http.put<any>(`${environment.apiUrl}/feedback/`, feedback)
       .pipe(map(x => {
         return x;
       }));

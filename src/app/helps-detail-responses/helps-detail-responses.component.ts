@@ -68,12 +68,12 @@ export class HelpsDetailResponsesComponent implements OnInit {
 
     this.feedback = new Feedback();
     this.feedback.messageCreator = message;
-    this.feedback.rating = this.selectedValue;
+    this.feedback.ratingCreator = this.selectedValue;
     this.feedback.idResponse = response.id;
 
     console.log('feedback', this.feedback);
 
-    this.fs.addFeedback(this.feedback).subscribe(() => {
+    this.fs.creatorFeedback(this.feedback).subscribe(() => {
         this.modalService.close('modal-complete');
         this.router.navigate(['/helps/', this.help.id]);
     });

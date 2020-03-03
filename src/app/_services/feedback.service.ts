@@ -28,7 +28,7 @@ export class FeedbackService {
   }
 
   responderFeedback(feedback: Feedback) {
-    return this.http.put<any>(`${environment.apiUrl}/feedback/`, feedback)
+    return this.http.put<any>(`${environment.apiUrl}/feedback/` + feedback.id, {})
       .pipe(map(x => {
         return x;
       }));

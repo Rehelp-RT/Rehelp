@@ -85,9 +85,7 @@ router.post('/', (req, res) => {
             ratingCreator: body.ratingCreator
         })
             .then(x => {
-                res.status(201).send({
-                    id: x.id
-                })
+                res.status(201).send(x)
             })
             .catch(err => {
                 res.status(500).send(err)
@@ -96,7 +94,7 @@ router.post('/', (req, res) => {
 });
 
 // PUT /api/feedback/
-router.put('/', (req, res) => {
+router.put('/id', (req, res) => {
     const body = req.body;
     if (body == undefined) {
         res.sendStatus(400)
@@ -104,17 +102,15 @@ router.put('/', (req, res) => {
         res.status(400).send({ message: 'messageResponder is missing' });
     } else if (body.rating === undefined) {
         res.status(400).send({ message: 'rating is missing' });
-    } else if (body.idResponse === undefined) {
-        res.status(400).send({ message: 'idResponse is missing' });
     } else {
         db.Feedback.findByPk(req.params.id)
-            .then(function(feedback) {
+            .then(function (feedback) {
                 // Check if record exists in db
                 if (feedback) {
                     feedback.update({
-                            messageResponder: body.messageResponder,
-                            ratingResponder: body.ratingResponder
-                        })
+                        messageResponder: body.messageResponder,
+                        ratingResponder: body.ratingResponder
+                    })
                         .then(x => {
                             res.status(200).send(feedback)
                         })

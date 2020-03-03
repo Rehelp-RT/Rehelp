@@ -73,8 +73,8 @@ router.post('/', (req, res) => {
         res.sendStatus(400)
     } else if (body.messageCreator === undefined) {
         res.status(400).send({ message: 'messageCreator is missing' });
-    } else if (body.rating === undefined) {
-        res.status(400).send({ message: 'rating is missing' });
+    } else if (body.ratingCreator === undefined) {
+        res.status(400).send({ message: 'ratingCreator is missing' });
     } else if (body.idResponse === undefined) {
         res.status(400).send({ message: 'idResponse is missing' });
     } else {

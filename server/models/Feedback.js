@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
         updatedAt: DataTypes.DATE,
         messageCreator: DataTypes.STRING,
         messageResponder: DataTypes.STRING,
-        rating: DataTypes.INTEGER
+        ratingCreator: DataTypes.INTEGER,
+        ratingResponder: DataTypes.INTEGER
     }, {});
 
     Feedback.associate = function(models) {

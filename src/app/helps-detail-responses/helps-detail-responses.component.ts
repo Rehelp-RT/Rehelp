@@ -67,11 +67,9 @@ export class HelpsDetailResponsesComponent implements OnInit {
     this.completed = true;
 
     this.feedback = new Feedback();
-    this.feedback.message = message;
+    this.feedback.messageCreator = message;
     this.feedback.rating = this.selectedValue;
-    this.feedback.idHelp = this.help.id;
-    this.feedback.idReviewer = this.currentUser.id;
-    this.feedback.idReviewed = response.responder.id;
+    this.feedback.idResponse = response.id;
 
     console.log('feedback', this.feedback);
 

@@ -20,7 +20,7 @@ export class FeedbackService {
   }
   */
   addFeedback(feedback: Feedback) {
-    return this.http.post<any>(`${environment.apiUrl}/feedback/add`, feedback)
+    return this.http.post<any>(`${environment.apiUrl}/feedback/`, feedback)
       .pipe(map(x => {
         return x;
       }));

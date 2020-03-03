@@ -7,7 +7,8 @@ export class Feedback {
     messageResponder: string;
     createdAt: Date;
     updatedAt: Date;
-    rating: number;
+    ratingCreator: number;
+    ratingResponder: number;
 
     response: HelpResponse;
 }

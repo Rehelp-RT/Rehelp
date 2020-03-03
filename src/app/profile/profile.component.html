@@ -3,7 +3,7 @@
 
         <div class="row">
 
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-4 text-center">
 
                 <figure class="overlay-wrapper rounded-circle mb-3">
                     <img class="img-fluid" src="{{ user.avatar == null ? 'assets/img/avatar_512.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + user.avatar }}" alt="{{ user.firstname + ' ' + user.lastname }}" title="{{ user.firstname + ' ' + user.lastname }}">
@@ -14,16 +14,17 @@
                     </figcaption>
                 </figure>
 
+
                 <h2 class="mb-3">
                     {{ user.firstname }} {{ user.lastname }}
                 </h2>
 
-                <p class="text-dark mb-3">
+                <p class="text-dark mb-3" *ngIf="user.city && user.country">
                     <fa-icon [icon]="['fas', 'map-marker-alt']"></fa-icon>
-                    {{ user.address }}
+                    {{ user.city }} ({{ user.country }})
                 </p>
 
-                <table class="table">
+                <table class="table text-left">
                     <tr>
                         <th>Like Helps</th>
                         <td>
@@ -45,7 +46,7 @@
 
             </div>
 
-            <div class="col-lg-8 col-md-6">
+            <div class="col-lg-8">
 
                 <div class="card mt-3">
                     <div class="card-body">

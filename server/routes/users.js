@@ -62,14 +62,14 @@ router.put('/:id/update', function(req, res) {
                 // Check if record exists in db
                 if (user) {
                     user.update({
+                            birthdate: body.birthdate,
+                            city: body.city,
+                            country: body.country,
+                            email: body.email,
                             firstname: body.firstname,
                             lastname: body.lastname,
                             latitude: body.latitude,
-                            longitude: body.longitude,
-                            address: body.address,
-                            birthdate: body.birthdate,
-                            username: body.username,
-                            password: body.password
+                            longitude: body.longitude
                         })
                         .then(x => {
                             res.status(200).send(user)

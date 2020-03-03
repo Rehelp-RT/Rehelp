@@ -1,13 +1,13 @@
 <div class="container py-3">
     <div class="row">
 
-        <div class="col-lg-2 col-md-3 mb-3">
+        <div class="col-lg-2 mb-3">
             <a class="btn btn-block btn-outline-secondary" [routerLink]="['/profile']">
                 <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon> Profilo
             </a>
         </div>
 
-        <div class="col-lg-10 col-md-9">
+        <div class="col-lg-10">
 
             <h2 class="display-4">Modifica dati personali</h2>
             <div class="card mt-3">
@@ -25,13 +25,26 @@
                         </div>
 
                         <div class="form-row mb-3">
-                            <label class="col-md-4" for="username">Username</label>
-                            <input class="col-md-8 form-control" type="text" [(ngModel)]="model.username" name="username" required />
+                            <label class="col-md-4" for="lastname">Data di nascita</label>
+                            <input class="col-md-8 form-control" type="text" [(ngModel)]="model.birthdate" name="birthdate" />
                         </div>
 
                         <div class="form-row mb-3">
-                            <label class="col-md-4" for="password">Password</label>
-                            <input class="col-md-8 form-control" type="password" [(ngModel)]="model.password" name="password" required />
+                            <label class="col-md-4" for="lastname">Email</label>
+                            <input class="col-md-8 form-control" type="text" [(ngModel)]="model.email" name="email" required />
+                        </div>
+
+                        <div class="form-row mb-3">
+                            <label class="col-md-4" for="location">Zona</label>
+                            <agm-map class="col-md-8" [latitude]="model.latitude" [longitude]="model.longitude" [zoom]="zoom">
+                                <agm-marker [latitude]="model.latitude" [longitude]="model.longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
+                                </agm-marker>
+                            </agm-map>
+                        </div>
+
+                        <div class="form-row mb-3">
+                            <label class="col-md-4" for="address">Indirizzo</label>
+                            <input type="text" class="col-md-8 form-control" [(ngModel)]="address" name="address" (keydown.enter)="$event.preventDefault()" placeholder="{{address}}" value="{{address}}" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
                         </div>
 
                         <div class="form-row mb-3">

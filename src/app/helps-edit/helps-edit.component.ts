@@ -9,14 +9,16 @@ import {
 import { FormGroup } from '@angular/forms';
 import { HelpService, CategoryService } from '@app/_services';
 import { ActivatedRoute, Router } from '@angular/router';
+
+// model
 import { Help, HelpCategory } from '@app/_models';
-import {
-  FileUploader,
-  FileUploaderOptions,
-  ParsedResponseHeaders
-} from 'ng2-file-upload';
-import { MapsAPILoader, MouseEvent } from '@agm/core';
+
+// image
+import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
 import { Cloudinary } from '@cloudinary/angular-5.x';
+
+// maps
+import { MapsAPILoader, MouseEvent } from '@agm/core';
 
 @Component({
   selector: 'app-helps-edit',
@@ -27,63 +29,82 @@ export class HelpsEditComponent implements OnInit {
    @Input()
   responses: Array<any>;
 
+  // image
   public hasBaseDropZoneOver = false;
   public uploader: FileUploader;
+
+  // categories
+  categories: HelpCategory[] = [];
   public idCat1 = null;
   public idCat2 = null;
   public idCat3 = null;
 
-  categories: HelpCategory[] = [];
+  // model
   helpsForm: FormGroup;
   id: number = null;
   submitted = false;
   model: Help = null;
+
+  // maps
   zoom: number;
   address: string;
   private geoCoder;
-
   @ViewChild('search', { static: false })
   public searchElementRef: ElementRef;
 
   constructor(
-    private cloudinary: Cloudinary,
-    private cs: CategoryService,
     private activeRouter: ActivatedRoute,
     private router: Router,
     private hs: HelpService,
-    private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone
-  ) {
+    private cloudinary: Cloudinary,
+    private cs: CategoryService,
+    private ngZone: NgZone,
+    private mapsAPILoader: MapsAPILoader
+  ) { }
+
+  ngOnInit() {
     const id = this.activeRouter.snapshot.params.id;
     this.hs.getById(id).subscribe(x => {
+      // model
       this.model = x;
-      console.log(this.model.category);
 
-      if (x.category.parent.parent !== undefined && x.category.parent.parent !== null ) {
-        this.idCat3 = x.idCategory;
-        this.idCat2 = x.category.parent.id;
-        this.idCat1 = x.category.parent.parent.id;
-      } else if (x.category.parent !== undefined && x.category.parent !== null) {
-        this.idCat2 = x.idCategory;
-        this.idCat1 = x.category.parent.id;
-      } else {
-        this.idCat1 = x.idCategory;
-      }
-      this.setCurrentLocation();
+      // categories
+      this.initCategories();
+
+      // responses
       this.responses = [];
+
+      // maps
+      this.initMaps();
     });
+
+    // categories
     this.cs.getAll().subscribe(x => {
       this.categories = x;
     });
+
+    // images
+    this.initImages();
   }
 
-  ngOnInit() {
+  initCategories() {
+    if (this.model.category.parent.parent !== undefined && this.model.category.parent.parent !== null ) {
+      this.idCat3 = this.model.idCategory;
+      this.idCat2 = this.model.category.parent.id;
+      this.idCat1 = this.model.category.parent.parent.id;
+    } else if (this.model.category.parent !== undefined && this.model.category.parent !== null) {
+      this.idCat2 = this.model.idCategory;
+      this.idCat1 = this.model.category.parent.id;
+    } else {
+      this.idCat1 = this.model.idCategory;
+    }
+  }
+
+  initMaps() {
+    this.setCurrentLocation();
     this.mapsAPILoader.load().then(() => {
-
       this.geoCoder = new google.maps.Geocoder();
-
       setTimeout(() => {
-
         const autocomplete = new google.maps.places.Autocomplete(
           this.searchElementRef.nativeElement, {
             types: ['address']
@@ -109,8 +130,10 @@ export class HelpsEditComponent implements OnInit {
       }, 500);
 
     });
+  }
 
-    // Create the file uploader, wire it to upload to your account
+  initImages() {
+
     const uploaderOptions: FileUploaderOptions = {
       url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/upload`,
       // Upload files automatically upon addition to upload queue
@@ -128,7 +151,6 @@ export class HelpsEditComponent implements OnInit {
       ]
     };
     this.uploader = new FileUploader(uploaderOptions);
-
     this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
       // Add Cloudinary's unsigned upload preset to the upload form
       form.append('upload_preset', 'preset_help');
@@ -200,10 +222,10 @@ export class HelpsEditComponent implements OnInit {
       });
   }
 
-  // Delete an uploaded image
-  // Requires setting 'Return delete token' to 'Yes' in your upload preset configuration
-  // See also https://support.cloudinary.com/hc/en-us/articles/202521132-How-to-delete-an-image-from-the-client-side-
   deleteImage = function(data: any, index: number) {
+    // Delete an uploaded image
+    // Requires setting 'Return delete token' to 'Yes' in your upload preset configuration
+    // See also https://support.cloudinary.com/hc/en-us/articles/202521132-How-to-delete-an-image-from-the-client-side-
     const url = `https://api.cloudinary.com/v1_1/${
       this.cloudinary.config().cloud_name
     }/delete_by_token`;

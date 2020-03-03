@@ -3,16 +3,19 @@ var bcrypt = require('bcryptjs');
 'use strict';
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define('User', {
-        username: DataTypes.STRING,
-        password: DataTypes.STRING,
         avatar: DataTypes.STRING,
+        birthdate: DataTypes.DATEONLY,
+        city: DataTypes.STRING,
+        country: DataTypes.STRING,
+        email: DataTypes.STRING,
         firstname: DataTypes.STRING,
         lastname: DataTypes.STRING,
-        birthdate: DataTypes.DATEONLY,
         latitude: DataTypes.FLOAT,
         longitude: DataTypes.FLOAT,
-        address: DataTypes.STRING,
-        likehelps: DataTypes.INTEGER
+
+        likehelps: DataTypes.INTEGER,
+        password: DataTypes.STRING,
+        username: DataTypes.STRING
     }, {});
     User.beforeSave((user, options) => {
         if (user.changed('password')) {

@@ -30,8 +30,8 @@
                 <div class="status">
                     Caricamento... {{ response.progress }}%
                     <div *ngIf="!response.status">In progress</div>
-                    <div class="status-code" *ngIf="response.status">
-                        Caricamento completo, status: {{ response.status }}
+                    <div class="status-code" *ngIf="response.status == 200">
+                        Caricamento completo
                     </div>
                 </div>
                 <div class="progress-bar">

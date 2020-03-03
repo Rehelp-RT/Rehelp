@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, NgZone, ViewChild } from '@angular/core';
 import { User } from '@app/_models';
-import { UserService } from '@app/_services';
+import { UserService, AuthenticationService } from '@app/_services';
 import { ActivatedRoute, Router } from '@angular/router';
 
 // maps
@@ -27,6 +27,7 @@ export class ProfileEditComponent implements OnInit {
   constructor(
     private router: Router,
     private activeRouter: ActivatedRoute,
+    private as: AuthenticationService,
     private us: UserService,
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone
@@ -144,6 +145,7 @@ export class ProfileEditComponent implements OnInit {
     this.submitted = true;
     this.us.update(this.model).subscribe(
       res => {
+        this.as.refresh(this.model);
         this.router.navigate(['/profile']);
       },
       err => {

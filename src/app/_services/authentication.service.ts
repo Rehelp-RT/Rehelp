@@ -24,7 +24,7 @@ export class AuthenticationService {
         return this.currentUser;
       }
 
-    login(username: string, password: string) {
+    public login(username: string, password: string) {
         return this.http.post<any>(`${environment.apiUrl}/signin`, { username, password })
             .pipe(map(user => {
 
@@ -41,9 +41,14 @@ export class AuthenticationService {
             }));
     }
 
-    logout() {
+    public refresh(user) {
+      this.currentUserSubject.next(user);
+    }
+
+    public logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
     }
+
 }

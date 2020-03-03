@@ -14,8 +14,6 @@ export class HelpsDetailComponent implements OnInit {
   author: boolean;
   model: Help = null;
   currentUser: User = null;
-  accepted = false;
-  completed = false;
   userResponse: boolean;
 
   constructor(
@@ -23,7 +21,6 @@ export class HelpsDetailComponent implements OnInit {
     private actRoute: ActivatedRoute,
     private router: Router,
     private as: AuthenticationService,
-    private rs: ResponseService,
     private modalService: ModalService
     ) {
     const id = this.actRoute.snapshot.params.id;
@@ -38,12 +35,12 @@ export class HelpsDetailComponent implements OnInit {
     this.hs.getById(id)
       .subscribe(x => {
         this.model = x;
-        this.accepted = x.responses.some((y) => {
-          return y.accepted;
-        });
-        this.completed = x.responses.some((y) => {
-          return y.completed;
-        });
+        // this.accepted = x.responses.some((y) => {
+        //   return y.accepted;
+        // });
+        // this.completed = x.responses.some((y) => {
+        //   return y.completed;
+        // });
         this.userResponse = this.checkUserResponse(x.responses, this.currentUser.id);
         this.checkAuthor();
       });
@@ -64,30 +61,6 @@ export class HelpsDetailComponent implements OnInit {
     }
   }
 
-  accept(response: HelpResponse): void {
-    this.accepted = true;
-    this.rs.acceptResponse(response)
-      .subscribe(x => {
-        this.getHelp(x.idHelp);
-      });
-  }
-
-  cancel(response: HelpResponse): void {
-    this.accepted = false;
-    this.rs.cancelResponse(response)
-      .subscribe(x => {
-        this.getHelp(x.idHelp);
-      });
-  }
-
-  complete(response: HelpResponse): void {
-    this.completed = true;
-    this.rs.completeResponse(response)
-      .subscribe(x => {
-        this.getHelp(x.idHelp);
-      });
-  }
-
   deleteHelp() {
     this.hs.deleteHelp(this.model)
       .subscribe(x =>
@@ -99,13 +72,6 @@ export class HelpsDetailComponent implements OnInit {
     return arr.some((arrVal) => {
       return val === arrVal.responder.id;
     });
-  }
-
-  deleteResponse(response: HelpResponse): void {
-    this.rs.deleteResponse(response)
-      .subscribe(x =>
-        this.router.navigate(['/helps/, model.id'])
-      );
   }
 
   openModal(id: string) {

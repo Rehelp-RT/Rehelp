@@ -62,6 +62,7 @@ import { UploadAvatarComponent } from './upload-avatar/upload-avatar.component';
 import { MeetAndHelpComponent } from './meet-and-help/meet-and-help.component';
 import { StarRatingComponent } from './star-rating/star-rating.component';
 import { FilterCategoriesPipe } from './filter-categories.pipe';
+import { HelpsDetailResponsesComponent } from './helps-detail-responses/helps-detail-responses.component';
 // import { faStackOverflow, faGithub, faMedium } from '@fortawesome/free-brands-svg-icons';
 
 export const cloudinaryLib = { Cloudinary: CloudinaryCore };
@@ -90,7 +91,8 @@ export const cloudinaryLib = { Cloudinary: CloudinaryCore };
     StarRatingComponent,
     TestUploadComponent,
     UploadAvatarComponent,
-    FilterCategoriesPipe
+    FilterCategoriesPipe,
+    HelpsDetailResponsesComponent
   ],
   imports: [
     BrowserModule,

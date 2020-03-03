@@ -13,6 +13,15 @@
                     <form #helpForm="ngForm" (ngSubmit)="onSubmit()">
                         <input type="hidden" [(ngModel)]="response.help.id" name="idHelp" />
 
+                        <div class="row mb-3">
+                            <div class="col-4">Categoria</div>
+                            <div class="col-8">
+                                <span class="badge badge-secondary">{{ response.help.category?.parent?.parent?.name }}</span>&nbsp;
+                                <span class="badge badge-secondary">{{ response.help.category?.parent?.name }}</span>&nbsp;
+                                <span class="badge badge-secondary">{{ response.help.category?.name }}</span>
+                            </div>
+                        </div>
+
                         <div class="form-row mb-3">
                             <label class="col-md-4">Richiesta</label>
                             <div class="col-md-8">
@@ -31,11 +40,10 @@
                             <label class="col-md-4">Creatore</label>
                             <div class="col-md-8">
                                 <span class="img-avatar rounded-circle">
-                                <img src="assets/{{ response.help.creator.avatar == null ? 'img/avatar_64.png' : 'uploaded/' + response.help.creator.avatar }}"
-                                    alt="{{ response.help.creator.firstname + ' ' + response.help.creator.lastname }}"
-                                    title="{{ response.help.creator.firstname + ' ' + response.help.creator.lastname }}"
-                                    width="32"
-                                    class="mr-3">
+                                  <img src="{{ response.help.creator.avatar == null ? 'assets/img/avatar_64.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + response.help.creator.avatar }}"
+                                                alt="{{ response.help.creator.firstname + ' ' + response.help.creator.lastname }}"
+                                                title="{{ response.help.creator.firstname + ' ' + response.help.creator.lastname }}"
+                                                width="32" class="mr-3">
                             </span>
                                 <span class="text-dark">
                                 {{ response.help.creator.firstname + ' ' + response.help.creator.lastname }}

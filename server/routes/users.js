@@ -13,10 +13,53 @@ router.get('/:id', (req, res) => {
                 'username', 'likehelps'
             ],
             include: [{
-                attributes: ['id', 'title', 'image'],
-                model: db.Help,
-                as: 'helps'
-            }]
+                    attributes: ['id', 'title', 'image'],
+                    model: db.Help,
+                    as: 'helps',
+                    include: [{
+                        attributes: ['id', 'code', 'name'],
+                        model: db.HelpCategory,
+                        include: [{
+                            attributes: ['id', 'code', 'name'],
+                            model: db.HelpCategory,
+                            include: [{
+                                attributes: ['id', 'code', 'name'],
+                                model: db.HelpCategory,
+                                as: 'parent'
+                            }],
+                            as: 'parent'
+                        }],
+                        required: true,
+                        as: 'category'
+                    }]
+                },
+                {
+                    attributes: ['accepted'],
+                    model: db.HelpResponse,
+                    as: 'responses',
+                    include: [{
+                        attributes: ['id', 'title', 'image'],
+                        model: db.Help,
+                        as: 'help',
+                        include: [{
+                            attributes: ['id', 'code', 'name'],
+                            model: db.HelpCategory,
+                            include: [{
+                                attributes: ['id', 'code', 'name'],
+                                model: db.HelpCategory,
+                                include: [{
+                                    attributes: ['id', 'code', 'name'],
+                                    model: db.HelpCategory,
+                                    as: 'parent'
+                                }],
+                                as: 'parent'
+                            }],
+                            required: true,
+                            as: 'category'
+                        }]
+                    }]
+                }
+            ]
         }).then(user => {
             if (!user) {
                 return res.status(404).send({

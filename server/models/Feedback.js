@@ -3,40 +3,25 @@ const db = require('../models');
 
 module.exports = (sequelize, DataTypes) => {
     const Feedback = sequelize.define('Feedback', {
-        idReviewer: {
+        idResponse: {
             type: DataTypes.INTEGER,
             references: {
-                model: db.User,
-                key: 'id',
-            }
-        },
-        idReviewed: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: db.User,
+                model: db.HelpResponse,
                 key: 'id',
             }
         },
         createdAt: DataTypes.DATE,
-        message: DataTypes.STRING,
+        updatedAt: DataTypes.DATE,
+        messageCreator: DataTypes.STRING,
+        messageResponder: DataTypes.STRING,
         rating: DataTypes.INTEGER
     }, {});
 
     Feedback.associate = function(models) {
-        models.Feedback.belongsTo(models.User, {
+        models.Feedback.belongsTo(models.HelpResponse, {
             onDelete: "CASCADE",
-            foreignKey: 'idReviewer',
-            as: 'reviewer'
-        });
-        models.Feedback.belongsTo(models.User, {
-            onDelete: "CASCADE",
-            foreignKey: 'idReviewed',
-            as: 'reviewed'
-        });
-        models.Feedback.belongsTo(models.Help, {
-            onDelete: "CASCADE",
-            foreignKey: 'idHelp',
-            as: 'help'
+            foreignKey: 'idResponse',
+            as: 'response'
         });
     };
 

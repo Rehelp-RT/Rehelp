@@ -1,4 +1,5 @@
 import { Help, User } from './';
+import { Feedback } from './feedback';
 
 export class HelpResponse {
     id: number;
@@ -9,5 +10,6 @@ export class HelpResponse {
     completed: boolean;
     idHelp: number;
     idResponder: number;
-    feedback: string;
+
+    feedback: Feedback;
 }

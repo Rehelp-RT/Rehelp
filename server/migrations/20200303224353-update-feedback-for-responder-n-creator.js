@@ -6,7 +6,6 @@ module.exports = {
             queryInterface.removeColumn('Feedbacks', 'idReviewer'),
             queryInterface.removeColumn('Feedbacks', 'idReviewed'),
             queryInterface.removeColumn('Feedbacks', 'idHelp'),
-            queryInterface.removeConstraint('Feedbacks', 'custom_fkey_feedbacks_help'),
             queryInterface.removeConstraint('Feedbacks', 'custom_fkey_feedbacks_reviewer'),
             queryInterface.removeConstraint('Feedbacks', 'custom_fkey_feedbacks_reviewed'),
             queryInterface.renameColumn('Feedbacks', 'message', 'messageCreator'),

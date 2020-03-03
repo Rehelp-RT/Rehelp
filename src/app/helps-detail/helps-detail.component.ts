@@ -11,17 +11,14 @@ import { ModalService } from '@app/_modal';
 })
 export class HelpsDetailComponent implements OnInit {
 
-  author: boolean;
-  model: Help = null;
+  help: Help = null;
   currentUser: User = null;
-  userResponse: boolean;
 
   constructor(
     private hs: HelpService,
     private actRoute: ActivatedRoute,
     private router: Router,
-    private as: AuthenticationService,
-    private modalService: ModalService
+    private as: AuthenticationService
     ) {
     const id = this.actRoute.snapshot.params.id;
     this.getHelp(id);
@@ -34,15 +31,7 @@ export class HelpsDetailComponent implements OnInit {
   getHelp(id: number): void {
     this.hs.getById(id)
       .subscribe(x => {
-        this.model = x;
-        // this.accepted = x.responses.some((y) => {
-        //   return y.accepted;
-        // });
-        // this.completed = x.responses.some((y) => {
-        //   return y.completed;
-        // });
-        this.userResponse = this.checkUserResponse(x.responses, this.currentUser.id);
-        this.checkAuthor();
+        this.help = x;
       });
   }
 
@@ -53,32 +42,12 @@ export class HelpsDetailComponent implements OnInit {
       });
   }
 
-  checkAuthor(): void {
-    if (this.currentUser.username === this.model.creator.username) {
-      this.author = true;
-    } else {
-      this.author = false;
-    }
-  }
 
   deleteHelp() {
-    this.hs.deleteHelp(this.model)
+    this.hs.deleteHelp(this.help)
       .subscribe(x =>
         this.router.navigate(['/helps'])
       );
   }
 
-  checkUserResponse(arr, val) {
-    return arr.some((arrVal) => {
-      return val === arrVal.responder.id;
-    });
-  }
-
-  openModal(id: string) {
-    this.modalService.open(id);
-  }
-
-  closeModal(id: string) {
-    this.modalService.close(id);
-  }
 }

@@ -59,19 +59,19 @@
 
                         <div *ngIf="user.helps.length > 0">
                             <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Img</th>
-                                        <th>Titolo</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
                                 <tbody>
                                     <tr *ngFor="let h of user.helps">
                                         <td>
                                             <img src="{{ h.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + h.image }}" alt="{{ h.title }} image" width="100" class="help-img">
                                         </td>
-                                        <td>{{ h.title }}</td>
+                                        <td>
+                                            <p>
+                                                <span class="badge badge-secondary mr-1">{{ h.category?.parent?.parent?.name }}</span>
+                                                <span class="badge badge-secondary mr-1">{{ h.category?.parent?.name }}</span>
+                                                <span class="badge badge-secondary">{{ h.category?.name }}</span>
+                                            </p>
+                                            {{ h.title }}
+                                        </td>
                                         <td>
                                             <a [routerLink]="['/helps/', h.id]" class="btn btn-sm btn-outline-secondary m-1">
                                             Dettagli

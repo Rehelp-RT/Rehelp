@@ -114,7 +114,6 @@ router.get('/:id', (req, res) => {
                 },
                 { attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'], model: db.User, required: true, as: 'creator' },
                 {
-                    attributes: ['id', 'accepted', 'completed', 'message'],
                     include: [{
                         attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
                         model: db.User,

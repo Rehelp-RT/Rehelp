@@ -14,3 +14,27 @@
     display: inline-block;
     list-style: none;
 }
+
+.speech-bubble {
+    position: relative;
+    background: #e0e0e0;
+    border-radius: .4em;
+    margin-top: 24px;
+    margin-bottom: 8px;
+    padding: 8px;
+}
+
+.speech-bubble:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-bottom-color: #e0e0e0;
+    border-top: 0;
+    border-left: 0;
+    margin-left: -10px;
+    margin-top: -20px;
+}

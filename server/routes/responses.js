@@ -107,18 +107,15 @@ router.put('/accept/:id', (req, res) => {
     } else {
         db.HelpResponse.findByPk(
                 req.params.id)
-            .then(function(response) {
-                // Check if record exists in db
-                if (response) {
-                    const currentDate = new Date();
-                    response.update({
-                            accepted: true,
-                            acceptedAt: currentDate
-                        })
-                        .then(x => {
-                            res.status(200).send(response)
-                        })
-                }
+            .then((response) => {
+                const currentDate = new Date();
+                response.update({
+                        accepted: true,
+                        acceptedAt: currentDate
+                    })
+                    .then(x => {
+                        res.status(200).send(response)
+                    })
             })
     }
 });
@@ -147,11 +144,54 @@ router.put('/cancel/:id', (req, res) => {
     }
 });
 
+// PUT /api/responses/feedback/
+router.put('/feedback/:id', (req, res) => {
+    const body = req.body;
+    if (body == undefined) {
+        res.sendStatus(400)
+    } else if (body.messageCreator === undefined) {
+        res.status(400).send({ message: 'messageCreator is missing' });
+    } else if (body.ratingCreator === undefined) {
+        res.status(400).send({ message: 'ratingCreator is missing' });
+    } else {
+        db.HelpResponse.findByPk(req.params.id)
+            .then(response => {
+                const currentDate = new Date();
+                response.update({
+                        reviewed: true,
+                        creatorReviewedAt: currentDate(),
+                        messageCreator: body.messageCreator,
+                        ratingCreator: body.ratingCreator
+                    })
+                    .then(x => {
+                        res.status(201).send(x)
+                    })
+                    .catch(err => {
+                        res.status(500).send(err)
+                    });
+            })
+            .catch(err => {
+                if (err.kind === 'ObjectId') {
+                    return res.status(404).send({
+                        message: 'Response with id ' + req.params.id + ' not found.'
+                    });
+                }
+                return res.status(500).send({
+                    message: err.message
+                });
+            });
+    }
+});
+
 // PUT /api/responses/complete/5
 router.put('/complete/:id', (req, res) => {
     const body = req.body;
     if (body == undefined) {
         res.sendStatus(400)
+    } else if (body.messageResponder === undefined) {
+        res.status(400).send({ message: 'messageResponder is missing' });
+    } else if (body.ratingResponder === undefined) {
+        res.status(400).send({ message: 'ratingResponder is missing' });
     } else {
         db.HelpResponse.findByPk(req.params.id, {
                 include: [{

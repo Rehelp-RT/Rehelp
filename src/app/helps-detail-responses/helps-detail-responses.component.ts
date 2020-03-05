@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Help, HelpResponse, Feedback, User } from '@app/_models';
-import { ResponseService, FeedbackService } from '@app/_services';
+import { Help, HelpResponse, User } from '@app/_models';
+import { ResponseService } from '@app/_services';
 import { Router } from '@angular/router';
 import { ModalService } from '@app/_modal';
 
@@ -16,17 +16,14 @@ export class HelpsDetailResponsesComponent implements OnInit {
 
   // responses
   isHelpCreator: boolean;
-  accepted = false;
-  completed = false;
   isUserResponded: boolean;
 
   // feedback
   stars: number[] = [1, 2, 3, 4, 5];
   selectedValue: number;
-  feedback: Feedback = null;
+  message = '';
 
   constructor(
-    private fs: FeedbackService,
     private rs: ResponseService,
     private router: Router,
     private modalService: ModalService) { }
@@ -46,7 +43,6 @@ export class HelpsDetailResponsesComponent implements OnInit {
   }
 
   accept(response: HelpResponse): void {
-    this.accepted = true;
     this.rs.acceptResponse(response)
       .subscribe(x => {
         response.accepted = true;
@@ -55,7 +51,6 @@ export class HelpsDetailResponsesComponent implements OnInit {
   }
 
   cancel(response: HelpResponse): void {
-    this.accepted = false;
     this.rs.cancelResponse(response)
       .subscribe(x => {
         response.accepted = false;
@@ -63,17 +58,12 @@ export class HelpsDetailResponsesComponent implements OnInit {
       });
   }
 
-  complete(response: HelpResponse, message: string): void {
-    this.completed = true;
+  review(response: HelpResponse, message: string): void {
+    response.messageCreator = message;
+    response.ratingCreator = this.selectedValue;
 
-    this.feedback = new Feedback();
-    this.feedback.messageCreator = message;
-    this.feedback.ratingCreator = this.selectedValue;
-    this.feedback.idResponse = response.id;
-
-    console.log('feedback', this.feedback);
-
-    this.fs.creatorFeedback(this.feedback).subscribe(() => {
+    this.rs.creatorFeedback(response).subscribe(() => {
+        response.reviewed = true;
         this.modalService.close('modal-complete');
         this.router.navigate(['/helps/', this.help.id]);
     });

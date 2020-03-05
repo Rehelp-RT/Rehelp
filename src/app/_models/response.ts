@@ -1,5 +1,4 @@
 import { Help, User } from './';
-import { Feedback } from './feedback';
 
 export class HelpResponse {
     id: number;
@@ -7,9 +6,15 @@ export class HelpResponse {
     responder: User;
     message: string;
     accepted: boolean;
+    reviewed: boolean;
     completed: boolean;
     idHelp: number;
     idResponder: number;
 
-    feedback: Feedback;
+    messageCreator: string;
+    messageResponder: string;
+    creatorReviewedAt: Date;
+    responderReviewedAt: Date;
+    ratingCreator: number;
+    ratingResponder: number;
 }

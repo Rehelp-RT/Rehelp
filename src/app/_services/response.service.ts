@@ -26,6 +26,13 @@ export class ResponseService {
     return this.http.put<any>(`${environment.apiUrl}/responses/cancel/` + response.id, {});
   }
 
+  creatorFeedback(response: HelpResponse) {
+    return this.http.post<any>(`${environment.apiUrl}/feedback/`, response.id)
+      .pipe(map(x => {
+        return x;
+      }));
+  }
+
   completeResponse(response: HelpResponse) {
     return this.http.put<any>(`${environment.apiUrl}/responses/complete/` + response.id, {});
   }

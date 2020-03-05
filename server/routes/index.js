@@ -2,7 +2,6 @@ const router = require('express').Router();
 
 router.use('/', require('./basic'));
 router.use('/categories', require('./categories'));
-router.use('/feedback', require('./feedback'));
 router.use('/helps', require('./helps'));
 router.use('/responses', require('./responses'));
 router.use('/users', require('./users'));

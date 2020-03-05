@@ -54,8 +54,9 @@ import {
   faTrashAlt
 } from '@fortawesome/free-solid-svg-icons';
 import {
-  faSquare as farSquare,
-  faCheckSquare as farCheckSquare
+  faCheckSquare as farCheckSquare,
+  faClipboard as farClipboard,
+  faSquare as farSquare
 } from '@fortawesome/free-regular-svg-icons';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { UploadAvatarComponent } from './upload-avatar/upload-avatar.component';
@@ -142,6 +143,7 @@ export class AppModule {
       faSync,
       faTrashAlt,
       farCheckSquare,
+      farClipboard,
       farSquare);
   }
 }

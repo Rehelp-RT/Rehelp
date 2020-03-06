@@ -70,6 +70,13 @@ router.get('/type/:code', (req, res) => {
                                 model: db.User,
                                 required: true,
                                 as: 'creator'
+                            },
+                            {
+                                model: db.HelpResponse,
+                                as: 'responses',
+                                order: [
+                                    [{ model: db.Help.HelpResponse, as: 'responses' }, 'ddd', 'desc']
+                                ]
                             }
                         ],
                         order: [

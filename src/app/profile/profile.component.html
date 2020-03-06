@@ -87,7 +87,32 @@
 
                         <h3 class="mb-3">Offerte di aiuto</h3>
 
-                        <p>Nessun aiuto offerto.</p>
+                        <div *ngIf="user.responses.length > 0">
+                            <table class="table">
+                                <tbody>
+                                    <tr *ngFor="let r of user.responses">
+                                        <td>
+                                            <img src="{{ r.help.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + r.help.image }}" alt="{{ r.help.title }} image" width="100" class="help-img">
+                                        </td>
+                                        <td>
+                                            <p>
+                                                <span class="badge badge-secondary mr-1">{{ r.help.category?.parent?.parent?.name }}</span>
+                                                <span class="badge badge-secondary mr-1">{{ r.help.category?.parent?.name }}</span>
+                                                <span class="badge badge-secondary">{{ r.help.category?.name }}</span>
+                                            </p>
+                                            {{ r.help.title }}
+                                        </td>
+                                        <td>
+                                            <a [routerLink]="['/helps/', r.help.id]" class="btn btn-sm btn-outline-secondary m-1">
+                                          Dettagli
+                                      </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p *ngIf="user.responses.length == 0">Nessun aiuto offerto.</p>
+
                     </div>
                 </div>
 

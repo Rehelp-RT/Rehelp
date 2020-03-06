@@ -4,58 +4,58 @@ import { AuthenticationService, UserService } from '@app/_services';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+    selector: 'app-profile',
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  user: User;
-  currentUser: string = null;
-  isSyncAnimated = true;
+    user: User;
+    currentUser: string = null;
+    isSyncAnimated = true;
 
-  constructor(
-    private actRoute: ActivatedRoute,
-    private as: AuthenticationService,
-    private us: UserService) { }
+    constructor(
+        private actRoute: ActivatedRoute,
+        private as: AuthenticationService,
+        private us: UserService) { }
 
-  ngOnInit() {
-      // get current user
-      console.log('currentUser', this.as.getCurrentUser());
-      this.as.currentUser.subscribe(cu => {
-          this.currentUser = cu.username;
-          const id = this.actRoute.snapshot.params.id;
-          // get user profile
-          if (id == null) {
-              this.us.getById(cu.id).subscribe(x => {
-                  this.user = x;
-              });
-          } else {
-              this.us.getById(id).subscribe(x => {
-                  this.user = x;
-              });
-          }
-      });
-  }
-
-  getAge(birthdate) {
-    const datenew = new Date();
-    const dateold = new Date(birthdate);
-    const ynew = datenew.getFullYear();
-    const mnew = datenew.getMonth();
-    const dnew = datenew.getDate();
-    const yold = dateold.getFullYear();
-    const mold = dateold.getMonth();
-    const dold = dateold.getDate();
-    let diff = ynew - yold;
-    if (mold > mnew) {
-      diff--;
-    } else {
-        if (mold === mnew) {
-            if (dold > dnew) {
-              diff--;
+    ngOnInit() {
+        // get current user
+        console.log('currentUser', this.as.getCurrentUser());
+        this.as.currentUser.subscribe(cu => {
+            this.currentUser = cu.username;
+            const id = this.actRoute.snapshot.params.id;
+            // get user profile
+            if (id == null) {
+                this.us.getById(cu.id).subscribe(x => {
+                    this.user = x;
+                });
+            } else {
+                this.us.getById(id).subscribe(x => {
+                    this.user = x;
+                });
             }
-        }
+        });
     }
-    return diff;
-  }
+
+    getAge(birthdate) {
+      const datenew = new Date();
+      const dateold = new Date(birthdate);
+      const ynew = datenew.getFullYear();
+      const mnew = datenew.getMonth();
+      const dnew = datenew.getDate();
+      const yold = dateold.getFullYear();
+      const mold = dateold.getMonth();
+      const dold = dateold.getDate();
+      let diff = ynew - yold;
+      if (mold > mnew) {
+        diff--;
+      } else {
+          if (mold === mnew) {
+              if (dold > dnew) {
+                diff--;
+              }
+          }
+      }
+      return diff;
+    }
 }

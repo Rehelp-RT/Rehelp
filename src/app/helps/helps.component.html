@@ -41,9 +41,7 @@
                         {{ h.createdAt | date: "dd/MM/yyyy" }}
                     </td>
                     <td>
-                        <span class="img-avatar rounded-circle">
-                          <img src="{{ h.creator.avatar == null ? 'assets/img/avatar_64.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + h.creator.avatar }}" alt="{{ h.creator.firstname + ' ' + h.creator.lastname }}" title="{{ h.creator.firstname + ' ' + h.creator.lastname }}" width="32">
-                        </span>
+                        <app-user-icon [user]="h.creator"></app-user-icon>
                     </td>
                     <td>
                         <a [routerLink]="['/helps/', h.id]" class="btn btn-block btn-sm btn-outline-primary m-1">

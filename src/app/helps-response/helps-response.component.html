@@ -39,15 +39,7 @@
                         <div class="form-row mb-3">
                             <label class="col-md-4">Creatore</label>
                             <div class="col-md-8">
-                                <span class="img-avatar rounded-circle">
-                                  <img src="{{ response.help.creator.avatar == null ? 'assets/img/avatar_64.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + response.help.creator.avatar }}"
-                                                alt="{{ response.help.creator.firstname + ' ' + response.help.creator.lastname }}"
-                                                title="{{ response.help.creator.firstname + ' ' + response.help.creator.lastname }}"
-                                                width="32" class="mr-3">
-                            </span>
-                                <span class="text-dark">
-                                {{ response.help.creator.firstname + ' ' + response.help.creator.lastname }}
-                            </span>
+                                <app-user-icon [user]="response.help.creator"></app-user-icon>
                             </div>
                         </div>
 

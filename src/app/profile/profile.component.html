@@ -81,10 +81,15 @@
                                 </tbody>
                             </table>
                         </div>
-                        <p *ngIf="user.helps.length == 0">Nessuna richiesta pubblicata.</p>
+                        <div *ngIf="user.helps.length == 0">
+                            <hr>
+                            <p>Nessuna richiesta pubblicata.</p>
+                        </div>
+                    </div>
+                </div>
 
-                        <hr>
-
+                <div class="card mt-3">
+                    <div class="card-body">
                         <h3 class="mb-3">Offerte di aiuto</h3>
 
                         <div *ngIf="user.responses.length > 0">
@@ -111,7 +116,12 @@
                                 </tbody>
                             </table>
                         </div>
-                        <p *ngIf="user.responses.length == 0">Nessun aiuto offerto.</p>
+
+                        <div *ngIf="user.responses.length == 0">
+                            <hr>
+                            <p>Nessun aiuto offerto.</p>
+                        </div>
+
 
                     </div>
                 </div>

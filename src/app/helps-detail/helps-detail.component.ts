@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { AuthenticationService, HelpService, ResponseService } from '@app/_services';
 import { Help, HelpResponse, User } from '@app/_models';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -11,29 +12,28 @@ import { ModalService } from '@app/_modal';
 })
 export class HelpsDetailComponent implements OnInit {
 
-  help: Help = null;
-  currentUser: User = null;
+    help: Help = null;
+    currentUser: User = null;
 
-  constructor(
-    private hs: HelpService,
-    private actRoute: ActivatedRoute,
-    private router: Router,
-    private as: AuthenticationService
-    ) {
-    const id = this.actRoute.snapshot.params.id;
-    this.getHelp(id);
-    this.getCurrentUser();
-  }
+    constructor(
+        private location: Location,
+        private hs: HelpService,
+        private actRoute: ActivatedRoute,
+        private router: Router,
+        private as: AuthenticationService) { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+        const id = this.actRoute.snapshot.params.id;
+        this.getHelp(id);
+        this.getCurrentUser();
+    }
 
-  getHelp(id: number): void {
-    this.hs.getById(id)
-      .subscribe(x => {
-        this.help = x;
-      });
-  }
+    getHelp(id: number): void {
+      this.hs.getById(id)
+        .subscribe(x => {
+          this.help = x;
+        });
+    }
 
   getCurrentUser(): void {
     this.as.getCurrentUser()
@@ -42,12 +42,15 @@ export class HelpsDetailComponent implements OnInit {
       });
   }
 
+    deleteHelp() {
+        this.hs.deleteHelp(this.help)
+          .subscribe(x =>
+              this.router.navigate(['/helps'])
+          );
+    }
 
-  deleteHelp() {
-    this.hs.deleteHelp(this.help)
-      .subscribe(x =>
-        this.router.navigate(['/helps'])
-      );
-  }
+    back() {
+        this.location.back();
+    }
 
 }

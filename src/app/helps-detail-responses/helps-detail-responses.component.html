@@ -11,32 +11,12 @@
 
         <div *ngFor="let r of help.responses">
             <div *ngIf="!isUserAccepted || r.accepted">
-                <a [routerLink]="['/profile', r.responder.id ]">
-                    <span class="img-avatar rounded-circle">
-                    <img src="{{ r.responder.avatar == null ? 'assets/img/avatar_64.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + r.responder.avatar }}"
-                          alt="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
-                          title="{{ r.responder.firstname + ' ' + r.responder.lastname }}"
-                          width="32" class="mr-3">
-                    </span>
-                    <span class="text-dark">
-                        {{ r.responder.firstname + ' ' + r.responder.lastname }}
-                    </span>
-                </a>
+                <app-user-icon [user]="r.responder"></app-user-icon>
                 <div class="speech-bubble-left">
                     {{ r.message }}
                 </div>
                 <div class="text-right">
-                    <a [routerLink]="['/profile', help.creator.id ]">
-                        <span class="text-dark">
-                          {{ help.creator.firstname + ' ' + help.creator.lastname }}
-                      </span>
-                        <span class="img-avatar rounded-circle">
-                        <img src="{{ help.creator.avatar == null ? 'assets/img/avatar_64.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + help.creator.avatar }}"
-                              alt="{{ help.creator.firstname + ' ' + help.creator.lastname }}"
-                              title="{{ help.creator.firstname + ' ' + help.creator.lastname }}"
-                              width="32" class="mr-3">
-                      </span>
-                    </a>
+                    <app-user-icon [user]="help.creator"></app-user-icon>
                 </div>
                 <div class="speech-bubble-right" *ngIf="r.reviewed">
                     {{ r.messageCreator }}

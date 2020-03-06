@@ -1,25 +1,11 @@
-import {
-  Component,
-  ViewChild,
-  ElementRef,
-  Input,
-  NgZone,
-  OnInit
-} from '@angular/core';
-import {
-  AuthenticationService,
-  CategoryService,
-  HelpService
-} from '@app/_services';
+import { Component, ViewChild, ElementRef, Input, NgZone, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { AuthenticationService, CategoryService, HelpService } from '@app/_services';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { HelpCategory, Help, User } from '@app/_models';
-import {
-  FileUploader,
-  FileUploaderOptions,
-  ParsedResponseHeaders
-} from 'ng2-file-upload';
+import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
 import { Cloudinary } from '@cloudinary/angular-5.x';
 
 @Component({
@@ -53,14 +39,15 @@ export class HelpsAddComponent implements OnInit {
   map = new Map([[2, 'foo'], [1, 'bar']]);
 
   constructor(
-    private cloudinary: Cloudinary,
-    private http: HttpClient,
-    private cs: CategoryService,
-    private router: Router,
-    private hs: HelpService,
-    private as: AuthenticationService,
-    private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone
+      private location: Location,
+      private cloudinary: Cloudinary,
+      private http: HttpClient,
+      private cs: CategoryService,
+      private router: Router,
+      private hs: HelpService,
+      private as: AuthenticationService,
+      private mapsAPILoader: MapsAPILoader,
+      private ngZone: NgZone
   ) {
     this.as.currentUser.subscribe(x => {
       this.currentUser = x;
@@ -288,4 +275,9 @@ export class HelpsAddComponent implements OnInit {
       }
     );
   }
+
+    back() {
+        this.location.back();
+    }
+
 }

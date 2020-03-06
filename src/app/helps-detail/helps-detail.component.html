@@ -3,9 +3,9 @@
         <div class="row">
 
             <div class="col-lg-2 col-md-3 mb-3">
-                <a class="btn btn-block btn-outline-secondary" [routerLink]="['/helps']">
-                    <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon> Aiuti
-                </a>
+                <button class="btn btn-block btn-outline-secondary" (click)="back()">
+                    <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon> Indietro
+                </button>
             </div>
 
             <div class="col-lg-6 col-md-5" *ngIf="help">
@@ -30,18 +30,7 @@
                         <div class="row mb-3">
                             <div class="col-4"><strong>Creatore</strong></div>
                             <div class="col-8">
-
-                                <a [routerLink]="['/profile', help.creator.id ]" *ngIf="help.creator">
-                                    <span class="img-avatar rounded-circle">
-                                        <img src="{{ help.creator.avatar == null ? 'assets/img/avatar_64.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + help.creator.avatar }}"
-                                            alt="{{ help.creator.firstname + ' ' + help.creator.lastname }}"
-                                            title="{{ help.creator.firstname + ' ' + help.creator.lastname }}"
-                                            width="32" class="mr-3">
-                                    </span>
-                                    <span class="text-dark">
-                                        {{ help.creator.firstname + ' ' + help.creator.lastname }}
-                                    </span>
-                                </a>
+                                <app-user-icon [user]="help.creator"></app-user-icon>
                             </div>
                         </div>
                         <div class="row mb-3">

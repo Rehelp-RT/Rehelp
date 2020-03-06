@@ -17,6 +17,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
   // responses
   isHelpCreator: boolean;
   isUserResponded: boolean;
+  isUserAccepted: boolean;
 
   // feedback
   stars: number[] = [1, 2, 3, 4, 5];
@@ -31,14 +32,22 @@ export class HelpsDetailResponsesComponent implements OnInit {
   ngOnInit() {
     this.checkHelpCreator();
     this.isUserResponded = this.checkUserResponse(this.help.responses, this.currentUser.id);
+    this.isUserAccepted = this.checkUserAccept(this.help.responses);
   }
 
   checkHelpCreator(): void {
     this.isHelpCreator = this.currentUser.id === this.help.creator.id;
   }
+
   checkUserResponse(reponses, userId) {
     return reponses.some((response) => {
       return response.responder.id === userId;
+    });
+  }
+
+  checkUserAccept(reponses) {
+    return reponses.some((response) => {
+      return response.accepted === true;
     });
   }
 
@@ -46,6 +55,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
     this.rs.acceptResponse(response)
       .subscribe(x => {
         response.accepted = true;
+        this.isUserAccepted = this.checkUserAccept(this.help.responses);
         // this.getHelp(x.idHelp);
       });
   }
@@ -54,6 +64,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
     this.rs.cancelResponse(response)
       .subscribe(x => {
         response.accepted = false;
+        this.isUserAccepted = this.checkUserAccept(this.help.responses);
         // this.getHelp(x.idHelp);
       });
   }
@@ -83,8 +94,8 @@ export class HelpsDetailResponsesComponent implements OnInit {
       );
   }
 
-  openModal(id: string) {
-    this.modalService.open(id);
+  openModal() {
+    this.modalService.open('modal-complete');
   }
 
   closeModal(id: string) {

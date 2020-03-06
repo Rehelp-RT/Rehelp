@@ -144,7 +144,7 @@ router.put('/cancel/:id', (req, res) => {
     }
 });
 
-// PUT /api/responses/feedback/
+// PUT /api/responses/feedback/5
 router.put('/feedback/:id', (req, res) => {
     const body = req.body;
     if (body == undefined) {

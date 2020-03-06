@@ -21,7 +21,7 @@
     border-radius: .4em;
     margin-top: 24px;
     margin-bottom: 8px;
-    padding: 8px;
+    padding: 8px 16px 8px 16px;
 }
 
 .speech-bubble:after {

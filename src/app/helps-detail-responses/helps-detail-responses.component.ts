@@ -72,11 +72,11 @@ export class HelpsDetailResponsesComponent implements OnInit {
   review(response: HelpResponse, message: string): void {
     response.messageCreator = message;
     response.ratingCreator = this.selectedValue;
-    console.log("response : ",response);
+    console.log('response', response);
 
     this.rs.creatorFeedback(response).subscribe(() => {
         response.reviewed = true;
-        this.modalService.close('modal-complete');
+        this.modalService.close('modal-complete-' + response.id);
         this.router.navigate(['/helps/', this.help.id]);
     });
     /*
@@ -95,8 +95,8 @@ export class HelpsDetailResponsesComponent implements OnInit {
       );
   }
 
-  openModal() {
-    this.modalService.open('modal-complete');
+  openModal(id: string) {
+    this.modalService.open(id);
   }
 
   closeModal(id: string) {

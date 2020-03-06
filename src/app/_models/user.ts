@@ -1,4 +1,5 @@
 import { Help } from './';
+import { HelpResponse } from './response';
 
 export class User {
     id: number;
@@ -22,5 +23,5 @@ export class User {
 
     // virtual
     helps: Help[];
-    responses: Response[];
+    responses: HelpResponse[];
 }

@@ -22,14 +22,34 @@
                         {{ r.responder.firstname + ' ' + r.responder.lastname }}
                     </span>
                 </a>
-                <div class="speech-bubble">
+                <div class="speech-bubble-left">
                     {{ r.message }}
                 </div>
-                <div *ngIf="r.reviewed">
-                    {{ r.messageCreator }}
+                <div class="text-right">
+                    <a [routerLink]="['/profile', help.creator.id ]">
+                        <span class="text-dark">
+                          {{ help.creator.firstname + ' ' + help.creator.lastname }}
+                      </span>
+                        <span class="img-avatar rounded-circle">
+                        <img src="{{ help.creator.avatar == null ? 'assets/img/avatar_64.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + help.creator.avatar }}"
+                              alt="{{ help.creator.firstname + ' ' + help.creator.lastname }}"
+                              title="{{ help.creator.firstname + ' ' + help.creator.lastname }}"
+                              width="32" class="mr-3">
+                      </span>
+                    </a>
                 </div>
-                <fa-icon title="Accettato" [icon]="['fas', 'check']" *ngIf="r.accepted" class="text-success mr-2"></fa-icon>
-                <fa-icon title="Recensito" [icon]="['far', 'clipboard']" *ngIf="r.reviewed" class="text-dark mr-2"></fa-icon>
+                <div class="speech-bubble-right" *ngIf="r.reviewed">
+                    {{ r.messageCreator }}
+                    <hr>
+                    <span *ngFor="let rat of [1,2,3,4,5] | slice:0:r.ratingCreator">
+                      <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
+                    </span>
+                </div>
+                <div class="speech-bubble-left" *ngIf="r.completed">
+                    {{ r.messageResponder }}
+                    <hr>
+                    <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
+                </div>
                 <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" *ngIf="r.completed" class="text-info"></fa-icon>
 
                 <div *ngIf="isHelpCreator">
@@ -37,7 +57,7 @@
                         <fa-icon [icon]="['fas', 'check']"></fa-icon> Accetta
                     </a>
                     <div *ngIf="r.accepted && !r.reviewed">
-                        <button class="btn btn-block btn-outline-primary mb-2" (click)="openModal()">
+                        <button class="btn btn-block btn-outline-primary mb-2" (click)="openModal('modal-complete-' + r.id)">
                           Il lavoro è finito
                       </button>
                         <a class="btn btn-block btn-outline-secondary" (click)="cancel(r)">
@@ -45,7 +65,7 @@
                         </a>
                     </div>
 
-                    <app-modal id="modal-complete">
+                    <app-modal id="modal-complete-{{ r.id }}">
                         <h3>Lascia un feedback e completa la richiesta</h3>
                         <hr>
                         <div class="form-row mb-3">
@@ -75,6 +95,7 @@
                         </div>
 
                     </app-modal>
+
                     <hr>
                 </div>
             </div>

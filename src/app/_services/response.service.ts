@@ -27,11 +27,11 @@ export class ResponseService {
   }
 
   creatorFeedback(response: HelpResponse) {
-    return this.http.put<any>(`${environment.apiUrl}/responses/feedback/` + response.id, {});
+    return this.http.put<any>(`${environment.apiUrl}/responses/feedback/` + response.id, response);
   }
 
   completeResponse(response: HelpResponse) {
-    return this.http.put<any>(`${environment.apiUrl}/responses/complete/` + response.id, {});
+    return this.http.put<any>(`${environment.apiUrl}/responses/complete/` + response.id, response);
   }
 
   deleteResponse(response: HelpResponse) {

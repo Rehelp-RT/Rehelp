@@ -49,6 +49,7 @@ import {
   faSave,
   faSpinner,
   faSquare,
+  faStar,
   faStarOfLife,
   faSync,
   faTrashAlt
@@ -56,7 +57,8 @@ import {
 import {
   faCheckSquare as farCheckSquare,
   faClipboard as farClipboard,
-  faSquare as farSquare
+  faSquare as farSquare,
+  faStar as farStar
 } from '@fortawesome/free-regular-svg-icons';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { UploadAvatarComponent } from './upload-avatar/upload-avatar.component';
@@ -139,11 +141,13 @@ export class AppModule {
       faSave,
       faSpinner,
       faSquare,
+      faStar,
       faStarOfLife,
       faSync,
       faTrashAlt,
       farCheckSquare,
       farClipboard,
-      farSquare);
+      farSquare,
+      farStar);
   }
 }

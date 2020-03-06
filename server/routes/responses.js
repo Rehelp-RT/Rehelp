@@ -159,7 +159,7 @@ router.put('/feedback/:id', (req, res) => {
                 const currentDate = new Date();
                 response.update({
                         reviewed: true,
-                        creatorReviewedAt: currentDate(),
+                        creatorReviewedAt: currentDate,
                         messageCreator: body.messageCreator,
                         ratingCreator: body.ratingCreator
                     })

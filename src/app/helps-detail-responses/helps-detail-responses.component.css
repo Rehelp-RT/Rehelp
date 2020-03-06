@@ -15,16 +15,17 @@
     list-style: none;
 }
 
-.speech-bubble {
+.speech-bubble-left {
     position: relative;
-    background: #e0e0e0;
+    background: #ffffff;
+    border: 2px solid #e0e0e0;
     border-radius: .4em;
     margin-top: 24px;
     margin-bottom: 8px;
     padding: 8px 16px 8px 16px;
 }
 
-.speech-bubble:after {
+.speech-bubble-left:after {
     content: '';
     position: absolute;
     top: 0;
@@ -35,6 +36,31 @@
     border-bottom-color: #e0e0e0;
     border-top: 0;
     border-left: 0;
+    margin-left: -10px;
+    margin-top: -20px;
+}
+
+.speech-bubble-right {
+    position: relative;
+    background: #ffffff;
+    border: 2px solid #e0e0e0;
+    border-radius: .4em;
+    margin-top: 24px;
+    margin-bottom: 8px;
+    padding: 8px 16px 8px 16px;
+}
+
+.speech-bubble-right:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 10%;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-bottom-color: #e0e0e0;
+    border-top: 0;
+    border-right: 0;
     margin-left: -10px;
     margin-top: -20px;
 }

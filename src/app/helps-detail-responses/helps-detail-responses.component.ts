@@ -72,6 +72,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
   review(response: HelpResponse, message: string): void {
     response.messageCreator = message;
     response.ratingCreator = this.selectedValue;
+    console.log("response : ",response);
 
     this.rs.creatorFeedback(response).subscribe(() => {
         response.reviewed = true;

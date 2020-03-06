@@ -30,12 +30,18 @@ export class HelpsComponent implements OnInit {
       });
   }
 
+  checkAcceptedResponses(responses) {
+    return responses.some((response) => {
+      return response.accepted !== true;
+    });
+  }
+
   getHelps(type: string): void {
 
     this.hs.getByType(type)
         .subscribe(x => {
-          const helpsList = x.filter(y => y.creator.id !== this.currentUser.id);
-          console.log(helpsList)
+          const helpsList = x.filter(y => y.creator.id !== this.currentUser.id 
+                                && this.checkAcceptedResponses(y.responses));
             this.helps = helpsList;
         });
   }

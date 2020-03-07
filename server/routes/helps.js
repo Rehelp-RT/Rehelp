@@ -6,13 +6,17 @@ const { Op } = require("sequelize");
 router.get('/', (req, res) => {
 
     // build filter condition
-    console.log('req.query.type', req.query.type);
+    console.log('req.query', req.query);
     const filterType =
         req.query.type === undefined || req.query.type === null ? {} : { code: req.query.type };
     const filterUser =
         req.query.excludeUserId === undefined || req.query.excludeUserId === null ? {} : {
             [Op.not]: { idCreator: req.query.excludeUserId }
         };
+    const filterAccepted =
+        req.query.accepted === undefined || req.query.accepted === null ? { accepted: false } : {
+              accepted: req.query.accepted
+        }
 
     // query
     db.Help.findAll({
@@ -46,7 +50,21 @@ router.get('/', (req, res) => {
                     model: db.User,
                     required: true,
                     as: 'creator'
-                }
+                },
+                {
+                  include: [{
+                      attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
+                      model: db.User,
+                      required: true,
+                      as: 'responder'
+                  }],
+                  model: db.HelpResponse,
+                  as: 'responses',
+                  where: filterAccepted,
+                  order: [
+                      [{ model: db.Help.HelpResponse, as: 'responses' }, 'ddd', 'desc']
+                  ]
+              }
             ],
             order: [
                 ['id', 'desc']

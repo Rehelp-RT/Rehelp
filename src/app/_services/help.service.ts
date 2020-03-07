@@ -21,8 +21,8 @@ const httpOptions = {
 export class HelpService {
   constructor(private http: HttpClient) { }
 
-  getAll(type: string, excludeUserId) {
-    return this.http.get<Help[]>(`${environment.apiUrl}/helps?type=${type}&excludeUserId=${excludeUserId}`);
+  getAll(type: string, excludeUserId, accepted: boolean) {
+    return this.http.get<Help[]>(`${environment.apiUrl}/helps?type=${type}&excludeUserId=${excludeUserId}&accepted=${accepted}`);
   }
 
   getById(id: number) {

@@ -22,7 +22,7 @@ export class HelpsComponent implements OnInit {
     const type = 'MEH';
     const excludeUserId = this.currentUser.id;
     const accepted = false;
-    this.getHelps(type, excludeUserId);
+    this.getHelps(type, excludeUserId, accepted);
   }
 
   getCurrentUser(): void {
@@ -38,8 +38,8 @@ export class HelpsComponent implements OnInit {
     });
   }
 
-  getHelps(type: string, excludeUserId: number): void {
-    this.hs.getAll(type, excludeUserId)
+  getHelps(type: string, excludeUserId: number, accepted: boolean): void {
+    this.hs.getAll(type, excludeUserId, accepted)
         .subscribe(x => {
             this.helps = x;
         });

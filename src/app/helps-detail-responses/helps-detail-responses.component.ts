@@ -81,7 +81,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
 
     console.log('response', response);
 
-    if (this.isHelpCreator) {   
+    if (this.isHelpCreator) {
       response.messageCreator = message;
       response.ratingCreator = this.selectedValue;
       this.rs.creatorFeedback(response).subscribe(() => {
@@ -89,8 +89,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
         this.modalService.close('modal-complete-' + response.id);
         this.router.navigate(['/helps/', this.help.id]);
       });
-    }
-    else if (this.isResponderAccepted) {
+    } else if (this.isResponderAccepted) {
       response.messageResponder = message;
       response.ratingResponder = this.selectedValue;
       this.rs.completeResponse(response).subscribe(() => {

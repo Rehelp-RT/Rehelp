@@ -14,33 +14,30 @@
                 <div class="card-body">
                     <form #helpForm="ngForm" (ngSubmit)="onSubmit()">
 
-                        <input type="hidden" [(ngModel)]="model.idCreator" name="idCreator">
-                        <input type="hidden" [(ngModel)]="model.idType" name="idType">
-
-                        <div class="form-row mb-3">
-                            <label class="col-md-4" for="title">Titolo</label>
-                            <input class="col-md-8 form-control" type="text" [(ngModel)]="model.title" name="title" required />
-                        </div>
-
                         <div class="form-row mb-3">
                             <label class="col-md-4" for="category">Categoria</label>
                             <div class="col-md-8">
                                 <select class="form-control mb-3" [(ngModel)]="idCat1" name="idCat1" required>
-                                    <option *ngFor="let cat of categories" [value]="cat.id">
-                                        {{ cat.name }}
-                                    </option>
-                                </select>
+                                  <option *ngFor="let cat of categories" [value]="cat.id">
+                                      {{ cat.name }}
+                                  </option>
+                              </select>
                                 <select *ngIf="idCat1 != null" class="form-control mb-3" [(ngModel)]="idCat2" name="idCat2" required>
-                                    <option *ngFor="let cat of categories | filterCategories : { id: idCat1 }" [value]="cat.id">
-                                        {{ cat.name }}
-                                    </option>
-                                </select>
+                                  <option *ngFor="let cat of categories | filterCategories : { id: idCat1 }" [value]="cat.id">
+                                      {{ cat.name }}
+                                  </option>
+                              </select>
                                 <select *ngIf="idCat2 != null && (categories | filterCategories : { id: idCat1, idChild: idCat2 }).length > 0" class="form-control mb-3" [(ngModel)]="idCat3" name="idCat3">
-                                    <option *ngFor="let cat of categories | filterCategories : { id: idCat1, idChild: idCat2 }" [value]="cat.id">
-                                        {{ cat.name }}
-                                    </option>
-                                </select>
+                                  <option *ngFor="let cat of categories | filterCategories : { id: idCat1, idChild: idCat2 }" [value]="cat.id">
+                                      {{ cat.name }}
+                                  </option>
+                              </select>
                             </div>
+                        </div>
+
+                        <div class="form-row mb-3">
+                            <label class="col-md-4" for="title">Titolo</label>
+                            <input class="col-md-8 form-control" type="text" [(ngModel)]="model.title" name="title" required />
                         </div>
 
                         <div class="form-row mb-3">

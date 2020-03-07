@@ -1,101 +1,64 @@
 var router = require('express').Router();
 const db = require('../models');
+const { Op } = require("sequelize");
 
 // GET /api/helps
-router.get('/', (req, res) =>
+router.get('/', (req, res) => {
+
+    // build filter condition
+    console.log('req.query.type', req.query.type);
+    const filterType =
+        req.query.type === undefined || req.query.type === null ? {} : { code: req.query.type };
+    const filterUser =
+        req.query.excludeUserId === undefined || req.query.excludeUserId === null ? {} : {
+            [Op.not]: { idCreator: req.query.excludeUserId }
+        };
+
+    // query
     db.Help.findAll({
-        attributes: ['id', 'title', 'address', 'createdAt', 'image'],
-        include: [{
-                attributes: ['code', 'name'],
-                model: db.HelpType,
-                required: true,
-                as: 'type'
-            },
-            {
-                attributes: ['id', 'code', 'name'],
-                model: db.HelpCategory,
-                include: [{
+            attributes: ['id', 'title', 'address', 'createdAt', 'image'],
+            where: filterUser,
+            include: [{
+                    attributes: ['code', 'name'],
+                    model: db.HelpType,
+                    where: filterType,
+                    required: true,
+                    as: 'type'
+                },
+                {
                     attributes: ['id', 'code', 'name'],
                     model: db.HelpCategory,
                     include: [{
                         attributes: ['id', 'code', 'name'],
                         model: db.HelpCategory,
+                        include: [{
+                            attributes: ['id', 'code', 'name'],
+                            model: db.HelpCategory,
+                            as: 'parent'
+                        }],
                         as: 'parent'
                     }],
-                    as: 'parent'
-                }],
-                required: true,
-                as: 'category'
-            },
-            {
-                attributes: ['username', 'firstname', 'lastname', 'avatar', 'id'],
-                model: db.User,
-                required: true,
-                as: 'creator'
-            }
-        ],
-        order: [
-            ['id', 'desc']
-        ]
-    })
-    .then(x => {
-        res.json(x)
-    })
-    .catch(err => {
-        console.log(err);
-        res.sendStatus(500)
-    })
-);
-
-// GET /api/helps/type/MEH
-router.get('/type/:code', (req, res) => {
-    db.HelpType.findOne({ where: { code: req.params.code } })
-        .then(type => {
-            if (type === null) {
-                console.log('type is null');
-                res.json([]);
-            } else {
-                console.log(type);
-                db.Help.findAll({
-                        attributes: ['id', 'title', 'address', 'createdAt', 'image'],
-                        where: { idType: type.id },
-                        include: [{
-                                attributes: ['code', 'name'],
-                                model: db.HelpCategory,
-                                required: true,
-                                as: 'category'
-                            },
-                            {
-                                attributes: ['username', 'firstname', 'lastname', 'avatar', 'id'],
-                                model: db.User,
-                                required: true,
-                                as: 'creator'
-                            },
-                            {
-                                model: db.HelpResponse,
-                                as: 'responses',
-                                order: [
-                                    [{ model: db.Help.HelpResponse, as: 'responses' }, 'ddd', 'desc']
-                                ]
-                            }
-                        ],
-                        order: [
-                            ['id', 'desc']
-                        ]
-                    })
-                    .then(x => {
-                        res.json(x)
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        res.sendStatus(500)
-                    })
-            }
+                    required: true,
+                    as: 'category'
+                },
+                {
+                    attributes: ['username', 'firstname', 'lastname', 'avatar', 'id'],
+                    model: db.User,
+                    required: true,
+                    as: 'creator'
+                }
+            ],
+            order: [
+                ['id', 'desc']
+            ]
+        })
+        .then(x => {
+            res.json(x)
         })
         .catch(err => {
             console.log(err);
             res.sendStatus(500)
-        });
+        })
 });
 
 // GET /api/helps/5

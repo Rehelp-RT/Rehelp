@@ -20,7 +20,9 @@ export class HelpsComponent implements OnInit {
 
   ngOnInit() {
     const type = 'MEH';
-    this.getHelps(type);
+    const excludeUserId = this.currentUser.id;
+    const accepted = false;
+    this.getHelps(type, excludeUserId);
   }
 
   getCurrentUser(): void {
@@ -36,15 +38,13 @@ export class HelpsComponent implements OnInit {
     });
   }
 
-  getHelps(type: string): void {
-
-    this.hs.getByType(type)
+  getHelps(type: string, excludeUserId: number): void {
+    this.hs.getAll(type, excludeUserId)
         .subscribe(x => {
-          const helpsList = x.filter(y => y.creator.id !== this.currentUser.id 
-                                && this.checkAcceptedResponses(y.responses));
-            this.helps = helpsList;
+            this.helps = x;
         });
   }
+
   /*
   deleteHelps(id, index) {
     this.hs.deleteHelps(id)

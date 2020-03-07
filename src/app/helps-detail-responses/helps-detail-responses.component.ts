@@ -16,6 +16,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
 
   // responses
   isHelpCreator: boolean;
+  isResponderAccepted: boolean;
   isUserResponded: boolean;
   isUserAccepted: boolean;
 
@@ -33,6 +34,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
     this.checkHelpCreator();
     this.isUserResponded = this.checkUserResponse(this.help.responses, this.currentUser.id);
     this.isUserAccepted = this.checkUserAccept(this.help.responses);
+    this.isResponderAccepted = this.checkResponderAccepted(this.help.responses, this.currentUser.id);
   }
 
   checkHelpCreator(): void {
@@ -48,6 +50,12 @@ export class HelpsDetailResponsesComponent implements OnInit {
   checkUserAccept(reponses) {
     return reponses.some((response) => {
       return response.accepted === true;
+    });
+  }
+
+  checkResponderAccepted(reponses, userId) {
+    return reponses.some((response) => {
+      return response.accepted === true && response.responder.id === userId;
     });
   }
 
@@ -70,21 +78,27 @@ export class HelpsDetailResponsesComponent implements OnInit {
   }
 
   review(response: HelpResponse, message: string): void {
-    response.messageCreator = message;
-    response.ratingCreator = this.selectedValue;
+
     console.log('response', response);
 
-    this.rs.creatorFeedback(response).subscribe(() => {
-        response.reviewed = true;
+    if (this.isHelpCreator) {   
+      response.messageCreator = message;
+      response.ratingCreator = this.selectedValue;
+      this.rs.creatorFeedback(response).subscribe(() => {
+        response.completed = true;
         this.modalService.close('modal-complete-' + response.id);
         this.router.navigate(['/helps/', this.help.id]);
-    });
-    /*
-    this.rs.completeResponse(response)
-    .subscribe(x => {
-      this.getHelp(x.idHelp);
-    });
-    */
+      });
+    }
+    else if (this.isResponderAccepted) {
+      response.messageResponder = message;
+      response.ratingResponder = this.selectedValue;
+      this.rs.completeResponse(response).subscribe(() => {
+          this.modalService.close('modal-complete-' + response.id);
+          this.router.navigate(['/helps/', this.help.id]);
+        });
+    }
+
   }
 
 

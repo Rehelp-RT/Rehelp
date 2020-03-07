@@ -186,6 +186,7 @@ router.put('/feedback/:id', (req, res) => {
 // PUT /api/responses/complete/5
 router.put('/complete/:id', (req, res) => {
     const body = req.body;
+    console.log("body " , body)
     if (body == undefined) {
         res.sendStatus(400)
     } else if (body.messageResponder === undefined) {
@@ -201,7 +202,8 @@ router.put('/complete/:id', (req, res) => {
                         include: [{
                             attributes: ['id', 'likehelps'],
                             model: db.User,
-                            required: true
+                            required: true,
+                            as: 'creator'
                         }]
                     },
                     {
@@ -222,7 +224,11 @@ router.put('/complete/:id', (req, res) => {
                     // update response
                     response.update({
                             completed: true,
-                            completedAt: currentDate
+                            completedAt: currentDate,
+                            responderReviewedAt: currentDate,
+                            messageResponder: body.messageResponder,
+                            ratingResponder: body.ratingResponder
+
                         })
                         .then(x => {
                             // update help

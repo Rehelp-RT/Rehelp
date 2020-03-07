@@ -22,62 +22,78 @@
                     {{ r.messageCreator }}
                     <hr>
                     <span *ngFor="let rat of [1,2,3,4,5] | slice:0:r.ratingCreator">
-                      <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
+                        <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
                     </span>
                 </div>
                 <div class="speech-bubble-left" *ngIf="r.completed">
+                    <app-user-icon [user]="r.responder"></app-user-icon>
                     {{ r.messageResponder }}
                     <hr>
-                    <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
+                    <span *ngFor="let rat of [1,2,3,4,5] | slice:0:r.ratingResponder">
+                        <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
+                    </span>
                 </div>
-                <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" *ngIf="r.completed" class="text-info"></fa-icon>
+                <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" *ngIf="r.completed" class="text-info">
+                </fa-icon>
 
                 <div *ngIf="isHelpCreator">
                     <a class="btn btn-block btn-outline-success" (click)="accept(r)" *ngIf="!r.accepted">
                         <fa-icon [icon]="['fas', 'check']"></fa-icon> Accetta
                     </a>
-                    <div *ngIf="r.accepted && !r.reviewed">
-                        <button class="btn btn-block btn-outline-primary mb-2" (click)="openModal('modal-complete-' + r.id)">
-                          Il lavoro è finito
-                      </button>
+                    <div *ngIf="r.accepted && !r.reviewed && !r.completed">
+                        <button class="btn btn-block btn-outline-primary mb-2"
+                            (click)="openModal('modal-complete-' + r.id)">
+                            Il lavoro è finito
+                        </button>
                         <a class="btn btn-block btn-outline-secondary" (click)="cancel(r)">
-                           Cancella
+                            Cancella
                         </a>
                     </div>
+                    <hr>
+                </div>
+                <div *ngIf="isResponderAccepted">
+                    <div *ngIf="r.accepted && r.reviewed && !r.completed">
+                        <button class="btn btn-block btn-outline-primary mb-2"
+                            (click)="openModal('modal-complete-' + r.id)">
+                            Il lavoro è finito
+                        </button>
+                    </div>
+                    <hr>
+                </div>
+                <app-modal id="modal-complete-{{ r.id }}">
+                    <h3>Lascia un feedback e completa la richiesta</h3>
+                    <hr>
+                    <div class="form-row mb-3">
+                        <label class="col-md-4" for="message">Messaggio</label>
+                        <textarea class="col-md-8 form-control" rows="4" [(ngModel)]="message"
+                            name="message"></textarea>
+                    </div>
+                    <div class="form-row mb-3">
+                        <label class="col-md-4" for="star-rating">Valutazione</label>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <ul class="list-inline rating-list" *ngFor="let star of stars"
+                                        style="display: inline-block">
+                                        <li (click)="countStar(star)" [ngClass]="{'selected': (star <= selectedValue)}">
 
-                    <app-modal id="modal-complete-{{ r.id }}">
-                        <h3>Lascia un feedback e completa la richiesta</h3>
-                        <hr>
-                        <div class="form-row mb-3">
-                            <label class="col-md-4" for="message">Messaggio</label>
-                            <textarea class="col-md-8 form-control" rows="4" [(ngModel)]="message" name="message"></textarea>
-                        </div>
-                        <div class="form-row mb-3">
-                            <label class="col-md-4" for="star-rating">Valutazione</label>
-                            <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <ul class="list-inline rating-list" *ngFor="let star of stars" style="display: inline-block">
-                                            <li (click)="countStar(star)" [ngClass]="{'selected': (star <= selectedValue)}">
-                                                <i class="fa fa-star"></i>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                            <fa-icon [icon]="['fas', 'star']"></fa-icon>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="offset-md-4">
-                                <a class="btn btn-lg btn-outline-primary ml-3" (click)="review(r, message)">
-                              Recensisci
-                          </a>
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="offset-md-4">
+                            <a class="btn btn-lg btn-outline-primary ml-3" (click)="review(r, message)">
+                                Recensisci
+                            </a>
                         </div>
+                    </div>
 
-                    </app-modal>
+                </app-modal>
 
-                    <hr>
-                </div>
             </div>
         </div>
     </div>

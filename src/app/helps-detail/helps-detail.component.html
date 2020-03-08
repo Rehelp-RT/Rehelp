@@ -56,7 +56,7 @@
                             </agm-map>
                         </div>
 
-                        <div *ngIf="currentUser.id === help.creator.id" class="mb-3">
+                        <div *ngIf="currentUser.id === help.creator.id && !isHelpCompleted" class="mb-3">
                             <a class="btn btn-outline-secondary mb-3" [routerLink]="['/helps/edit/', help.id]">
                                 <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon> Modifica
                             </a>

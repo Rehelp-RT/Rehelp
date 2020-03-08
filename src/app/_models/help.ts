@@ -13,6 +13,7 @@ export class Help {
     latitude: number;
     longitude: number;
     address: string;
+    dateCompletion: Date;
 
     type: HelpType;
     creator: User;

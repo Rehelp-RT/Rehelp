@@ -12,28 +12,30 @@ import { ModalService } from '@app/_modal';
 })
 export class HelpsDetailComponent implements OnInit {
 
-    help: Help = null;
-    currentUser: User = null;
+  help: Help = null;
+  currentUser: User = null;
+  isHelpCompleted: boolean;
 
-    constructor(
-        private location: Location,
-        private hs: HelpService,
-        private actRoute: ActivatedRoute,
-        private router: Router,
-        private as: AuthenticationService) { }
+  constructor(
+    private location: Location,
+    private hs: HelpService,
+    private actRoute: ActivatedRoute,
+    private router: Router,
+    private as: AuthenticationService) { }
 
-    ngOnInit() {
-        const id = this.actRoute.snapshot.params.id;
-        this.getHelp(id);
-        this.getCurrentUser();
-    }
+  ngOnInit() {
+    const id = this.actRoute.snapshot.params.id;
+    this.getHelp(id);
+    this.getCurrentUser();
+  }
 
-    getHelp(id: number): void {
-      this.hs.getById(id)
-        .subscribe(x => {
-          this.help = x;
-        });
-    }
+  getHelp(id: number): void {
+    this.hs.getById(id)
+      .subscribe(x => {
+        this.help = x;
+        this.checkHelpCompleted(x);
+      });
+  }
 
   getCurrentUser(): void {
     this.as.getCurrentUser()
@@ -42,15 +44,24 @@ export class HelpsDetailComponent implements OnInit {
       });
   }
 
-    deleteHelp() {
-        this.hs.deleteHelp(this.help)
-          .subscribe(x =>
-              this.router.navigate(['/helps'])
-          );
-    }
+  deleteHelp() {
+    this.hs.deleteHelp(this.help)
+      .subscribe(x =>
+        this.router.navigate(['/helps'])
+      );
+  }
 
-    back() {
-        this.location.back();
+  back() {
+    this.location.back();
+  }
+
+  checkHelpCompleted(help: Help) {
+    if (help.dateCompletion != null) {
+      this.isHelpCompleted = true;
     }
+    else {
+      this.isHelpCompleted = false;
+    }
+  }
 
 }

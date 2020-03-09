@@ -5,23 +5,52 @@ const { Op } = require("sequelize");
 // GET /api/helps
 router.get('/', (req, res) => {
 
-    // build filter condition
+    // get parameters
     console.log('req.query', req.query);
-    const filterType =
-        req.query.type === undefined || req.query.type === null ? {} : { code: req.query.type };
-    const filterUser =
-        req.query.excludeUserId === undefined || req.query.excludeUserId === null ? {} : {
+    const excludeUserId =
+        req.query.excludeUserId === undefined ?
+        null :
+        req.query.excludeUserId;
+    const type =
+        req.query.type === undefined ?
+        null :
+        req.query.type;
+    const accepted =
+        req.query.accepted === undefined ?
+        null :
+        req.query.accepted;
+
+    // build filter condition
+    var filter = {};
+    if (excludeUserId != null && accepted === null) {
+        filter = {
             [Op.not]: { idCreator: req.query.excludeUserId }
         };
-    const filterAccepted =
-        req.query.accepted === undefined || req.query.accepted === null ? { accepted: false } : {
-            accepted: req.query.accepted
+    } else if (excludeUserId === null && accepted != null) {
+        filter = { accepted: accepted }
+    } else if (excludeUserId != null && accepted != null) {
+        filter = {
+            [Op.not]: { idCreator: req.query.excludeUserId },
+            accepted: accepted
         }
+    }
+
+    const filterType =
+        req.query.type === undefined || req.query.type === null ? {} : { code: req.query.type };
 
     // query
     db.Help.findAll({
-            attributes: ['id', 'title', 'address', 'createdAt', 'image'],
-            where: filterUser,
+            attributes: [
+                'id',
+                'title',
+                'address',
+                'createdAt',
+                'image',
+                'accepted',
+                'reviewed',
+                'completed'
+            ],
+            where: filter,
             include: [{
                     attributes: ['code', 'name'],
                     model: db.HelpType,
@@ -60,7 +89,6 @@ router.get('/', (req, res) => {
                     }],
                     model: db.HelpResponse,
                     as: 'responses',
-                    where: filterAccepted,
                     order: [
                         [{ model: db.Help.HelpResponse, as: 'responses' }, 'ddd', 'desc']
                     ]
@@ -182,7 +210,8 @@ router.post('/add', (req, res) => {
                 })
             })
             .catch(err => {
-                res.status(500).send(err)
+                console.error(err);
+                res.status(500).send(err.message)
             });
     }
 });

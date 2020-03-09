@@ -33,7 +33,6 @@ export class HelpsDetailComponent implements OnInit {
     this.hs.getById(id)
       .subscribe(x => {
         this.help = x;
-        this.checkHelpCompleted(x);
       });
   }
 
@@ -53,15 +52,6 @@ export class HelpsDetailComponent implements OnInit {
 
   back() {
     this.location.back();
-  }
-
-  checkHelpCompleted(help: Help) {
-    if (help.dateCompletion != null) {
-      this.isHelpCompleted = true;
-    }
-    else {
-      this.isHelpCompleted = false;
-    }
   }
 
 }

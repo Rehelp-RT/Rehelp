@@ -80,8 +80,9 @@ router.post('/add', (req, res) => {
     } else {
 
         db.HelpResponse.create({
-                accepted: body.accepted,
-                completed: body.completed,
+                accepted: false,
+                reviewed: false,
+                completed: false,
                 isTutor: body.isTutor,
                 idTradeType: body.idTradeType,
                 idHelp: body.idHelp,
@@ -113,8 +114,13 @@ router.put('/accept/:id', (req, res) => {
                         accepted: true,
                         acceptedAt: currentDate
                     })
-                    .then(x => {
-                        res.status(200).send(response)
+                    .then(r => {
+                        r.help.update({
+                                accepted: true
+                            })
+                            .then(h => {
+                                res.status(200).send(response)
+                            })
                     })
             })
     }
@@ -136,8 +142,13 @@ router.put('/cancel/:id', (req, res) => {
                             accepted: false,
                             canceledAt: currentDate
                         })
-                        .then(x => {
-                            res.status(200).send(response)
+                        .then(r => {
+                            r.help.update({
+                                    accepted: false
+                                })
+                                .then(h => {
+                                    res.status(200).send(response)
+                                })
                         })
                 }
             })
@@ -163,8 +174,13 @@ router.put('/feedback/:id', (req, res) => {
                         messageCreator: body.messageCreator,
                         ratingCreator: body.ratingCreator
                     })
-                    .then(x => {
-                        res.status(201).send(x)
+                    .then(r => {
+                        response.help.update({
+                                reviewed: true
+                            })
+                            .then(() => {
+                                res.status(201).send(r)
+                            })
                     })
                     .catch(err => {
                         res.status(500).send(err)
@@ -186,7 +202,7 @@ router.put('/feedback/:id', (req, res) => {
 // PUT /api/responses/complete/5
 router.put('/complete/:id', (req, res) => {
     const body = req.body;
-    console.log("body " , body)
+    console.log("body ", body)
     if (body == undefined) {
         res.sendStatus(400)
     } else if (body.messageResponder === undefined) {
@@ -233,7 +249,7 @@ router.put('/complete/:id', (req, res) => {
                         .then(x => {
                             // update help
                             response.help.update({
-                                    dateCompletion: currentDate
+                                    completed: true
                                 })
                                 .then(x => {
                                     // update creator

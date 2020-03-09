@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
         };
     const filterAccepted =
         req.query.accepted === undefined || req.query.accepted === null ? { accepted: false } : {
-              accepted: req.query.accepted
+            accepted: req.query.accepted
         }
 
     // query
@@ -52,19 +52,19 @@ router.get('/', (req, res) => {
                     as: 'creator'
                 },
                 {
-                  include: [{
-                      attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
-                      model: db.User,
-                      required: true,
-                      as: 'responder'
-                  }],
-                  model: db.HelpResponse,
-                  as: 'responses',
-                  where: filterAccepted,
-                  order: [
-                      [{ model: db.Help.HelpResponse, as: 'responses' }, 'ddd', 'desc']
-                  ]
-              }
+                    include: [{
+                        attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
+                        model: db.User,
+                        required: true,
+                        as: 'responder'
+                    }],
+                    model: db.HelpResponse,
+                    as: 'responses',
+                    where: filterAccepted,
+                    order: [
+                        [{ model: db.Help.HelpResponse, as: 'responses' }, 'ddd', 'desc']
+                    ]
+                }
             ],
             order: [
                 ['id', 'desc']
@@ -168,7 +168,9 @@ router.post('/add', (req, res) => {
                 halfhourValidity: body.halfhourValidity,
                 dateStartValidity: body.dateStartValidity,
                 dateEndValidity: body.dateEndValidity,
-                dateCompletion: null,
+                accepted: false,
+                reviewed: false,
+                completed: false,
                 image: body.image,
                 latitude: body.latitude,
                 longitude: body.longitude,
@@ -225,7 +227,6 @@ router.put('/update/:id', (req, res) => {
                             halfhourValidity: body.halfhourValidity,
                             dateStartValidity: body.dateStartValidity,
                             dateEndValidity: body.dateEndValidity,
-                            dateCompletion: null,
                             image: body.image,
                             latitude: body.latitude,
                             longitude: body.longitude,

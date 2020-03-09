@@ -64,18 +64,22 @@
 
                                 <div class="file" *ngFor="let response of responses; let i = index">
                                     <div class="status">
-                                        Caricamento... {{ response.progress }}%
-                                        <div *ngIf="!response.status">In progress</div>
-                                        <div class="status-code" *ngIf="response.status==200">
+                                        <div *ngIf="!response.status">
+                                            In corso
+                                        </div>
+                                        <div *ngIf="response.status!=200">
+                                            Caricamento... {{ response.progress }}%
+                                            <div class="progress-bar">
+                                                <div class="progress" role="progressbar" [style.width.%]="response.progress"></div>
+                                            </div>
+                                        </div>
+                                        <div class="status-code" *ngIf="response.status && response.status==200">
                                             Caricamento completo
                                         </div>
-                                        <div class="status-code" *ngIf="response.status!=200">
+                                        <div class="status-code" *ngIf="response.status && response.status > 300">
                                             Errore: {{ response.message }}
                                         </div>
                                         <input type="hidden" [(ngModel)]="model.image" [value]="response.data.public_id " name="image" />
-                                    </div>
-                                    <div class="progress-bar">
-                                        <div class="progress" role="progressbar" [style.width.%]="response.progress"></div>
                                     </div>
                                     <a target="_blank" href="{{ response.data.url}}">
                                         <img src="{{ response.data.url}}" alt="{{ response.data.public_id }}">

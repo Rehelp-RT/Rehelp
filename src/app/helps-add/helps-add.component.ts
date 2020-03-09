@@ -267,8 +267,8 @@ export class HelpsAddComponent implements OnInit {
 
     console.log(this.model);
     this.hs.addHelp(this.model).subscribe(
-      (x) => {
-        this.router.navigate(['/helps/' + x.id ]);
+      () => {
+        this.router.navigate(['/profile' ]);
       },
       err => {
         console.log(err);

@@ -61,45 +61,56 @@ export class HelpsDetailResponsesComponent implements OnInit {
 
   accept(response: HelpResponse): void {
     this.rs.acceptResponse(response)
-      .subscribe(x => {
+      .subscribe(() => {
         response.accepted = true;
         this.isUserAccepted = this.checkUserAccept(this.help.responses);
+        console.log('response.accepted', response.accepted);
+        console.log('isUserAccepted', this.isUserAccepted);
         // this.getHelp(x.idHelp);
       });
   }
 
   cancel(response: HelpResponse): void {
     this.rs.cancelResponse(response)
-      .subscribe(x => {
+      .subscribe(() => {
         response.accepted = false;
         this.isUserAccepted = this.checkUserAccept(this.help.responses);
-        // this.getHelp(x.idHelp);
+        console.log('response.accepted', response.accepted);
+        console.log('isUserAccepted', this.isUserAccepted);
       });
   }
 
   review(response: HelpResponse, message: string): void {
 
-    console.log('response', response);
-
     if (this.isHelpCreator) {
       response.messageCreator = message;
       response.ratingCreator = this.selectedValue;
       this.rs.creatorFeedback(response).subscribe(() => {
-        response.completed = true;
+        response.reviewed = true;
         this.modalService.close('modal-complete-' + response.id);
         this.router.navigate(['/helps/', this.help.id]);
       });
-    } else if (this.isResponderAccepted) {
+    }
+
+    console.log('response', response);
+  }
+
+  complete(response: HelpResponse, message: string): void {
+
+    console.log('response', response);
+
+    if (this.isResponderAccepted) {
       response.messageResponder = message;
       response.ratingResponder = this.selectedValue;
       this.rs.completeResponse(response).subscribe(() => {
+          response.completed = true;
           this.modalService.close('modal-complete-' + response.id);
           this.router.navigate(['/helps/', this.help.id]);
         });
     }
 
+    console.log('response', response);
   }
-
 
   deleteResponse(response: HelpResponse): void {
     this.rs.deleteResponse(response)

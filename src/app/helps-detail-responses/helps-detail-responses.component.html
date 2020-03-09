@@ -10,95 +10,113 @@
         </p>
 
         <div *ngFor="let r of help.responses">
-            <div *ngIf="!isUserAccepted || r.accepted">
-                <app-user-icon [user]="r.responder"></app-user-icon>
-                <div class="speech-bubble-left">
-                    {{ r.message }}
-                </div>
-                <div class="text-right">
-                    <app-user-icon [user]="help.creator"></app-user-icon>
-                </div>
-                <div class="speech-bubble-right" *ngIf="r.reviewed">
-                    {{ r.messageCreator }}
-                    <hr>
-                    <span *ngFor="let rat of [1,2,3,4,5] | slice:0:r.ratingCreator">
-                        <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
-                    </span>
-                </div>
-                <div class="speech-bubble-left" *ngIf="r.completed">
-                    <app-user-icon [user]="r.responder"></app-user-icon>
-                    {{ r.messageResponder }}
-                    <hr>
-                    <span *ngFor="let rat of [1,2,3,4,5] | slice:0:r.ratingResponder">
-                        <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
-                    </span>
-                </div>
-                <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" *ngIf="r.completed" class="text-info">
-                </fa-icon>
 
-                <div *ngIf="isHelpCreator">
-                    <a class="btn btn-block btn-outline-success" (click)="accept(r)" *ngIf="!r.accepted">
-                        <fa-icon [icon]="['fas', 'check']"></fa-icon> Accetta
-                    </a>
-                    <div *ngIf="r.accepted && !r.reviewed && !r.completed">
-                        <button class="btn btn-block btn-outline-primary mb-2"
-                            (click)="openModal('modal-complete-' + r.id)">
+            <div *ngIf="!isUserAccepted || r.accepted">
+
+                <div *ngIf="r.accepted || r.idResponder === currentUser.id || isHelpCreator">
+                    <app-user-icon [user]="r.responder"></app-user-icon>
+                    <div class="speech-bubble-left">
+                        {{ r.message }}
+                    </div>
+                </div>
+
+                <div *ngIf="r.reviewed">
+                    <div class="text-right">
+                        <app-user-icon [user]="help.creator"></app-user-icon>
+                    </div>
+                    <div class="speech-bubble-right" *ngIf="r.reviewed">
+                        {{ r.messageCreator }}
+                        <hr>
+                        <span *ngFor="let rat of [1,2,3,4,5] | slice:0:r.ratingCreator">
+                        <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
+                    </span>
+                    </div>
+                </div>
+
+                <div *ngIf="r.completed">
+                    <app-user-icon [user]="r.responder"></app-user-icon>
+                    <div class="speech-bubble-left">
+                        {{ r.messageResponder }}
+                        <hr>
+                        <span *ngFor="let rat of [1,2,3,4,5] | slice:0:r.ratingResponder">
+                    <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
+                  </span>
+                    </div>
+
+                    <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info">
+                    </fa-icon>
+                </div>
+
+            </div>
+
+            <div *ngIf="isHelpCreator" class="mb-3">
+
+                <a class="btn btn-block btn-outline-success" (click)="accept(r)" *ngIf="!isUserAccepted && !r.accepted">
+                    <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                    Accetta
+                </a>
+
+                <div *ngIf="r.accepted && !r.reviewed && !r.completed">
+                    <button class="btn btn-block btn-outline-primary mb-2" (click)="openModal('modal-complete-' + r.id)">
                             Il lavoro è finito
                         </button>
-                        <a class="btn btn-block btn-outline-secondary" (click)="cancel(r)">
+                    <a class="btn btn-block btn-outline-secondary" (click)="cancel(r)">
                             Cancella
                         </a>
-                    </div>
-                    <hr>
                 </div>
-                <div *ngIf="isResponderAccepted">
-                    <div *ngIf="r.accepted && r.reviewed && !r.completed">
-                        <button class="btn btn-block btn-outline-primary mb-2"
-                            (click)="openModal('modal-complete-' + r.id)">
-                            Il lavoro è finito
-                        </button>
-                    </div>
-                    <hr>
-                </div>
-                <app-modal id="modal-complete-{{ r.id }}">
-                    <h3>Lascia un feedback e completa la richiesta</h3>
-                    <hr>
-                    <div class="form-row mb-3">
-                        <label class="col-md-4" for="message">Messaggio</label>
-                        <textarea class="col-md-8 form-control" rows="4" [(ngModel)]="message"
-                            name="message"></textarea>
-                    </div>
-                    <div class="form-row mb-3">
-                        <label class="col-md-4" for="star-rating">Valutazione</label>
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <ul class="list-inline rating-list" *ngFor="let star of stars"
-                                        style="display: inline-block">
-                                        <li (click)="countStar(star)" [ngClass]="{'selected': (star <= selectedValue)}">
+            </div>
 
-                                            <fa-icon [icon]="['fas', 'star']"></fa-icon>
-                                        </li>
-                                    </ul>
-                                </div>
+            <div *ngIf="isResponderAccepted" class="mt-3">
+                <div *ngIf="r.accepted && r.reviewed && !r.completed">
+                    <button class="btn btn-block btn-outline-primary mb-2" (click)="openModal('modal-complete-' + r.id)">
+                        Recensisci
+                    </button>
+                </div>
+            </div>
+            <app-modal id="modal-complete-{{ r.id }}">
+                <h3>Lascia un feedback e completa la richiesta</h3>
+                <hr>
+                <div class="form-row mb-3">
+                    <label class="col-md-4" for="message">Messaggio</label>
+                    <textarea class="col-md-8 form-control" rows="4" [(ngModel)]="message" name="message"></textarea>
+                </div>
+                <div class="form-row mb-3">
+                    <label class="col-md-4" for="star-rating">Valutazione</label>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <ul class="list-inline rating-list" *ngFor="let star of stars" style="display: inline-block">
+                                    <li (click)="countStar(star)" [ngClass]="{'selected': (star <= selectedValue)}">
+
+                                        <fa-icon [icon]="['fas', 'star']"></fa-icon>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="offset-md-4">
-                            <a class="btn btn-lg btn-outline-primary ml-3" (click)="review(r, message)">
-                                Recensisci
-                            </a>
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="offset-md-4">
+                        <a *ngIf="isHelpCreator" class="btn btn-lg btn-outline-primary ml-3" (click)="review(r, message)">
+                            Recensisci
+                        </a>
+                        <a *ngIf="!isHelpCreator" class="btn btn-lg btn-outline-primary ml-3" (click)="complete(r, message)">
+                            Recensisci
+                        </a>
                     </div>
+                </div>
 
-                </app-modal>
+            </app-modal>
 
-            </div>
         </div>
+
+        <p *ngIf="!isUserAccepted">
+            In attesa di accettazione.
+        </p>
+
     </div>
     <div class="card-body" *ngIf="!isUserResponded && !isHelpCreator">
-        <a class="btn btn-lg btn-outline-primary offset-md-3" [routerLink]="['/helps/' + help?.id + '/response/']">
+        <a class="btn btn-lg btn-block btn-outline-primary" [routerLink]="['/helps/' + help?.id + '/response/']">
             Rispondi
         </a>
     </div>

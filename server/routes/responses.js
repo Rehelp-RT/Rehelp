@@ -106,19 +106,22 @@ router.put('/accept/:id', (req, res) => {
     if (body == undefined) {
         res.sendStatus(400)
     } else {
-        db.HelpResponse.findByPk(
-                req.params.id)
+        db.HelpResponse.findByPk(req.params.id, {
+                include: [
+                    { model: db.Help, required: true, as: 'help' }
+                ]
+            })
             .then((response) => {
                 const currentDate = new Date();
                 response.update({
                         accepted: true,
                         acceptedAt: currentDate
                     })
-                    .then(r => {
-                        r.help.update({
+                    .then(() => {
+                        response.help.update({
                                 accepted: true
                             })
-                            .then(h => {
+                            .then(() => {
                                 res.status(200).send(response)
                             })
                     })
@@ -132,8 +135,11 @@ router.put('/cancel/:id', (req, res) => {
     if (body == undefined) {
         res.sendStatus(400)
     } else {
-        db.HelpResponse.findByPk(
-                req.params.id)
+        db.HelpResponse.findByPk(req.params.id, {
+                include: [
+                    { model: db.Help, required: true, as: 'help' }
+                ]
+            })
             .then(function(response) {
                 // Check if record exists in db
                 if (response) {
@@ -142,11 +148,11 @@ router.put('/cancel/:id', (req, res) => {
                             accepted: false,
                             canceledAt: currentDate
                         })
-                        .then(r => {
-                            r.help.update({
+                        .then(() => {
+                            response.help.update({
                                     accepted: false
                                 })
-                                .then(h => {
+                                .then(() => {
                                     res.status(200).send(response)
                                 })
                         })
@@ -165,7 +171,11 @@ router.put('/feedback/:id', (req, res) => {
     } else if (body.ratingCreator === undefined) {
         res.status(400).send({ message: 'ratingCreator is missing' });
     } else {
-        db.HelpResponse.findByPk(req.params.id)
+        db.HelpResponse.findByPk(req.params.id, {
+                include: [
+                    { model: db.Help, required: true, as: 'help' }
+                ]
+            })
             .then(response => {
                 const currentDate = new Date();
                 response.update({
@@ -174,12 +184,12 @@ router.put('/feedback/:id', (req, res) => {
                         messageCreator: body.messageCreator,
                         ratingCreator: body.ratingCreator
                     })
-                    .then(r => {
+                    .then(() => {
                         response.help.update({
                                 reviewed: true
                             })
                             .then(() => {
-                                res.status(201).send(r)
+                                res.status(201).send(response)
                             })
                     })
                     .catch(err => {
@@ -246,22 +256,22 @@ router.put('/complete/:id', (req, res) => {
                             ratingResponder: body.ratingResponder
 
                         })
-                        .then(x => {
+                        .then(() => {
                             // update help
                             response.help.update({
                                     completed: true
                                 })
-                                .then(x => {
+                                .then(() => {
                                     // update creator
                                     response.help.creator.update({
                                             likehelps: creatorLh - 1
                                         })
-                                        .then(y => {
+                                        .then(() => {
                                             // update responder
                                             response.responder.update({
                                                     likehelps: responderLh + 1
                                                 })
-                                                .then(y => {
+                                                .then(() => {
                                                     res.status(200).send(response);
                                                 })
                                         })

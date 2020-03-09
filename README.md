@@ -19,18 +19,25 @@
 
 Use sequalize command `sequelize --options-path=server/options.js *` (or `npm run sequelize *` in certain cases still works) and substitute the * with one of the following command:
 
+### Migrations
+
 | Operation | Command |
 | --- | --- |
 | list of applied migrations | `sequelize --options-path=server/options.js db:migrate:status` |
 | create generic migration | `sequelize --options-path=server/options.js migration:create --name name-the-migration` |
 | create model based migration | `sequelize --options-path=server/options.js model:create --name User --attributes 'name:string email:string bio:text'` |
 | apply migrations | `sequelize --options-path=server/options.js db:migrate` |
+
+For migration command look QueryInterface documentation: <https://sequelize.org/master/class/lib/query-interface.js~QueryInterface.html>
+
+### Seeders
+
+| Operation | Command |
+| --- | --- |
 | create a seeder | `sequelize --options-path=server/options.js seed:create --name new-seed` |
 | apply all seeders | `sequelize --options-path=server/options.js db:seed:all` |
 | undo all seeders | `sequelize --options-path=server/options.js db:seed:undo:all` |
 | run specific seed | `sequelize --options-path=server/options.js db:seed --seed 20200301180220-recreate-categories` |
-
-For migration command look QueryInterface documentation: <https://sequelize.org/master/class/lib/query-interface.js~QueryInterface.html>
 
 ## Postgresql
 

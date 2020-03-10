@@ -13,7 +13,7 @@ router.get('/:id', (req, res) => {
                 'username', 'likehelps'
             ],
             include: [{
-                    attributes: ['id', 'title', 'image'],
+                    attributes: ['id', 'title', 'image', 'completed'],
                     model: db.Help,
                     as: 'helps',
                     include: [{

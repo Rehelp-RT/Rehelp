@@ -20,7 +20,6 @@ export class ProfileComponent implements OnInit {
 
     ngOnInit() {
         // get current user
-        console.log('currentUser', this.as.getCurrentUser());
         this.as.currentUser.subscribe(cu => {
             this.currentUser = cu.username;
             const id = this.actRoute.snapshot.params.id;
@@ -57,5 +56,31 @@ export class ProfileComponent implements OnInit {
           }
       }
       return diff;
+    }
+
+    getAverage(): number {
+        const ratedResponses = this.user.responses.filter(r => {
+            if (r.ratingCreator !== undefined) {
+                return r.ratingCreator;
+            }
+        });
+        const ratedHelps = this.user.helps.filter(h => {
+            const ress = h.responses.filter(r => {
+                if (r.ratingResponder !== undefined) {
+                    return r.ratingResponder;
+                }
+            });
+            return (ress.length > 0) ? h : null;
+        });
+        const sumResponses = ratedResponses.reduce((prev, cur) => {
+          return prev + cur.ratingCreator;
+        }, 0);
+        const average = sumResponses / (ratedResponses.length);
+
+        console.log('this.user.responses', this.user.responses);
+        console.log('ratedResponses', ratedResponses);
+        console.log('sumResponses', sumResponses);
+        console.log('ratedHelps', ratedHelps);
+        return average;
     }
 }

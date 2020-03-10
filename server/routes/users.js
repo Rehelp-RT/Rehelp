@@ -17,24 +17,30 @@ router.get('/:id', (req, res) => {
                     model: db.Help,
                     as: 'helps',
                     include: [{
-                        attributes: ['id', 'code', 'name'],
-                        model: db.HelpCategory,
-                        include: [{
                             attributes: ['id', 'code', 'name'],
                             model: db.HelpCategory,
                             include: [{
                                 attributes: ['id', 'code', 'name'],
                                 model: db.HelpCategory,
+                                include: [{
+                                    attributes: ['id', 'code', 'name'],
+                                    model: db.HelpCategory,
+                                    as: 'parent'
+                                }],
                                 as: 'parent'
                             }],
-                            as: 'parent'
-                        }],
-                        required: true,
-                        as: 'category'
-                    }]
+                            required: true,
+                            as: 'category'
+                        },
+                        {
+                            attributes: ['accepted', 'ratingResponder'],
+                            model: db.HelpResponse,
+                            as: 'responses'
+                        }
+                    ]
                 },
                 {
-                    attributes: ['accepted'],
+                    attributes: ['accepted', 'ratingCreator'],
                     model: db.HelpResponse,
                     as: 'responses',
                     include: [{

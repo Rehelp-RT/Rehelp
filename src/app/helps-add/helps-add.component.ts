@@ -260,7 +260,7 @@ export class HelpsAddComponent implements OnInit {
 
     // image
     const image = this.responses[0];
-    this.model.image = image.data.public_id;
+    this.model.image = image === undefined ? null : image.data.public_id;
 
     // category
     this.model.idCategory = this.idCat3 != null ? this.idCat3 : this.idCat2;

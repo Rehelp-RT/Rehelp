@@ -21,7 +21,10 @@ export class ProfileComponent implements OnInit {
     ngOnInit() {
         // get current user
         this.as.currentUser.subscribe(cu => {
-            this.currentUser = cu.username;
+            this.currentUser =
+                cu === undefined || cu == null
+                ? null
+                : cu.username;
             const id = this.actRoute.snapshot.params.id;
             // get user profile
             if (id == null) {
@@ -58,29 +61,52 @@ export class ProfileComponent implements OnInit {
       return diff;
     }
 
+    groupBy(objectArray, property) {
+        return objectArray.reduce((acc, obj) => {
+            const key = obj[property];
+            if (!acc[key]) {
+                acc[key] = [];
+            }
+            acc[key].push(obj);
+            return acc;
+        }, {});
+    }
+
     getAverage(): number {
         const ratedResponses = this.user.responses.filter(r => {
             if (r.ratingCreator !== undefined) {
                 return r.ratingCreator;
             }
         });
-        const ratedHelps = this.user.helps.filter(h => {
-            const ress = h.responses.filter(r => {
-                if (r.ratingResponder !== undefined) {
-                    return r.ratingResponder;
-                }
-            });
-            return (ress.length > 0) ? h : null;
-        });
         const sumResponses = ratedResponses.reduce((prev, cur) => {
           return prev + cur.ratingCreator;
         }, 0);
+
+        const ratedHelps = this.user.helps.filter(h => {
+          const ress = h.responses.filter(r => {
+              if (r.ratingResponder !== undefined) {
+                  return r.ratingResponder;
+              }
+          });
+          return (ress.length > 0) ? h : null;
+        });
+        const ratedHelpsResponses =
+            ratedHelps.map(h =>
+                h.responses.filter(r =>
+                    (r.ratingResponder)));
+        let sumHelps = 0;
+        const flatArray = Array.prototype.concat.apply([], ratedHelpsResponses);
+        flatArray.forEach(x => sumHelps += x );
+
         const average = sumResponses / (ratedResponses.length);
 
         console.log('this.user.responses', this.user.responses);
         console.log('ratedResponses', ratedResponses);
         console.log('sumResponses', sumResponses);
         console.log('ratedHelps', ratedHelps);
+        console.log('ratedHelpsResponses', ratedHelpsResponses);
+        console.log('flatArray', flatArray);
+        console.log('sumHelps', sumHelps);
         return average;
     }
 }

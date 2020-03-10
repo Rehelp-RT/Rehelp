@@ -72,7 +72,9 @@ export class ProfileComponent implements OnInit {
         }, {});
     }
 
-    getAverage(): number {
+    getAverage() {
+
+        // sum responses rating
         const ratedResponses = this.user.responses.filter(r => {
             if (r.ratingCreator !== undefined) {
                 return r.ratingCreator;
@@ -82,6 +84,7 @@ export class ProfileComponent implements OnInit {
           return prev + cur.ratingCreator;
         }, 0);
 
+        // sum responses of help rating
         const ratedHelps = this.user.helps.filter(h => {
           const ress = h.responses.filter(r => {
               if (r.ratingResponder !== undefined) {
@@ -94,19 +97,21 @@ export class ProfileComponent implements OnInit {
             ratedHelps.map(h =>
                 h.responses.filter(r =>
                     (r.ratingResponder)));
-        let sumHelps = 0;
         const flatArray = Array.prototype.concat.apply([], ratedHelpsResponses);
-        flatArray.forEach(x => sumHelps += x );
+        const sumHelps = flatArray.reduce((prev, cur) => {
+          return prev + cur.ratingResponder;
+        }, 0);
 
-        const average = sumResponses / (ratedResponses.length);
+        const average = (sumResponses + sumHelps) / (ratedResponses.length + ratedHelps.length);
 
+        console.log('-------------------');
         console.log('this.user.responses', this.user.responses);
-        console.log('ratedResponses', ratedResponses);
+        console.log('responses', ratedResponses.length);
         console.log('sumResponses', sumResponses);
-        console.log('ratedHelps', ratedHelps);
-        console.log('ratedHelpsResponses', ratedHelpsResponses);
-        console.log('flatArray', flatArray);
+        console.log('this.user.helps', this.user.helps);
+        console.log('helps', ratedHelps.length);
         console.log('sumHelps', sumHelps);
-        return average;
+        console.log('-------------------');
+        return average.toFixed(1);
     }
 }

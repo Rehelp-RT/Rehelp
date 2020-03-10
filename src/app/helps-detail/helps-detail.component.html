@@ -57,7 +57,7 @@
                         </div>
 
                         <div *ngIf="currentUser.id === help.creator.id && !help.accepted" class="mb-3">
-                            <a class="btn btn-outline-secondary mb-3" [routerLink]="['/helps/edit/', help.id]">
+                            <a class="btn btn-outline-secondary mb-3 mr-1" [routerLink]="['/helps/edit/', help.id]">
                                 <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon> Modifica
                             </a>
                             <a class="btn btn-outline-secondary mb-3" (click)="deleteHelp()">

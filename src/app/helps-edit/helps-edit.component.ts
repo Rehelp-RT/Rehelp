@@ -318,7 +318,7 @@ export class HelpsEditComponent implements OnInit {
 
     this.hs.updateHelp(this.model).subscribe(
       () => {
-        this.router.navigate(['/helps']);
+        this.router.navigate(['/profile']);
       },
       err => {
         console.log(err);

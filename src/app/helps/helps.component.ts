@@ -1,3 +1,4 @@
+import { UserService } from './../_services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { HelpService, AuthenticationService } from '@app/_services';
 import { Help, User } from '@app/_models';
@@ -9,12 +10,14 @@ import { Help, User } from '@app/_models';
 })
 export class HelpsComponent implements OnInit {
 
+  user: User;
   helps: Help[] = [];
   currentUser: User = null;
 
   constructor(
     private hs: HelpService,
-    private as: AuthenticationService) {
+    private as: AuthenticationService,
+    private us: UserService) {
       this.getCurrentUser();
     }
 
@@ -23,6 +26,9 @@ export class HelpsComponent implements OnInit {
     const excludeUserId = this.currentUser.id;
     const accepted = false;
     this.getHelps(type, excludeUserId, accepted);
+    this.us.getById(excludeUserId).subscribe(x => {
+      this.user = x;
+    });
   }
 
   getCurrentUser(): void {
@@ -43,6 +49,21 @@ export class HelpsComponent implements OnInit {
         .subscribe(x => {
             this.helps = x;
         });
+  }
+
+  likeHelpController() {
+    // number of user's likehelps
+    const userLikeHelp = this.user.likehelps;
+    // list of user's incompleted help
+    const incompletedHelps = this.user.helps.filter(h => {
+      if (h.completed === false) {
+        return h;
+      }
+    });
+
+    // check if user has enough likehelps
+    const checkLikeHelps = userLikeHelp - incompletedHelps.length > 0 ? true : false;
+    return checkLikeHelps;
   }
 
   /*

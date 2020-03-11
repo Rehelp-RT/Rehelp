@@ -62,9 +62,6 @@ export class MeetAndHelpComponent implements OnInit {
 
     // check if user has enough likehelps
     const checkLikeHelps = userLikeHelp - incompletedHelps.length > 0 ? true : false;
-    console.log(incompletedHelps.length, 'incompletedHelps');
-    console.log(userLikeHelp, 'userLikeHelp');
-    console.log(checkLikeHelps, 'checkLikeHelps');
     return checkLikeHelps;
   }
 

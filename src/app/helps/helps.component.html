@@ -4,7 +4,7 @@
         <h4 class="display-4">Meet & Help</h4>
 
         <div class="text-right">
-            <a [routerLink]="['/helps/add']" class="btn btn-outline-secondary mb-3">
+            <a *ngIf="likeHelpController()" [routerLink]="['/helps/add']" class="btn btn-outline-secondary mb-3">
                 <fa-icon [icon]="['fas', 'plus']"></fa-icon> Aggiungi
             </a>
         </div>

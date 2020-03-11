@@ -8,6 +8,7 @@ import { CloudinaryModule, CloudinaryConfiguration, provideCloudinary } from '@c
 import { Cloudinary as CloudinaryCore } from 'cloudinary-core';
 import { AppRoutingModule } from './app-routing.module';
 
+import { AlertModule } from './_alert';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { ModalModule } from './_modal';
 
@@ -100,6 +101,7 @@ export const cloudinaryLib = { Cloudinary: CloudinaryCore };
     UserIconComponent
   ],
   imports: [
+    AlertModule,
     BrowserModule,
     FormsModule,
     ModalModule,

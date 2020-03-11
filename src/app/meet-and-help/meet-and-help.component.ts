@@ -3,6 +3,8 @@ import { User, Help } from '@app/_models';
 import { AuthenticationService, UserService } from '@app/_services';
 import { ActivatedRoute } from '@angular/router';
 
+import { AlertService } from '../_alert';
+
 @Component({
   selector: 'app-meet-and-help',
   templateUrl: './meet-and-help.component.html',
@@ -13,12 +15,18 @@ export class MeetAndHelpComponent implements OnInit {
   help: Help;
   currentUser: string = null;
   isSyncAnimated = true;
+  options = {
+    autoClose: false,
+    keepAfterRouteChange: false
+  };
+
 
 
   constructor(
     private actRoute: ActivatedRoute,
     private as: AuthenticationService,
-    private us: UserService) { }
+    private us: UserService,
+    protected alertService: AlertService) { }
 
   ngOnInit() {
     // get current user

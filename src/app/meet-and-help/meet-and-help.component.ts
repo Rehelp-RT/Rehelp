@@ -32,37 +32,39 @@ export class MeetAndHelpComponent implements OnInit {
     // get current user
     this.as.currentUser.subscribe(cu => {
       this.currentUser =
-          cu === undefined || cu == null
+        cu === undefined || cu == null
           ? null
           : cu.username;
       const id = this.actRoute.snapshot.params.id;
       // get user profile
       if (id == null) {
-          this.us.getById(cu.id).subscribe(x => {
-              this.user = x;
-          });
+        this.us.getById(cu.id).subscribe(x => {
+          this.user = x;
+        });
       } else {
-          this.us.getById(id).subscribe(x => {
-              this.user = x;
-          });
+        this.us.getById(id).subscribe(x => {
+          this.user = x;
+        });
       }
-  });
+    });
   }
 
   likeHelpController() {
     // number of user's likehelps
-    const userLikeHelp = this.user.likehelps;
+    const userLikeHelp = this.user ? this.user.likehelps : null;
 
-    // list of user's incompleted help
-    const incompletedHelps = this.user.helps.filter(h => {
-      if (h.completed === false) {
-        return h;
-      }
-    });
+    if (this.user) {
+      // list of user's incompleted help
+      const incompletedHelps = this.user.helps.filter(h => {
+        if (h.completed === false) {
+          return h;
+        }
+      });
 
-    // check if user has enough likehelps
-    const checkLikeHelps = userLikeHelp - incompletedHelps.length > 0 ? true : false;
-    return checkLikeHelps;
+      // check if user has enough likehelps
+      const checkLikeHelps = userLikeHelp - incompletedHelps.length > 0 ? true : false;
+      return checkLikeHelps;
+    }
   }
 
 }

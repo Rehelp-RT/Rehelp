@@ -31,6 +31,7 @@ export class HelpsAddComponent implements OnInit {
   public idCat1 = null;
   public idCat2 = null;
   public idCat3 = null;
+  public imageUploaded = false;
 
   @ViewChild('search', { static: false })
   public searchElementRef: ElementRef;
@@ -155,6 +156,9 @@ export class HelpsAddComponent implements OnInit {
           // Create new response
           this.responses.push(fileItem);
         }
+        console.log(this.responses, 'this.responses');
+        this.imageUploaded = true;
+        console.log(this.imageUploaded, 'imageuploaded');
       });
     };
 

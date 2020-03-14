@@ -48,6 +48,7 @@
                             </label>
 
                             <div class="col-md-8">
+                              <div [hidden]="imageUploaded">
                                 <form id="direct_upload" ng2FileDrop [uploader]="uploader" (fileOver)="fileOverBase($event)" [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }">
                                     <div class="py-3">
                                         <div class="form_controls">
@@ -61,7 +62,7 @@
                                         </div>
                                     </div>
                                 </form>
-
+                              </div>
                                 <div class="file" *ngFor="let response of responses; let i = index">
                                     <div class="status">
                                         <div *ngIf="!response.status">
@@ -81,9 +82,12 @@
                                         </div>
                                         <input type="hidden" [(ngModel)]="model.image" [value]="response.data.public_id " name="image" />
                                     </div>
-                                    <a target="_blank" href="{{ response.data.url}}">
-                                        <img src="{{ response.data.url}}" alt="{{ response.data.public_id }}">
-                                    </a>
+                                    <div>
+                                      <a target="_blank" href="{{ response.data.url}}">
+                                          <img src="{{ response.data.url}}" alt="{{ response.data.public_id }}">
+                                      </a>
+                                      <button class="btn btn-danger offset-md-2 col-md-2 mb-3">Cancella</button>
+                                    </div>
                                 </div>
                             </div>
 

@@ -6,16 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./star-rating.component.css']
 })
 export class StarRatingComponent implements OnInit {
-  stars: number[] = [1, 2, 3, 4, 5];
-  selectedValue: number;
-  constructor() { }
+    stars: number[] = [1, 2, 3, 4, 5];
+    selectedValue: number;
+    constructor() { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
-  countStar(star) {
-    this.selectedValue = star;
-    console.log('Value of star', star);
-  }
-
+    countStar(star) {
+      this.selectedValue = star;
+      console.log('Value of star', star);
+    }
 }

@@ -1,7 +1,6 @@
 // angular modules
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
 
 // app modules and components
 import { AppRoutingModule } from './app-routing.module';
@@ -19,7 +18,7 @@ import { SharedModule } from './shared';
     declarations: [
         AppComponent
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [ AppComponent ]
 })
 export class AppModule {
 }

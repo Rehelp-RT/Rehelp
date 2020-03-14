@@ -1,10 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Input,
+    ViewEncapsulation
+} from '@angular/core';
 import { User } from '@app/models';
 
 @Component({
     selector: 'app-user-icon',
     templateUrl: './user-icon.component.html',
-    styleUrls: ['./user-icon.component.css']
+    styleUrls: ['./user-icon.component.css'],
+    encapsulation: ViewEncapsulation.None
 })
 export class UserIconComponent implements OnInit {
 

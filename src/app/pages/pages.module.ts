@@ -1,7 +1,19 @@
-// librarie's modules
+// library modules
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
-// page's modules and components
+// third party modules
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
+import { FileUploadModule } from 'ng2-file-upload';
+import { CloudinaryModule } from '@cloudinary/angular-5.x';
+import { Cloudinary as CloudinaryCore } from 'cloudinary-core';
+export const cloudinaryLib = { Cloudinary: CloudinaryCore };
+
+// app modules
+import { SharedModule } from '@app/shared';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { FaqComponent } from './faq/faq.component';
@@ -26,7 +38,25 @@ import { PagesRoutingModule } from './pages-routing.module';
 
 @NgModule({
     imports: [
-        PagesRoutingModule
+        CommonModule,
+        FileUploadModule,
+        FormsModule,
+        HttpClientModule,
+        ReactiveFormsModule, RouterModule,
+
+        AgmCoreModule.forRoot({
+            apiKey: 'AIzaSyAbbsrna-196ECj0O-Gc2-BWQcT5IfVj-8',
+            libraries: ['places']
+        }),
+        CloudinaryModule.forRoot(cloudinaryLib, {
+            cloud_name: 'hwbyvepex',
+            api_key: '179729361229299',
+            api_secret: 'bvVksVM28wciVB6_e2GG-dne3bI',
+            upload_preset: 'preset_avatar'
+        }),
+
+        PagesRoutingModule,
+        SharedModule
     ],
     declarations: [
         AboutComponent,
@@ -48,6 +78,9 @@ import { PagesRoutingModule } from './pages-routing.module';
         RegisterComponent,
         StarRatingComponent,
         UploadAvatarComponent
+    ],
+    providers: [
+        GoogleMapsAPIWrapper
     ],
     exports: [
         AboutComponent,

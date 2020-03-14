@@ -184,6 +184,12 @@ export class HelpsAddComponent implements OnInit {
       });
   }
 
+  toggleImgUploader() {
+    this.imageUploaded = !this.imageUploaded;
+    // this.responses = null;
+    console.log(this.responses, 'this.responses');
+  }
+
   // Delete an uploaded image
   // Requires setting 'Return delete token' to 'Yes' in your upload preset configuration
   // See also https://support.cloudinary.com/hc/en-us/articles/202521132-How-to-delete-an-image-from-the-client-side-
@@ -191,19 +197,25 @@ export class HelpsAddComponent implements OnInit {
     const url = `https://api.cloudinary.com/v1_1/${
       this.cloudinary.config().cloud_name
     }/delete_by_token`;
-    const headers = new Headers({
-      'Content-Type': 'application/json',
-      'X-Requested-With': 'XMLHttpRequest'
-    });
+    console.log(url, 'url');
+    const headers = [
+      {
+        name: 'X-Requested-With',
+        value: 'XMLHttpRequest'
+      }
+    ];
     const options = { headers };
+    console.log(data, 'data');
     const body = {
       token: data.delete_token
     };
+    console.log(body, 'body');
     this.http.post(url, body, options).subscribe(response => {
       console.log(`Deleted image - ${data.public_id} ${response.result}`);
       // Remove deleted item for responses
       this.responses.splice(index, 1);
     });
+    this.imageUploaded = !this.imageUploaded;
   };
 
   fileOverBase(e: any): void {

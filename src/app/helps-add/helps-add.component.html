@@ -74,7 +74,7 @@
                                                 <div class="progress" role="progressbar" [style.width.%]="response.progress"></div>
                                             </div>
                                         </div>
-                                        <div class="status-code" *ngIf="response.status && response.status==200">
+                                        <div  class="status-code" *ngIf="response.status && response.status==200 && imageUploaded">
                                             Caricamento completo
                                         </div>
                                         <div class="status-code" *ngIf="response.status && response.status > 300">
@@ -82,11 +82,13 @@
                                         </div>
                                         <input type="hidden" [(ngModel)]="model.image" [value]="response.data.public_id " name="image" />
                                     </div>
-                                    <div>
+                                    <div *ngIf="imageUploaded">
                                       <a target="_blank" href="{{ response.data.url}}">
                                           <img src="{{ response.data.url}}" alt="{{ response.data.public_id }}">
                                       </a>
-                                      <button class="btn btn-danger offset-md-2 col-md-2 mb-3">Cancella</button>
+                                      <a (click)="toggleImgUploader()" class="btn btn-danger btn-block col-md-1 mt-2">
+                                        <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon>
+                                      </a>
                                     </div>
                                 </div>
                             </div>

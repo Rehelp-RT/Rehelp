@@ -22,8 +22,8 @@ module.exports = {
 
     down: (queryInterface, Sequelize) => {
         return Promise.all([
-            queryInterface.removeConstraint('Help', 'custom_fkey_feedbacks_reviewer'),
-            queryInterface.removeConstraint('Help', 'custom_fkey_feedbacks_reviewed')
+            queryInterface.removeConstraint('Feedbacks', 'custom_fkey_feedbacks_reviewer'),
+            queryInterface.removeConstraint('Feedbacks', 'custom_fkey_feedbacks_reviewed')
         ])
     }
 };

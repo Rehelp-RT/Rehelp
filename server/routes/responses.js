@@ -90,7 +90,7 @@ router.post('/add', (req, res) => {
             message: body.message
         })
             .then(x => {
-                db.Notifications.create({
+                db.Notification.create({
                     idUser: body.help.idCreator,
                     message: 'hai ricevuto una risposta alla tua richiesta di aiuto!',
                     createdAt: currentDate
@@ -127,7 +127,7 @@ router.put('/accept/:id', (req, res) => {
                             accepted: true
                         })
                             .then(() => {
-                                db.Notifications.create({
+                                db.Notification.create({
                                     idUser: response.help.idCreator,
                                     message: 'la tua risposta è stata accettata!',
                                     createdAt: currentDate
@@ -199,7 +199,7 @@ router.put('/feedback/:id', (req, res) => {
                             reviewed: true
                         })
                             .then(() => {
-                                db.Notifications.create({
+                                db.Notification.create({
                                     idUser: response.help.idCreator,
                                     message: 'hai ricevuto una nuova recensione!',
                                     createdAt: currentDate
@@ -286,12 +286,12 @@ router.put('/complete/:id', (req, res) => {
                                                 likehelps: responderLh + 1
                                             })
                                                 .then(() => {
-                                                    db.Notifications.create({
+                                                    db.Notification.create({
                                                         idUser: response.help.creator.id,
                                                         message: 'hai ricevuto una nuova recensione!',
                                                         createdAt: currentDate
                                                     }),
-                                                    db.Notifications.create({
+                                                    db.Notification.create({
                                                         idUser: response.responder.id,
                                                         message: 'hai guadagnato un likehelp!',
                                                         createdAt: currentDate

@@ -1,8 +1,8 @@
 'use strict';
-const db = require('../models');
+const db = require('.');
 
 module.exports = (sequelize, DataTypes) => {
-    const Notifications = sequelize.define('Notifications', {
+    const Notification = sequelize.define('Notification', {
         idUser: {
             type: DataTypes.INTEGER,
             references: {
@@ -17,13 +17,13 @@ module.exports = (sequelize, DataTypes) => {
         updatedAt: DataTypes.DATE
     }, {});
 
-    Notifications.associate = function(models) {
-        models.Notifications.belongsTo(models.User, {
+    Notification.associate = function(models) {
+        models.Notification.belongsTo(models.User, {
             onDelete: "CASCADE",
             foreignKey: 'idUser',
             as: 'user'
         });
     };
 
-    return Notifications;
+    return Notification;
 };

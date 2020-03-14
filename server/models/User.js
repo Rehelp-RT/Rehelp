@@ -39,6 +39,10 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'idResponder',
             as: 'responses'
         });
+        models.User.hasMany(models.Notification, {
+            foreignKey: 'idUser',
+            as: 'notifications'
+        });
     };
     return User;
 };

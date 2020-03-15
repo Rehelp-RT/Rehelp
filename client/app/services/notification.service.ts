@@ -20,7 +20,7 @@ export class NotificationService {
   getByUser(id: number) {
     return this.http.get<Notification[]>(`${environment.apiUrl}/notifications/users/${id}`);
   }
-
+  
   checkNotification(id: number){
     return this.http.put<any>(`${environment.apiUrl}/notifications/` + id, {});
   }

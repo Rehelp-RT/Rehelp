@@ -12,7 +12,7 @@ import { NotificationService } from '@app/services';
 export class NotificationsComponent implements OnInit {
 
   @Input() currentUser: User;
-  notifications: Notification[];
+  notifications: Notification[] = [];
   
   constructor(
     private router: Router,
@@ -23,14 +23,18 @@ export class NotificationsComponent implements OnInit {
   }
 
   openModal(id: string) {
-    this.ns.getByUser(this.currentUser.id).subscribe(x => {
-      this.notifications = x;
-    });
     this.modalService.open(id);
+    this.getNotifications();
   }
 
   closeModal(id: string) {
     this.modalService.close(id);
   }
 
+  getNotifications(){    
+    this.ns.getByUser(this.currentUser.id).subscribe(x => {
+      this.notifications = x;
+    },
+    (err) => {console.log('errore :', err)});
+  }
 }

@@ -33,8 +33,10 @@ router.get('/user/:id', (req, res) => {
     };
 
     db.Notification.findAll({
-        attributes: ['id', 'message', 'checked', 'createdAt', 'idUser'],
-        where: filter
+        where: filter,
+        order: [
+            [ 'createdAt', 'desc']
+        ]
     })
         .then(x => {
             res.json(x)

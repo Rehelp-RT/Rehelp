@@ -1,0 +1,11 @@
+
+                    <li class="nav-item" *ngIf="currentUser" id="notifications">
+                        <fa-layers [fixedWidth]="true" size="2x" class="header-icon">
+                            <fa-icon [icon]="['fas', 'bell']" (click)="openModal('modal-notification-' + currentUser.id)"></fa-icon>
+                            <fa-layers-counter content="5" size="2x" class="fa-icon-counter"></fa-layers-counter>
+                        </fa-layers>
+                    </li>
+                    <app-modal id="modal-notification-{{ currentUser.id }}">
+                        <h3>Notifiche</h3>
+                        <hr>
+                    </app-modal>

@@ -37,6 +37,7 @@ import { FooterComponent, HeaderComponent } from './layout';
 import { ErrorInterceptor, JwtInterceptor } from './interceptors';
 
 import { FilterCategoriesPipe } from './pipes';
+import { NotificationsComponent } from './layout/header/notifications/notifications.component';
 
 @NgModule({
     imports: [
@@ -61,7 +62,8 @@ import { FilterCategoriesPipe } from './pipes';
     declarations: [
         HeaderComponent,
         FooterComponent,
-        FilterCategoriesPipe
+        FilterCategoriesPipe,
+        NotificationsComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

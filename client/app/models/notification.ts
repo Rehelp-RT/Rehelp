@@ -4,12 +4,12 @@ export class Notification {
     id: number;
     message: string;
     checked: boolean;
-    //idHelp: number;
+    idHelp: number;
     idUser: number;
 
     createdAt: Date;
     updatedAt: Date;
 
-    //help: Help;
+    help: Help;
     user: User;
 }

@@ -6,14 +6,14 @@ router.get('/', (req, res) =>
     db.Notification.findAll({
         attributes: ['id', 'message', 'checked', 'createdAt'],
         include: [{
-        //     attributes: ['id', 'title'],
-        //     model: db.Help,
-        //     as: 'help'
+            attributes: ['id', 'title'],
+            model: db.Help,
+            as: 'help'
         // },
         // {
-            attributes: ['id', 'username'],
-            model: db.User,
-            as: 'user'
+        //     attributes: ['id', 'username'],
+        //     model: db.User,
+        //     as: 'user'
         }]
     })
         .then(x => {

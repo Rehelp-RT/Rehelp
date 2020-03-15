@@ -27,19 +27,12 @@ router.get('/', (req, res) =>
 
 // GET /api/notifications/user/:id
 router.get('/user/:id', (req, res) => {
-    console.log('body : ', req.body)
-    db.Notification.findAll({
-        attributes: ['id', 'message', 'checked', 'createdAt'],
-        where: idUser == req.params.id,
+    db.User.findByPk(req.params.id, {
+        attributes: ['id', 'firstname', 'lastname', 'username'],
         include: [{
-            attributes: ['id', 'title'],
-            model: db.Help,
-            as: 'help'
-        },
-        {
-            attributes: ['id', 'firstname', 'lastname', 'username'],
-            model: db.User,
-            as: 'user'
+            attributes: ['id', 'message', 'checked', 'createdAt'],
+            model: db.Notification,
+            as: 'notifications'
         }]
     })
         .then(x => {

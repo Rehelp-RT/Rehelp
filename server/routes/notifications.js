@@ -9,11 +9,11 @@ router.get('/', (req, res) =>
             attributes: ['id', 'title'],
             model: db.Help,
             as: 'help'
-        // },
-        // {
-        //     attributes: ['id', 'username'],
-        //     model: db.User,
-        //     as: 'user'
+        },
+        {
+            attributes: ['id', 'firstname', 'lastname', 'username'],
+            model: db.User,
+            as: 'user'
         }]
     })
         .then(x => {
@@ -25,44 +25,32 @@ router.get('/', (req, res) =>
         })
 );
 
-
-// GET /api/notifications/user/5
-router.get('/:id', (req, res) => {
-    db.Notification.findByPk(
-        req.params.id, {
+// GET /api/notifications/user/:id
+router.get('/user/:id', (req, res) => {
+    console.log('body : ', req.body)
+    db.Notification.findAll({
+        attributes: ['id', 'message', 'checked', 'createdAt'],
+        where: idUser == req.params.id,
         include: [{
             attributes: ['id', 'title'],
             model: db.Help,
-            required: true,
             as: 'help'
         },
         {
-            attributes: ['username', 'firstname', 'lastname'],
+            attributes: ['id', 'firstname', 'lastname', 'username'],
             model: db.User,
-            required: true,
             as: 'user'
-        }
-        ]
+        }]
     })
         .then(x => {
-            if (!x) {
-                return res.status(404).send({
-                    message: 'Notification with id ' + req.params.id + ' not found.'
-                });
-            }
-            res.send(x);
+            res.json(x)
         })
         .catch(err => {
-            if (err.kind === 'ObjectId') {
-                return res.status(404).send({
-                    message: 'Notification with id ' + req.params.id + ' not found.'
-                });
-            }
-            return res.status(500).send({
-                message: err.message
-            });
-        });
-});
+            console.log(err);
+            res.sendStatus(500)
+        })
+}
+);
 
 // PUT /api/notifications/check/5
 router.put('/check/:id', (req, res) => {

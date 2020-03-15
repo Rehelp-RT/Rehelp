@@ -30,8 +30,6 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'idUser',
             as: 'user'
         });
-    };
-    Notification.associate = function(models) {
         models.Notification.belongsTo(models.Help, {
             onDelete: "CASCADE",
             foreignKey: 'idHelp',

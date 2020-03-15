@@ -14,6 +14,7 @@ export const cloudinaryLib = { Cloudinary: CloudinaryCore };
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import {
     faAngleDoubleRight,
+    faBell,
     faCamera, faCheck, faChevronLeft, faCircle, faCloudUploadAlt, faCoffee,
     faEnvelope,
     faMapMarkerAlt,
@@ -80,6 +81,7 @@ export class SharedModule {
     constructor(private library: FaIconLibrary) {
         library.addIcons(
             faAngleDoubleRight,
+            faBell,
             faCamera, faCircle, faCheck, faChevronLeft, faCloudUploadAlt, faCoffee,
             faEnvelope,
             faMapMarkerAlt,

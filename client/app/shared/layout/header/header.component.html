@@ -19,6 +19,12 @@
                     </li>
                     <li class="nav-item" *ngIf="currentUser">
                         <fa-layers [fixedWidth]="true" size="2x" class="header-icon">
+                            <fa-icon [icon]="['fas', 'bell']"></fa-icon>
+                            <fa-layers-counter content="5" size="2x" class="fa-icon-counter"></fa-layers-counter>
+                        </fa-layers>
+                    </li>
+                    <li class="nav-item" *ngIf="currentUser">
+                        <fa-layers [fixedWidth]="true" size="2x" class="header-icon">
                             <fa-icon [icon]="['fas', 'envelope']"></fa-icon>
                             <fa-layers-counter content="5" size="2x" class="fa-icon-counter"></fa-layers-counter>
                         </fa-layers>

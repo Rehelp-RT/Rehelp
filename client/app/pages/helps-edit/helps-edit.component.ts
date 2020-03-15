@@ -38,6 +38,7 @@ export class HelpsEditComponent implements OnInit {
   public idCat1 = null;
   public idCat2 = null;
   public idCat3 = null;
+  public imageUploaded = false;
 
   // model
   helpsForm: FormGroup;
@@ -197,6 +198,7 @@ export class HelpsEditComponent implements OnInit {
           // Create new response
           this.responses.push(fileItem);
         }
+        this.imageUploaded = true;
       });
     };
 
@@ -220,6 +222,10 @@ export class HelpsEditComponent implements OnInit {
         progress,
         data: {}
       });
+  }
+
+  toggleImgUploader() {
+    this.imageUploaded = !this.imageUploaded;
   }
 
   deleteImage = function(data: any, index: number) {
@@ -306,9 +312,9 @@ export class HelpsEditComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-
+    const i = this.responses.length - 1;
     // image
-    const image = this.responses[0];
+    const image = this.responses[i];
     if (image != null) {
       this.model.image = image.data.public_id;
     }

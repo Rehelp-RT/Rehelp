@@ -156,9 +156,7 @@ export class HelpsAddComponent implements OnInit {
           // Create new response
           this.responses.push(fileItem);
         }
-        console.log(this.responses, 'this.responses');
         this.imageUploaded = true;
-        console.log(this.imageUploaded, 'imageuploaded');
       });
     };
 
@@ -186,8 +184,6 @@ export class HelpsAddComponent implements OnInit {
 
   toggleImgUploader() {
     this.imageUploaded = !this.imageUploaded;
-    // this.responses = null;
-    console.log(this.responses, 'this.responses');
   }
 
   // Delete an uploaded image
@@ -273,15 +269,14 @@ export class HelpsAddComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-
+    const i = this.responses.length - 1;
     // image
-    const image = this.responses[0];
+    const image = this.responses[i];
     this.model.image = image === undefined ? null : image.data.public_id;
 
     // category
     this.model.idCategory = this.idCat3 != null ? this.idCat3 : this.idCat2;
 
-    console.log(this.model);
     this.hs.addHelp(this.model).subscribe(
       () => {
         this.router.navigate(['/profile' ]);

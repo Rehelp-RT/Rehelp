@@ -63,7 +63,8 @@
                                     </div>
                                 </form>
                               </div>
-                                <div class="file" *ngFor="let response of responses; let i = index">
+                                <div class="file" *ngFor="let response of responses; let i = index; last as isLast">
+                                  <div *ngIf="imageUploaded && isLast">
                                     <div class="status">
                                         <div *ngIf="!response.status">
                                             In corso
@@ -74,7 +75,7 @@
                                                 <div class="progress" role="progressbar" [style.width.%]="response.progress"></div>
                                             </div>
                                         </div>
-                                        <div  class="status-code" *ngIf="response.status && response.status==200 && imageUploaded">
+                                        <div class="status-code" *ngIf="response.status && response.status==200 && imageUploaded">
                                             Caricamento completo
                                         </div>
                                         <div class="status-code" *ngIf="response.status && response.status > 300">
@@ -82,7 +83,7 @@
                                         </div>
                                         <input type="hidden" [(ngModel)]="model.image" [value]="response.data.public_id " name="image" />
                                     </div>
-                                    <div *ngIf="imageUploaded">
+
                                       <a target="_blank" href="{{ response.data.url}}">
                                           <img src="{{ response.data.url}}" alt="{{ response.data.public_id }}">
                                       </a>

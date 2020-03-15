@@ -86,23 +86,6 @@ router.get('/:id', (req, res) => {
         });
 });
 
-// POST /api/user
-router.post('/', function(req, res) {
-    // User.create({ firstname: "Jane", lastname: "Doe" }).then(user => {
-    //     res.send({ id: user.id });
-    // });
-});
-
-// DELETE /api/user
-router.delete('/', function(req, res) {
-    // User.destroy({
-    //     where: {
-    //         firstname: "Jane"
-    //     }
-    // }).then(() => {
-    //     res.send({ id: user.id });
-    // });
-});
 
 // PUT /api/user/5/update
 router.put('/:id/update', function(req, res) {

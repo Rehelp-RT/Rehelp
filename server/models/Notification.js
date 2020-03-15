@@ -10,6 +10,13 @@ module.exports = (sequelize, DataTypes) => {
                 key: 'id',
             }
         },
+        idHelp: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: db.Help,
+                key: 'id',
+            }
+        },
         checked: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
         message: DataTypes.STRING,
 
@@ -22,6 +29,13 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: "CASCADE",
             foreignKey: 'idUser',
             as: 'user'
+        });
+    };
+    Notification.associate = function(models) {
+        models.Notification.belongsTo(models.Help, {
+            onDelete: "CASCADE",
+            foreignKey: 'idHelp',
+            as: 'help'
         });
     };
 

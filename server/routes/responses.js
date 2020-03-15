@@ -92,6 +92,7 @@ router.post('/add', (req, res) => {
             .then(x => {
                 db.Notification.create({
                     idUser: body.help.idCreator,
+                    idHelp: body.help.id,
                     message: 'hai ricevuto una risposta alla tua richiesta di aiuto!',
                     createdAt: currentDate
                 }),
@@ -129,6 +130,7 @@ router.put('/accept/:id', (req, res) => {
                             .then(() => {
                                 db.Notification.create({
                                     idUser: response.help.idCreator,
+                                    idHelp: response.help.id,
                                     message: 'la tua risposta è stata accettata!',
                                     createdAt: currentDate
                                 }),
@@ -201,6 +203,7 @@ router.put('/feedback/:id', (req, res) => {
                             .then(() => {
                                 db.Notification.create({
                                     idUser: response.help.idCreator,
+                                    idHelp: response.help.id,
                                     message: 'hai ricevuto una nuova recensione!',
                                     createdAt: currentDate
                                 }),
@@ -288,11 +291,13 @@ router.put('/complete/:id', (req, res) => {
                                                 .then(() => {
                                                     db.Notification.create({
                                                         idUser: response.help.creator.id,
+                                                        idHelp: response.help.id,
                                                         message: 'hai ricevuto una nuova recensione!',
                                                         createdAt: currentDate
                                                     }),
                                                     db.Notification.create({
                                                         idUser: response.responder.id,
+                                                        idHelp: response.help.id,
                                                         message: 'hai guadagnato un likehelp!',
                                                         createdAt: currentDate
                                                     }),

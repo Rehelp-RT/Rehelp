@@ -33,7 +33,7 @@
         "sourceMapPathOverrides": {
           "webpack:/*": "${webRoot}/*",
           "/./*": "${webRoot}/*",
-          "/src/*": "${webRoot}/*",
+          "/client/*": "${webRoot}/*",
           "/*": "*",
           "/./~/*": "${webRoot}/node_modules/*"
         }
@@ -48,7 +48,7 @@
         "sourceMapPathOverrides": {
           "webpack:/*": "${webRoot}/*",
           "/./*": "${webRoot}/*",
-          "/src/*": "${webRoot}/*",
+          "/client/*": "${webRoot}/*",
           "/*": "*",
           "/./~/*": "${webRoot}/node_modules/*"
         }

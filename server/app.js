@@ -47,7 +47,10 @@ const server =
 // setup socket.io
 let io = socketIO(server);
 io.on('connection', (socket) => {
-    console.log('user connected');
+    socket.on('new-message', (message) => {
+        console.log('message received:', message);
+        socket.emit('new-message', message);
+    });
 });
 
 

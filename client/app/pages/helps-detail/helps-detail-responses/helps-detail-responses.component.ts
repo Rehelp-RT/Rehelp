@@ -64,9 +64,6 @@ export class HelpsDetailResponsesComponent implements OnInit {
       .subscribe(() => {
         response.accepted = true;
         this.isUserAccepted = this.checkUserAccept(this.help.responses);
-        console.log('response.accepted', response.accepted);
-        console.log('isUserAccepted', this.isUserAccepted);
-        // this.getHelp(x.idHelp);
       });
   }
 
@@ -75,8 +72,6 @@ export class HelpsDetailResponsesComponent implements OnInit {
       .subscribe(() => {
         response.accepted = false;
         this.isUserAccepted = this.checkUserAccept(this.help.responses);
-        console.log('response.accepted', response.accepted);
-        console.log('isUserAccepted', this.isUserAccepted);
       });
   }
 
@@ -92,12 +87,9 @@ export class HelpsDetailResponsesComponent implements OnInit {
       });
     }
 
-    console.log('response', response);
   }
 
   complete(response: HelpResponse, message: string): void {
-
-    console.log('response', response);
 
     if (this.isResponderAccepted) {
       response.messageResponder = message;
@@ -108,8 +100,6 @@ export class HelpsDetailResponsesComponent implements OnInit {
           this.router.navigate(['/helps/', this.help.id]);
         });
     }
-
-    console.log('response', response);
   }
 
   deleteResponse(response: HelpResponse): void {

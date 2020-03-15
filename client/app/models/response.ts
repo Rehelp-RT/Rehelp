@@ -1,4 +1,4 @@
-import { Help, User } from './';
+import { Help, Message, User } from './';
 
 export class HelpResponse {
     id: number;
@@ -18,4 +18,5 @@ export class HelpResponse {
 
     help: Help;
     responder: User;
+    messages: Message[];
 }

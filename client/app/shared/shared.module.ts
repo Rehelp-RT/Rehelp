@@ -30,23 +30,28 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 
 // app module
-import { AlertModule, ModalModule, StarRatingModule, UserIconModule } from './components';
+import {
+    AlertModule,
+    ChatModule,
+    ModalModule,
+    StarRatingModule,
+    UserIconModule
+} from './components';
 
+// app layout
 import { FooterComponent, HeaderComponent } from './layout';
 
+// app interceptors
 import { ErrorInterceptor, JwtInterceptor } from './interceptors';
 
+// app pipes
 import { FilterCategoriesPipe } from './pipes';
 
 @NgModule({
     imports: [
-        CommonModule,
-        FileUploadModule,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterModule,
+        CommonModule, FileUploadModule, FormsModule, ReactiveFormsModule, RouterModule,
+
         FontAwesomeModule,
-        AlertModule, ModalModule, StarRatingModule, UserIconModule,
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyAbbsrna-196ECj0O-Gc2-BWQcT5IfVj-8',
             libraries: ['places']
@@ -57,6 +62,8 @@ import { FilterCategoriesPipe } from './pipes';
             api_secret: 'bvVksVM28wciVB6_e2GG-dne3bI',
             upload_preset: 'preset_avatar'
         }),
+
+        AlertModule, ChatModule, ModalModule, StarRatingModule, UserIconModule,
     ],
     declarations: [
         HeaderComponent,
@@ -71,7 +78,7 @@ import { FilterCategoriesPipe } from './pipes';
     exports: [
         AgmCoreModule,
         FontAwesomeModule,
-        AlertModule, ModalModule, StarRatingModule, UserIconModule,
+        AlertModule, ChatModule, ModalModule, StarRatingModule, UserIconModule,
         FooterComponent, HeaderComponent,
         FilterCategoriesPipe
     ]

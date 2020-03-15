@@ -18,13 +18,13 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.authenticationService.currentUser.subscribe(x => {
-      this.currentUser = x;
-    });
+      this.authenticationService.currentUser.subscribe(x => {
+          this.currentUser = x;
+      });
   }
 
   toggleNavbar() {
-    this.navbarOpen = !this.navbarOpen;
+      this.navbarOpen = !this.navbarOpen;
   }
 
   logout() {

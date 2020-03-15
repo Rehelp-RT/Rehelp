@@ -24,6 +24,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {
     faCheckSquare as farCheckSquare,
+    faCircle as farCircle,
     faClipboard as farClipboard,
     faSquare as farSquare,
     faStar as farStar
@@ -90,7 +91,7 @@ export class SharedModule {
             faPencilAlt, faPlus,
             faSave, faSpinner, faSquare, faStar, faStarOfLife, faSync,
             faTrashAlt,
-            farCheckSquare, farClipboard,
+            farCheckSquare, farCircle, farClipboard, 
             farSquare,
             farStar);
     }

@@ -1,11 +1,23 @@
-
-                    <li class="nav-item" *ngIf="currentUser" id="notifications">
-                        <fa-layers [fixedWidth]="true" size="2x" class="header-icon">
-                            <fa-icon [icon]="['fas', 'bell']" (click)="openModal('modal-notification-' + currentUser.id)"></fa-icon>
-                            <fa-layers-counter content="5" size="2x" class="fa-icon-counter"></fa-layers-counter>
-                        </fa-layers>
-                    </li>
-                    <app-modal id="modal-notification-{{ currentUser.id }}">
-                        <h3>Notifiche</h3>
-                        <hr>
-                    </app-modal>
+<div class="tab-dropdown">    
+    <div id="dropdown" (click)="dropClick()">
+        <li *ngIf="currentUser">
+            <fa-layers [fixedWidth]="true" size="2x" class="header-icon">
+                <fa-icon [icon]="['fas', 'bell']"></fa-icon>
+                <fa-layers-counter content="{{notifications.length}}" size="2x" class="fa-icon-counter"></fa-layers-counter>
+            </fa-layers>
+        </li>
+    </div>    
+    <ul role="tablist" #navdrop id="navdrop">
+        <li class="nav-item" *ngFor="let n of notifications">
+            <a class="nav-link" [routerLink]="['/helps/', n.idHelp]">
+                {{ n.message}}
+            </a>
+            <span *ngIf="!n.checked" (click)="checkNotification(n.id)">
+                <fa-icon [icon]="['fas', 'circle']"></fa-icon>
+            </span>
+            <span *ngIf="n.checked">
+                <fa-icon [icon]="['far', 'circle']"></fa-icon>
+            </span>
+        </li>
+     </ul>
+</div>

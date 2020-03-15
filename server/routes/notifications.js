@@ -54,11 +54,7 @@ router.put('/check/:id', (req, res) => {
     if (body == undefined) {
         res.sendStatus(400)
     } else {
-        db.Notification.findByPk(req.params.id, {
-            include: [
-                { model: db.Help, required: true, as: 'help' }
-            ]
-        })
+        db.Notification.findByPk(req.params.id)
             .then((notification) => {
                 const currentDate = new Date();
                 notification.update({

@@ -1,0 +1,67 @@
+.chat {
+    position: fixed;
+    bottom: 0;
+    right: 16px;
+    z-index: 99;
+}
+
+.chat-expanded {
+    min-width: 320px;
+    -webkit-box-shadow: -8px -5px 60px -40px rgba(0, 0, 0, 1);
+    -moz-box-shadow: -8px -5px 60px -40px rgba(0, 0, 0, 1);
+    box-shadow: -8px -5px 60px -40px rgba(0, 0, 0, 1);
+}
+
+.messages {
+    height: 300px;
+    overflow-y: scroll;
+}
+
+.chat-collapsed {
+    margin-bottom: 8px;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+    background-color: #ffffff;
+}
+
+.btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 25px;
+}
+
+.btn-circle .fa-layers {
+    margin: 0 auto 0 auto;
+}
+
+.btn-circle:hover {
+    background-color: #a0c0e0;
+}
+
+.btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    font-size: 24px;
+    line-height: 1.33;
+    border-radius: 35px;
+}
+
+.ng-fa-icon {
+    zoom: 80%;
+}
+
+.fa-icon-counter {
+    zoom: 200%;
+}

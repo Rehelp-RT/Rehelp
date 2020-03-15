@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as io from 'socket.io-client';
 import { environment } from '@environments/environment';
+import { Message } from '@app/models';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ChatService {
     private socket;
@@ -13,14 +14,20 @@ export class ChatService {
         this.socket = io(environment.socketioUrl);
     }
 
-    public sendMessage(message) {
+    public sendMessage(messageBody, idResponse, idAuthor) {
+        const currentTime = new Date();
+        const message = {
+            body: messageBody,
+            idResponse,
+            idAuthor,
+            createdAt: currentTime
+        };
         this.socket.emit('new-message', message);
     }
 
     public getMessages() {
-        return new Observable(subscriber => {
-            console.log('observable');
-            this.socket.on('new-message', (message: string) => {
+        return new Observable<Message>(subscriber => {
+            this.socket.on('new-message', (message) => {
                 subscriber.next(message);
             });
         });

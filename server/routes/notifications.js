@@ -60,8 +60,10 @@ router.put('/check/:id', (req, res) => {
                 notification.update({
                     checked: true,
                     updatedAt: currentDate
-                }),
-                    res.status(200).send(response)
+                })
+                .then(x => {
+                    res.status(200).send(x)
+                })
             })
     }
 });

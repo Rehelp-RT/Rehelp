@@ -16,7 +16,7 @@
                     </a>
                 </div>
                 <div *ngIf="!likeHelpController()">
-                    <a (click)="alertService.error('Siamo spiacenti, non puoi pubblicare una richiesta di aiuto perché sei a corto di LikeHelps! Aiuta qualcuno per recuperarli.', options)">
+                    <a (click)="printError('Siamo spiacenti, non puoi pubblicare una richiesta di aiuto perché sei a corto di LikeHelps! Aiuta qualcuno per recuperarli.')">
                         <img alt="Trova aiuto" src="assets/img/post-help.jpg" class="img-fluid mb-3">
                         <h3 class="text-dark">Pubblica una richiesta d'aiuto</h3>
                     </a>

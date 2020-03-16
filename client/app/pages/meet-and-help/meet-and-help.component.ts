@@ -25,7 +25,7 @@ export class MeetAndHelpComponent implements OnInit {
     private actRoute: ActivatedRoute,
     private as: AuthenticationService,
     private us: UserService,
-    protected alertService: AlertService) { }
+    private alertService: AlertService) { }
 
   ngOnInit() {
     // get current user
@@ -64,6 +64,12 @@ export class MeetAndHelpComponent implements OnInit {
       const checkLikeHelps = userLikeHelp - incompletedHelps.length > 0 ? true : false;
       return checkLikeHelps;
     }
+  }
+
+  printError(message) {
+    this.alertService.error(
+      message
+    );
   }
 
 }

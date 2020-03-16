@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { User } from '@app/models';
+import { Notification, User } from '@app/models';
 import { Router } from '@angular/router';
 import { NotificationService } from '@app/services';
 
@@ -33,15 +33,17 @@ export class NotificationsComponent implements OnInit {
       .subscribe(x => {
         this.notifications = x;
       },
-        (err) => {
-          console.log('errore :', err)
-        });
+      (err) => {
+        console.log('errore :', err)
+      });
   }
 
-  checkNotification(n: number): void {
-    this.ns.checkNotification(n)
+  checkNotification(n: Notification) {
+    console.log('ok');
+    this.ns.checkNotification(n.id)
       .subscribe(x => {
-        console.log("notification checked");
+        console.log('x :' , x)
+        n.checked = true;
       })
   }
 }

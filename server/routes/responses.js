@@ -129,7 +129,7 @@ router.put('/accept/:id', (req, res) => {
                         })
                             .then(() => {
                                 db.Notification.create({
-                                    idUser: response.help.idCreator,
+                                    idUser: response.help.idResponder,
                                     idHelp: response.help.id,
                                     message: 'la tua risposta è stata accettata!',
                                     createdAt: currentDate

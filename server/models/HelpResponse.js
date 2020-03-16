@@ -5,17 +5,11 @@ module.exports = (sequelize, DataTypes) => {
     const HelpResponse = sequelize.define('HelpResponse', {
         idHelp: {
             type: DataTypes.INTEGER,
-            references: {
-                model: db.Help,
-                key: 'id',
-            }
+            references: { model: db.Help, key: 'id' }
         },
         idResponder: {
             type: DataTypes.INTEGER,
-            references: {
-                model: db.User,
-                key: 'id',
-            }
+            references: { model: db.User, key: 'id' }
         },
         idTradeType: DataTypes.INTEGER,
         isTutor: DataTypes.BOOLEAN,

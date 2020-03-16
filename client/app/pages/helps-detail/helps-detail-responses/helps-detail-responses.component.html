@@ -11,6 +11,12 @@
 
         <div *ngFor="let r of help.responses">
 
+            <div *ngIf="r.accepted && !r.completed" class="row">
+                <div class="offset-md-8 col-md-4">
+                    <app-chat [help]="help" [response]="r" [isCreator]="isHelpCreator"></app-chat>
+                </div>
+            </div>
+
             <div *ngIf="!isUserAccepted || r.accepted">
 
                 <div *ngIf="r.accepted || r.idResponder === currentUser.id || isHelpCreator">

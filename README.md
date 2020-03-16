@@ -27,6 +27,7 @@ Use sequalize command `sequelize --options-path=server/options.js *` (or `npm ru
 | create generic migration | `sequelize --options-path=server/options.js migration:create --name name-the-migration` |
 | create model based migration | `sequelize --options-path=server/options.js model:create --name User --attributes 'name:string email:string bio:text'` |
 | apply migrations | `sequelize --options-path=server/options.js db:migrate` |
+| undo migration | `sequelize --options-path=server/options.js db:migrate:undo --name migration-name` |
 
 For migration command look QueryInterface documentation: <https://sequelize.org/master/class/lib/query-interface.js~QueryInterface.html>
 

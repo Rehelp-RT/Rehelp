@@ -1,0 +1,39 @@
+<div class="chat">
+    <div class="chat-expanded card bg-light" *ngIf="isOpen">
+        <div class="card-header">
+            {{ help.title }}
+            <button class="btn btn-circle btn-outline-secondary float-right" (click)="isOpen = false">X</button>
+        </div>
+        <div class="card-body messages" #scrollMe>
+            <div *ngFor="let message of messages" class="mb-1">
+                <div *ngIf="message.idAuthor == currentUser.id" class="p-3 float-left">
+                    <app-user-icon [showName]="false" [user]="currentUser"></app-user-icon>
+                </div>
+                <div *ngIf="message.idAuthor != currentUser.id" class="p-3 float-right">
+                    <app-user-icon [showName]="false" [user]="otherUser"></app-user-icon>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <p class="m-0 pb-2">
+                            {{ message.body }}
+                        </p>
+                        <sub class="float-right text-secondary">
+                            {{ message.createdAt | date:'HH:mm' }}
+                        </sub>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <textarea [(ngModel)]="messageBody" (keydown.enter)="onKeyDown($event)" (keyup.enter)="sendMessage()" class="form-control"></textarea>
+        </div>
+    </div>
+    <div class="chat-collapsed" *ngIf="!isOpen">
+        <button class="btn btn-lg btn-outline-secondary btn-circle" (click)="isOpen = true">
+            <fa-layers [fixedWidth]="true" size="2x" class="header-icon">
+                <fa-icon [icon]="['fas', 'envelope']"></fa-icon>
+                <!-- <fa-layers-counter content="5" size="2x" class="fa-icon-counter"></fa-layers-counter> -->
+            </fa-layers>
+        </button>
+    </div>
+</div>

@@ -10,19 +10,19 @@ import { Help } from '@app/models';
 
 import { environment } from '@environments/environment';
 
-const api = environment.apiUrl;
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
-
 @Injectable({
   providedIn: 'root'
 })
 export class HelpService {
+  private api = environment.apiUrl;
+  private httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
+  
   constructor(private http: HttpClient) { }
 
   getAll(type: string, excludeUserId, accepted: boolean) {
-    return this.http.get<Help[]>(`${environment.apiUrl}/helps?type=${type}&excludeUserId=${excludeUserId}&accepted=${accepted}`);
+    return this.http.get<Help[]>(`${this.api}/helps?type=${type}&excludeUserId=${excludeUserId}&accepted=${accepted}`);
   }
 
   getById(id: number) {

@@ -39,10 +39,8 @@ export class NotificationsComponent implements OnInit {
   }
 
   checkNotification(n: Notification) {
-    console.log('ok');
     this.ns.checkNotification(n.id)
       .subscribe(x => {
-        console.log('x :' , x)
         n.checked = true;
       })
   }

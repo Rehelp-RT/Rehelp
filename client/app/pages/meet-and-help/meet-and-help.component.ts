@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User, Help } from '@app/models';
 import { AuthenticationService, UserService } from '@app/services';
 import { ActivatedRoute } from '@angular/router';
-
-import { AlertService } from '@app/services';
+import { AlertService } from '@app/shared/components/alert';
 
 @Component({
   selector: 'app-meet-and-help',

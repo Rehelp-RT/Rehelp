@@ -9,12 +9,12 @@
     </li>
 
     <div class="dropdown-menu" [ngClass]="{'show': isOpen}" aria-labelledby="dropdownMenuLink">
+        <span *ngIf="notifications.length === 0">
+            Non ci sono notifiche da mostrare
+        </span>
         <li class="nav-item" *ngFor="let n of notifications">
-            <span *ngIf="notifications.length == 0">
-                Non ci sono notifiche da mostrare
-            </span>
             <span class="nav-link" (click)="navigate(n.idHelp)">
-                {{ n.message}}
+                {{ n.message }}
             </span>
             <span *ngIf="!n.checked" (click)="checkNotification(n)">
                 <fa-icon [icon]="['fas', 'circle']"></fa-icon>

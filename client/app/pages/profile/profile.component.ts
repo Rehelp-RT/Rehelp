@@ -104,14 +104,6 @@ export class ProfileComponent implements OnInit {
 
         const average = (sumResponses + sumHelps) / (ratedResponses.length + ratedHelps.length);
 
-        console.log('-------------------');
-        console.log('this.user.responses', this.user.responses);
-        console.log('responses', ratedResponses.length);
-        console.log('sumResponses', sumResponses);
-        console.log('this.user.helps', this.user.helps);
-        console.log('helps', ratedHelps.length);
-        console.log('sumHelps', sumHelps);
-        console.log('-------------------');
         return average.toFixed(1);
     }
 }

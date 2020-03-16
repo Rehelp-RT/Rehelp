@@ -24,6 +24,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {
     faCheckSquare as farCheckSquare,
+    faCircle as farCircle,
     faClipboard as farClipboard,
     faSquare as farSquare,
     faStar as farStar
@@ -46,6 +47,7 @@ import { ErrorInterceptor, JwtInterceptor } from './interceptors';
 
 // app pipes
 import { FilterCategoriesPipe } from './pipes';
+import { NotificationsComponent } from './layout/header/notifications/notifications.component';
 
 @NgModule({
     imports: [
@@ -68,7 +70,8 @@ import { FilterCategoriesPipe } from './pipes';
     declarations: [
         HeaderComponent,
         FooterComponent,
-        FilterCategoriesPipe
+        FilterCategoriesPipe,
+        NotificationsComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
@@ -95,7 +98,7 @@ export class SharedModule {
             faPencilAlt, faPlus,
             faSave, faSpinner, faSquare, faStar, faStarOfLife, faSync,
             faTrashAlt,
-            farCheckSquare, farClipboard,
+            farCheckSquare, farCircle, farClipboard, 
             farSquare,
             farStar);
     }

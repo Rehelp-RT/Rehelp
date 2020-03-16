@@ -1,5 +1,6 @@
 var router = require('express').Router();
 const db = require('../models');
+const { Op } = require("sequelize");
 
 // GET /api/notifications
 router.get('/', (req, res) =>
@@ -27,13 +28,15 @@ router.get('/', (req, res) =>
 
 // GET /api/notifications/user/:id
 router.get('/user/:id', (req, res) => {
-    db.User.findByPk(req.params.id, {
-        attributes: ['id', 'firstname', 'lastname', 'username'],
-        include: [{
-            attributes: ['id', 'message', 'checked', 'createdAt'],
-            model: db.Notification,
-            as: 'notifications'
-        }]
+    var filter = {
+        [Op.and]: { idUser: req.params.id }
+    };
+
+    db.Notification.findAll({
+        where: filter,
+        order: [
+            [ 'createdAt', 'desc']
+        ]
     })
         .then(x => {
             res.json(x)
@@ -51,11 +54,7 @@ router.put('/check/:id', (req, res) => {
     if (body == undefined) {
         res.sendStatus(400)
     } else {
-        db.Notification.findByPk(req.params.id, {
-            include: [
-                { model: db.Help, required: true, as: 'help' }
-            ]
-        })
+        db.Notification.findByPk(req.params.id)
             .then((notification) => {
                 const currentDate = new Date();
                 notification.update({

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input  } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { User } from '@app/models';
 import { Router } from '@angular/router';
 import { NotificationService } from '@app/services';
@@ -14,7 +14,6 @@ export class NotificationsComponent implements OnInit {
   notifications: Notification[] = [];
   isOpen: boolean = false;
 
-
   constructor(
     private router: Router,
     private ns: NotificationService) { }
@@ -23,22 +22,26 @@ export class NotificationsComponent implements OnInit {
     this.getNotifications();
   }
 
-  
-  
+  navigate(id: number) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate(['/helps/', id]);
+  }
+
   getNotifications(): void {
     this.ns.getByUser(this.currentUser.id)
       .subscribe(x => {
         this.notifications = x;
       },
-        (err) => { 
-          console.log('errore :', err) 
-      });
+        (err) => {
+          console.log('errore :', err)
+        });
   }
 
-  checkNotification(n : number):void {
+  checkNotification(n: number): void {
     this.ns.checkNotification(n)
-    .subscribe(x => {
-      //
-    })
+      .subscribe(x => {
+        console.log("notification checked");
+      })
   }
 }

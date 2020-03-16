@@ -18,11 +18,11 @@ export class NotificationService {
   }
   
   getByUser(id: number) {
-    return this.http.get<Notification[]>(`${environment.apiUrl}/notifications/users/${id}`);
+    return this.http.get<Notification[]>(`${environment.apiUrl}/notifications/user/${id}`);
   }
-
+  
   checkNotification(id: number){
-    return this.http.put<any>(`${environment.apiUrl}/notifications/` + id, {});
+    return this.http.put<any>(`${environment.apiUrl}/notifications/check/` + id, {});
   }
 
 }

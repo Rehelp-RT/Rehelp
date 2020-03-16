@@ -6,6 +6,6 @@
     zoom: 150%;
 }
 
-#notifications{
-    cursor:pointer;
+.dropdown-toggle{
+    cursor: pointer;
 }

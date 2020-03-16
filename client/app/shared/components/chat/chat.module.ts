@@ -10,6 +10,7 @@ import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 // components
 import { ChatComponent } from './chat.component';
+import { UserIconModule } from '../user-icon';
 
 @NgModule({
     declarations: [ChatComponent],
@@ -17,7 +18,8 @@ import { ChatComponent } from './chat.component';
         CommonModule,
         FormsModule,
         HttpClientModule,
-        FontAwesomeModule
+        FontAwesomeModule,
+        UserIconModule
     ],
     exports: [ChatComponent]
 })

@@ -3,7 +3,7 @@ import { ChatService } from './chat.service';
 import { throttleTime, distinctUntilChanged } from 'rxjs/operators';
 import * as moment from 'moment';
 
-import { Help, HelpResponse, Message } from '@app/models';
+import { Help, HelpResponse, Message, User } from '@app/models';
 import { AuthenticationService } from '@app/services';
 
 @Component({
@@ -18,24 +18,41 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Input() isCreator: boolean;
     messageBody = '';
     messages: Message[] = [];
-    currentUser = null;
+    otherUser: User = null;
+    currentUser: User = null;
     isOpen = false;
     private subscription = null;
 
-    constructor(private chatService: ChatService, private authService: AuthenticationService) { }
+    constructor(
+        private authService: AuthenticationService,
+        private chatService: ChatService) { }
 
     ngOnInit() {
         this.currentUser = this.authService.currentUserValue;
-        this.subscription =
-            this.chatService.getMessages()
-            .pipe(distinctUntilChanged())
-            .pipe(throttleTime(200))
-            .subscribe((message) => {
-                // const currentTime = moment().format('HH:mm:ss');
-                // const messageWithTimestamp =  `${currentTime}: ${message}`;
-                this.messages.push(message);
-                this.scrollToBottom();
-            });
+        this.otherUser = this.isCreator ? this.response.responder : this.help.creator;
+        console.log('currentUser', this.currentUser);
+        console.log('otherUser', this.otherUser);
+
+        this.chatService.getAll(this.response.id).subscribe(x => {
+            // saved message
+            this.messages = x;
+            console.log('messages', this.messages);
+            
+            // listen on incoming message
+            this.subscription =
+                this.chatService.getMessages()
+                .pipe(distinctUntilChanged())
+                .pipe(throttleTime(200))
+                .subscribe((message) => {
+                    // const currentTime = moment().format('HH:mm:ss');
+                    // const messageWithTimestamp =  `${currentTime}: ${message}`;
+                    if (message.idResponse == this.response.id) {
+                        this.messages.push(message);
+                        console.log('messages', this.messages);
+                        this.scrollToBottom();
+                    }
+                });
+        });
     }
 
     ngAfterViewChecked() {

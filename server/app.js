@@ -8,6 +8,7 @@ const https = require('https');
 const fs = require('fs');
 const api = require('./routes');
 const socketIO = require('socket.io');
+const db = require('./models');
 
 
 /*--- Setup ---*/
@@ -47,10 +48,47 @@ const server =
 // setup socket.io
 let io = socketIO(server);
 io.on('connection', (socket) => {
+
     socket.on('new-message', (message) => {
+        // message received
         console.log('message received:', message);
-        socket.emit('new-message', message);
+
+        // check format
+        if (message.idResponse === undefined) {
+            console.error('idResponse is missing:', message);
+        } else if (message.idAuthor === undefined) {
+            console.error('idAuthor is missing:', message);
+        } else if (message.body === undefined) {
+            console.error('body is missing:', message);
+        } else {
+            // assign a date
+            const currentDate = new Date();
+            message.createdAt = currentDate;
+
+            // save it
+            db.Message.create({
+                idResponse: message.idResponse,
+                idAuthor: message.idAuthor,
+                body: message.body,
+                createdAt: message.createdAt,
+                createdAt: message.updatedAt
+            })
+            .then(x => {
+                // send it to all users
+                socket.emit('new-message', x);
+                socket.broadcast.emit('new-message', x);
+            })
+            .catch(err => {
+                console.error('saving error:', err);
+            });
+        }
     });
+
+    socket.on('disconnect', () => {
+        // user disconnect
+        console.log('Disconnected');
+    })
+
 });
 
 

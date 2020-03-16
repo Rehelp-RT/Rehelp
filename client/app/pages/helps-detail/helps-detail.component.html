@@ -2,75 +2,81 @@
     <div class="container">
         <div class="row">
 
-            <div class="col-lg-2 col-md-3 mb-3">
+            <div class="col-lg-2 mb-3">
                 <button class="btn btn-block btn-outline-secondary" (click)="back()">
                     <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon> Indietro
                 </button>
             </div>
 
-            <div class="col-lg-6 col-md-5" *ngIf="help">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="mb-3">{{ help.title }}</h3>
-                        <hr>
-                        <img src="{{ help.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + help.image }}" alt="{{ help.title }} image" class="img-fluid mb-3">
+            <div class="col-lg-10">
+                <div class="row">
 
-                        <div class="row mb-3">
-                            <div class="col-4"><strong>Tipo</strong></div>
-                            <div class="col-8">{{ help?.type?.name }}</div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-4"><strong>Categoria</strong></div>
-                            <div class="col-8">
-                                <span class="badge badge-secondary mr-1" *ngIf="help.category?.parent?.parent">{{ help.category?.parent?.parent?.name }}</span>
-                                <span class="badge badge-secondary mr-1" *ngIf="help.category?.parent">{{ help.category?.parent?.name }}</span>
-                                <span class="badge badge-secondary" *ngIf="help.category">{{ help.category?.name }}</span>
+                    <div class="col-md-6" *ngIf="help">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="mb-3">{{ help.title }}</h3>
+                                <hr>
+                                <img src="{{ help.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + help.image }}" alt="{{ help.title }} image" class="img-fluid mb-3">
+        
+                                <div class="row mb-3">
+                                    <div class="col-lg-4"><strong>Tipo</strong></div>
+                                    <div class="col-lg-8">{{ help?.type?.name }}</div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-lg-4"><strong>Categoria</strong></div>
+                                    <div class="col-lg-8">
+                                        <span class="badge badge-secondary mr-1" *ngIf="help.category?.parent?.parent">{{ help.category?.parent?.parent?.name }}</span>
+                                        <span class="badge badge-secondary mr-1" *ngIf="help.category?.parent">{{ help.category?.parent?.name }}</span>
+                                        <span class="badge badge-secondary" *ngIf="help.category">{{ help.category?.name }}</span>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-lg-4"><strong>Creatore</strong></div>
+                                    <div class="col-lg-8">
+                                        <app-user-icon [user]="help.creator"></app-user-icon>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-lg-4"><strong>Data creazione</strong></div>
+                                    <div class="col-lg-8">
+                                        {{ help.createdAt | date: "dd/MM/yyyy" }}
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-lg-4"><strong>Descrizione</strong></div>
+                                    <div class="col-lg-8">{{ help.description }}</div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-lg-4"><strong>Luogo</strong></div>
+                                    <div class="col-lg-8">
+                                        {{ help.address }}<br>
+                                    </div>
+                                </div>
+                                <div class="py-3">
+                                    <agm-map class="w-100" [latitude]="help.latitude" [longitude]="help.longitude">
+                                        <agm-marker [latitude]="help.latitude" [longitude]="help.longitude">
+                                        </agm-marker>
+                                    </agm-map>
+                                </div>
+        
+                                <div *ngIf="currentUser.id === help.creator.id && !help.accepted" class="mb-3">
+                                    <a class="btn btn-outline-secondary mb-3 mr-1" [routerLink]="['/helps/edit/', help.id]">
+                                        <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon> Modifica
+                                    </a>
+                                    <a class="btn btn-outline-secondary mb-3" (click)="deleteHelp()">
+                                        <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon> Elimina
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-4"><strong>Creatore</strong></div>
-                            <div class="col-8">
-                                <app-user-icon [user]="help.creator"></app-user-icon>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-4"><strong>Data creazione</strong></div>
-                            <div class="col-8">
-                                {{ help.createdAt | date: "dd/MM/yyyy" }}
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-4"><strong>Descrizione</strong></div>
-                            <div class="col-8">{{ help.description }}</div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-4"><strong>Luogo</strong></div>
-                            <div class="col-8">
-                                {{ help.address }}<br>
-                            </div>
-                        </div>
-                        <div class="py-3">
-                            <agm-map class="w-100" [latitude]="help.latitude" [longitude]="help.longitude">
-                                <agm-marker [latitude]="help.latitude" [longitude]="help.longitude">
-                                </agm-marker>
-                            </agm-map>
-                        </div>
-
-                        <div *ngIf="currentUser.id === help.creator.id && !help.accepted" class="mb-3">
-                            <a class="btn btn-outline-secondary mb-3 mr-1" [routerLink]="['/helps/edit/', help.id]">
-                                <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon> Modifica
-                            </a>
-                            <a class="btn btn-outline-secondary mb-3" (click)="deleteHelp()">
-                                <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon> Elimina
-                            </a>
+        
                         </div>
                     </div>
-
+        
+                    <div class="col-md-6" *ngIf="help && currentUser">
+                        <app-helps-detail-responses [help]="help" [currentUser]="currentUser"></app-helps-detail-responses>
+                    </div>
+                    
                 </div>
-            </div>
-
-            <div class="col-lg-4 col-md-4" *ngIf="help && currentUser">
-                <app-helps-detail-responses [help]="help" [currentUser]="currentUser"></app-helps-detail-responses>
             </div>
         </div>
 

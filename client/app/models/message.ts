@@ -6,6 +6,7 @@ export class Message {
     idAuthor: number;
     body: string;
     createdAt: Date;
+    updatedAt: Date;
 
     response: HelpResponse;
     author: User;

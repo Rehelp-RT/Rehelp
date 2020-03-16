@@ -15,6 +15,7 @@ import { User } from '@app/models';
 export class UserIconComponent implements OnInit {
 
     @Input() user: User;
+    @Input() showName: boolean = true;
 
     constructor() { }
 

@@ -1,10 +1,12 @@
 <div class="dropdown" [ngClass]="{'show': isOpen}">
-    <li class="dropdown-toggle" (click)="isOpen = !isOpen" role="button" id="dropdownMenuLink"
-        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <li class="dropdown-toggle" (click)="isOpen = !isOpen" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
         <fa-layers [fixedWidth]="true" size="2x" class="header-icon">
             <fa-icon [icon]="['fas', 'bell']"></fa-icon>
-            <fa-layers-counter content="{{notifications.length}}" size="2x" class="fa-icon-counter">
-            </fa-layers-counter>
+            <div *ngIf="notifications.length > 0">
+                <fa-layers-counter content="{{notifications.length}}" size="2x" class="fa-icon-counter">
+                </fa-layers-counter>
+            </div>
         </fa-layers>
     </li>
 

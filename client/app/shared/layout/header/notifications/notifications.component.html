@@ -3,27 +3,28 @@
         aria-haspopup="true" aria-expanded="false">
         <fa-layers [fixedWidth]="true" size="2x" class="header-icon">
             <fa-icon [icon]="['fas', 'bell']"></fa-icon>
-            <div *ngIf="notifications.length > 0">
-                <fa-layers-counter content="{{notifications.length}}" size="2x" class="fa-icon-counter">
-                </fa-layers-counter>
-            </div>
+            <fa-layers-counter *ngIf="notCheckedNotifications.length !== 0" content="{{notCheckedNotifications.length}}" size="2x"
+                class="fa-icon-counter">
+            </fa-layers-counter>
         </fa-layers>
     </li>
 
     <div class="dropdown-menu" [ngClass]="{'show': isOpen}" aria-labelledby="dropdownMenuLink">
-        <span *ngIf="notifications.length === 0">
+        <span *ngIf="notCheckedNotifications.length == 0">
             Non ci sono notifiche da mostrare
         </span>
         <li class="nav-item" *ngFor="let n of notifications">
-            <span class="nav-link" (click)="navigate(n.idHelp)">
-                {{ n.message }}
-            </span>
-            <span *ngIf="!n.checked" (click)="checkNotification(n)">
-                <fa-icon [icon]="['fas', 'circle']"></fa-icon>
-            </span>
-            <span *ngIf="n.checked">
-                <fa-icon [icon]="['far', 'circle']"></fa-icon>
-            </span>
+            <div *ngIf="!n.checked">
+                <span class="nav-link" (click)="navigate(n.idHelp)">
+                    {{ n.message }}
+                </span>
+                <span id="check" *ngIf="!n.checked" (click)="checkNotification(n)">
+                    <fa-icon [icon]="['fas', 'circle']"></fa-icon>
+                </span>
+                <span *ngIf="n.checked">
+                    <fa-icon [icon]="['far', 'circle']"></fa-icon>
+                </span>
+            </div>
         </li>
     </div>
 </div>

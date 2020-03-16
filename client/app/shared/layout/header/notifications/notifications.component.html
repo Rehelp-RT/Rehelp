@@ -1,18 +1,18 @@
 <div class="dropdown" [ngClass]="{'show': isOpen}">
-    <a class="dropdown-toggle" (click)="isOpen = !isOpen" href="#" role="button" id="dropdownMenuLink"
+    <li class="dropdown-toggle" (click)="isOpen = !isOpen" role="button" id="dropdownMenuLink"
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <fa-layers [fixedWidth]="true" size="2x" class="header-icon">
             <fa-icon [icon]="['fas', 'bell']"></fa-icon>
             <fa-layers-counter content="{{notifications.length}}" size="2x" class="fa-icon-counter">
             </fa-layers-counter>
         </fa-layers>
-    </a>
+    </li>
 
     <div class="dropdown-menu" [ngClass]="{'show': isOpen}" aria-labelledby="dropdownMenuLink">
         <li class="nav-item" *ngFor="let n of notifications">
-            <a class="nav-link" [routerLink]="['/helps/', n.idHelp]">
+            <span class="nav-link" (click)="navigate(n.idHelp)">
                 {{ n.message}}
-            </a>
+            </span>
             <span *ngIf="!n.checked" (click)="checkNotification(n.id)">
                 <fa-icon [icon]="['fas', 'circle']"></fa-icon>
             </span>

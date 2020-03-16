@@ -13,7 +13,7 @@
             <span class="nav-link" (click)="navigate(n.idHelp)">
                 {{ n.message}}
             </span>
-            <span *ngIf="!n.checked" (click)="checkNotification(n.id)">
+            <span *ngIf="!n.checked" (click)="checkNotification(n)">
                 <fa-icon [icon]="['fas', 'circle']"></fa-icon>
             </span>
             <span *ngIf="n.checked">

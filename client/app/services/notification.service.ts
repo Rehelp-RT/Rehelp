@@ -5,6 +5,7 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 import { environment } from '@environments/environment';
+import { Notification } from '@app/models'
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class NotificationService {
   }
   
   checkNotification(id: number){
-    return this.http.put<any>(`${environment.apiUrl}/notifications/check/` + id, {});
+    return this.http.put<Notification>(`${environment.apiUrl}/notifications/check/` + id, {});
   }
 
 }

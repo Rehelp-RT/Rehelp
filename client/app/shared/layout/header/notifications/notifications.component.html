@@ -1,13 +1,14 @@
-<div class="tab-dropdown">    
-    <div id="dropdown" (click)="dropClick()">
-        <li *ngIf="currentUser">
-            <fa-layers [fixedWidth]="true" size="2x" class="header-icon">
-                <fa-icon [icon]="['fas', 'bell']"></fa-icon>
-                <fa-layers-counter content="{{notifications.length}}" size="2x" class="fa-icon-counter"></fa-layers-counter>
-            </fa-layers>
-        </li>
-    </div>    
-    <ul role="tablist" #navdrop id="navdrop">
+<div class="dropdown" [ngClass]="{'show': isOpen}">
+    <a class="dropdown-toggle" (click)="isOpen = !isOpen" href="#" role="button" id="dropdownMenuLink"
+        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <fa-layers [fixedWidth]="true" size="2x" class="header-icon">
+            <fa-icon [icon]="['fas', 'bell']"></fa-icon>
+            <fa-layers-counter content="{{notifications.length}}" size="2x" class="fa-icon-counter">
+            </fa-layers-counter>
+        </fa-layers>
+    </a>
+
+    <div class="dropdown-menu" [ngClass]="{'show': isOpen}" aria-labelledby="dropdownMenuLink">
         <li class="nav-item" *ngFor="let n of notifications">
             <a class="nav-link" [routerLink]="['/helps/', n.idHelp]">
                 {{ n.message}}
@@ -19,5 +20,5 @@
                 <fa-icon [icon]="['far', 'circle']"></fa-icon>
             </span>
         </li>
-     </ul>
+    </div>
 </div>

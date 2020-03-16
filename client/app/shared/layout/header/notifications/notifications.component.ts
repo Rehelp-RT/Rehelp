@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, ElementRef, ViewChild  } from '@angular/core';
+import { Component, OnInit, Input  } from '@angular/core';
 import { User } from '@app/models';
 import { Router } from '@angular/router';
 import { NotificationService } from '@app/services';
@@ -12,6 +12,8 @@ export class NotificationsComponent implements OnInit {
 
   @Input() currentUser: User;
   notifications: Notification[] = [];
+  isOpen: boolean = false;
+
 
   constructor(
     private router: Router,
@@ -21,10 +23,7 @@ export class NotificationsComponent implements OnInit {
     this.getNotifications();
   }
 
-  @ViewChild('navdrop', null) navdrop: ElementRef;
-  dropClick() {
-    this.navdrop.nativeElement.classList.toggle("show");
-  }
+  
   
   getNotifications(): void {
     this.ns.getByUser(this.currentUser.id)
@@ -39,7 +38,7 @@ export class NotificationsComponent implements OnInit {
   checkNotification(n : number):void {
     this.ns.checkNotification(n)
     .subscribe(x => {
-      this.navdrop.nativeElement.classList.toggle("show");
+      //
     })
   }
 }

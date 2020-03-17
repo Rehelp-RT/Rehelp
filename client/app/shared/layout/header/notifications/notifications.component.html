@@ -15,15 +15,9 @@
                 Non ci sono notifiche da mostrare
             </span>
             <li class="nav-item" *ngFor="let n of notCheckedNotifications">
-                <span class="nav-link" (click)="navigate(n.idHelp)">
+                <div class="nav-link" [ngClass]="{whiteClass: n.checked, greenClass: !n.checked}" (click)="navigate(n.idHelp);checkNotification(n)">
                     {{ n.message }}
-                </span>
-                <span id="check" *ngIf="!n.checked" (click)="checkNotification(n)">
-                    <fa-icon [icon]="['fas', 'circle']"></fa-icon>
-                </span>
-                <span *ngIf="n.checked">
-                    <fa-icon [icon]="['far', 'circle']"></fa-icon>
-                </span>
+                </div>
             </li>
         </div>
     </div>

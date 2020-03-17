@@ -44,6 +44,6 @@ export class NotificationsComponent implements OnInit {
     this.ns.checkNotification(n.id)
       .subscribe(x => {
         n.checked = true;
-      })
+      })  
   }
 }

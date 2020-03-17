@@ -1,15 +1,31 @@
 .header-icon {
     margin-top: 8px;
 }
+
 .fa-icon-counter {
     zoom: 150%;
 }
-.dropdown-toggle{
+
+.dropdown-toggle {
     cursor: pointer;
 }
-.nav-link{
+
+.nav-link {
     cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
 }
-#check{
-    cursor: pointer;
+.dropdown-menu{
+    border: 2px solid darkslategray;
+    border-radius: 5px;
+    background-color: #6eba34;
+    padding-right: 15%;
+}
+
+.whiteClass {
+    background-color: white
+}
+
+.greenClass {
+    background-color: #6eba34;
 }

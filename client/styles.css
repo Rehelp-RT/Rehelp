@@ -11,3 +11,15 @@
 .rounded-circle {
     border-radius: 50%!important;
 }
+
+.cat-help {
+    background-color: aquamarine;
+}
+
+.cat-teach {
+    background-color: coral;
+}
+
+.cat-hobby {
+    background-color: darkkhaki;
+}

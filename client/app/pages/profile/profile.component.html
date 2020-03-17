@@ -81,11 +81,7 @@
                                             <img src="{{ h.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + h.image }}" alt="{{ h.title }} image" width="100" class="help-img">
                                         </td>
                                         <td>
-                                            <p>
-                                                <span class="badge badge-secondary mr-1">{{ h.category?.parent?.parent?.name }}</span>
-                                                <span class="badge badge-secondary mr-1">{{ h.category?.parent?.name }}</span>
-                                                <span class="badge badge-secondary">{{ h.category?.name }}</span>
-                                            </p>
+                                            <app-categories [category]="h.category"></app-categories>
                                             {{ h.title }}
                                         </td>
                                         <td>
@@ -116,11 +112,7 @@
                                             <img src="{{ r.help.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + r.help.image }}" alt="{{ r.help.title }} image" width="100" class="help-img">
                                         </td>
                                         <td>
-                                            <p>
-                                                <span class="badge badge-secondary mr-1">{{ r.help.category?.parent?.parent?.name }}</span>
-                                                <span class="badge badge-secondary mr-1">{{ r.help.category?.parent?.name }}</span>
-                                                <span class="badge badge-secondary">{{ r.help.category?.name }}</span>
-                                            </p>
+                                            <app-categories [category]="r.help.category"></app-categories>
                                             {{ r.help.title }}
                                         </td>
                                         <td>

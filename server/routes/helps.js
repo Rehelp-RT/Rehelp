@@ -228,12 +228,12 @@ router.delete('/delete/:id', (req, res) => {
                 if (help) {
                     help.destroy()
                         .then(x => {
-                            res.status(200)
+                            res.status(200).send(x);
                         })
                 }
             })
             .catch(err => {
-                res.status(500).send(err)
+                res.status(500).send(err);
             });
 
     }

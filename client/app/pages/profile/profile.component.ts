@@ -102,8 +102,14 @@ export class ProfileComponent implements OnInit {
           return prev + cur.ratingResponder;
         }, 0);
 
-        const average = (sumResponses + sumHelps) / (ratedResponses.length + ratedHelps.length);
+        let average;
 
-        return average.toFixed(1);
+        if (sumResponses !== 0) {
+          average = ((sumResponses + sumHelps) / (ratedResponses.length + ratedHelps.length)).toFixed(1);
+        } else {
+          average = 'Non hai ricevuto recensioni';
+        }
+
+        return average;
     }
 }

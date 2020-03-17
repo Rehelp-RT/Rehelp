@@ -32,13 +32,12 @@ export class NotificationsComponent implements OnInit {
   getNotifications(): void {
     this.ns.getByUser(this.currentUser.id)
       .subscribe(x => {
-        console.log("x :", x)
         this.notifications = x;
         this.notCheckedNotifications = x.filter(y => y.checked != true);
       },
-      (err) => {
-        console.log('errore :', err)
-      });
+        (err) => {
+          console.log('errore :', err)
+        });
   }
 
   checkNotification(n: Notification) {

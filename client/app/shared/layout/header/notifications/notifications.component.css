@@ -16,17 +16,13 @@
     font-weight: bold;
 }
 
-/* .dropdown-menu{
-    border: 2px solid darkslategray;
+.dropdown-menu{
+    /* border: 2px solid darkslategray;
     border-radius: 5px;
-    background-color: #6eba34;
-   
-}  */
+    background-color: #6eba34; */
+    max-width: 240px;
+} 
 
-.whiteClass {
-    background-color: white
-}
-
-.greenClass {
-    background-color: #6eba34;
+.dropdown-item{
+    cursor: pointer;
 }

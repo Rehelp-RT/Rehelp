@@ -10,21 +10,16 @@
             </fa-layers>
         </li>
 
-        <div class="dropdown-menu" [ngClass]="{'show': isOpen}" aria-labelledby="dropdownMenuLink">
+        <div class="dropdown-menu dropdown-menu-right" [ngClass]="{'show': isOpen}" aria-labelledby="dropdownMenuLink">
             <span *ngIf="notCheckedNotifications.length == 0">
                 Non ci sono notifiche da mostrare
             </span>
-            <li class="nav-item" *ngFor="let n of notCheckedNotifications">
-                <span class="nav-link" (click)="navigate(n.idHelp)">
+            <div *ngFor="let n of notCheckedNotifications">
+                <div class="dropdown-item" (click)="navigate(n.idHelp); checkNotification(n)"
+                    [ngClass]="{'bg-white': n.checked, 'bg-light': !n.checked, 'font-weight-bold' : !n.checked}">
                     {{ n.message }}
-                </span>
-                <span id="check" *ngIf="!n.checked" (click)="checkNotification(n)">
-                    <fa-icon [icon]="['fas', 'circle']"></fa-icon>
-                </span>
-                <span *ngIf="n.checked">
-                    <fa-icon [icon]="['far', 'circle']"></fa-icon>
-                </span>
-            </li>
+                </div>
+                <div class="dropdown-divider"></div>
+            </div>
         </div>
     </div>
-</div>

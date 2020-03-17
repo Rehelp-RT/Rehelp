@@ -14,11 +14,12 @@
             <span *ngIf="notCheckedNotifications.length == 0">
                 Non ci sono notifiche da mostrare
             </span>
-            <li class="nav-item" *ngFor="let n of notCheckedNotifications">
-                <div class="nav-link" [ngClass]="{whiteClass: n.checked, greenClass: !n.checked}" (click)="navigate(n.idHelp);checkNotification(n)">
+            <div *ngFor="let n of notCheckedNotifications">
+                <div class="dropdown-item" (click)="navigate(n.idHelp); checkNotification(n)"
+                    [ngClass]="{'bg-white': n.checked, 'bg-light': !n.checked, 'font-weight-bold' : !n.checked}">
                     {{ n.message }}
                 </div>
-            </li>
+                <div class="dropdown-divider"></div>
+            </div>
         </div>
     </div>
-</div>

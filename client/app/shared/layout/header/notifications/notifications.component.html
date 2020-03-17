@@ -1,13 +1,15 @@
 <div class="dropdown" [ngClass]="{'show': isOpen}">
-    <li class="dropdown-toggle" (click)="isOpen = !isOpen" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="false">
-        <fa-layers [fixedWidth]="true" size="2x" class="header-icon">
-            <fa-icon [icon]="['fas', 'bell']"></fa-icon>
-            <fa-layers-counter *ngIf="notifications.length !== 0" content="{{notCheckedNotifications.length}}" size="2x"
-                class="fa-icon-counter">
-            </fa-layers-counter>
-        </fa-layers>
-    </li>
+    <div *ngIf="currentUser">
+        <li class="dropdown-toggle" (click)="isOpen = !isOpen" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <fa-layers [fixedWidth]="true" size="2x" class="header-icon">
+                <fa-icon [icon]="['fas', 'bell']"></fa-icon>
+                <fa-layers-counter *ngIf="notifications.length !== 0" content="{{notCheckedNotifications.length}}" size="2x"
+                    class="fa-icon-counter">
+                </fa-layers-counter>
+            </fa-layers>
+        </li>
+    </div>
 
     <div class="dropdown-menu" [ngClass]="{'show': isOpen}" aria-labelledby="dropdownMenuLink">
         <span *ngIf="notCheckedNotifications.length == 0">

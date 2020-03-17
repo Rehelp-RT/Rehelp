@@ -1,11 +1,15 @@
 .header-icon {
     margin-top: 8px;
 }
-
 .fa-icon-counter {
     zoom: 150%;
 }
-
 .dropdown-toggle{
+    cursor: pointer;
+}
+.nav-link{
+    cursor: pointer;
+}
+#check{
     cursor: pointer;
 }

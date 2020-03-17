@@ -12,6 +12,7 @@ export class NotificationsComponent implements OnInit {
 
   @Input() currentUser: User;
   notifications: Notification[] = [];
+  notCheckedNotifications: Notification[] = [];
   isOpen: boolean = false;
 
   constructor(
@@ -32,10 +33,11 @@ export class NotificationsComponent implements OnInit {
     this.ns.getByUser(this.currentUser.id)
       .subscribe(x => {
         this.notifications = x;
+        this.notCheckedNotifications = x.filter(y => y.checked != true);
       },
-      (err) => {
-        console.log('errore :', err)
-      });
+        (err) => {
+          console.log('errore :', err)
+        });
   }
 
   checkNotification(n: Notification) {

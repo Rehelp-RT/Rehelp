@@ -25,12 +25,12 @@
                         <h2 class="mb-3">
                             {{ user.firstname }} {{ user.lastname }}
                         </h2>
-        
+
                         <p class="text-dark mb-3" *ngIf="user.city && user.country">
                             <fa-icon [icon]="['fas', 'map-marker-alt']"></fa-icon>
                             {{ user.city }} ({{ user.country }})
                         </p>
-        
+
                         <table class="table text-left">
                             <tr>
                                 <th>Età</th>
@@ -46,20 +46,23 @@
                             <tr>
                                 <th>Recensioni</th>
                                 <td>
-                                    {{ getAverage() }}
-                                    <fa-icon [icon]="['fas', 'star']"></fa-icon>
+                                    {{ getAverage().average }}
+                                    <span *ngFor="let rat of [1,2,3,4,5] | slice:0:getAverage().average">
+                                      <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
+                                    </span>
+                                    <p class="text-secondary">{{ getAverage().reviews }} recensioni ricevute</p>
                                 </td>
                             </tr>
                         </table>
-        
+
                         <div class="text-right" *ngIf="user.username == currentUser">
                             <a class="btn btn-outline-secondary btn-circle" title="Modifica" [routerLink]="['/profile/edit/', user.id]">
                                 <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon>
                             </a>
                         </div>
-        
+
                     </div>
-    
+
                 </div>
 
             </div>
@@ -78,11 +81,7 @@
                                             <img src="{{ h.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + h.image }}" alt="{{ h.title }} image" width="100" class="help-img">
                                         </td>
                                         <td>
-                                            <p>
-                                                <span class="badge badge-secondary mr-1">{{ h.category?.parent?.parent?.name }}</span>
-                                                <span class="badge badge-secondary mr-1">{{ h.category?.parent?.name }}</span>
-                                                <span class="badge badge-secondary">{{ h.category?.name }}</span>
-                                            </p>
+                                            <app-categories [category]="h.category"></app-categories>
                                             {{ h.title }}
                                         </td>
                                         <td>
@@ -113,11 +112,7 @@
                                             <img src="{{ r.help.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + r.help.image }}" alt="{{ r.help.title }} image" width="100" class="help-img">
                                         </td>
                                         <td>
-                                            <p>
-                                                <span class="badge badge-secondary mr-1">{{ r.help.category?.parent?.parent?.name }}</span>
-                                                <span class="badge badge-secondary mr-1">{{ r.help.category?.parent?.name }}</span>
-                                                <span class="badge badge-secondary">{{ r.help.category?.name }}</span>
-                                            </p>
+                                            <app-categories [category]="r.help.category"></app-categories>
                                             {{ r.help.title }}
                                         </td>
                                         <td>

@@ -33,6 +33,7 @@ import {
 // app module
 import {
     AlertModule,
+    CategoriesModule,
     ChatModule,
     ModalModule,
     StarRatingModule,
@@ -65,7 +66,8 @@ import { NotificationsComponent } from './layout/header/notifications/notificati
             upload_preset: 'preset_avatar'
         }),
 
-        AlertModule, ChatModule, ModalModule, StarRatingModule, UserIconModule,
+        AlertModule, CategoriesModule, ChatModule,
+        ModalModule, StarRatingModule, UserIconModule,
     ],
     declarations: [
         HeaderComponent,
@@ -81,7 +83,8 @@ import { NotificationsComponent } from './layout/header/notifications/notificati
     exports: [
         AgmCoreModule,
         FontAwesomeModule,
-        AlertModule, ChatModule, ModalModule, StarRatingModule, UserIconModule,
+        AlertModule, CategoriesModule, ChatModule,
+        ModalModule, StarRatingModule, UserIconModule,
         FooterComponent, HeaderComponent,
         FilterCategoriesPipe
     ]
@@ -98,7 +101,7 @@ export class SharedModule {
             faPencilAlt, faPlus,
             faSave, faSpinner, faSquare, faStar, faStarOfLife, faSync,
             faTrashAlt,
-            farCheckSquare, farCircle, farClipboard, 
+            farCheckSquare, farCircle, farClipboard,
             farSquare,
             farStar);
     }

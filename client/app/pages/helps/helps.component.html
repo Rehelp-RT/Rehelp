@@ -25,11 +25,7 @@
                         <img class="help-img" src="{{ h.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + h.image }}" alt="{{ h.title }} image" width="100">
 
                         <div class="help-desc">
-                            <p>
-                                <span class="badge badge-secondary mr-1">{{ h.category?.parent?.parent?.name }}</span>
-                                <span class="badge badge-secondary mr-1">{{ h.category?.parent?.name }}</span>
-                                <span class="badge badge-secondary">{{ h.category?.name }}</span>
-                            </p>
+                            <app-categories [category]="h.category"></app-categories>
                             <p>{{ h.title }}</p>
                             <p>
                                 <fa-icon [icon]="['fas', 'map-marker-alt']"></fa-icon>

@@ -26,6 +26,7 @@ export class HelpsAddComponent implements OnInit {
   currentUser: User;
   zoom: number;
   address: string;
+  lastAddress: string;
   private geoCoder;
 
   public idCat1 = null;
@@ -87,6 +88,7 @@ export class HelpsAddComponent implements OnInit {
           this.model.latitude = place.geometry.location.lat();
           this.model.longitude = place.geometry.location.lng();
           this.zoom = 12;
+          this.getAddress(this.model.latitude,this.model.longitude);
         });
       });
     });
@@ -256,6 +258,7 @@ export class HelpsAddComponent implements OnInit {
             if (results[0]) {
               this.zoom = 12;
               this.model.address = results[0].formatted_address;
+              this.lastAddress = results[0].formatted_address;
             } else {
               window.alert('No results found');
             }
@@ -274,6 +277,7 @@ export class HelpsAddComponent implements OnInit {
     const image = this.responses[i];
     this.model.image = image === undefined ? null : image.data.public_id;
 
+    this.model.address = this.lastAddress;
     // category
     this.model.idCategory = this.idCat3 != null ? this.idCat3 : this.idCat2;
 

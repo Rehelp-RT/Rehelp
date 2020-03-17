@@ -49,6 +49,7 @@ export class HelpsEditComponent implements OnInit {
   // maps
   zoom: number;
   address: string;
+  lastAddress: string;
   private geoCoder;
   @ViewChild('search', { static: false })
   public searchElementRef: ElementRef;
@@ -109,7 +110,7 @@ export class HelpsEditComponent implements OnInit {
         const autocomplete = new google.maps.places.Autocomplete(
           this.searchElementRef.nativeElement, {
             types: ['address']
-          }
+          }          
         );
 
         autocomplete.addListener('place_changed', () => {
@@ -126,6 +127,7 @@ export class HelpsEditComponent implements OnInit {
             this.model.latitude = place.geometry.location.lat();
             this.model.longitude = place.geometry.location.lng();
             this.zoom = 12;
+            this.getAddress(this.model.latitude,this.model.longitude);
           });
         });
       }, 500);
@@ -283,13 +285,13 @@ export class HelpsEditComponent implements OnInit {
       }
     }
   }
-
+  
   markerDragEnd($event: MouseEvent) {
     this.model.latitude = $event.coords.lat;
     this.model.longitude = $event.coords.lng;
     this.getAddress(this.model.latitude, this.model.longitude);
   }
-
+    
   getAddress(latitude, longitude) {
     if (this.geoCoder) {
       this.geoCoder.geocode(
@@ -299,6 +301,7 @@ export class HelpsEditComponent implements OnInit {
             if (results[0]) {
               this.zoom = 12;
               this.model.address = results[0].formatted_address;
+              this.lastAddress = results[0].formatted_address;
             } else {
               window.alert('No results found');
             }
@@ -318,6 +321,7 @@ export class HelpsEditComponent implements OnInit {
     if (image != null) {
       this.model.image = image.data.public_id;
     }
+    this.model.address = this.lastAddress;
 
     // category
     this.model.idCategory = this.idCat3 != null ? this.idCat3 : this.idCat2;

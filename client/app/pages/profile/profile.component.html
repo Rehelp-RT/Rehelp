@@ -50,6 +50,7 @@
                                     <span *ngFor="let rat of [1,2,3,4,5] | slice:0:getAverage().average">
                                       <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
                                     </span>
+                                    <!-- <app-stars [rating]="getAverage().average"></app-stars> -->
                                     <p class="text-secondary">{{ getAverage().reviews }} recensioni ricevute</p>
                                 </td>
                             </tr>

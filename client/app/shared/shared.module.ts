@@ -37,6 +37,7 @@ import {
     ChatModule,
     ModalModule,
     StarRatingModule,
+    StarsModule,
     UserIconModule
 } from './components';
 
@@ -67,7 +68,7 @@ import { NotificationsComponent } from './layout/header/notifications/notificati
         }),
 
         AlertModule, CategoriesModule, ChatModule,
-        ModalModule, StarRatingModule, UserIconModule,
+        ModalModule, StarRatingModule, StarsModule, UserIconModule,
     ],
     declarations: [
         HeaderComponent,
@@ -84,7 +85,7 @@ import { NotificationsComponent } from './layout/header/notifications/notificati
         AgmCoreModule,
         FontAwesomeModule,
         AlertModule, CategoriesModule, ChatModule,
-        ModalModule, StarRatingModule, UserIconModule,
+        ModalModule, StarRatingModule, StarsModule, UserIconModule,
         FooterComponent, HeaderComponent,
         FilterCategoriesPipe
     ]

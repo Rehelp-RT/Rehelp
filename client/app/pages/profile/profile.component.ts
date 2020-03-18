@@ -73,7 +73,6 @@ export class ProfileComponent implements OnInit {
     }
 
     getAverage() {
-
         // sum responses rating
         const ratedResponses = this.user.responses.filter(r => {
             if (r.ratingCreator !== undefined) {
@@ -106,9 +105,9 @@ export class ProfileComponent implements OnInit {
         let average;
 
         if (sumResponses !== 0) {
-          average = ((sumResponses + sumHelps) / (ratedResponses.length + ratedHelps.length)).toFixed(1);
+            average = ((sumResponses + sumHelps) / (ratedResponses.length + ratedHelps.length)).toFixed(1);
         } else {
-          average = 'Non hai ricevuto recensioni';
+            average = 'Ancora nessuna recensione.';
         }
 
         return {

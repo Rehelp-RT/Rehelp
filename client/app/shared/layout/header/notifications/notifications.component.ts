@@ -44,7 +44,6 @@ export class NotificationsComponent implements OnInit {
       .subscribe(x => {
         this.notifications = x;
         this.notificationsNumber = this.notifications.length;
-        console.log("this.notificationsNumber",this.notificationsNumber);
       },
         (err) => {
           console.log('errore :', err);
@@ -52,7 +51,6 @@ export class NotificationsComponent implements OnInit {
   }
 
   checkNotification(n: Notification) {
-    
     this.isOpen = false;
     this.notificationsNumber --;
     this.ns.checkNotification(n.id)

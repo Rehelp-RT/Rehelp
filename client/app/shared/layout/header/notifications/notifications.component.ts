@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener, ElementRef } from '@angular/core';
 import { Notification, User } from '@app/models';
 import { Router } from '@angular/router';
 import { NotificationService } from '@app/services';
@@ -15,9 +15,19 @@ export class NotificationsComponent implements OnInit {
     notCheckedNotifications: Notification[] = [];
     isOpen = false;
 
+    @HostListener('document:click', ['$event'])
+    clickout(event) {
+        if (this.eRef.nativeElement.contains(event.target)) {
+            console.log('clicked inside');
+        } else {
+            console.log('clicked outside');
+        }
+    }
+
     constructor(
         private router: Router,
-        private ns: NotificationService) { }
+        private ns: NotificationService,
+        private eRef: ElementRef) { }
 
     ngOnInit() {
         this.getNotifications();
@@ -40,10 +50,10 @@ export class NotificationsComponent implements OnInit {
             });
     }
 
-  checkNotification(n: Notification) {
-    this.ns.checkNotification(n.id)
-      .subscribe(x => {
-        n.checked = true;
-      })
-  }
+    checkNotification(n: Notification) {
+        this.ns.checkNotification(n.id)
+          .subscribe(x => {
+              n.checked = true;
+          });
+    }
 }

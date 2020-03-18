@@ -101,7 +101,7 @@ export class ProfileComponent implements OnInit {
           return prev + cur.ratingResponder;
         }, 0);
 
-        const reviews = ratedHelps.length + ratedHelps.length;
+        const reviews = ratedHelpsResponses.length + ratedResponses.length;
         let average;
 
         if (sumResponses !== 0) {

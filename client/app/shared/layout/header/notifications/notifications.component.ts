@@ -53,6 +53,7 @@ export class NotificationsComponent implements OnInit {
 
   checkNotification(n: Notification) {
     
+    this.isOpen = false;
     this.notificationsNumber --;
     this.ns.checkNotification(n.id)
       .subscribe(x => {

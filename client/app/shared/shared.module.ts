@@ -15,7 +15,7 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import {
     faAngleDoubleRight,
     faBell,
-    faCamera, faCheck, faChevronLeft, faCircle, faCloudUploadAlt, faCoffee,
+    faCamera, faCheck, faChevronLeft, faCircle, faClock, faCloudUploadAlt , faCoffee,
     faEnvelope,
     faMapMarkerAlt,
     faPencilAlt, faPlus,
@@ -96,7 +96,7 @@ export class SharedModule {
         library.addIcons(
             faAngleDoubleRight,
             faBell,
-            faCamera, faCircle, faCheck, faChevronLeft, faCloudUploadAlt, faCoffee,
+            faCamera, faCircle, faCheck, faChevronLeft, faClock, faCloudUploadAlt, faCoffee,
             faEnvelope,
             faMapMarkerAlt,
             faPencilAlt, faPlus,

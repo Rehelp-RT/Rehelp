@@ -29,7 +29,9 @@ router.get('/', (req, res) =>
 // GET /api/notifications/user/:id
 router.get('/user/:id', (req, res) => {
     var filter = {
-        [Op.and]: { idUser: req.params.id }
+        [Op.and]: [{ idUser: req.params.id },
+        { checked : false },
+        ],
     };
 
     db.Notification.findAll({

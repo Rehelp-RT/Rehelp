@@ -67,20 +67,20 @@ io.on('connection', (socket) => {
 
             // save it
             db.Message.create({
-                idResponse: message.idResponse,
-                idAuthor: message.idAuthor,
-                body: message.body,
-                createdAt: message.createdAt,
-                createdAt: message.updatedAt
-            })
-            .then(x => {
-                // send it to all users
-                socket.emit('new-message', x);
-                socket.broadcast.emit('new-message', x);
-            })
-            .catch(err => {
-                console.error('saving error:', err);
-            });
+                    idResponse: message.idResponse,
+                    idAuthor: message.idAuthor,
+                    body: message.body,
+                    createdAt: message.createdAt,
+                    updatedAt: message.updatedAt
+                })
+                .then(x => {
+                    // send it to all users
+                    socket.emit('new-message', x);
+                    socket.broadcast.emit('new-message', x);
+                })
+                .catch(err => {
+                    console.error('saving error:', err);
+                });
         }
     });
 

@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, OnDestroy, ViewChild, AfterViewChecked, Input } from '@angular/core';
 import { ChatService } from './chat.service';
-import { throttleTime, distinctUntilChanged } from 'rxjs/operators';
-import * as moment from 'moment';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 import { Help, HelpResponse, Message, User } from '@app/models';
 import { AuthenticationService } from '@app/services';
@@ -37,12 +36,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             // saved message
             this.messages = x;
             console.log('messages', this.messages);
-            
+
             // listen on incoming message
             this.subscription =
                 this.chatService.getMessages()
                 .pipe(distinctUntilChanged())
-                .pipe(throttleTime(200))
                 .subscribe((message) => {
                     // const currentTime = moment().format('HH:mm:ss');
                     // const messageWithTimestamp =  `${currentTime}: ${message}`;

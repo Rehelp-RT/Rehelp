@@ -23,22 +23,15 @@ export class HelpsDetailComponent implements OnInit {
     private as: AuthenticationService) { }
 
   ngOnInit() {
-    const id = this.actRoute.snapshot.params.id;
-    this.getHelp(id);
-    this.getCurrentUser();
+      const id = this.actRoute.snapshot.params.id;
+      this.getHelp(id);
+      this.currentUser = this.as.currentUserValue;
   }
 
   getHelp(id: number): void {
-    this.hs.getById(id)
-      .subscribe(x => {
-        this.help = x;
-      });
-  }
-
-  getCurrentUser(): void {
-    this.as.getCurrentUser()
-      .subscribe(x => {
-        this.currentUser = x;
+      this.hs.getById(id)
+          .subscribe(x => {
+              this.help = x;
       });
   }
 

@@ -17,12 +17,12 @@ export class NotificationService {
   getAll() {
     return this.http.get<Notification[]>(`${environment.apiUrl}/notifications`);
   }
-  
+
   getByUser(id: number) {
     return this.http.get<Notification[]>(`${environment.apiUrl}/notifications/user/${id}`);
   }
-  
-  checkNotification(id: number){
+
+  checkNotification(id: number) {
     return this.http.put<Notification>(`${environment.apiUrl}/notifications/check/` + id, {});
   }
 

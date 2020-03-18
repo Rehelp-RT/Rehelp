@@ -10,40 +10,40 @@ import { NotificationService } from '@app/services';
 })
 export class NotificationsComponent implements OnInit {
 
-  @Input() currentUser: User;
-  notifications: Notification[] = [];
-  notCheckedNotifications: Notification[] = [];
-  isOpen: boolean = false;
+    @Input() currentUser: User;
+    notifications: Notification[] = [];
+    notCheckedNotifications: Notification[] = [];
+    isOpen = false;
 
-  constructor(
-    private router: Router,
-    private ns: NotificationService) { }
+    constructor(
+        private router: Router,
+        private ns: NotificationService) { }
 
-  ngOnInit() {
-    this.getNotifications();
-  }
+    ngOnInit() {
+        this.getNotifications();
+    }
 
-  navigate(id: number) {
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    this.router.onSameUrlNavigation = 'reload';
-    this.router.navigate(['/helps/', id]);
-  }
+    navigate(id: number) {
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate(['/helps/', id]);
+    }
 
-  getNotifications(): void {
-    this.ns.getByUser(this.currentUser.id)
-      .subscribe(x => {
-        this.notifications = x;
-        this.notCheckedNotifications = x.filter(y => y.checked != true);
-      },
-        (err) => {
-          console.log('errore :', err)
-        });
-  }
+    getNotifications(): void {
+        this.ns.getByUser(this.currentUser.id)
+            .subscribe(x => {
+              this.notifications = x;
+              this.notCheckedNotifications = x.filter(y => y.checked !== true);
+            },
+            (err) => {
+              console.log('errore :', err);
+            });
+    }
 
   checkNotification(n: Notification) {
     this.ns.checkNotification(n.id)
       .subscribe(x => {
         n.checked = true;
-      })  
+      })
   }
 }

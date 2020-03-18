@@ -26,10 +26,8 @@
 
             <h2 *ngIf="responses.length > 0">Status</h2>
             <div class="file" *ngFor="let response of responses; let i = index">
-                <h4>{{ response.data.public_id }}</h4>
                 <div class="status">
                     Caricamento... {{ response.progress }}%
-                    <div *ngIf="!response.status">In progress</div>
                     <div class="status-code" *ngIf="response.status == 200">
                         Caricamento completo
                     </div>

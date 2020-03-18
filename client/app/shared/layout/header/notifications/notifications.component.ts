@@ -18,9 +18,9 @@ export class NotificationsComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   clickout(event) {
     if (this.eRef.nativeElement.contains(event.target)) {
-      console.log('clicked inside');
+      this.isOpen = true;
     } else {
-      console.log('clicked outside');
+      this.isOpen = false;
     }
   }
 

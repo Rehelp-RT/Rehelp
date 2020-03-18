@@ -17,9 +17,7 @@ export class NotificationsComponent implements OnInit {
 
   @HostListener('document:click', ['$event'])
   clickout(event) {
-    if (this.eRef.nativeElement.contains(event.target)) {
-      this.isOpen = true;
-    } else {
+    if (!this.eRef.nativeElement.contains(event.target)) {
       this.isOpen = false;
     }
   }
@@ -34,6 +32,7 @@ export class NotificationsComponent implements OnInit {
   }
 
   navigate(id: number) {
+    this.isOpen = false;
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.router.onSameUrlNavigation = 'reload';
     this.router.navigate(['/helps/', id]);

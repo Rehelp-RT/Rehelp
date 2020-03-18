@@ -10,50 +10,53 @@ import { NotificationService } from '@app/services';
 })
 export class NotificationsComponent implements OnInit {
 
-    @Input() currentUser: User;
-    notifications: Notification[] = [];
-    notCheckedNotifications: Notification[] = [];
-    isOpen = false;
+  @Input() currentUser: User;
+  notifications: Notification[] = [];
+  notificationsNumber: number;
+  isOpen = false;
 
-    @HostListener('document:click', ['$event'])
-    clickout(event) {
-        if (this.eRef.nativeElement.contains(event.target)) {
-            console.log('clicked inside');
-        } else {
-            console.log('clicked outside');
-        }
+  @HostListener('document:click', ['$event'])
+  clickout(event) {
+    if (this.eRef.nativeElement.contains(event.target)) {
+      console.log('clicked inside');
+    } else {
+      console.log('clicked outside');
     }
+  }
 
-    constructor(
-        private router: Router,
-        private ns: NotificationService,
-        private eRef: ElementRef) { }
+  constructor(
+    private router: Router,
+    private ns: NotificationService,
+    private eRef: ElementRef) { }
 
-    ngOnInit() {
-        this.getNotifications();
-    }
+  ngOnInit() {
+    this.getNotifications();
+  }
 
-    navigate(id: number) {
-        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-        this.router.onSameUrlNavigation = 'reload';
-        this.router.navigate(['/helps/', id]);
-    }
+  navigate(id: number) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate(['/helps/', id]);
+  }
 
-    getNotifications(): void {
-        this.ns.getByUser(this.currentUser.id)
-            .subscribe(x => {
-              this.notifications = x;
-              this.notCheckedNotifications = x.filter(y => y.checked !== true);
-            },
-            (err) => {
-              console.log('errore :', err);
-            });
-    }
+  getNotifications(): void {
+    this.ns.getByUser(this.currentUser.id)
+      .subscribe(x => {
+        this.notifications = x;
+        this.notificationsNumber = this.notifications.length;
+        console.log("this.notificationsNumber",this.notificationsNumber);
+      },
+        (err) => {
+          console.log('errore :', err);
+        });
+  }
 
-    checkNotification(n: Notification) {
-        this.ns.checkNotification(n.id)
-          .subscribe(x => {
-              n.checked = true;
-          });
-    }
+  checkNotification(n: Notification) {
+    
+    this.notificationsNumber --;
+    this.ns.checkNotification(n.id)
+      .subscribe(x => {
+        n.checked = true;
+      });
+  }
 }

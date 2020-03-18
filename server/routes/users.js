@@ -13,7 +13,7 @@ router.get('/:id', (req, res) => {
                 'username', 'likehelps'
             ],
             include: [{
-                    attributes: ['id', 'title', 'image', 'completed'],
+                    attributes: ['id', 'title', 'image', 'accepted', 'reviewed', 'completed'],
                     model: db.Help,
                     as: 'helps',
                     include: [{
@@ -44,7 +44,7 @@ router.get('/:id', (req, res) => {
                     model: db.HelpResponse,
                     as: 'responses',
                     include: [{
-                        attributes: ['id', 'title', 'image'],
+                        attributes: ['id', 'title', 'image', 'accepted', 'reviewed', 'completed'],
                         model: db.Help,
                         as: 'help',
                         include: [{

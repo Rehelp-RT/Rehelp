@@ -45,12 +45,11 @@
                         {{ r.messageResponder }}
                         <hr>
                         <span *ngFor="let rat of [1,2,3,4,5] | slice:0:r.ratingResponder">
-                    <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
-                  </span>
+                          <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
+                        </span>
                     </div>
-
-                    <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info">
-                    </fa-icon>
+                    <hr>
+                    <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon> Completato
                 </div>
 
             </div>
@@ -116,7 +115,7 @@
 
         </div>
 
-        <p *ngIf="!isUserAccepted">
+        <p *ngIf="!isUserAccepted && help.responses.length > 0">
             In attesa di accettazione.
         </p>
 

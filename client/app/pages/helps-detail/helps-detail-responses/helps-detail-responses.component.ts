@@ -212,7 +212,9 @@ export class HelpsDetailResponsesComponent implements OnInit {
 
   review(response: HelpResponse): void {
     if (this.isHelpCreator) {
-      response.imageReviewCreator = this.uploadedImage;
+      const i = this.responses.length - 1;
+      const image = this.responses[i];
+      response.imageReviewCreator = image === undefined ? null : image.data.public_id;
       response.messageCreator = this.message;
       response.ratingCreator = this.selectedValue;
       this.rs.creatorFeedback(response).subscribe(() => {
@@ -226,14 +228,12 @@ export class HelpsDetailResponsesComponent implements OnInit {
 
   complete(response: HelpResponse): void {
     if (this.isResponderAccepted) {
-      console.log('what');
       const i = this.responses.length - 1;
       const image = this.responses[i];
       response.imageReviewResponder = image === undefined ? null : image.data.public_id;
       response.messageResponder = this.message;
       response.ratingResponder = this.selectedValue;
 
-      console.log('what what');
       this.rs.completeResponse(response).subscribe(() => {
           response.completed = true;
           this.modalService.close('modal-complete-' + response.id);

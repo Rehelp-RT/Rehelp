@@ -34,7 +34,7 @@
                         {{ r.messageCreator }}
                         <hr>
                         <div *ngIf="r.imageReviewCreator != null">
-                            <img class="img-fluid" src="{{ 'https://res.cloudinary.com/hwbyvepex/image/upload/v1587315343/review/' + r.imageReviewCreator }}" alt="immagine">
+                            <img class="img-fluid" src="{{ 'https://res.cloudinary.com/hwbyvepex/image/upload/v1587315343/' + r.imageReviewCreator }}" alt="immagine">
                             <hr>
                         </div>
                         <span *ngFor="let rat of [1,2,3,4,5] | slice:0:r.ratingCreator">
@@ -48,6 +48,10 @@
                     <div class="speech-bubble-left">
                         {{ r.messageResponder }}
                         <hr>
+                        <div *ngIf="r.imageReviewResponder != null">
+                            <img class="img-fluid" src="{{ 'https://res.cloudinary.com/hwbyvepex/image/upload/v1587315343/' + r.imageReviewResponder }}" alt="immagine">
+                            <hr>
+                        </div>
                         <span *ngFor="let rat of [1,2,3,4,5] | slice:0:r.ratingResponder">
                           <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
                         </span>

@@ -17,7 +17,7 @@ const db = require('./models');
 const app = express();
 
 // setup client
-const clientPath = path.join(__dirname, '../public')
+const clientPath = path.join(__dirname, '../client')
 app.use(express.static(clientPath));
 
 // setup parser

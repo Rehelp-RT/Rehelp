@@ -15,48 +15,49 @@ import { Cloudinary } from '@cloudinary/angular-5.x';
 })
 export class HelpsAddComponent implements OnInit {
   @Input()
-  responses: Array<any>;
+  responses: Array<any> = [];
 
-  public hasBaseDropZoneOver = false;
-  public uploader: FileUploader;
-
-  categories: HelpCategory[] = [];
   model: Help = null;
   submitted = false;
   currentUser: User;
+
+  // category
+  categories: HelpCategory[] = [];
+  public idCat1 = null;
+  public idCat2 = null;
+  public idCat3 = null;
+
+  // image
+  public imageUploaded = false;
+  public hasBaseDropZoneOver = false;
+  public uploader: FileUploader;
+
+  // map
   zoom: number;
   address: string;
   lastAddress: string;
   private geoCoder;
-
-  public idCat1 = null;
-  public idCat2 = null;
-  public idCat3 = null;
-  public imageUploaded = false;
-
   @ViewChild('search', { static: false })
   public searchElementRef: ElementRef;
-
   object: {[key: number]: string} = {2: 'foo', 1: 'bar'};
   map = new Map([[2, 'foo'], [1, 'bar']]);
 
   constructor(
-      private location: Location,
-      private cloudinary: Cloudinary,
       private http: HttpClient,
-      private cs: CategoryService,
       private router: Router,
+      private cs: CategoryService,
       private hs: HelpService,
       private as: AuthenticationService,
-      private mapsAPILoader: MapsAPILoader,
-      private ngZone: NgZone
+      private cloudinary: Cloudinary,
+      private ngZone: NgZone,
+      private location: Location,
+      private mapsAPILoader: MapsAPILoader
   ) {
     this.as.currentUser.subscribe(x => {
       this.currentUser = x;
       this.model = new Help();
       this.model.idCreator = this.currentUser.id;
       this.model.idType = 1;
-      this.responses = [];
     });
     this.cs.getAll().subscribe(x => {
       this.categories = x;
@@ -64,6 +65,8 @@ export class HelpsAddComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    // init map
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
       this.geoCoder = new google.maps.Geocoder();
@@ -93,7 +96,7 @@ export class HelpsAddComponent implements OnInit {
       });
     });
 
-    // Create the file uploader, wire it to upload to your account
+    // init image - create the file uploader, wire it to upload to your account
     const uploaderOptions: FileUploaderOptions = {
       url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/upload`,
       // Upload files automatically upon addition to upload queue
@@ -111,7 +114,6 @@ export class HelpsAddComponent implements OnInit {
       ]
     };
     this.uploader = new FileUploader(uploaderOptions);
-
     this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
       // Add Cloudinary's unsigned upload preset to the upload form
       form.append('upload_preset', 'preset_help');
@@ -272,8 +274,8 @@ export class HelpsAddComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    const i = this.responses.length - 1;
     // image
+    const i = this.responses.length - 1;
     const image = this.responses[i];
     this.model.image = image === undefined ? null : image.data.public_id;
 

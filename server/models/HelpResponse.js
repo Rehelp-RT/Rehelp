@@ -24,6 +24,8 @@ module.exports = (sequelize, DataTypes) => {
         responderReviewedAt: DataTypes.DATE,
         completedAt: DataTypes.DATE,
 
+        imageReviewCreator: DataTypes.STRING,
+        imageReviewResponder: DataTypes.STRING,
         messageCreator: DataTypes.STRING,
         messageResponder: DataTypes.STRING,
         ratingCreator: DataTypes.INTEGER,

@@ -90,17 +90,17 @@
                                         </a>
                                         </td>
                                         <td>
-                                            <div *ngIf="!h.accepted && !h.reviewed && !h.completed">
-                                              <fa-icon title="In attesa di accettazione" [icon]="['fas', 'clock']"></fa-icon>
+                                            <div *ngIf="!h.accepted">
+                                                <fa-icon title="In attesa di accettazione" [icon]="['fas', 'clock']"></fa-icon>
                                             </div>
-                                            <div *ngIf="h.accepted && !h.completed">
-                                              <fa-icon title="Accettato" [icon]="['fas', 'check']"></fa-icon>
+                                            <div *ngIf="h.accepted && !h.reviewed">
+                                                <fa-icon title="Accettato" [icon]="['fas', 'check']"></fa-icon>
                                             </div>
                                             <div *ngIf="h.reviewed && !h.completed">
-                                              <fa-icon title="Recensito" [icon]="['fas', 'star']"></fa-icon>
+                                                <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
                                             </div>
                                             <div *ngIf="h.completed">
-                                              <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon>
+                                                <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon>
                                             </div>
                                         </td>
                                     </tr>
@@ -135,19 +135,19 @@
                                             </a>
                                         </td>
                                         <td>
-                                          <div *ngIf="!r.help.accepted">
-                                            <fa-icon title="In attesa di accettazione" [icon]="['fas', 'clock']"></fa-icon>
-                                          </div>
-                                          <div *ngIf="r.help.accepted && !r.help.reviewed">
-                                            <fa-icon title="Accettato" [icon]="['fas', 'check']"></fa-icon>
-                                          </div>
-                                          <div *ngIf="r.help.reviewed && !r.help.completed">
-                                            <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
-                                          </div>
-                                          <div *ngIf="r.help.completed">
-                                            <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon>
-                                          </div>
-                                      </td>
+                                            <div *ngIf="!r.help.accepted">
+                                                <fa-icon title="In attesa di accettazione" [icon]="['fas', 'clock']"></fa-icon>
+                                            </div>
+                                            <div *ngIf="r.help.accepted && !r.help.reviewed">
+                                                <fa-icon title="Accettato" [icon]="['fas', 'check']"></fa-icon>
+                                            </div>
+                                            <div *ngIf="r.help.reviewed && !r.help.completed">
+                                                <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
+                                            </div>
+                                            <div *ngIf="r.help.completed">
+                                                <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

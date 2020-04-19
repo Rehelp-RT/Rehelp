@@ -33,6 +33,10 @@
                     <div class="speech-bubble-right" *ngIf="r.reviewed">
                         {{ r.messageCreator }}
                         <hr>
+                        <div *ngIf="r.imageReviewCreator != null">
+                            <img class="img-fluid" src="{{ 'https://res.cloudinary.com/hwbyvepex/image/upload/v1587315343/review/' + r.imageReviewCreator }}" alt="immagine">
+                            <hr>
+                        </div>
                         <span *ngFor="let rat of [1,2,3,4,5] | slice:0:r.ratingCreator">
                         <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
                     </span>
@@ -81,10 +85,69 @@
             <app-modal id="modal-complete-{{ r.id }}">
                 <h3>Lascia un feedback e completa la richiesta</h3>
                 <hr>
+
+                <!-- message creator -->
                 <div class="form-row mb-3">
                     <label class="col-md-4" for="message">Messaggio</label>
                     <textarea class="col-md-8 form-control" rows="4" [(ngModel)]="message" name="message"></textarea>
                 </div>
+
+                <!-- image review creator -->
+                <div class="form-row mb-3">
+                    <label class="col-lg-4" for="image">Carica immagine
+                      <sub style="color:grey;">
+                          <p>Trascina sul riquadro la foto da caricare</p>
+                      </sub>
+                  </label>
+                    <div class="col-lg-8">
+                        <div [hidden]="imageUploaded">
+                            <form ng2FileDrop [uploader]="uploader" (fileOver)="fileOverBase($event)" [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }">
+                                <div class="py-3">
+                                    <div class="form_controls">
+                                        <div class="upload_button_holder">
+                                            <label class="btn btn-outline-secondary" for="fileupload_{{r.id}}">
+                                        <fa-icon [icon]="['fas', 'cloud-upload-alt']"></fa-icon> Sfoglia
+                                    </label>
+                                            <!-- onChange hanlder resets the input value to get the change event when uploading the same file consecutively -->
+                                            <input type="file" id="fileupload_{{r.id}}" accept=".png, .jpg, image/jpg, image/png" #fileInput ng2FileSelect [style.display]="'none'" [uploader]="uploader" (change)="fileInput.value = ''" multiple />
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="file" *ngFor="let response of responses; let i = index; last as isLast">
+                            <div *ngIf="imageUploaded && isLast">
+                                <div class="status">
+                                    <div *ngIf="!response.status">
+                                        In corso
+                                    </div>
+                                    <div *ngIf="response.status!=200">
+                                        Caricamento... {{ response.progress }}%
+                                        <div class="progress-bar">
+                                            <div class="progress" role="progressbar" [style.width.%]="response.progress"></div>
+                                        </div>
+                                    </div>
+                                    <div class="status-code" *ngIf="response.status && response.status==200 && imageUploaded">
+                                        Caricamento completo
+                                    </div>
+                                    <div class="status-code" *ngIf="response.status && response.status > 300">
+                                        Errore: {{ response.message }}
+                                    </div>
+                                    <input type="hidden" [(ngModel)]="uploadedImage" [value]="response.data.public_id " name="image" />
+                                </div>
+
+                                <a target="_blank" href="{{ response.data.url}}">
+                                    <img class="img-fluid" src="{{ response.data.url}}" alt="{{ response.data.public_id }}">
+                                </a>
+                                <a (click)="toggleImgUploader()" class="btn btn-danger btn-block col-md-1 mt-2">
+                                    <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- rating creator -->
                 <div class="form-row mb-3">
                     <label class="col-md-4" for="star-rating">Valutazione</label>
                     <div class="col-md-8">
@@ -102,10 +165,10 @@
                 </div>
                 <div class="row">
                     <div class="offset-md-4">
-                        <a *ngIf="isHelpCreator" class="btn btn-lg btn-outline-primary ml-3" (click)="review(r, message)">
+                        <a *ngIf="isHelpCreator" class="btn btn-lg btn-outline-primary ml-3" (click)="review(r)">
                             Recensisci
                         </a>
-                        <a *ngIf="!isHelpCreator" class="btn btn-lg btn-outline-primary ml-3" (click)="complete(r, message)">
+                        <a *ngIf="!isHelpCreator" class="btn btn-lg btn-outline-primary ml-3" (click)="complete(r)">
                             Recensisci
                         </a>
                     </div>

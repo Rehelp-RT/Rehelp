@@ -11,6 +11,8 @@ export class HelpResponse {
 
     messageCreator: string;
     messageResponder: string;
+    imageReviewCreator: string;
+    imageReviewResponder: string;
     creatorReviewedAt: Date;
     responderReviewedAt: Date;
     ratingCreator: number;

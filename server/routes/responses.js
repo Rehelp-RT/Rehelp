@@ -6,46 +6,46 @@ router.get('/', (req, res) =>
     db.HelpResponse.findAll({
         attributes: ['id', 'accepted', 'completed'],
         include: [{
-            attributes: ['id', 'title'],
-            model: db.Help,
-            required: true,
-            as: 'help'
-        },
-        {
-            attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
-            model: db.User,
-            required: true,
-            as: 'responder'
-        }
+                attributes: ['id', 'title'],
+                model: db.Help,
+                required: true,
+                as: 'help'
+            },
+            {
+                attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
+                model: db.User,
+                required: true,
+                as: 'responder'
+            }
         ]
     })
-        .then(x => {
-            res.json(x)
-        })
-        .catch(err => {
-            console.log(err);
-            res.sendStatus(500)
-        })
+    .then(x => {
+        res.json(x)
+    })
+    .catch(err => {
+        console.log(err);
+        res.sendStatus(500)
+    })
 );
 
 // GET /api/responses/5
 router.get('/:id', (req, res) => {
     db.HelpResponse.findByPk(
-        req.params.id, {
-        include: [{
-            attributes: ['id', 'title'],
-            model: db.Help,
-            required: true,
-            as: 'help'
-        },
-        {
-            attributes: ['username', 'firstname', 'lastname'],
-            model: db.User,
-            required: true,
-            as: 'responder'
-        }
-        ]
-    })
+            req.params.id, {
+                include: [{
+                        attributes: ['id', 'title'],
+                        model: db.Help,
+                        required: true,
+                        as: 'help'
+                    },
+                    {
+                        attributes: ['username', 'firstname', 'lastname'],
+                        model: db.User,
+                        required: true,
+                        as: 'responder'
+                    }
+                ]
+            })
         .then(x => {
             if (!x) {
                 return res.status(404).send({
@@ -80,22 +80,22 @@ router.post('/add', (req, res) => {
     } else {
         const currentDate = new Date();
         db.HelpResponse.create({
-            accepted: false,
-            reviewed: false,
-            completed: false,
-            isTutor: body.isTutor,
-            idTradeType: body.idTradeType,
-            idHelp: body.idHelp,
-            idResponder: body.idResponder,
-            message: body.message
-        })
+                accepted: false,
+                reviewed: false,
+                completed: false,
+                isTutor: body.isTutor,
+                idTradeType: body.idTradeType,
+                idHelp: body.idHelp,
+                idResponder: body.idResponder,
+                message: body.message
+            })
             .then(x => {
                 db.Notification.create({
-                    idUser: body.help.idCreator,
-                    idHelp: body.help.id,
-                    message: 'hai ricevuto una risposta alla tua richiesta di aiuto!',
-                    createdAt: currentDate
-                }),
+                        idUser: body.help.idCreator,
+                        idHelp: body.help.id,
+                        message: 'hai ricevuto una risposta alla tua richiesta di aiuto!',
+                        createdAt: currentDate
+                    }),
                     res.status(201).send({
                         id: x.id
                     })
@@ -113,28 +113,28 @@ router.put('/accept/:id', (req, res) => {
         res.sendStatus(400)
     } else {
         db.HelpResponse.findByPk(req.params.id, {
-            include: [
-                { model: db.Help, required: true, as: 'help' }
-            ]
-        })
+                include: [
+                    { model: db.Help, required: true, as: 'help' }
+                ]
+            })
             .then((response) => {
                 const currentDate = new Date();
                 response.update({
-                    accepted: true,
-                    acceptedAt: currentDate
-                })
+                        accepted: true,
+                        acceptedAt: currentDate
+                    })
                     .then(() => {
                         response.help.update({
-                            accepted: true
-                        })
+                                accepted: true
+                            })
                             .then(() => {
                                 db.Notification.create({
-                                    idUser: response.help.idResponder,
-                                    idHelp: response.help.id,
-                                    message: 'la tua risposta è stata accettata!',
-                                    createdAt: currentDate
-                                }),
-                                res.status(200).send(response)
+                                        idUser: response.help.idResponder,
+                                        idHelp: response.help.id,
+                                        message: 'la tua risposta è stata accettata!',
+                                        createdAt: currentDate
+                                    }),
+                                    res.status(200).send(response)
                             })
                     })
             })
@@ -148,22 +148,22 @@ router.put('/cancel/:id', (req, res) => {
         res.sendStatus(400)
     } else {
         db.HelpResponse.findByPk(req.params.id, {
-            include: [
-                { model: db.Help, required: true, as: 'help' }
-            ]
-        })
-            .then(function (response) {
+                include: [
+                    { model: db.Help, required: true, as: 'help' }
+                ]
+            })
+            .then(function(response) {
                 // Check if record exists in db
                 if (response) {
                     const currentDate = new Date();
                     response.update({
-                        accepted: false,
-                        canceledAt: currentDate
-                    })
+                            accepted: false,
+                            canceledAt: currentDate
+                        })
                         .then(() => {
                             response.help.update({
-                                accepted: false
-                            })
+                                    accepted: false
+                                })
                                 .then(() => {
                                     res.status(200).send(response)
                                 })
@@ -184,30 +184,31 @@ router.put('/feedback/:id', (req, res) => {
         res.status(400).send({ message: 'ratingCreator is missing' });
     } else {
         db.HelpResponse.findByPk(req.params.id, {
-            include: [
-                { model: db.Help, required: true, as: 'help' }
-            ]
-        })
+                include: [
+                    { model: db.Help, required: true, as: 'help' }
+                ]
+            })
             .then(response => {
                 const currentDate = new Date();
                 response.update({
-                    reviewed: true,
-                    creatorReviewedAt: currentDate,
-                    messageCreator: body.messageCreator,
-                    ratingCreator: body.ratingCreator
-                })
+                        reviewed: true,
+                        creatorReviewedAt: currentDate,
+                        messageCreator: body.messageCreator,
+                        imageReviewCreator: body.imageReviewCreator,
+                        ratingCreator: body.ratingCreator
+                    })
                     .then(() => {
                         response.help.update({
-                            reviewed: true
-                        })
+                                reviewed: true
+                            })
                             .then(() => {
                                 db.Notification.create({
-                                    idUser: response.help.idCreator,
-                                    idHelp: response.help.id,
-                                    message: 'hai ricevuto una nuova recensione!',
-                                    createdAt: currentDate
-                                }),
-                                res.status(201).send(response)
+                                        idUser: response.help.idCreator,
+                                        idHelp: response.help.id,
+                                        message: 'hai ricevuto una nuova recensione!',
+                                        createdAt: currentDate
+                                    }),
+                                    res.status(201).send(response)
                             })
                     })
                     .catch(err => {
@@ -239,26 +240,26 @@ router.put('/complete/:id', (req, res) => {
         res.status(400).send({ message: 'ratingResponder is missing' });
     } else {
         db.HelpResponse.findByPk(req.params.id, {
-            include: [{
-                model: db.Help,
-                required: true,
-                as: 'help',
                 include: [{
-                    attributes: ['id', 'likehelps'],
-                    model: db.User,
-                    required: true,
-                    as: 'creator'
-                }]
-            },
-            {
-                attributes: ['id', 'likehelps'],
-                model: db.User,
-                required: true,
-                as: 'responder'
-            }
-            ]
-        })
-            .then(function (response) {
+                        model: db.Help,
+                        required: true,
+                        as: 'help',
+                        include: [{
+                            attributes: ['id', 'likehelps'],
+                            model: db.User,
+                            required: true,
+                            as: 'creator'
+                        }]
+                    },
+                    {
+                        attributes: ['id', 'likehelps'],
+                        model: db.User,
+                        required: true,
+                        as: 'responder'
+                    }
+                ]
+            })
+            .then(function(response) {
                 // check if record exists in db
                 if (response) {
                     const currentDate = new Date();
@@ -266,42 +267,43 @@ router.put('/complete/:id', (req, res) => {
                     const responderLh = response.responder.likehelps;
                     // update response
                     response.update({
-                        completed: true,
-                        completedAt: currentDate,
-                        responderReviewedAt: currentDate,
-                        messageResponder: body.messageResponder,
-                        ratingResponder: body.ratingResponder
+                            completed: true,
+                            completedAt: currentDate,
+                            responderReviewedAt: currentDate,
+                            imageReviewResponder: body.imageReviewResponder,
+                            messageResponder: body.messageResponder,
+                            ratingResponder: body.ratingResponder
 
-                    })
+                        })
                         .then(() => {
                             // update help
                             response.help.update({
-                                completed: true
-                            })
+                                    completed: true
+                                })
                                 .then(() => {
                                     // update creator
                                     response.help.creator.update({
-                                        likehelps: creatorLh - 1
-                                    })
+                                            likehelps: creatorLh - 1
+                                        })
                                         .then(() => {
                                             // update responder
                                             response.responder.update({
-                                                likehelps: responderLh + 1
-                                            })
+                                                    likehelps: responderLh + 1
+                                                })
                                                 .then(() => {
                                                     db.Notification.create({
-                                                        idUser: response.help.creator.id,
-                                                        idHelp: response.help.id,
-                                                        message: 'hai ricevuto una nuova recensione!',
-                                                        createdAt: currentDate
-                                                    }),
-                                                    db.Notification.create({
-                                                        idUser: response.responder.id,
-                                                        idHelp: response.help.id,
-                                                        message: 'hai guadagnato un likehelp!',
-                                                        createdAt: currentDate
-                                                    }),
-                                                    res.status(200).send(response);
+                                                            idUser: response.help.creator.id,
+                                                            idHelp: response.help.id,
+                                                            message: 'hai ricevuto una nuova recensione!',
+                                                            createdAt: currentDate
+                                                        }),
+                                                        db.Notification.create({
+                                                            idUser: response.responder.id,
+                                                            idHelp: response.help.id,
+                                                            message: 'hai guadagnato un likehelp!',
+                                                            createdAt: currentDate
+                                                        }),
+                                                        res.status(200).send(response);
                                                 })
                                         })
                                 });
@@ -319,7 +321,7 @@ router.delete('/delete/:id', (req, res) => {
         res.sendStatus(400)
     } else {
         db.HelpResponse.findByPk(req.params.id)
-            .then(function (helpResponse) {
+            .then(function(helpResponse) {
                 // Check if record exists in db
                 if (helpResponse) {
                     helpResponse.destroy()

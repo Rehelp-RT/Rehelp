@@ -30,15 +30,19 @@ export class UploadAvatarComponent implements OnInit {
     private us: UserService,
     private router: Router,
     private activeRouter: ActivatedRoute
-  ) {
-    const id = this.activeRouter.snapshot.params.id;
-    this.us.getById(id).subscribe(x => {
-      this.user = x;
-    });
-    this.responses = [];
-  }
+  ) { }
+
 
   ngOnInit(): void {
+
+    this.activeRouter.parent.params.subscribe(params => {
+      const id = params.id;
+      this.us.getById(id).subscribe(x => {
+        this.user = x;
+      });
+      this.responses = [];
+    });
+
     // Create the file uploader, wire it to upload to your account
     const uploaderOptions: FileUploaderOptions = {
       url: `https://api.cloudinary.com/v1_1/${
@@ -117,10 +121,10 @@ export class UploadAvatarComponent implements OnInit {
       const avatarPath = JSON.parse(response).public_id;
 
       this.us.uploadAvatar(this.user.id, avatarPath).subscribe(
-          res => {
+          () => {
             this.user.avatar = avatarPath;
             this.as.refresh(this.user);
-            this.router.navigate(['/profile']);
+            this.router.navigate(['/profile/' + this.user.id]);
           },
           err => {
             console.error(err);

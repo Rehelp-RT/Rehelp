@@ -1,0 +1,31 @@
+<h2>Upload avatar</h2>
+
+<p>Trascina qui la foto da caricare</p>
+
+<form id="direct_upload" ng2FileDrop [uploader]="uploader" (fileOver)="fileOverBase($event)" [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }">
+    <div class="py-3">
+        <div class="form_controls">
+            <div class="upload_button_holder">
+                <label class="btn btn-outline-secondary" for="fileupload">
+                                <fa-icon [icon]="['fas', 'cloud-upload-alt']"></fa-icon> Sfoglia
+                            </label>
+                <!-- onChange hanlder resets the input value to get the change event when uploading the same file consecutively -->
+                <input type="file" id="fileupload" #fileInput ng2FileSelect [style.display]="'none'" [uploader]="uploader" (change)="fileInput.value = ''" multiple />
+            </div>
+        </div>
+    </div>
+</form>
+
+<h3 *ngIf="responses.length > 0">Status</h3>
+
+<div class="file" *ngFor="let response of responses; let i = index">
+    <div class="status">
+        Caricamento... {{ response.progress }}%
+        <div class="status-code" *ngIf="response.status == 200">
+            Caricamento completo
+        </div>
+    </div>
+    <div class="progress-bar">
+        <div class="progress" role="progressbar" [style.width.%]="response.progress"></div>
+    </div>
+</div>

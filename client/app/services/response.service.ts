@@ -9,32 +9,47 @@ import { environment } from '@environments/environment';
   providedIn: 'root'
 })
 export class ResponseService {
+
+  private api = environment.apiUrl;
+
   constructor(private http: HttpClient) {}
 
+  getAll(idResponder: number = null, accepted: boolean = null) {
+    let params = '';
+    params += idResponder != null ? 'idResponder=' + idResponder + '&' : '';
+    params += accepted != null ? 'accepted=' + accepted + '&' : '';
+    if (params !== '') {
+      params = '?' + params;
+    }
+    console.log('params', params);
+
+    return this.http.get<HelpResponse[]>(`${this.api}/responses${params}`);
+  }
+
   addResponse(response: HelpResponse) {
-    return this.http.post<any>(`${environment.apiUrl}/responses/add`, response)
+    return this.http.post<any>(`${this.api}/responses/add`, response)
       .pipe(map(x => {
         return x;
       }));
   }
 
   acceptResponse(response: HelpResponse) {
-    return this.http.put<any>(`${environment.apiUrl}/responses/accept/` + response.id, {});
+    return this.http.put<any>(`${this.api}/responses/accept/` + response.id, {});
   }
 
   cancelResponse(response: HelpResponse) {
-    return this.http.put<any>(`${environment.apiUrl}/responses/cancel/` + response.id, {});
+    return this.http.put<any>(`${this.api}/responses/cancel/` + response.id, {});
   }
 
   creatorFeedback(response: HelpResponse) {
-    return this.http.put<any>(`${environment.apiUrl}/responses/feedback/` + response.id, response);
+    return this.http.put<any>(`${this.api}/responses/feedback/` + response.id, response);
   }
 
   completeResponse(response: HelpResponse) {
-    return this.http.put<any>(`${environment.apiUrl}/responses/complete/` + response.id, response);
+    return this.http.put<any>(`${this.api}/responses/complete/` + response.id, response);
   }
 
   deleteResponse(response: HelpResponse) {
-    return this.http.delete<any>(`${environment.apiUrl}/responses/delete/` + response.id, {});
+    return this.http.delete<any>(`${this.api}/responses/delete/` + response.id, {});
   }
 }

@@ -1,42 +1,28 @@
 var router = require('express').Router();
 const db = require('../models');
-const { Op } = require("sequelize");
+const { Op } = require('sequelize');
 
 // GET /api/helps
 router.get('/', (req, res) => {
 
     // get parameters
     console.log('req.query', req.query);
-    const excludeUserId =
-        req.query.excludeUserId === undefined ?
-        null :
-        req.query.excludeUserId;
-    const type =
-        req.query.type === undefined ?
-        null :
-        req.query.type;
-    const accepted =
-        req.query.accepted === undefined ?
-        null :
-        req.query.accepted;
-
-    // build filter condition
-    var filter = {};
-    if (excludeUserId != null && accepted === null) {
-        filter = {
+    var filters = [];
+    if (req.query.excludeUserId !== undefined) {
+        filters.push({
             [Op.not]: { idCreator: req.query.excludeUserId }
-        };
-    } else if (excludeUserId === null && accepted != null) {
-        filter = { accepted: accepted }
-    } else if (excludeUserId != null && accepted != null) {
-        filter = {
-            [Op.not]: { idCreator: req.query.excludeUserId },
-            accepted: accepted
-        }
+        });
+    } else if (req.query.accepted !== undefined) {
+        filters.push({
+            accepted: req.query.accepted
+        });
+    } else if (req.query.idCreator !== undefined) {
+        filters.push({
+            idCreator: req.query.idCreator
+        });
     }
-
-    const filterType =
-        req.query.type === undefined || req.query.type === null ? {} : { code: req.query.type };
+    console.log('filters', filters);
+    const filterType = req.query.type === undefined || req.query.type === null ? {} : { code: req.query.type };
 
     // query
     db.Help.findAll({
@@ -50,7 +36,9 @@ router.get('/', (req, res) => {
                 'reviewed',
                 'completed'
             ],
-            where: filter,
+            where: {
+                [Op.and]: filters
+            },
             include: [{
                     attributes: ['code', 'name'],
                     model: db.HelpType,

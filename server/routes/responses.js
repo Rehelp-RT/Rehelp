@@ -1,32 +1,67 @@
 var router = require('express').Router();
 const db = require('../models');
+const { Op } = require('sequelize');
 
 // GET /api/responses
-router.get('/', (req, res) =>
+router.get('/', (req, res) => {
+
+    // get parameters
+    console.log('req.query', req.query);
+    var filters = [];
+    if (req.query.idResponder !== undefined) {
+        filters.push({
+            idResponder: req.query.idResponder
+        });
+    } else if (req.query.accepted !== undefined) {
+        filters.push({
+            accepted: req.query.accepted
+        });
+    }
+    console.log('filters', filters);
+
     db.HelpResponse.findAll({
-        attributes: ['id', 'accepted', 'completed'],
-        include: [{
-                attributes: ['id', 'title'],
-                model: db.Help,
-                required: true,
-                as: 'help'
+            attributes: ['id', 'accepted', 'completed'],
+            where: {
+                [Op.and]: filters
             },
-            {
-                attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
-                model: db.User,
-                required: true,
-                as: 'responder'
-            }
-        ]
-    })
-    .then(x => {
-        res.json(x)
-    })
-    .catch(err => {
-        console.log(err);
-        res.sendStatus(500)
-    })
-);
+            include: [{
+                    attributes: ['id', 'title', 'image'],
+                    model: db.Help,
+                    required: true,
+                    include: [{
+                        attributes: ['id', 'code', 'name'],
+                        model: db.HelpCategory,
+                        include: [{
+                            attributes: ['id', 'code', 'name'],
+                            model: db.HelpCategory,
+                            include: [{
+                                attributes: ['id', 'code', 'name'],
+                                model: db.HelpCategory,
+                                as: 'parent'
+                            }],
+                            as: 'parent'
+                        }],
+                        required: true,
+                        as: 'category'
+                    }],
+                    as: 'help'
+                },
+                {
+                    attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
+                    model: db.User,
+                    required: true,
+                    as: 'responder'
+                }
+            ]
+        })
+        .then(x => {
+            res.json(x)
+        })
+        .catch(err => {
+            console.log(err);
+            res.sendStatus(500)
+        })
+});
 
 // GET /api/responses/5
 router.get('/:id', (req, res) => {

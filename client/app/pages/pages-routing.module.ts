@@ -18,9 +18,7 @@ import { HowItWorksComponent } from './how-it-works/how-it-works.component';
 import { LoginComponent } from './login/login.component';
 import { MeetAndHelpComponent } from './meet-and-help/meet-and-help.component';
 import { ProfileComponent } from './profile/profile.component';
-import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { RegisterComponent } from './register/register.component';
-import { UploadAvatarComponent } from './upload-avatar/upload-avatar.component';
 
 const routes: Routes = [
   { path: 'about', component: AboutComponent, data: {title: 'Chi siamo'} },
@@ -33,10 +31,7 @@ const routes: Routes = [
   { path: 'helps/edit/:id', component: HelpsEditComponent,  data: {title: 'Modifica aiuto'}, canActivate: [AuthGuard] },
   { path: 'helps/:id/response', component: HelpsResponseComponent,  data: {title: 'Offri Aiuto'}, canActivate: [AuthGuard] },
   { path: 'meet-and-help', component: MeetAndHelpComponent, canActivate: [AuthGuard] },
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'profile/edit/:id', component: ProfileEditComponent,  data: {title: 'Modifica dati personali'}, canActivate: [AuthGuard] },
-  { path: 'profile/upload-avatar/:id', component: UploadAvatarComponent, data: {title: 'Upload avatar'}, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: '', component: HomeComponent, pathMatch: 'full' }

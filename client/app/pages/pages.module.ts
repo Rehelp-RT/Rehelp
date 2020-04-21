@@ -4,8 +4,10 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { FileUploadModule } from 'ng2-file-upload';
 
 import { HelpsDetailModule } from './helps-detail';
+import { ProfileModule } from './profile';
 import { PagesRoutingModule } from './pages-routing.module';
 import { SharedModule } from '@app/shared';
 
@@ -20,11 +22,7 @@ import { HomeComponent } from './home/home.component';
 import { HowItWorksComponent } from './how-it-works/how-it-works.component';
 import { LoginComponent } from './login/login.component';
 import { MeetAndHelpComponent } from './meet-and-help/meet-and-help.component';
-import { ProfileComponent } from './profile/profile.component';
-import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { RegisterComponent } from './register/register.component';
-import { UploadAvatarComponent } from './upload-avatar/upload-avatar.component';
-import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
     imports: [
@@ -32,9 +30,11 @@ import { FileUploadModule } from 'ng2-file-upload';
         FileUploadModule,
         FormsModule,
         HttpClientModule,
-        ReactiveFormsModule, RouterModule,
+        ReactiveFormsModule,
+        RouterModule,
 
         HelpsDetailModule,
+        ProfileModule,
         PagesRoutingModule,
         SharedModule
     ],
@@ -44,17 +44,13 @@ import { FileUploadModule } from 'ng2-file-upload';
         FaqComponent,
         HelpsComponent,
         HelpsAddComponent,
-        ProfileEditComponent,
         HelpsEditComponent,
         HelpsResponseComponent,
         HomeComponent,
         HowItWorksComponent,
         LoginComponent,
         MeetAndHelpComponent,
-        ProfileComponent,
-        ProfileEditComponent,
-        RegisterComponent,
-        UploadAvatarComponent
+        RegisterComponent
     ],
     exports: []
 })

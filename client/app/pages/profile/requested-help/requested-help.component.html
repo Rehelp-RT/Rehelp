@@ -1,0 +1,40 @@
+<h3 class="mb-3">Richieste di aiuto</h3>
+
+<div *ngIf="helps.length > 0">
+    <table class="table">
+        <tbody>
+            <tr *ngFor="let h of helps">
+                <td>
+                    <img src="{{ h.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + h.image }}" alt="{{ h.title }} image" width="100" class="help-img">
+                </td>
+                <td>
+                    <app-categories [category]="h.category"></app-categories>
+                    {{ h.title }}
+                </td>
+                <td>
+                    <a [routerLink]="['/helps/', h.id]" class="btn btn-sm btn-outline-secondary m-1">
+                      Dettagli
+                    </a>
+                </td>
+                <td>
+                    <div *ngIf="!h.accepted">
+                        <fa-icon title="In attesa di accettazione" [icon]="['fas', 'clock']"></fa-icon>
+                    </div>
+                    <div *ngIf="h.accepted && !h.reviewed">
+                        <fa-icon title="Accettato" [icon]="['fas', 'check']"></fa-icon>
+                    </div>
+                    <div *ngIf="h.reviewed && !h.completed">
+                        <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
+                    </div>
+                    <div *ngIf="h.completed">
+                        <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div *ngIf="helps.length == 0">
+    <hr>
+    <p>Nessuna richiesta trovata.</p>
+</div>

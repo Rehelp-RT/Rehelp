@@ -61,3 +61,7 @@ For migration command look QueryInterface documentation: <https://sequelize.org/
 * first install the certificate server.crt included in ssl folder, using the private key server.key into you local machine
 * than you will be able to run the application using `npm run dev` using SSL in localhost
 * if it all works than you need to run chrome without CORS policy, following this guide <https://alfilatov.com/posts/run-chrome-without-cors/> in order to test /upload section
+
+## FAQ
+
+* EADDRESSINUSE problem => killall -9 node

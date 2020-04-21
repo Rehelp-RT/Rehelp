@@ -34,13 +34,14 @@ export class ProfileEditComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    const id = this.activeRouter.snapshot.params.id;
-    this.us.getById(id).subscribe(x => {
-      // model
-      this.model = x;
+    this.activeRouter.parent.params.subscribe(params => {
+      this.us.getById(params.id).subscribe(x => {
+        // model
+        this.model = x;
 
-      // maps
-      this.initMaps();
+        // maps
+        this.initMaps();
+      });
     });
   }
 
@@ -144,9 +145,9 @@ export class ProfileEditComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     this.us.update(this.model).subscribe(
-      res => {
+      () => {
         this.as.refresh(this.model);
-        this.router.navigate(['/profile']);
+        this.router.navigate(['/profile/' + this.model.id]);
       },
       err => {
         console.log(err);

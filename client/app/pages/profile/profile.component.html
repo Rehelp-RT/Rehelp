@@ -12,7 +12,7 @@
                         <figure class="overlay-wrapper rounded-circle mb-3">
                             <img class="img-fluid" src="{{ user.avatar == null ? 'assets/img/avatar_512.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + user.avatar }}" alt="{{ user.firstname + ' ' + user.lastname }}" title="{{ user.firstname + ' ' + user.lastname }}">
                             <figcaption *ngIf="user.username == currentUser" class="overlay-panel overlay-black text-center">
-                                <a class="btn btn-lg btn-outline-secondary btn-circle mb-3" [routerLink]="['/profile/upload-avatar/', user.id]">
+                                <a class="btn btn-lg btn-outline-secondary btn-circle mb-3" [routerLink]="['./upload-avatar/']">
                                     <fa-icon [icon]="['fas', 'camera']" size="lg"></fa-icon>
                                 </a>
                             </figcaption>
@@ -57,7 +57,7 @@
                         </table>
 
                         <div class="text-right" *ngIf="user.username == currentUser">
-                            <a class="btn btn-outline-secondary btn-circle" title="Modifica" [routerLink]="['/profile/edit/', user.id]">
+                            <a class="btn btn-outline-secondary btn-circle" title="Modifica" [routerLink]="['./edit']">
                                 <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon>
                             </a>
                         </div>
@@ -70,94 +70,43 @@
 
             <div class="col-lg-8">
 
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <h3 class="mb-3">Richieste di aiuto</h3>
-                        <div *ngIf="user.helps.length > 0">
-                            <table class="table">
-                                <tbody>
-                                    <tr *ngFor="let h of user.helps">
-                                        <td>
-                                            <img src="{{ h.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + h.image }}" alt="{{ h.title }} image" width="100" class="help-img">
-                                        </td>
-                                        <td>
-                                            <app-categories [category]="h.category"></app-categories>
-                                            {{ h.title }}
-                                        </td>
-                                        <td>
-                                            <a [routerLink]="['/helps/', h.id]" class="btn btn-sm btn-outline-secondary m-1">
-                                            Dettagli
-                                        </a>
-                                        </td>
-                                        <td>
-                                            <div *ngIf="!h.accepted">
-                                                <fa-icon title="In attesa di accettazione" [icon]="['fas', 'clock']"></fa-icon>
-                                            </div>
-                                            <div *ngIf="h.accepted && !h.reviewed">
-                                                <fa-icon title="Accettato" [icon]="['fas', 'check']"></fa-icon>
-                                            </div>
-                                            <div *ngIf="h.reviewed && !h.completed">
-                                                <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
-                                            </div>
-                                            <div *ngIf="h.completed">
-                                                <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div *ngIf="user.helps.length == 0">
-                            <hr>
-                            <p>Nessuna richiesta pubblicata.</p>
-                        </div>
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link" routerLinkActive="active" [routerLink]="['./offer']" role="tab" aria-controls="offerta" aria-selected="true">Offerta</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLinkActive="active" [routerLink]="['./offered-help']" role="tab" aria-controls="aiuti-offerti" aria-selected="false">Aiuti offerti</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLinkActive="active" [routerLink]="['./requested-help']" role="tab" aria-controls="aiuti-richiesti" aria-selected="false">Aiuti richiesti</a>
+                            </li>
+                        </ul>
                     </div>
-                </div>
-
-                <div class="card mt-3">
                     <div class="card-body">
-                        <h3 class="mb-3">Offerte di aiuto</h3>
 
-                        <div *ngIf="user.responses.length > 0">
-                            <table class="table">
-                                <tbody>
-                                    <tr *ngFor="let r of user.responses">
-                                        <td>
-                                            <img src="{{ r.help.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + r.help.image }}" alt="{{ r.help.title }} image" width="100" class="help-img">
-                                        </td>
-                                        <td>
-                                            <app-categories [category]="r.help.category"></app-categories>
-                                            {{ r.help.title }}
-                                        </td>
-                                        <td>
-                                            <a [routerLink]="['/helps/', r.help.id]" class="btn btn-sm btn-outline-secondary m-1">
-                                              Dettagli
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <div *ngIf="!r.help.accepted">
-                                                <fa-icon title="In attesa di accettazione" [icon]="['fas', 'clock']"></fa-icon>
-                                            </div>
-                                            <div *ngIf="r.help.accepted && !r.help.reviewed">
-                                                <fa-icon title="Accettato" [icon]="['fas', 'check']"></fa-icon>
-                                            </div>
-                                            <div *ngIf="r.help.reviewed && !r.help.completed">
-                                                <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
-                                            </div>
-                                            <div *ngIf="r.help.completed">
-                                                <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <router-outlet></router-outlet>
 
-                        <div *ngIf="user.responses.length == 0">
-                            <hr>
-                            <p>Nessun aiuto offerto.</p>
-                        </div>
+                        <!-- <div class="tab-content mt-3">
 
+                            <div class="tab-pane active" id="offerta" role="tabpanel">
+                                <p class="card-text">
+                                    Lista offerte
+                                </p>
+                            </div>
+
+                            <div class="tab-pane" id="aiuti-offerti" role="tabpanel" aria-labelledby="history-tab">
+                                <p class="card-text">First settled around 1000 BCE and then founded as the Etruscan Felsina about 500 BCE, it was occupied by the Boii in the 4th century BCE and became a Roman colony and municipium with the name of Bononia in 196 BCE. </p>
+                                <a href="#" class="card-link text-danger">Read more</a>
+                            </div>
+
+                            <div class="tab-pane" id="aiuti-richiesti" role="tabpanel" aria-labelledby="deals-tab">
+                                <p class="card-text">Immerse yourself in the colours, aromas and traditions of Emilia-Romagna with a holiday in Bologna, and discover the city's rich artistic heritage.</p>
+                                <a href="#" class="btn btn-danger btn-sm">Get Deals</a>
+                            </div>
+
+                        </div> -->
 
                     </div>
                 </div>

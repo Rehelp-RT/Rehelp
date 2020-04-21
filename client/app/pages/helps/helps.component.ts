@@ -24,9 +24,11 @@ export class HelpsComponent implements OnInit {
     const type = 'MEH';
     const excludeUserId = this.currentUser.id;
     const accepted = false;
-    this.getHelps(type, excludeUserId, accepted);
+    this.hs.getAll(type, excludeUserId, accepted).subscribe(x => {
+        this.helps = x;
+    });
     this.us.getById(excludeUserId).subscribe(x => {
-      this.user = x;
+        this.user = x;
     });
   }
 
@@ -41,13 +43,6 @@ export class HelpsComponent implements OnInit {
     return responses.some((response) => {
       return response.accepted !== true;
     });
-  }
-
-  getHelps(type: string, excludeUserId: number, accepted: boolean): void {
-    this.hs.getAll(type, excludeUserId, accepted)
-        .subscribe(x => {
-            this.helps = x;
-        });
   }
 
   likeHelpController() {

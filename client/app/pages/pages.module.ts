@@ -26,7 +26,6 @@ import { HelpsResponseComponent } from './helps-response/helps-response.componen
 import { HomeComponent } from './home/home.component';
 import { HowItWorksComponent } from './how-it-works/how-it-works.component';
 import { LoginComponent } from './login/login.component';
-import { MeetAndHelpComponent } from './meet-and-help/meet-and-help.component';
 import { RegisterComponent } from './register/register.component';
 
 @NgModule({
@@ -56,7 +55,6 @@ import { RegisterComponent } from './register/register.component';
         HomeComponent,
         HowItWorksComponent,
         LoginComponent,
-        MeetAndHelpComponent,
         RegisterComponent
     ],
     exports: []

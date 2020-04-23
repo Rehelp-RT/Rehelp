@@ -17,15 +17,19 @@ import {
     faBell,
     faCamera, faCheck, faChevronLeft, faCircle, faClock, faCloudUploadAlt , faCoffee,
     faEnvelope,
+    faHands,
+    faHandPaper,
     faMapMarkerAlt,
     faPencilAlt, faPlus,
     faSave, faSpinner, faSquare, faStar, faStarOfLife, faSync,
-    faTrashAlt
+    faTrashAlt,
+    faUsers
 } from '@fortawesome/free-solid-svg-icons';
 import {
     faCheckSquare as farCheckSquare,
     faCircle as farCircle,
     faClipboard as farClipboard,
+    faClock as farClock,
     faSquare as farSquare,
     faStar as farStar
 } from '@fortawesome/free-regular-svg-icons';
@@ -98,11 +102,13 @@ export class SharedModule {
             faBell,
             faCamera, faCircle, faCheck, faChevronLeft, faClock, faCloudUploadAlt, faCoffee,
             faEnvelope,
+            faHands, faHandPaper,
             faMapMarkerAlt,
             faPencilAlt, faPlus,
             faSave, faSpinner, faSquare, faStar, faStarOfLife, faSync,
             faTrashAlt,
-            farCheckSquare, farCircle, farClipboard,
+            faUsers,
+            farCheckSquare, farCircle, farClipboard, farClock,
             farSquare,
             farStar);
     }

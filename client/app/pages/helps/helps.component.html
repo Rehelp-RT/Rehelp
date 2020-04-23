@@ -3,8 +3,8 @@
     <div class="container">
 
         <div class="text-right">
-            <a *ngIf="likeHelpController()" [routerLink]="['/helps/add']" class="btn btn-outline-secondary mb-3">
-                <fa-icon [icon]="['fas', 'plus']"></fa-icon> Aggiungi
+            <a *ngIf="likeHelpController()" [routerLink]="['/helps/add']" class="btn btn-outline-primary mb-3">
+                <fa-icon [icon]="['fas', 'plus']"></fa-icon> Nuova richiesta di aiuto
             </a>
         </div>
 
@@ -12,25 +12,30 @@
         <table class="table" *ngIf="helps.length > 0">
             <thead>
                 <tr>
-                    <th>Richiesta</th>
+                    <th>Richiesta di aiuto</th>
+                    <th>Posizione</th>
                     <th>Creata</th>
                     <th>Autore</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let h of helps">
                     <td>
-                        <img class="help-img" src="{{ h.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + h.image }}" alt="{{ h.title }} image" width="100">
-
+                        <a [routerLink]="['/helps/', h.id]">
+                            <img class="help-img" src="{{ h.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + h.image }}" alt="{{ h.title }} image" width="100">
+                        </a>
                         <div class="help-desc">
                             <app-categories [category]="h.category"></app-categories>
-                            <p>{{ h.title }}</p>
                             <p>
-                                <fa-icon [icon]="['fas', 'map-marker-alt']"></fa-icon>
-                                {{ h.address }}
+                                <a [routerLink]="['/helps/', h.id]" class="text-dark">
+                                {{ h.title }}
+                              </a>
                             </p>
                         </div>
+                    </td>
+                    <td class="col-location">
+                        <fa-icon [icon]="['fas', 'map-marker-alt']"></fa-icon>
+                        {{ h.address }}
                     </td>
                     <td>
                         {{ h.createdAt | date: "dd/MM/yyyy" }}
@@ -39,9 +44,12 @@
                         <app-user-icon [user]="h.creator"></app-user-icon>
                     </td>
                     <td>
-                        <a [routerLink]="['/helps/', h.id]" class="btn btn-block btn-sm btn-outline-primary m-1">
-                            Dettagli
-                        </a>
+                        <a [routerLink]="['/helps/', h.id]" class="btn btn-outline-secondary btn-block">
+                        Visualizza
+                      </a>
+                        <a [routerLink]="['/helps/', h.id, 'response']" class="btn btn-outline-primary btn-block">
+                        Aiuta
+                      </a>
                     </td>
                 </tr>
             </tbody>

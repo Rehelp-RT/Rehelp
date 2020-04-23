@@ -1,28 +1,59 @@
-<div class="jumbotron bg-home">
-    <div class="container">
+<!-- Meet and Help -->
 
-        <div class="row pb-3">
+<div class="py-4 bg-home">
+    <div class="container py-3">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
 
-            <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        <h3>Meet &amp; Help</h3>
+                        <h3>
+                            <fa-icon [icon]="['fas', 'hands']"></fa-icon>
+                            Meet &amp; Help
+                        </h3>
                         <hr>
                         <p class="lead">
                             Un piccolo aiuto può essere importante per chi lo riceve. Scegli quello più adatto a te.
                         </p>
-                        <hr>
-                        <a routerLink="/meet-and-help" class="btn btn-block btn-outline-secondary">
-                            <fa-icon [icon]="['fas', 'angle-double-right']"></fa-icon> Inizia
-                        </a>
+                        <div class="row">
+
+                            <div class="col-md-6 mb-1 text-center">
+                                <a [routerLink]="['/helps']" class="btn btn-block btn-outline-secondary py-3">
+                                    <fa-icon [icon]="['fas', 'angle-double-right']"></fa-icon>
+                                    Richieste di Aiuto
+                                </a>
+                            </div>
+
+                            <div class="col-md-6 mb-1 text-center">
+                                <a [routerLink]="['/users']" class="btn btn-block btn-outline-secondary py-3">
+                                    <fa-icon [icon]="['fas', 'angle-double-right']"></fa-icon>
+                                    Offerte di Aiuto
+                                </a>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-md-4">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Other Helps -->
+
+<div class="pt-4 bg-light">
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-4 mb-3">
                 <div class="card">
                     <div class="card-body">
-                        <h3>Immediate Help</h3>
+                        <h3>
+                            <fa-icon [icon]="['far', 'clock']"></fa-icon>
+                            Immediate Help
+                        </h3>
                         <hr>
                         <p class="lead">Hai bisogno di un aiuto immediato?</p>
                         <hr>
@@ -33,66 +64,39 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
                 <div class="card">
                     <div class="card-body">
-                        <h3>Meet Up</h3>
-                        <hr>
-                        <p class="lead">
-                            Vuoi parlare e condividere un problema o un tema con altre persone?
-                        </p>
-                        <hr>
-                        <a href="#" class="btn btn-block btn-outline-secondary">
-                            <fa-icon [icon]="['fas', 'angle-double-right']"></fa-icon> Inizia
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row pb-3">
-
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h3>Meet &amp; Share</h3>
+                        <h3>
+                            <fa-icon [icon]="['fas', 'sync']"></fa-icon>
+                            Meet &amp; Share
+                        </h3>
                         <hr>
                         <p class="lead">Hai bisogno di qualche oggetto in prestito?</p>
                         <hr>
                         <a href="#" class="btn btn-block btn-outline-secondary">
-                            <fa-icon [icon]="['fas', 'angle-double-right']"></fa-icon> Incontra e condividi
+                            <fa-icon [icon]="['fas', 'angle-double-right']"></fa-icon>
+                            Incontra e condividi
                         </a>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
                 <div class="card">
                     <div class="card-body">
-                        <h3>Garden Sharing</h3>
-                        <hr>
-                        <p class="lead">
-                            Hai un pezzo di terra inutilizzato?<br>Fallo coltivare a chi ne ha bisogno
-                        </p>
-                        <hr>
-                        <a href="#" class="btn btn-block btn-outline-secondary">
-                            <fa-icon [icon]="['fas', 'angle-double-right']"></fa-icon> Condividi orto
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h3>Collective Help</h3>
+                        <h3>
+                            <fa-icon [icon]="['fas', 'users']"></fa-icon>
+                            Collective Help
+                        </h3>
                         <hr>
                         <p class="lead">
                             Alcune imprese come la pulizia di un parco, non possono essere fatte da una persona sola.
                         </p>
                         <hr>
                         <a href="#" class="btn btn-block btn-outline-secondary">
-                            <fa-icon [icon]="['fas', 'angle-double-right']"></fa-icon> Aiuto collettivo
+                            <fa-icon [icon]="['fas', 'angle-double-right']"></fa-icon>
+                            Aiuto collettivo
                         </a>
                     </div>
                 </div>
@@ -100,5 +104,12 @@
 
         </div>
 
+    </div>
+</div>
+
+<!-- Ads -->
+<div class="py-4 bg-info">
+    <div class="container">
+        <p class="lead">Motivational quote</p>
     </div>
 </div>

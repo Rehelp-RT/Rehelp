@@ -1,4 +1,4 @@
-// library modules
+// core modules
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -6,11 +6,16 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FileUploadModule } from 'ng2-file-upload';
 
-import { HelpsDetailModule } from './helps-detail';
-import { ProfileModule } from './profile';
+// app modules
 import { PagesRoutingModule } from './pages-routing.module';
 import { SharedModule } from '@app/shared';
 
+// page modules
+import { HelpsDetailModule } from './helps-detail';
+import { ProfileModule } from './profile';
+import { UsersModule } from './users/users.module';
+
+// page components
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { FaqComponent } from './faq/faq.component';
@@ -35,6 +40,8 @@ import { RegisterComponent } from './register/register.component';
 
         HelpsDetailModule,
         ProfileModule,
+        UsersModule,
+
         PagesRoutingModule,
         SharedModule
     ],

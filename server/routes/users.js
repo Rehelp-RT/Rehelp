@@ -3,6 +3,57 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 require('../config/passport')(passport);
 const db = require('../models');
+const { Op } = require('sequelize');
+
+// GET /api/users
+router.get('/', (req, res) => {
+    db.User.findAll({
+            attributes: [
+                'id',
+                'username',
+                'firstname',
+                'lastname',
+                'avatar',
+                'city',
+                'country',
+                'latitude',
+                'longitude',
+                'birthdate'
+            ],
+            include: [{
+                    required: false,
+                    model: db.Help,
+                    attributes: ['id'],
+                    as: 'helps',
+                    where: { completed: true },
+                    include: [{
+                        model: db.HelpResponse,
+                        attributes: ['ratingResponder'],
+                        as: 'responses',
+                        where: {
+                            [Op.not]: { ratingResponder: null }
+                        }
+                    }]
+                },
+                {
+                    required: false,
+                    model: db.HelpResponse,
+                    attributes: ['ratingCreator'],
+                    as: 'responses',
+                    where: {
+                        [Op.not]: { ratingCreator: null }
+                    }
+                }
+            ]
+        })
+        .then(x => {
+            res.json(x)
+        })
+        .catch(err => {
+            console.log(err);
+            res.sendStatus(500)
+        });
+});
 
 // GET /api/users/5
 router.get('/:id', (req, res) => {
@@ -85,7 +136,6 @@ router.get('/:id', (req, res) => {
             });
         });
 });
-
 
 // PUT /api/user/5/update
 router.put('/:id/update', function(req, res) {

@@ -19,6 +19,7 @@ import { LoginComponent } from './login/login.component';
 import { MeetAndHelpComponent } from './meet-and-help/meet-and-help.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
+import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
   { path: 'about', component: AboutComponent, data: {title: 'Chi siamo'} },
@@ -30,10 +31,11 @@ const routes: Routes = [
   { path: 'helps/:id', component: HelpsDetailComponent,  data: {title: 'Dettagli aiuto'}, canActivate: [AuthGuard] },
   { path: 'helps/edit/:id', component: HelpsEditComponent,  data: {title: 'Modifica aiuto'}, canActivate: [AuthGuard] },
   { path: 'helps/:id/response', component: HelpsResponseComponent,  data: {title: 'Offri Aiuto'}, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent },
   { path: 'meet-and-help', component: MeetAndHelpComponent, canActivate: [AuthGuard] },
   { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
   { path: '', component: HomeComponent, pathMatch: 'full' }
 ];
 

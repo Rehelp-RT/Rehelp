@@ -17,19 +17,26 @@ module.exports = (sequelize, DataTypes) => {
     }, {});
 
     HelpCategory.associate = function(models) {
-        models.HelpCategory.belongsTo(models.HelpCategory, {
+        models.HelpCategory.hasMany(models.Help, {
+                foreignKey: 'idCategory',
+                as: 'helps'
+            }),
+            models.HelpCategory.belongsTo(models.HelpCategory, {
                 onDelete: "CASCADE",
                 foreignKey: 'idParent',
                 as: 'parent'
             }),
-            models.HelpCategory.hasMany(models.Help, {
-                foreignKey: 'idCategory',
-                as: 'helps'
-            }),
             models.HelpCategory.hasMany(models.HelpCategory, {
                 foreignKey: 'idParent',
                 as: 'children'
-            });
+            }),
+            models.HelpCategory.belongsToMany(models.User, {
+                as: 'users',
+                through: 'Categories_Users',
+                foreignKey: 'categoryId',
+                otherKey: 'userId',
+                onDelete: 'CASCADE'
+            })
     };
 
     return HelpCategory;

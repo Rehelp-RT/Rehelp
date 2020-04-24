@@ -17,11 +17,13 @@ module.exports = (sequelize, DataTypes) => {
         password: DataTypes.STRING,
         username: DataTypes.STRING
     }, {});
+
     User.beforeSave((user, options) => {
         if (user.changed('password')) {
             user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null);
         }
     });
+
     User.prototype.comparePassword = function(passw, cb) {
         bcrypt.compare(passw, this.password, function(err, isMatch) {
             if (err) {
@@ -30,19 +32,28 @@ module.exports = (sequelize, DataTypes) => {
             cb(null, isMatch);
         });
     };
+
     User.associate = function(models) {
         models.User.hasMany(models.Help, {
-            foreignKey: 'idCreator',
-            as: 'helps'
-        });
-        models.User.hasMany(models.HelpResponse, {
-            foreignKey: 'idResponder',
-            as: 'responses'
-        });
-        models.User.hasMany(models.Notification, {
-            foreignKey: 'idUser',
-            as: 'notifications'
-        });
+                foreignKey: 'idCreator',
+                as: 'helps'
+            }),
+            models.User.hasMany(models.HelpResponse, {
+                foreignKey: 'idResponder',
+                as: 'responses'
+            }),
+            models.User.hasMany(models.Notification, {
+                foreignKey: 'idUser',
+                as: 'notifications'
+            }),
+            models.User.belongsToMany(models.HelpCategory, {
+                as: 'categories',
+                through: 'Categories_Users',
+                foreignKey: 'userId',
+                otherKey: 'categoryId',
+                onDelete: 'CASCADE'
+            })
     };
+
     return User;
 };

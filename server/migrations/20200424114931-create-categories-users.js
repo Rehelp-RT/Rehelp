@@ -1,0 +1,18 @@
+'use strict';
+module.exports = {
+    up: (queryInterface, Sequelize) => {
+        return queryInterface.createTable('Categories_Users', {
+            idUser: {
+                type: Sequelize.INTEGER,
+                primaryKey: true
+            },
+            idCategory: {
+                type: Sequelize.INTEGER,
+                primaryKey: true
+            }
+        });
+    },
+    down: (queryInterface, Sequelize) => {
+        return queryInterface.dropTable('Categories_Users');
+    }
+};

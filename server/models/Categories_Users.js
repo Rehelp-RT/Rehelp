@@ -9,7 +9,9 @@ module.exports = (sequelize, DataTypes) => {
             idUser: {
                 type: DataTypes.INTEGER,
                 references: { model: 'HelpCategories', key: 'id' }
-            }
+            },
+            createdAt: DataTypes.DATE,
+            updatedAt: DataTypes.DATE
         }, {}
     );
 

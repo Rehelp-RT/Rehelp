@@ -36,7 +36,6 @@ export class NotificationsComponent implements OnInit {
           switchMap(() => this.notificationService.getByUser(this.currentUser.id))
       )
       .subscribe(res => {
-          console.log('get from server');
           this.notifications = res;
       });
   }
@@ -55,7 +54,7 @@ export class NotificationsComponent implements OnInit {
         this.notificationsNumber = this.notifications.length;
       },
         (err) => {
-          console.log('errore :', err);
+          console.error('errore :', err);
         });
   }
 

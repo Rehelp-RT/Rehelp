@@ -166,21 +166,67 @@ router.put('/:id/update', function(req, res) {
 });
 
 // PUT /api/user/5/upload-avatar
-router.put('/:id/upload-avatar', function(req, res) {
+router.put('/:id/upload-avatar', (req, res) => {
     const body = req.body;
-    if (body == undefined) {
+    if (body == undefined || body.path == undefined) {
         res.sendStatus(400)
     } else {
-        db.User.findByPk(req.params.id)
-            .then(function(user) {
-                // Check if record exists in db
-                if (user) {
-                    user.update({ avatar: body.path })
-                        .then(x => {
-                            res.status(200).send(user)
+        db.User.findByPk(req.params.id).then((user) => {
+            if (user) {
+                // user exists
+                user.update({ avatar: body.path }).then(() => {
+                    res.status(200).send(user)
+                })
+            }
+        })
+    }
+});
+
+// POST /api/user/5/category
+router.post('/:id/category', (req, res) => {
+    const body = req.body;
+    if (body == undefined || body.idCategory == undefined) {
+        res.sendStatus(400)
+    } else {
+        db.User.findByPk(req.params.id).then(function(user) {
+            db.HelpCategory.findByPk(body.idCategory).then((category) => {
+                if (user && category) {
+                    // user and category exist
+                    db.Categories_Users.findOne({
+                            where: {
+                                [Op.and]: [{ idCategory: category.id }, { idUser: user.id }]
+                            }
                         })
+                        .then(catUser => {
+                            if (catUser) {
+                                // conflict
+                                res.send(409)
+                            } else {
+                                // insert
+                                db.Categories_Users.create({
+                                        idCategory: category.id,
+                                        idUser: user.id
+                                    })
+                                    .then(cu => {
+                                        // inserted
+                                        res.status(201).send(cu)
+                                    })
+                                    .catch(err => {
+                                        console.error(err);
+                                        res.status(500).send(err.message)
+                                    });
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            res.status(500).send(err.message)
+                        });
+                } else {
+                    // user not found
+                    res.sendStatus(404);
                 }
             })
+        })
     }
 });
 

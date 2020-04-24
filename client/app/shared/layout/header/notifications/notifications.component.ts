@@ -2,6 +2,8 @@ import { Component, OnInit, Input, HostListener, ElementRef } from '@angular/cor
 import { Notification, User } from '@app/models';
 import { Router } from '@angular/router';
 import { NotificationService } from '@app/services';
+import { interval } from 'rxjs/internal/observable/interval';
+import { startWith, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-notifications',
@@ -24,11 +26,19 @@ export class NotificationsComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private ns: NotificationService,
+    private notificationService: NotificationService,
     private eRef: ElementRef) { }
 
   ngOnInit() {
-    this.getNotifications();
+      interval(5000)
+      .pipe(
+          startWith(0),
+          switchMap(() => this.notificationService.getByUser(this.currentUser.id))
+      )
+      .subscribe(res => {
+          console.log('get from server');
+          this.notifications = res;
+      });
   }
 
   navigate(id: number) {
@@ -39,7 +49,7 @@ export class NotificationsComponent implements OnInit {
   }
 
   getNotifications(): void {
-    this.ns.getByUser(this.currentUser.id)
+    this.notificationService.getByUser(this.currentUser.id)
       .subscribe(x => {
         this.notifications = x;
         this.notificationsNumber = this.notifications.length;
@@ -52,7 +62,7 @@ export class NotificationsComponent implements OnInit {
   checkNotification(n: Notification) {
     this.isOpen = false;
     this.notificationsNumber --;
-    this.ns.checkNotification(n.id)
+    this.notificationService.checkNotification(n.id)
       .subscribe(x => {
         n.checked = true;
       });

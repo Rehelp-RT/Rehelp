@@ -6,6 +6,7 @@ import {
 } from '@angular/common/http';
 import { environment } from '@environments/environment';
 import { Notification } from '@app/models'
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,8 @@ export class NotificationService {
     return this.http.get<Notification[]>(`${environment.apiUrl}/notifications`);
   }
 
-  getByUser(id: number) {
-    return this.http.get<Notification[]>(`${environment.apiUrl}/notifications/user/${id}`);
+  getByUser(id: number): Observable<Notification[]> {
+      return this.http.get<Notification[]>(`${environment.apiUrl}/notifications/user/${id}`);
   }
 
   checkNotification(id: number) {

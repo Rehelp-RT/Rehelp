@@ -10,32 +10,21 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProfileComponent implements OnInit {
     user: User;
-    currentUser: string = null;
+    isOwner = false;
     isSyncAnimated = true;
 
     constructor(
         private actRoute: ActivatedRoute,
-        private as: AuthenticationService,
-        private us: UserService) { }
+        private authService: AuthenticationService,
+        private userService: UserService) { }
 
     ngOnInit() {
-        // get current user
-        this.as.currentUser.subscribe(cu => {
-            this.currentUser =
-                cu === undefined || cu == null
-                ? null
-                : cu.username;
-            const id = this.actRoute.snapshot.params.id;
-            // get user profile
-            if (id == null) {
-                this.us.getById(cu.id).subscribe(x => {
-                    this.user = x;
-                });
-            } else {
-                this.us.getById(id).subscribe(x => {
-                    this.user = x;
-                });
-            }
+        this.actRoute.params.subscribe(params => {
+            const idCurrentUser = this.authService.currentUserValue.id;
+            this.isOwner = params.id == idCurrentUser;
+            this.userService.getById(params.id).subscribe(x => {
+                this.user = x;
+            });
         });
     }
 

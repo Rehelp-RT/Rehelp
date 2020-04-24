@@ -14,13 +14,11 @@ export class HeaderComponent implements OnInit {
 
   constructor(
       private router: Router,
-      private authenticationService: AuthenticationService
+      private authService: AuthenticationService
   ) { }
 
   ngOnInit() {
-      this.authenticationService.currentUser.subscribe(x => {
-          this.currentUser = x;
-      });
+      this.currentUser = this.authService.currentUserValue;
   }
 
   toggleNavbar() {
@@ -28,7 +26,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-      this.authenticationService.logout();
+      this.authService.logout();
       this.router.navigate(['/login']);
   }
 }

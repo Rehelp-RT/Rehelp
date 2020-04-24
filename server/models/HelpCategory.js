@@ -33,8 +33,8 @@ module.exports = (sequelize, DataTypes) => {
             models.HelpCategory.belongsToMany(models.User, {
                 as: 'users',
                 through: 'Categories_Users',
-                foreignKey: 'categoryId',
-                otherKey: 'userId',
+                foreignKey: 'idCategory',
+                otherKey: 'idUser',
                 onDelete: 'CASCADE'
             })
     };

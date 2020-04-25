@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { NotificationService } from '@app/services';
 import { interval } from 'rxjs/internal/observable/interval';
 import { startWith, switchMap } from 'rxjs/operators';
+import { SwPush } from '@angular/service-worker';
+
+
 
 @Component({
   selector: 'app-notifications',
@@ -16,6 +19,8 @@ export class NotificationsComponent implements OnInit {
   notifications: Notification[] = [];
   notificationsNumber: number;
   isOpen = false;
+  readonly VAPID_PUBLIC_KEY = "BMFfBA24EM7OSESBe6gRHhuKB1u2YHGUnL-wlEzKUh7gJ_Vnd9dKSwuw64TeMvfc5r1KNZc7Mkpk-92O51TmHTU";
+
 
   @HostListener('document:click', ['$event'])
   clickout(event) {
@@ -27,9 +32,26 @@ export class NotificationsComponent implements OnInit {
   constructor(
     private router: Router,
     private notificationService: NotificationService,
-    private eRef: ElementRef) { }
+    private eRef: ElementRef,
+    private swPush: SwPush) { 
+      if (swPush.isEnabled) {
+        swPush
+          .requestSubscription({
+            serverPublicKey: this.VAPID_PUBLIC_KEY,
+          })
+          .then(subscription => {
+            // send subscription to the server
+          })
+          .catch(console.error)
+      }
+    }
 
   ngOnInit() {
+      // this.swPush.requestSubscription({
+      //     serverPublicKey: this.VAPID_PUBLIC_KEY
+      // })
+      // .then(sub => this.newsletterService.addPushSubscriber(sub).subscribe())
+      // .catch(err => console.error("Could not subscribe to notifications", err));
       interval(5000)
       .pipe(
           startWith(0),

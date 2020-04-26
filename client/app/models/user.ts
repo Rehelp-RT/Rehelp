@@ -1,5 +1,6 @@
 import { Help } from './';
 import { HelpResponse } from './response';
+import { HelpCategory } from './category';
 
 export class User {
     id: number;
@@ -24,4 +25,6 @@ export class User {
     // virtual
     helps: Help[];
     responses: HelpResponse[];
+    categories: HelpCategory[];
+
 }

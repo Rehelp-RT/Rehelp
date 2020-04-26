@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HelpCategory } from '@app/models';
 import { ActivatedRoute } from '@angular/router';
-import { AuthenticationService } from '@app/services';
+import { AuthenticationService, UserService } from '@app/services';
 
 @Component({
   selector: 'app-offer',
@@ -15,16 +15,21 @@ export class OfferComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private authService: AuthenticationService) { }
+    private authService: AuthenticationService,
+    private userService: UserService) { }
 
   ngOnInit() {
-    this.route.parent.params.subscribe(params => {
-      const idProfile = params.id;
+      this.route.parent.params.subscribe(params => {
+          const idProfile = params.id;
 
-      this.isOwner = this.authService.currentUserValue.id == idProfile;
-      console.log(idProfile);
-      console.log(this.authService.currentUserValue.id);
-    });
+          this.isOwner = this.authService.currentUserValue.id == idProfile;
+
+          this.userService.getCategories(idProfile).subscribe(x => {
+              if (x.categories && x.categories.length > 0) {
+                  this.categories = x.categories;
+              }
+          });
+      });
   }
 
 }

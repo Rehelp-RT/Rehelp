@@ -182,6 +182,48 @@ router.put('/:id/upload-avatar', (req, res) => {
     }
 });
 
+// GET /api/users/5/categories
+router.get('/:id/categories', (req, res) => {
+    db.User.findByPk(req.params.id, {
+            attributes: ['id'],
+            include: [{
+                as: 'categories',
+                model: db.HelpCategory,
+                attributes: ['id', 'code', 'name'],
+                include: [{
+                    attributes: ['id', 'code', 'name'],
+                    model: db.HelpCategory,
+                    as: 'parent',
+                    include: [{
+                        attributes: ['id', 'code', 'name'],
+                        model: db.HelpCategory,
+                        as: 'parent'
+                    }]
+                }]
+            }]
+        })
+        .then(user => {
+            if (!user) {
+                return res.status(404).send({
+                    message: "User not found with id " + req.params.id
+                });
+            } else {
+                res.json(user)
+            }
+        }).catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: "User not found with id " + req.params.id
+                });
+            }
+            return res.status(500).send({
+                message: "Error retrieving user with id " + req.params.id,
+                error: err
+            });
+        });
+});
+
+
 // POST /api/user/5/category
 router.post('/:id/category', (req, res) => {
     const body = req.body;
@@ -200,7 +242,7 @@ router.post('/:id/category', (req, res) => {
                         .then(catUser => {
                             if (catUser) {
                                 // conflict
-                                res.send(409)
+                                res.sendStatus(409)
                             } else {
                                 // insert
                                 db.Categories_Users.create({

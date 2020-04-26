@@ -20,34 +20,12 @@ export class ProfileComponent implements OnInit {
 
     ngOnInit() {
         this.actRoute.params.subscribe(params => {
-            const idCurrentUser = this.authService.currentUserValue.id;
-            this.isOwner = params.id == idCurrentUser;
+            this.isOwner = params.id == this.authService.currentUserValue.id;
             this.userService.getById(params.id).subscribe(x => {
                 this.user = x;
+                console.log(this.user);
             });
         });
-    }
-
-    getAge(birthdate) {
-      const datenew = new Date();
-      const dateold = new Date(birthdate);
-      const ynew = datenew.getFullYear();
-      const mnew = datenew.getMonth();
-      const dnew = datenew.getDate();
-      const yold = dateold.getFullYear();
-      const mold = dateold.getMonth();
-      const dold = dateold.getDate();
-      let diff = ynew - yold;
-      if (mold > mnew) {
-        diff--;
-      } else {
-          if (mold === mnew) {
-              if (dold > dnew) {
-                diff--;
-              }
-          }
-      }
-      return diff;
     }
 
     groupBy(objectArray, property) {
@@ -60,6 +38,28 @@ export class ProfileComponent implements OnInit {
             return acc;
         }, {});
     }
+
+    public getAge(birthdate): number {
+        const datenew = new Date();
+        const dateold = new Date(birthdate);
+        const ynew = datenew.getFullYear();
+        const mnew = datenew.getMonth();
+        const dnew = datenew.getDate();
+        const yold = dateold.getFullYear();
+        const mold = dateold.getMonth();
+        const dold = dateold.getDate();
+        let diff = ynew - yold;
+        if (mold > mnew) {
+            diff--;
+        } else {
+            if (mold === mnew) {
+                if (dold > dnew) {
+                  diff--;
+                }
+            }
+        }
+        return diff;
+  }
 
     getAverage() {
         // sum responses rating
@@ -99,9 +99,6 @@ export class ProfileComponent implements OnInit {
             average = 'Ancora nessuna recensione.';
         }
 
-        return {
-          average,
-          reviews
-         };
+        return { average, reviews };
     }
 }

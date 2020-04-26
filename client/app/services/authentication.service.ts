@@ -20,7 +20,7 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
-    public getCurrentUser(): Observable<any> {
+    public getCurrentUser(): Observable<User> {
         return this.currentUser;
       }
 
@@ -41,8 +41,9 @@ export class AuthenticationService {
             }));
     }
 
-    public refresh(user) {
-      this.currentUserSubject.next(user);
+    public refresh(user: User) {
+        console.log(user);
+        this.currentUserSubject.next(user);
     }
 
     public logout() {

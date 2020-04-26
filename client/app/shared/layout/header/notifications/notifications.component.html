@@ -13,7 +13,7 @@
                 Non ci sono notifiche da mostrare
             </p>
             <div *ngFor="let n of notifications">
-                <div class="dropdown-item" (click)="navigate(n.idHelp); checkNotification(n)" [ngClass]="{'bg-white': n.checked, 'bg-light': !n.checked, 'font-weight-bold' : !n.checked}">
+                <div class="dropdown-item" (click)="navigate(n.idHelp); checkNotification(n)" ngClass="{'bg-white': n.checked, 'bg-light': !n.checked, 'font-weight-bold' : !n.checked}">
                     {{ n.message }}
                 </div>
                 <div class="dropdown-divider"></div>

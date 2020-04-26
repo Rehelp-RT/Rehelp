@@ -51,7 +51,7 @@ export class HelpsEditComponent implements OnInit {
   address: string;
   lastAddress: string;
   private geoCoder;
-  @ViewChild('search', { static: false })
+  @ViewChild('search')
   public searchElementRef: ElementRef;
 
   constructor(

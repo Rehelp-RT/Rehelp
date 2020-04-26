@@ -21,7 +21,7 @@ export class ProfileEditComponent implements OnInit {
   zoom: number;
   address: string;
   private geoCoder;
-  @ViewChild('search', { static: false })
+  @ViewChild('search')
   public searchElementRef: ElementRef;
 
   constructor(

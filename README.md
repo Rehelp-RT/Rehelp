@@ -64,4 +64,6 @@ For migration command look QueryInterface documentation: <https://sequelize.org/
 
 ## FAQ
 
+* aggiornare pacchetti => npm update
+* Angular update => ng update @angular/core @angular/cli
 * EADDRESSINUSE problem => killall -9 node

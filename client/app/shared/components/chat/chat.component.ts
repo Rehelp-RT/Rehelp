@@ -11,7 +11,7 @@ import { AuthenticationService } from '@app/services';
     styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
-    @ViewChild('scrollMe', {static: false}) private scrolly: ElementRef;
+    @ViewChild('scrollMe') private scrolly: ElementRef;
     @Input() help: Help;
     @Input() response: HelpResponse;
     @Input() isCreator: boolean;

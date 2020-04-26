@@ -37,7 +37,7 @@ export class HelpsAddComponent implements OnInit {
   address: string;
   lastAddress: string;
   private geoCoder;
-  @ViewChild('search', { static: false })
+  @ViewChild('search')
   public searchElementRef: ElementRef;
   object: {[key: number]: string} = {2: 'foo', 1: 'bar'};
   map = new Map([[2, 'foo'], [1, 'bar']]);

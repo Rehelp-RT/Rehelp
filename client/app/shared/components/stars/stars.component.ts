@@ -8,7 +8,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '
 export class StarsComponent implements OnInit, AfterViewInit {
 
   @Input() rating: number;
-  @ViewChild('stars', {static: false}) stars: ElementRef;
+  @ViewChild('stars') stars: ElementRef;
 
   constructor() { }
 

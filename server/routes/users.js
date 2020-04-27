@@ -223,13 +223,13 @@ router.get('/:id/categories', (req, res) => {
         });
 });
 
-
 // POST /api/user/5/category
 router.post('/:id/category', (req, res) => {
     const body = req.body;
     if (body == undefined || body.idCategory == undefined) {
         res.sendStatus(400)
     } else {
+        // find user
         db.User.findByPk(req.params.id).then(function(user) {
             db.HelpCategory.findByPk(body.idCategory).then((category) => {
                 if (user && category) {

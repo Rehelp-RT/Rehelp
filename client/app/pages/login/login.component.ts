@@ -25,13 +25,12 @@ export class LoginComponent implements OnInit {
       private formBuilder: FormBuilder,
       private route: ActivatedRoute,
       private router: Router,
-      private authenticationService: AuthenticationService,
-      private userService: UserService,
+      private localAuthService: AuthenticationService,
       private alertService: AlertService,
-      private authService: AuthService
+      private socialAuthService: AuthService
   ) {
       // redirect to home if already logged in
-      if (this.authenticationService.currentUserValue) {
+      if (this.localAuthService.currentUserValue) {
           this.router.navigate(['/']);
       }
   }
@@ -48,7 +47,7 @@ export class LoginComponent implements OnInit {
   // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
 
-  onSubmit() {
+  signInLocal() {
       this.submitted = true;
 
       // stop here if form is invalid
@@ -57,10 +56,10 @@ export class LoginComponent implements OnInit {
       }
 
       this.loading = true;
-      this.authenticationService.login(this.f.email.value, this.f.password.value)
+      this.localAuthService.login(this.f.email.value, this.f.password.value)
           .pipe(first())
           .subscribe(
-              data => {
+              () => {
                   this.router.navigate([this.returnUrl]);
               },
               error => {
@@ -69,21 +68,25 @@ export class LoginComponent implements OnInit {
               });
   }
 
-
-  // convenience getter for easy access to form fields
-  get s() { return this.socialUser; }
   signInWithFB() {
-    // this.submitted = true;
-    // this.loading = true;
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-    this.authService.authState.subscribe((user) => {
-      this.socialUser = user;
-      console.log(this.socialUser, 'social user facebook');
-      console.log(this.socialUser.email, 'email');
-      console.log(this.socialUser.firstName, 'firstName');
-      console.log(this.socialUser.lastName, 'lastName');
-      console.log(this.socialUser.photoUrl, 'photoUrl');
-    });
+      this.submitted = true;
+      this.loading = true;
+      this.socialAuthService
+        .signIn(FacebookLoginProvider.PROVIDER_ID)
+        .then(x => {
+          this.socialAuthService.authState.subscribe((user) => {
+              this.socialUser = user;
+              console.log(this.socialUser, 'social user facebook');
+              console.log(this.socialUser.email, 'email');
+              console.log(this.socialUser.firstName, 'firstName');
+              console.log(this.socialUser.lastName, 'lastName');
+              console.log(this.socialUser.photoUrl, 'photoUrl');
+          });
+        })
+        .catch(err => {
+          this.alertService.error(err);
+          this.loading = false;
+        });
   }
 
 }

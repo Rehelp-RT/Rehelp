@@ -14,8 +14,12 @@ export class UsersComponent implements OnInit {
   constructor(private us: UserService) { }
 
   ngOnInit() {
-    this.us.getAll().subscribe((x) => {
-      console.log(x);
+
+    const distance = null //100;
+    const lat = null //43.0554254;
+    const long = null //13.4303147;
+
+    this.us.getAll(distance, lat, long).subscribe((x) => {
       this.users = x;
     });
   }

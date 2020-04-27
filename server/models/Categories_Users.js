@@ -15,5 +15,18 @@ module.exports = (sequelize, DataTypes) => {
         }, {}
     );
 
+    Categories_Users.associate = function(models) {
+        models.Categories_Users.belongsTo(models.HelpCategory, {
+            onDelete: "CASCADE",
+            foreignKey: 'idCategory',
+            as: 'category'
+        });
+        models.Categories_Users.belongsTo(models.User, {
+            onDelete: "CASCADE",
+            foreignKey: 'idUser',
+            as: 'user'
+        });
+    };
+
     return Categories_Users;
 };

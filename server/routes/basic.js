@@ -82,15 +82,16 @@ router.post('/signin', function(req, res) {
                         console.log(err, data);
                     })
                     res.json({
-                        success: true,
                         id: user.id,
                         avatar: user.avatar,
                         email: user.email,
                         firstname: user.firstname,
                         lastname: user.lastname,
+                        birthdate: user.birthdate,
+                        likehelps: user.likehelps,
                         token: 'JWT ' + token,
                         expiresIn: expiresIn,
-                        likehelps: user.likehelps
+                        success: true
                     });
                 } else {
                     res.status(401).send({

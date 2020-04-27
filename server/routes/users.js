@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
     db.User.findAll({
             attributes: [
                 'id',
-                'username',
+                'email',
                 'firstname',
                 'lastname',
                 'avatar',
@@ -18,7 +18,10 @@ router.get('/', (req, res) => {
                 'country',
                 'latitude',
                 'longitude',
-                'birthdate'
+                'birthdate',
+                'loginLocal',
+                'loginFacebook',
+                'loginGoogle'
             ],
             include: [{
                     required: false,
@@ -61,7 +64,7 @@ router.get('/:id', (req, res) => {
             attributes: [
                 'id', 'avatar', 'birthdate', 'city', 'country',
                 'email', 'firstname', 'lastname', 'latitude', 'longitude',
-                'username', 'likehelps'
+                'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle'
             ],
             include: [{
                     attributes: ['id', 'title', 'image', 'accepted', 'reviewed', 'completed'],

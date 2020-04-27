@@ -8,19 +8,20 @@ router.get('/version', function(req, res) {
     res.send({ version: 'v0.2.0' });
 });
 
-// GET /api/signup
+// POST /api/signup
 router.post('/signup', function(req, res) {
     console.log(req.body);
-    if (!req.body.username || !req.body.password) {
-        res.status(400).send({ msg: 'Please pass username and password.' })
+    if (!req.body.email || !req.body.password) {
+        res.status(400).send({ msg: 'Please pass email and password.' })
     } else {
         User
             .create({
-                username: req.body.username,
+                email: req.body.email,
                 password: req.body.password,
                 firstname: req.body.firstname,
                 lastname: req.body.lastname,
-                birthdate: req.body.birthdate
+                birthdate: req.body.birthdate,
+                loginLocal: true
             })
             .then((user) => {
                 var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
@@ -34,11 +35,36 @@ router.post('/signup', function(req, res) {
     }
 });
 
+// POST /api/facebookLogin
+router.post('/facebookLogin', function(req, res) {
+  console.log(req.body);
+  var randomstring = Math.random().toString(36).slice(-8);
+      User
+          .create({
+              email: req.body.email,
+              password: randomstring,
+              firstname: req.body.firstname,
+              lastname: req.body.lastname,
+              birthdate: req.body.birthdate,
+              loginFacebook: true
+          })
+          .then((user) => {
+              var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
+              var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
+              res.json({ success: true, user: user, token: 'JWT ' + token, expiresIn: expiresIn });
+          })
+          .catch((error) => {
+              console.log(error);
+              res.status(400).send(error);
+          });
+
+});
+
 // POST /api/signin
 router.post('/signin', function(req, res) {
     User.findOne({
             where: {
-                username: req.body.username
+                email: req.body.email
             }
         })
         .then((user) => {
@@ -58,7 +84,7 @@ router.post('/signin', function(req, res) {
                     res.json({
                         id: user.id,
                         avatar: user.avatar,
-                        username: user.username,
+                        email: user.email,
                         firstname: user.firstname,
                         lastname: user.lastname,
                         birthdate: user.birthdate,

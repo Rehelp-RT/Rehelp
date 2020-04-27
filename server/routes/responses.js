@@ -47,7 +47,7 @@ router.get('/', (req, res) => {
                     as: 'help'
                 },
                 {
-                    attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
+                    attributes: ['id', 'email', 'firstname', 'lastname', 'avatar'],
                     model: db.User,
                     required: true,
                     as: 'responder'
@@ -74,7 +74,7 @@ router.get('/:id', (req, res) => {
                         as: 'help'
                     },
                     {
-                        attributes: ['username', 'firstname', 'lastname'],
+                        attributes: ['email', 'firstname', 'lastname'],
                         model: db.User,
                         required: true,
                         as: 'responder'

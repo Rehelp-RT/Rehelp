@@ -33,7 +33,7 @@ export class MeetAndHelpComponent implements OnInit {
       this.currentUser =
         cu === undefined || cu == null
           ? null
-          : cu.username;
+          : cu.email;
       const id = this.actRoute.snapshot.params.id;
       // get user profile
       if (id == null) {

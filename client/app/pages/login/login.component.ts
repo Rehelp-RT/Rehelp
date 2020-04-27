@@ -3,8 +3,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { AuthenticationService } from '@app/services';
+import { AuthenticationService, UserService } from '@app/services';
 import { AlertService } from '@app/shared/components/alert';
+
+import { AuthService, FacebookLoginProvider, SocialUser } from 'angularx-social-login';
 
 @Component({
   selector: 'app-login',
@@ -17,13 +19,16 @@ export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     loading = false;
     submitted = false;
+    private socialUser: SocialUser;
 
   constructor(
       private formBuilder: FormBuilder,
       private route: ActivatedRoute,
       private router: Router,
       private authenticationService: AuthenticationService,
-      private alertService: AlertService
+      private userService: UserService,
+      private alertService: AlertService,
+      private authService: AuthService
   ) {
       // redirect to home if already logged in
       if (this.authenticationService.currentUserValue) {
@@ -33,7 +38,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
       this.loginForm = this.formBuilder.group({
-          username: ['', Validators.required],
+          email: ['', Validators.required],
           password: ['', Validators.required]
       });
       // get return url from route parameters or default to '/'
@@ -52,7 +57,7 @@ export class LoginComponent implements OnInit {
       }
 
       this.loading = true;
-      this.authenticationService.login(this.f.username.value, this.f.password.value)
+      this.authenticationService.login(this.f.email.value, this.f.password.value)
           .pipe(first())
           .subscribe(
               data => {
@@ -62,6 +67,23 @@ export class LoginComponent implements OnInit {
                   this.alertService.error(error);
                   this.loading = false;
               });
+  }
+
+
+  // convenience getter for easy access to form fields
+  get s() { return this.socialUser; }
+  signInWithFB() {
+    // this.submitted = true;
+    // this.loading = true;
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+    this.authService.authState.subscribe((user) => {
+      this.socialUser = user;
+      console.log(this.socialUser, 'social user facebook');
+      console.log(this.socialUser.email, 'email');
+      console.log(this.socialUser.firstName, 'firstName');
+      console.log(this.socialUser.lastName, 'lastName');
+      console.log(this.socialUser.photoUrl, 'photoUrl');
+    });
   }
 
 }

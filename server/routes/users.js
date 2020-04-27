@@ -3,8 +3,7 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 require('../config/passport')(passport);
 const db = require('../models');
-const { Op } = require('sequelize');
-const Sequelize = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 
 // GET /api/users
 router.get('/', (req, res) => {
@@ -16,26 +15,21 @@ router.get('/', (req, res) => {
 
     var filters = [];
 
-    if (distance !== undefined && longit !== undefined && latit !== undefined){
+    if (distance !== undefined && longit !== undefined && latit !== undefined) {
         filters.push({
             [Op.and]: [
-                    Sequelize.fn(
-                        //https://postgis.net/docs/ST_DWithin.html
-                        'ST_DWithin',
-                        // https://postgis.net/docs/ST_MakePoint.html
-                        Sequelize.fn('ST_MakePoint', Sequelize.col('User.longitude'), Sequelize.col('User.latitude')),
-                        Sequelize.fn('ST_MakePoint', longit, latit),
-                        distance,
-                        true
-                    )
-                ]
+                Sequelize.fn(
+                    //https://postgis.net/docs/ST_DWithin.html
+                    'ST_DWithin',
+                    // https://postgis.net/docs/ST_MakePoint.html
+                    Sequelize.fn('ST_MakePoint', Sequelize.col('User.longitude'), Sequelize.col('User.latitude')),
+                    Sequelize.fn('ST_MakePoint', longit, latit),
+                    distance,
+                    true
+                )
+            ]
         });
     }
-    console.log('latit :', latit);
-    console.log('longit :', longit);
-    console.log('distance :', distance);
-    console.log('filters', filters);
-
     db.User.findAll({
         attributes: [
             'id',
@@ -49,117 +43,105 @@ router.get('/', (req, res) => {
             'longitude',
             'birthdate'
         ],
-        // where: [
-        //     Sequelize.where(
-        //         Sequelize.fn(
-        //             //https://postgis.net/docs/ST_DWithin.html
-        //             'ST_DWithin',
-        //             // https://postgis.net/docs/ST_MakePoint.html
-        //             Sequelize.fn('ST_MakePoint', Sequelize.col('User.longitude'), Sequelize.col('User.latitude')),
-        //             Sequelize.fn('ST_MakePoint', longit, latit),
-        //             distance
-        //         ),
-        //         true
-        //     )],
         where: {
             [Op.and]: filters
         },
         include: [{
-            required: false,
-            model: db.Help,
-            attributes: ['id'],
-            as: 'helps',
-            where: { completed: true },
-            include: [{
+                required: false,
+                model: db.Help,
+                attributes: ['id'],
+                as: 'helps',
+                where: { completed: true },
+                include: [{
+                    model: db.HelpResponse,
+                    attributes: ['ratingResponder'],
+                    as: 'responses',
+                    where: {
+                        [Op.not]: { ratingResponder: null }
+                    }
+                }]
+            },
+            {
+                required: false,
                 model: db.HelpResponse,
-                attributes: ['ratingResponder'],
+                attributes: ['ratingCreator'],
                 as: 'responses',
                 where: {
-                    [Op.not]: { ratingResponder: null }
+                    [Op.not]: { ratingCreator: null }
                 }
-            }]
-        },
-        {
-            required: false,
-            model: db.HelpResponse,
-            attributes: ['ratingCreator'],
-            as: 'responses',
-            where: {
-                [Op.not]: { ratingCreator: null }
             }
-        }
         ]
     })
-        .then(x => {
-            res.json(x)
-        })
-        .catch(err => {
-            console.log(err);
-            res.sendStatus(500)
-        });
+    .then(x => {
+        res.json(x)
+    })
+    .catch(err => {
+        console.log(err);
+        res.sendStatus(500)
+    });
 });
 
 // GET /api/users/5
 router.get('/:id', (req, res) => {
-    db.User.findByPk(req.params.id, {
+db.User.findByPk(req.params.id, {
         attributes: [
             'id', 'avatar', 'birthdate', 'city', 'country',
             'email', 'firstname', 'lastname', 'latitude', 'longitude',
             'username', 'likehelps'
         ],
         include: [{
-            attributes: ['id', 'title', 'image', 'accepted', 'reviewed', 'completed'],
-            model: db.Help,
-            as: 'helps',
-            include: [{
-                attributes: ['id', 'code', 'name'],
-                model: db.HelpCategory,
-                include: [{
-                    attributes: ['id', 'code', 'name'],
-                    model: db.HelpCategory,
-                    include: [{
-                        attributes: ['id', 'code', 'name'],
-                        model: db.HelpCategory,
-                        as: 'parent'
-                    }],
-                    as: 'parent'
-                }],
-                required: true,
-                as: 'category'
-            },
-            {
-                attributes: ['accepted', 'ratingResponder'],
-                model: db.HelpResponse,
-                as: 'responses'
-            }
-            ]
-        },
-        {
-            attributes: ['accepted', 'ratingCreator'],
-            model: db.HelpResponse,
-            as: 'responses',
-            include: [{
                 attributes: ['id', 'title', 'image', 'accepted', 'reviewed', 'completed'],
                 model: db.Help,
-                as: 'help',
+                as: 'helps',
                 include: [{
-                    attributes: ['id', 'code', 'name'],
-                    model: db.HelpCategory,
+                        attributes: ['id', 'code', 'name'],
+                        model: db.HelpCategory,
+                        include: [{
+                            attributes: ['id', 'code', 'name'],
+                            model: db.HelpCategory,
+                            include: [{
+                                attributes: ['id', 'code', 'name'],
+                                model: db.HelpCategory,
+                                as: 'parent'
+                            }],
+                            as: 'parent'
+                        }],
+                        required: true,
+                        as: 'category'
+                    },
+                    {
+                        attributes: ['accepted', 'ratingResponder'],
+                        model: db.HelpResponse,
+                        as: 'responses'
+                    }
+                ]
+            },
+            {
+                attributes: ['accepted', 'ratingCreator'],
+                model: db.HelpResponse,
+                as: 'responses',
+                include: [{
+                    attributes: ['id', 'title', 'image', 'accepted', 'reviewed', 'completed'],
+                    model: db.Help,
+                    as: 'help',
                     include: [{
                         attributes: ['id', 'code', 'name'],
                         model: db.HelpCategory,
                         include: [{
                             attributes: ['id', 'code', 'name'],
                             model: db.HelpCategory,
+                            include: [{
+                                attributes: ['id', 'code', 'name'],
+                                model: db.HelpCategory,
+                                as: 'parent'
+                            }],
                             as: 'parent'
                         }],
-                        as: 'parent'
-                    }],
-                    required: true,
-                    as: 'category'
+                        required: true,
+                        as: 'category'
+                    }]
                 }]
-            }]
-        }
+            }
         ]
     }).then(user => {
         if (!user) {
@@ -169,16 +151,16 @@ router.get('/:id', (req, res) => {
         }
         res.send(user);
     })
-        .catch(err => {
-            if (err.kind === 'ObjectId') {
-                return res.status(404).send({
-                    message: "User not found with id " + req.params.id
-                });
-            }
-            return res.status(500).send({
-                message: "Error retrieving user with id " + req.params.id
+    .catch(err => {
+        if (err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "User not found with id " + req.params.id
             });
+        }
+        return res.status(500).send({
+            message: "Error retrieving user with id " + req.params.id
         });
+    });
 });
 
 // PUT /api/user/5/update
@@ -267,13 +249,13 @@ router.get('/:id/categories', (req, res) => {
         });
 });
 
-
 // POST /api/user/5/category
 router.post('/:id/category', (req, res) => {
     const body = req.body;
     if (body == undefined || body.idCategory == undefined) {
         res.sendStatus(400)
     } else {
+        // find user
         db.User.findByPk(req.params.id).then(function (user) {
             db.HelpCategory.findByPk(body.idCategory).then((category) => {
                 if (user && category) {

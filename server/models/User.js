@@ -15,7 +15,10 @@ module.exports = (sequelize, DataTypes) => {
 
         likehelps: DataTypes.INTEGER,
         password: DataTypes.STRING,
-        username: DataTypes.STRING
+
+        loginLocal: DataTypes.BOOLEAN,
+        loginFacebook: DataTypes.BOOLEAN,
+        loginGoogle: DataTypes.BOOLEAN,
     }, {});
 
     User.beforeSave((user, options) => {

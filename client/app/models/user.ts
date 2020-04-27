@@ -19,8 +19,10 @@ export class User {
     // meta
     likehelps: number;
     password: string;
-    username: string;
     token: string;
+    loginLocal: boolean;
+    loginFacebook: boolean;
+    loginGoogle: boolean;
 
     // virtual
     helps: Help[];

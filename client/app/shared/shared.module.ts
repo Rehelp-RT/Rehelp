@@ -12,6 +12,7 @@ import { CloudinaryModule } from '@cloudinary/angular-5.x';
 import { Cloudinary as CloudinaryCore } from 'cloudinary-core';
 export const cloudinaryLib = { Cloudinary: CloudinaryCore };
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { SocialLoginModule, AuthServiceConfig, FacebookLoginProvider } from 'angularx-social-login';
 import {
     faAngleDoubleRight,
     faBell,
@@ -55,6 +56,17 @@ import { ErrorInterceptor, JwtInterceptor } from './interceptors';
 import { FilterCategoriesPipe } from './pipes';
 import { NotificationsComponent } from './layout/header/notifications/notifications.component';
 
+// social login configurations
+const config = new AuthServiceConfig([
+  {
+    id: FacebookLoginProvider.PROVIDER_ID,
+    provider: new FacebookLoginProvider('220996429157029')
+  }
+]);
+export function provideConfig() {
+  return config;
+}
+
 @NgModule({
     imports: [
         CommonModule, FileUploadModule, FormsModule, ReactiveFormsModule, RouterModule,
@@ -73,6 +85,8 @@ import { NotificationsComponent } from './layout/header/notifications/notificati
 
         AlertModule, CategoriesModule, ChatModule,
         ModalModule, StarRatingModule, StarsModule, UserIconModule,
+
+        SocialLoginModule
     ],
     declarations: [
         HeaderComponent,
@@ -83,6 +97,7 @@ import { NotificationsComponent } from './layout/header/notifications/notificati
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { provide: AuthServiceConfig, useFactory: provideConfig },
         GoogleMapsAPIWrapper
     ],
     exports: [

@@ -34,6 +34,10 @@ export class UserService {
         return this.http.post(`${environment.apiUrl}/signup`, user);
     }
 
+    facebookLogin(user: User) {
+      return this.http.post(`${environment.apiUrl}/facebookLogin`, user);
+  }
+
     update(user: User) {
         return this.http.put<User>(`${environment.apiUrl}/users/${user.id}/update`, user);
     }

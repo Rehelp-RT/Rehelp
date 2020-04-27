@@ -9,14 +9,14 @@
 
                     <hr>
 
-                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                    <form [formGroup]="loginForm" (ngSubmit)="signInLocal()">
                         <div class="form-group">
                             <label for="email">Email:</label>
                             <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
                             <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                                 <div *ngIf="f.email.errors.required">L'email è obbligatoria</div>
                                 <div *ngIf="f.email.errors.pattern">
-                                  Inserire un'email valida
+                                    Inserire un'email valida
                                 </div>
                             </div>
                         </div>

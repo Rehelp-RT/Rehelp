@@ -18,7 +18,9 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-      this.currentUser = this.authService.currentUserValue;
+      this.authService.getCurrentUser().subscribe(x =>
+          this.currentUser = x
+      );
   }
 
   toggleNavbar() {

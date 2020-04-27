@@ -1,9 +1,14 @@
 var router = require('express').Router();
 const db = require('../models');
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 
 // GET /api/helps
 router.get('/', (req, res) => {
+
+    //mt to km
+    var distance = req.query.distance * 1000;
+    var latit = req.query.lat !== undefined ? parseFloat(req.query.lat) : undefined;
+    var longit = req.query.long !== undefined ? parseFloat(req.query.long) : undefined;
 
     // get parameters
     console.log('req.query', req.query);
@@ -20,7 +25,22 @@ router.get('/', (req, res) => {
         filters.push({
             idCreator: req.query.idCreator
         });
+    } else if (distance !== undefined && longit !== undefined && latit !== undefined){
+        filters.push({
+            [Op.and]: [
+                    Sequelize.fn(
+                        //https://postgis.net/docs/ST_DWithin.html
+                        'ST_DWithin',
+                        // https://postgis.net/docs/ST_MakePoint.html
+                        Sequelize.fn('ST_MakePoint', Sequelize.col('Help.longitude'), Sequelize.col('Help.latitude')),
+                        Sequelize.fn('ST_MakePoint', longit, latit),
+                        distance,
+                        true
+                    )
+                ]
+        });
     }
+
     console.log('filters', filters);
     const filterType = req.query.type === undefined || req.query.type === null ? {} : { code: req.query.type };
 

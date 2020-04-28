@@ -30,10 +30,11 @@ router.get('/', (req, res) => {
             ]
         });
     }
+
     db.User.findAll({
         attributes: [
             'id',
-            'username',
+            'email',
             'firstname',
             'lastname',
             'avatar',
@@ -41,107 +42,110 @@ router.get('/', (req, res) => {
             'country',
             'latitude',
             'longitude',
-            'birthdate'
+            'birthdate',
+            'loginLocal',
+            'loginFacebook',
+            'loginGoogle'
         ],
         where: {
             [Op.and]: filters
         },
         include: [{
-                required: false,
-                model: db.Help,
-                attributes: ['id'],
-                as: 'helps',
-                where: { completed: true },
-                include: [{
-                    model: db.HelpResponse,
-                    attributes: ['ratingResponder'],
-                    as: 'responses',
-                    where: {
-                        [Op.not]: { ratingResponder: null }
-                    }
-                }]
-            },
-            {
-                required: false,
+            required: false,
+            model: db.Help,
+            attributes: ['id'],
+            as: 'helps',
+            where: { completed: true },
+            include: [{
                 model: db.HelpResponse,
-                attributes: ['ratingCreator'],
+                attributes: ['ratingResponder'],
                 as: 'responses',
                 where: {
-                    [Op.not]: { ratingCreator: null }
+                    [Op.not]: { ratingResponder: null }
                 }
+            }]
+        },
+        {
+            required: false,
+            model: db.HelpResponse,
+            attributes: ['ratingCreator'],
+            as: 'responses',
+            where: {
+                [Op.not]: { ratingCreator: null }
             }
+        }
         ]
     })
-    .then(x => {
-        res.json(x)
-    })
-    .catch(err => {
-        console.log(err);
-        res.sendStatus(500)
-    });
+        .then(x => {
+            res.json(x)
+        })
+        .catch(err => {
+            console.log(err);
+            res.sendStatus(500)
+        });
 });
 
 // GET /api/users/5
 router.get('/:id', (req, res) => {
-db.User.findByPk(req.params.id, {
+    db.User.findByPk(req.params.id, {
         attributes: [
             'id', 'avatar', 'birthdate', 'city', 'country',
             'email', 'firstname', 'lastname', 'latitude', 'longitude',
-            'username', 'likehelps'
+            'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle'
         ],
         include: [{
-                attributes: ['id', 'title', 'image', 'accepted', 'reviewed', 'completed'],
-                model: db.Help,
-                as: 'helps',
+            attributes: ['id', 'title', 'image', 'accepted', 'reviewed', 'completed'],
+            model: db.Help,
+            as: 'helps',
+            include: [{
+                attributes: ['id', 'code', 'name'],
+                model: db.HelpCategory,
                 include: [{
+                    attributes: ['id', 'code', 'name'],
+                    model: db.HelpCategory,
+                    include: [{
                         attributes: ['id', 'code', 'name'],
                         model: db.HelpCategory,
-                        include: [{
-                            attributes: ['id', 'code', 'name'],
-                            model: db.HelpCategory,
-                            include: [{
-                                attributes: ['id', 'code', 'name'],
-                                model: db.HelpCategory,
-                                as: 'parent'
-                            }],
-                            as: 'parent'
-                        }],
-                        required: true,
-                        as: 'category'
-                    },
-                    {
-                        attributes: ['accepted', 'ratingResponder'],
-                        model: db.HelpResponse,
-                        as: 'responses'
-                    }
-                ]
+                        as: 'parent'
+                    }],
+                    as: 'parent'
+                }],
+                required: true,
+                as: 'category'
             },
             {
-                attributes: ['accepted', 'ratingCreator'],
+                attributes: ['accepted', 'ratingResponder'],
                 model: db.HelpResponse,
-                as: 'responses',
+                as: 'responses'
+            }
+            ]
+        },
+        {
+            attributes: ['accepted', 'ratingCreator'],
+            model: db.HelpResponse,
+            as: 'responses',
+            include: [{
+                attributes: ['id', 'title', 'image', 'accepted', 'reviewed', 'completed'],
+                model: db.Help,
+                as: 'help',
                 include: [{
-                    attributes: ['id', 'title', 'image', 'accepted', 'reviewed', 'completed'],
-                    model: db.Help,
-                    as: 'help',
+                    attributes: ['id', 'code', 'name'],
+                    model: db.HelpCategory,
                     include: [{
                         attributes: ['id', 'code', 'name'],
                         model: db.HelpCategory,
                         include: [{
                             attributes: ['id', 'code', 'name'],
                             model: db.HelpCategory,
-                            include: [{
-                                attributes: ['id', 'code', 'name'],
-                                model: db.HelpCategory,
-                                as: 'parent'
-                            }],
                             as: 'parent'
                         }],
-                        required: true,
-                        as: 'category'
-                    }]
+                        as: 'parent'
+                    }],
+                    required: true,
+                    as: 'category'
                 }]
-            }
+            }]
+        }
         ]
     }).then(user => {
         if (!user) {
@@ -151,16 +155,16 @@ db.User.findByPk(req.params.id, {
         }
         res.send(user);
     })
-    .catch(err => {
-        if (err.kind === 'ObjectId') {
-            return res.status(404).send({
-                message: "User not found with id " + req.params.id
+        .catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: "User not found with id " + req.params.id
+                });
+            }
+            return res.status(500).send({
+                message: "Error retrieving user with id " + req.params.id
             });
-        }
-        return res.status(500).send({
-            message: "Error retrieving user with id " + req.params.id
         });
-    });
 });
 
 // PUT /api/user/5/update

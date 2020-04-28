@@ -2,10 +2,12 @@
 
 <hr>
 
-<a *ngIf="isOwner" class="btn btn-outline-secondary mb-3">
-    <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon>
-    Modifica categorie
-</a>
+<div class="text-right">
+    <button class="btn btn-outline-secondary mb-3" (click)="open(categories)">
+        <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon>
+        Modifica
+    </button>
+</div>
 
 <p *ngIf="categories.length == 0">Nessun risultato trovato.</p>
 

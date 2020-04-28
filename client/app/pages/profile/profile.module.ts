@@ -13,6 +13,7 @@ import { RequestedHelpComponent } from './requested-help/requested-help.componen
 import { OfferComponent } from './offer/offer.component';
 import { OfferedHelpComponent } from './offered-help/offered-help.component';
 import { UploadAvatarComponent } from './upload-avatar/upload-avatar.component';
+import { CategoriesEditComponent } from './offer/categories-edit/categories-edit.component';
 
 @NgModule({
     imports: [
@@ -25,6 +26,7 @@ import { UploadAvatarComponent } from './upload-avatar/upload-avatar.component';
         SharedModule
     ],
     declarations: [
+        CategoriesEditComponent,
         ProfileComponent,
         ProfileEditComponent,
         OfferComponent,

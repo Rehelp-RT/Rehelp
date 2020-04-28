@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     loading = false;
     submitted = false;
-    private socialUser: SocialUser;
+    public socialUser: SocialUser;
 
   constructor(
       private formBuilder: FormBuilder,
@@ -27,7 +27,8 @@ export class LoginComponent implements OnInit {
       private router: Router,
       private localAuthService: AuthenticationService,
       private alertService: AlertService,
-      private socialAuthService: AuthService
+      private socialAuthService: AuthService,
+      private userService: UserService
   ) {
       // redirect to home if already logged in
       if (this.localAuthService.currentUserValue) {
@@ -69,11 +70,11 @@ export class LoginComponent implements OnInit {
   }
 
   signInWithFB() {
-      this.submitted = true;
-      this.loading = true;
+      // this.submitted = true;
+      // this.loading = true;
       this.socialAuthService
         .signIn(FacebookLoginProvider.PROVIDER_ID)
-        .then(x => {
+        .then(() => {
           // on success
           this.socialAuthService.authState.subscribe((user) => {
               this.socialUser = user;
@@ -83,6 +84,11 @@ export class LoginComponent implements OnInit {
               console.log(this.socialUser.lastName, 'lastName');
               console.log(this.socialUser.photoUrl, 'photoUrl');
           });
+        }).then (() => {
+          console.log('entro qua', this.socialUser),
+          this.userService.facebookLogin(
+            this.socialUser
+          );
         })
         .catch(err => {
           // on error

@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '@environments/environment';
 import { User, HelpCategory } from '@app/models';
 
+import { SocialUser } from 'angularx-social-login';
+
 @Injectable({ providedIn: 'root' })
 export class UserService {
     constructor(private http: HttpClient) { }
@@ -24,8 +26,9 @@ export class UserService {
         return this.http.post(`${environment.apiUrl}/signup`, user);
     }
 
-    facebookLogin(user: User) {
-      return this.http.post(`${environment.apiUrl}/facebookLogin`, user);
+    facebookLogin(socialUser: SocialUser) {
+      console.log(socialUser, 'api social user');
+      return this.http.post(`${environment.apiUrl}/facebookLogin`, socialUser);
   }
 
     update(user: User) {

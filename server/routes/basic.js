@@ -37,7 +37,7 @@ router.post('/signup', function(req, res) {
 
 // POST /api/facebookLogin
 router.post('/facebookLogin', function(req, res) {
-  console.log(req.body);
+  console.log(req.body, 'fac log');
   var randomstring = Math.random().toString(36).slice(-8);
       User
           .create({
@@ -45,7 +45,6 @@ router.post('/facebookLogin', function(req, res) {
               password: randomstring,
               firstname: req.body.firstname,
               lastname: req.body.lastname,
-              birthdate: req.body.birthdate,
               loginFacebook: true
           })
           .then((user) => {

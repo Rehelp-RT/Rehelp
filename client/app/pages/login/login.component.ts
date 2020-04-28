@@ -74,6 +74,7 @@ export class LoginComponent implements OnInit {
       this.socialAuthService
         .signIn(FacebookLoginProvider.PROVIDER_ID)
         .then(x => {
+          // on success
           this.socialAuthService.authState.subscribe((user) => {
               this.socialUser = user;
               console.log(this.socialUser, 'social user facebook');
@@ -84,8 +85,10 @@ export class LoginComponent implements OnInit {
           });
         })
         .catch(err => {
+          // on error
           this.alertService.error(err);
           this.loading = false;
+          this.submitted = false;
         });
   }
 

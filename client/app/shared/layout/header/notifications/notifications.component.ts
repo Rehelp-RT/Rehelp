@@ -30,6 +30,7 @@ export class NotificationsComponent implements OnInit {
     private eRef: ElementRef) { }
 
   ngOnInit() {
+    if(this.currentUser != null){
       interval(5000)
       .pipe(
           startWith(0),
@@ -38,6 +39,7 @@ export class NotificationsComponent implements OnInit {
       .subscribe(res => {
           this.notifications = res;
       });
+    }
   }
 
   navigate(id: number) {

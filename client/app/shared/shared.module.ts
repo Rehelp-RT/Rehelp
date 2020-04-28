@@ -60,7 +60,11 @@ import { NotificationsComponent } from './layout/header/notifications/notificati
 const config = new AuthServiceConfig([
   {
     id: FacebookLoginProvider.PROVIDER_ID,
-    provider: new FacebookLoginProvider('220996429157029')
+    // provider prod
+    // provider: new FacebookLoginProvider('220996429157029')
+
+    // provider test
+    provider: new FacebookLoginProvider('688443305245420')
   }
 ]);
 export function provideConfig() {

@@ -30,7 +30,7 @@ export class NotificationsComponent implements OnInit {
     private eRef: ElementRef) { }
 
   ngOnInit() {
-    if(this.currentUser != null){
+    if (this.currentUser != null) {
       interval(5000)
       .pipe(
           startWith(0),

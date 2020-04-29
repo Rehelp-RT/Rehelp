@@ -80,11 +80,10 @@ export class LoginComponent implements OnInit {
               this.socialUser = user;
           });
         }).then (() => {
-          this.userService.facebookLogin(this.socialUser)
+          this.localAuthService.facebookLogin(this.socialUser)
             .pipe(first())
             .subscribe(
                 () => {
-                    this.alertService.success('Registrazione avvenuta con successo', true);
                     this.router.navigate([this.returnUrl]);
                 },
                 error => {

@@ -5,6 +5,7 @@ import { environment } from '@environments/environment';
 import { User, HelpCategory } from '@app/models';
 
 import { SocialUser } from 'angularx-social-login';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -24,10 +25,6 @@ export class UserService {
 
     register(user: User) {
         return this.http.post(`${environment.apiUrl}/signup`, user);
-    }
-
-    facebookLogin(socialUser: SocialUser) {
-      return this.http.post(`${environment.apiUrl}/facebookLogin`, socialUser);
     }
 
     update(user: User) {

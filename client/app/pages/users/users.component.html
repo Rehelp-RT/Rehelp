@@ -1,7 +1,10 @@
 <section class="py-3">
 
+    <select [(ngModel)]="selectedDistance" (change)="distanceSelected()">
+        <option *ngFor="let dis of defaultDistance">{{ dis }}</option>
+      </select>
+      
     <div class="container">
-
         <p *ngIf="users.length == 0">Nesuna persona trovata.</p>
 
         <table *ngIf="users.length > 0" class="table">

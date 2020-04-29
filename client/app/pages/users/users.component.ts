@@ -10,16 +10,18 @@ import { UserService } from '@app/services';
 export class UsersComponent implements OnInit {
 
   users: User[] = [];
-
+  distance: Number = null;
+  defaultDistance: Number[] = [0, 10, 20, 50, 100];
+  public selectedDistance: Number;
+  
   constructor(private us: UserService) { }
 
   ngOnInit() {
 
-    const distance = null //100;
     const lat = null //43.0554254;
     const long = null //13.4303147;
 
-    this.us.getAll(distance, lat, long).subscribe((x) => {
+    this.us.getAll(this.distance, lat, long).subscribe((x) => {
       this.users = x;
     });
   }
@@ -59,5 +61,9 @@ export class UsersComponent implements OnInit {
     });
     return sum / count;
   }
+
+  distanceSelected() {
+    this.distance = this.selectedDistance;
+}
 
 }

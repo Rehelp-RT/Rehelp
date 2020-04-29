@@ -27,7 +27,8 @@ router.get('/', (req, res) => {
         filters.push({
             idCreator: req.query.idCreator
         });
-    } else if (distance !== undefined && longit !== undefined && latit !== undefined){
+    }
+    if (distance !== undefined && longit !== undefined && latit !== undefined){
         filters.push({
             [Op.and]: [
                     Sequelize.fn(

@@ -27,9 +27,8 @@ export class UserService {
     }
 
     facebookLogin(socialUser: SocialUser) {
-      console.log(socialUser, 'api social user');
       return this.http.post(`${environment.apiUrl}/facebookLogin`, socialUser);
-  }
+    }
 
     update(user: User) {
         return this.http.put<User>(`${environment.apiUrl}/users/${user.id}/update`, user);

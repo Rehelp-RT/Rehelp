@@ -37,26 +37,30 @@ router.post('/signup', function(req, res) {
 
 // POST /api/facebookLogin
 router.post('/facebookLogin', function(req, res) {
-  console.log(req.body, 'fac log');
-  var randomstring = Math.random().toString(36).slice(-8);
-      User
-          .create({
-              email: req.body.email,
-              password: randomstring,
-              firstname: req.body.firstname,
-              lastname: req.body.lastname,
-              loginFacebook: true
-          })
-          .then((user) => {
-              var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
-              var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
-              res.json({ success: true, user: user, token: 'JWT ' + token, expiresIn: expiresIn });
-          })
-          .catch((error) => {
-              console.log(error);
-              res.status(400).send(error);
-          });
-
+  if (req.body == null || req.body == undefined) {
+    res.status(400).send({ msg: 'Something goes wrong.' })
+  }
+  else {
+    var randomstring = Math.random().toString(36).slice(-8);
+    User
+        .create({
+            email: req.body.email,
+            password: randomstring,
+            firstname: req.body.firstName,
+            lastname: req.body.lastName,
+            loginFacebook: true
+        })
+        .then((user) => {
+            var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
+            var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
+            res.json({ success: true, user: user, token: 'JWT ' + token, expiresIn: expiresIn });
+        })
+        .catch((error) => {
+            console.log(error);
+            res.status(400).send(error);
+        });
+    // console.log(randomstring, 'randomstring')
+  }
 });
 
 // POST /api/signin

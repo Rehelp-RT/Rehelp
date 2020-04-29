@@ -70,25 +70,27 @@ export class LoginComponent implements OnInit {
   }
 
   signInWithFB() {
-      // this.submitted = true;
-      // this.loading = true;
+      this.submitted = true;
+      this.loading = true;
       this.socialAuthService
         .signIn(FacebookLoginProvider.PROVIDER_ID)
         .then(() => {
           // on success
           this.socialAuthService.authState.subscribe((user) => {
               this.socialUser = user;
-              console.log(this.socialUser, 'social user facebook');
-              console.log(this.socialUser.email, 'email');
-              console.log(this.socialUser.firstName, 'firstName');
-              console.log(this.socialUser.lastName, 'lastName');
-              console.log(this.socialUser.photoUrl, 'photoUrl');
           });
         }).then (() => {
-          console.log('entro qua', this.socialUser),
-          this.userService.facebookLogin(
-            this.socialUser
-          );
+          this.userService.facebookLogin(this.socialUser)
+            .pipe(first())
+            .subscribe(
+                () => {
+                    this.alertService.success('Registrazione avvenuta con successo', true);
+                    this.router.navigate([this.returnUrl]);
+                },
+                error => {
+                    this.alertService.error(error);
+                    this.loading = false;
+                });
         })
         .catch(err => {
           // on error

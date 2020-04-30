@@ -32,7 +32,7 @@
                                     <div *ngIf="f.email.errors.required">
                                         L'email è obbligatoria
                                     </div>
-                                    <div *ngIf="f.email.errors.pattern">
+                                    <div *ngIf="f.email.errors?.pattern">
                                         Inserire un'email valida
                                     </div>
                                 </div>

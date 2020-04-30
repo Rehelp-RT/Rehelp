@@ -14,54 +14,88 @@ router.post('/signup', function(req, res) {
     if (!req.body.email || !req.body.password) {
         res.status(400).send({ msg: 'Please pass email and password.' })
     } else {
-        User
-            .create({
-                email: req.body.email,
-                password: req.body.password,
-                firstname: req.body.firstname,
-                lastname: req.body.lastname,
-                birthdate: req.body.birthdate,
-                loginLocal: true
-            })
-            .then((user) => {
-                var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
-                var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
-                res.json({ success: true, user: user, token: 'JWT ' + token, expiresIn: expiresIn });
-            })
-            .catch((error) => {
-                console.log(error);
-                res.status(400).send(error);
+
+        User.findOne({
+          where: {
+            email: req.body.email
+          }
+        })
+        .then((registeredUser) => {
+          if (!registeredUser) {
+            User
+                .create({
+                    email: req.body.email,
+                    password: req.body.password,
+                    firstname: req.body.firstname,
+                    lastname: req.body.lastname,
+                    birthdate: req.body.birthdate,
+                    loginLocal: true
+                })
+                .then((user) => {
+                    var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
+                    var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
+                    res.json({ success: true, user: user, token: 'JWT ' + token, expiresIn: expiresIn });
+                })
+                .catch((error) => {
+                    console.log(error);
+                    res.status(400).send(error);
+                });
+          }
+          else {
+            return res.status(409).send({
+              message: 'Email già utilizzata.',
             });
+          }
+        })
     }
 });
 
-// POST /api/facebookLogin
-router.post('/facebookLogin', function(req, res) {
+// POST /api/socialLogin
+router.post('/socialLogin', function(req, res) {
   if (req.body == null || req.body == undefined) {
     res.status(400).send({ msg: 'Something goes wrong.' })
   }
   else {
-    var randomstring = Math.random().toString(36).slice(-8);
-    User
-        .create({
-            email: req.body.email,
-            password: randomstring,
-            firstname: req.body.firstName,
-            lastname: req.body.lastName,
-            loginFacebook: true
-        })
-        .then((user) => {
-            var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
-            var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
-            res.json({ success: true, user: user, token: 'JWT ' + token, expiresIn: expiresIn });
-        })
-        .catch((error) => {
-            console.log(error);
-            res.status(400).send(error);
-        });
-    // console.log(randomstring, 'randomstring')
+    User.findOne({
+      where: {
+          email: req.body.email
+      }
+    })
+    .then((registeredUser) => {
+        if (!registeredUser) {
+          var randomstring = Math.random().toString(36).slice(-8);
+          console.log(req.body, 'req.body')
+          User
+              .create({
+                  email: req.body.email,
+                  password: randomstring,
+                  firstname: req.body.firstName,
+                  lastname: req.body.lastName,
+                  loginFacebook: req.body.provider === 'FACEBOOK' ? true : false,
+                  loginGoogle: req.body.provider === 'GOOGLE' ? true : false
+              })
+              .then((user) => {
+                  var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
+                  var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
+                  res.json({ success: true, user: user, token: 'JWT ' + token, expiresIn: expiresIn });
+              })
+              .catch((error) => {
+                  console.log(error)
+                  res.status(400).send(error)
+              });
+        }
+        else {
+          var token = jwt.sign(JSON.parse(JSON.stringify(registeredUser)), '***REMOVED-JWT-SECRET***');
+          var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
+          res.json({ success: true, user: registeredUser, token: 'JWT ' + token, expiresIn: expiresIn });
+        }
+    }).catch((error) => {
+      console.log(error)
+      res.status(400).send(error)
+    })
   }
 });
+
 
 // POST /api/signin
 router.post('/signin', function(req, res) {

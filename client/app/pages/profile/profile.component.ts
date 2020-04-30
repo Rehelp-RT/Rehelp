@@ -20,10 +20,9 @@ export class ProfileComponent implements OnInit {
 
     ngOnInit() {
         this.actRoute.params.subscribe(params => {
-            this.isOwner = params.id == this.authService.currentUserValue.id;
+            this.isOwner = params.id === this.authService.currentUserValue.id.toString();
             this.userService.getById(params.id).subscribe(x => {
                 this.user = x;
-                console.log(this.user);
             });
         });
     }

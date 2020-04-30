@@ -39,8 +39,8 @@ export class AuthenticationService {
             }));
     }
 
-    public facebookLogin(socialUser: SocialUser) {
-      return this.http.post<any>(`${environment.apiUrl}/facebookLogin`, socialUser)
+    public socialLogin(socialUser: SocialUser) {
+      return this.http.post<any>(`${environment.apiUrl}/socialLogin`, socialUser)
       .pipe(map(x => {
 
         // login successful if there's a jwt token in the response
@@ -50,7 +50,7 @@ export class AuthenticationService {
             this.currentUserSubject.next(x.user);
         }
         return x.user;
-    }));
+      }));
     }
 
     public refresh(user: User) {

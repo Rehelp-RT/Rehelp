@@ -1,0 +1,53 @@
+<div class="modal-header">
+    <h4 class="modal-title">Modifica categorie</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+
+    <div *ngIf="cats.length > 0">
+        <div class="div" *ngFor="let cat of cats">
+            {{ cat.name }}
+            <div class="row" *ngIf="cat.children.length > 0">
+                <div class="col-lg-4 col-md-6" *ngFor="let cat2 of cat.children">
+
+                    <div class="card">
+
+                        <div class="card-header">
+                            <div class="checkbox">
+                                <label>
+                              <input type="checkbox" value="{{ cat2.id }}" checked="{{ isSelected(cat2) ? 'checked' : '' }}">
+                              {{ cat2.name }}
+                          </label>
+                            </div>
+                        </div>
+
+                        <div class="card-body" *ngIf="cat.children.length > 0">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item" *ngFor="let cat3 of cat2.children">
+
+                                    <div class="checkbox">
+                                        <label>
+                                  <input type="checkbox" value="{{ cat3.id }}" checked="{{ isSelected(cat3) ? 'checked' : '' }}">
+                                  {{ cat3.name }}
+                              </label>
+                                    </div>
+
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-lg btn-outline-success" (click)="closeModal()">
+        Salva
+    </button>
+</div>

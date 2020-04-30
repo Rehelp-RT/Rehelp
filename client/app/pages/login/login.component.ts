@@ -78,6 +78,7 @@ export class LoginComponent implements OnInit {
           // on success
           this.socialAuthService.authState.subscribe((user) => {
               this.socialUser = user;
+              console.log(this.socialUser, 'socialUser facebook');
           });
         }).then (() => {
           this.localAuthService.socialLogin(this.socialUser)
@@ -108,6 +109,7 @@ export class LoginComponent implements OnInit {
         // on success
         this.socialAuthService.authState.subscribe((user) => {
             this.socialUser = user;
+            console.log(this.socialUser, 'socialUser google');
         });
       }).then (() => {
         this.localAuthService.socialLogin(this.socialUser)

@@ -12,11 +12,13 @@ router.get('/', (req, res) => {
         filters.push({
             [Op.not]: { idCreator: req.query.excludeUserId }
         });
-    } else if (req.query.accepted !== undefined) {
+    } 
+    if (req.query.accepted !== undefined) {
         filters.push({
             accepted: req.query.accepted
         });
-    } else if (req.query.idCreator !== undefined) {
+    }
+    if (req.query.idCreator !== undefined) {
         filters.push({
             idCreator: req.query.idCreator
         });

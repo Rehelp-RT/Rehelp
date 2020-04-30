@@ -28,6 +28,8 @@ export class User {
     loginLocal: boolean;
     loginFacebook: boolean;
     loginGoogle: boolean;
+    idFacebook: string;
+    idGoogle: string;
 
     // virtual
     helps: Help[];

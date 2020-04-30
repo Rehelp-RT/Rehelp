@@ -21,7 +21,9 @@ router.get('/', (req, res) => {
                 'birthdate',
                 'loginLocal',
                 'loginFacebook',
-                'loginGoogle'
+                'loginGoogle',
+                'idFacebook',
+                'idGoogle'
             ],
             include: [{
                     required: false,
@@ -64,7 +66,8 @@ router.get('/:id', (req, res) => {
             attributes: [
                 'id', 'avatar', 'birthdate', 'city', 'country',
                 'email', 'firstname', 'lastname', 'latitude', 'longitude',
-                'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle'
+                'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
+                'idFacebook', 'idGoogle'
             ],
             include: [{
                     required: false,
@@ -141,6 +144,8 @@ router.get('/:id', (req, res) => {
                 loginLocal: user.loginLocal,
                 loginFacebook: user.loginFacebook,
                 loginGoogle: user.loginGoogle,
+                idFacebook: user.idFacebook,
+                idGoogle: user.idGoogle,
                 responsesReviewsCount: ratedResponses.length,
                 responsesReviewsSum: sumResponses,
                 helpsReviewsCount: ratedHelpsResponses.length,

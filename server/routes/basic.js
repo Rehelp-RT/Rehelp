@@ -140,6 +140,8 @@ router.post('/signin', function(req, res) {
                         loginLocal: user.loginLocal,
                         loginFacebook: user.loginFacebook,
                         loginGoogle: user.loginGoogle,
+                        idFacebook: user.idFacebook,
+                        idGoogle: user.idGoogle,
                         responsesReviewsCount: ratedResponses.length,
                         responsesReviewsSum: sumResponses,
                         helpsReviewsCount: ratedHelpsResponses.length,

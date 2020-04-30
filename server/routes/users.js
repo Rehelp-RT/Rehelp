@@ -67,57 +67,28 @@ router.get('/:id', (req, res) => {
                 'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle'
             ],
             include: [{
-                    attributes: ['id', 'title', 'image', 'accepted', 'reviewed', 'completed'],
+                    required: false,
                     model: db.Help,
+                    attributes: ['id'],
                     as: 'helps',
+                    where: { completed: true },
                     include: [{
-                            attributes: ['id', 'code', 'name'],
-                            model: db.HelpCategory,
-                            include: [{
-                                attributes: ['id', 'code', 'name'],
-                                model: db.HelpCategory,
-                                include: [{
-                                    attributes: ['id', 'code', 'name'],
-                                    model: db.HelpCategory,
-                                    as: 'parent'
-                                }],
-                                as: 'parent'
-                            }],
-                            required: true,
-                            as: 'category'
-                        },
-                        {
-                            attributes: ['accepted', 'ratingResponder'],
-                            model: db.HelpResponse,
-                            as: 'responses'
+                        model: db.HelpResponse,
+                        attributes: ['ratingResponder'],
+                        as: 'responses',
+                        where: {
+                            [Op.not]: { ratingResponder: null }
                         }
-                    ]
+                    }]
                 },
                 {
-                    attributes: ['accepted', 'ratingCreator'],
+                    required: false,
                     model: db.HelpResponse,
+                    attributes: ['ratingCreator'],
                     as: 'responses',
-                    include: [{
-                        attributes: ['id', 'title', 'image', 'accepted', 'reviewed', 'completed'],
-                        model: db.Help,
-                        as: 'help',
-                        include: [{
-                            attributes: ['id', 'code', 'name'],
-                            model: db.HelpCategory,
-                            include: [{
-                                attributes: ['id', 'code', 'name'],
-                                model: db.HelpCategory,
-                                include: [{
-                                    attributes: ['id', 'code', 'name'],
-                                    model: db.HelpCategory,
-                                    as: 'parent'
-                                }],
-                                as: 'parent'
-                            }],
-                            required: true,
-                            as: 'category'
-                        }]
-                    }]
+                    where: {
+                        [Op.not]: { ratingCreator: null }
+                    }
                 }
             ]
         }).then(user => {
@@ -126,7 +97,55 @@ router.get('/:id', (req, res) => {
                     message: "User not found with id " + req.params.id
                 });
             }
-            res.send(user);
+
+            // sum reviews where user is responder
+            const ratedResponses = user.responses.filter(r => {
+                if (r.ratingCreator !== undefined) {
+                    return r.ratingCreator;
+                }
+            });
+            const sumResponses = ratedResponses.reduce((prev, cur) => {
+                return prev + cur.ratingCreator;
+            }, 0);
+
+            // sum reviews where user is creator
+            const ratedHelps = user.helps.filter(h => {
+                const ress = h.responses.filter(r => {
+                    if (r.ratingResponder !== undefined) {
+                        return r.ratingResponder;
+                    }
+                });
+                return (ress.length > 0) ? h : null;
+            });
+            const ratedHelpsResponses =
+                ratedHelps.map(h =>
+                    h.responses.filter(r =>
+                        (r.ratingResponder)));
+            const flatArray = Array.prototype.concat.apply([], ratedHelpsResponses);
+            const sumHelps = flatArray.reduce((prev, cur) => {
+                return prev + cur.ratingResponder;
+            }, 0);
+
+            res.send({
+                id: user.id,
+                avatar: user.avatar,
+                birthdate: user.birthdate,
+                city: user.city,
+                country: user.country,
+                email: user.email,
+                firstname: user.firstname,
+                lastname: user.lastname,
+                latitude: user.latitude,
+                longitude: user.longitude,
+                likehelps: user.likehelps,
+                loginLocal: user.loginLocal,
+                loginFacebook: user.loginFacebook,
+                loginGoogle: user.loginGoogle,
+                responsesReviewsCount: ratedResponses.length,
+                responsesReviewsSum: sumResponses,
+                helpsReviewsCount: ratedHelpsResponses.length,
+                helpsReviewsSum: sumHelps
+            });
         })
         .catch(err => {
             if (err.kind === 'ObjectId') {
@@ -140,7 +159,7 @@ router.get('/:id', (req, res) => {
         });
 });
 
-// PUT /api/user/5/update
+// PUT /api/users/5/update
 router.put('/:id/update', function(req, res) {
     const body = req.body;
     if (body == undefined) {

@@ -16,6 +16,11 @@ export class User {
     latitude: number;
     longitude: number;
 
+    responsesReviewsCount: number;
+    responsesReviewsSum: number;
+    helpsReviewsCount: number;
+    helpsReviewsSum: number;
+
     // meta
     likehelps: number;
     password: string;

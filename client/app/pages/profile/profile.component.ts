@@ -21,9 +21,16 @@ export class ProfileComponent implements OnInit {
     ngOnInit() {
         this.actRoute.params.subscribe(params => {
             this.isOwner = params.id === this.authService.currentUserValue.id.toString();
-            this.userService.getById(params.id).subscribe(x => {
-                this.user = x;
-            });
+
+            if (this.isOwner) {
+                this.authService.getCurrentUser().subscribe(x => {
+                    this.user = x;
+                });
+            } else {
+                this.userService.getById(params.id).subscribe(x => {
+                    this.user = x;
+                });
+            }
         });
     }
 
@@ -58,46 +65,14 @@ export class ProfileComponent implements OnInit {
             }
         }
         return diff;
-  }
+    }
 
-    getAverage() {
-        // sum responses rating
-        const ratedResponses = this.user.responses.filter(r => {
-            if (r.ratingCreator !== undefined) {
-                return r.ratingCreator;
-            }
-        });
-        const sumResponses = ratedResponses.reduce((prev, cur) => {
-          return prev + cur.ratingCreator;
-        }, 0);
+    getAverage(): number {
+        return (this.user.responsesReviewsSum + this.user.helpsReviewsSum) /
+          (this.user.responsesReviewsCount + this.user.helpsReviewsCount);
+    }
 
-        // sum responses of help rating
-        const ratedHelps = this.user.helps.filter(h => {
-          const ress = h.responses.filter(r => {
-              if (r.ratingResponder !== undefined) {
-                  return r.ratingResponder;
-              }
-          });
-          return (ress.length > 0) ? h : null;
-        });
-        const ratedHelpsResponses =
-            ratedHelps.map(h =>
-                h.responses.filter(r =>
-                    (r.ratingResponder)));
-        const flatArray = Array.prototype.concat.apply([], ratedHelpsResponses);
-        const sumHelps = flatArray.reduce((prev, cur) => {
-          return prev + cur.ratingResponder;
-        }, 0);
-
-        const reviews = ratedHelpsResponses.length + ratedResponses.length;
-        let average;
-
-        if (sumResponses !== 0) {
-            average = ((sumResponses + sumHelps) / (ratedResponses.length + ratedHelps.length)).toFixed(1);
-        } else {
-            average = 'Ancora nessuna recensione.';
-        }
-
-        return { average, reviews };
+    getReviews(): number {
+      return (this.user.responsesReviewsCount + this.user.helpsReviewsCount);
     }
 }

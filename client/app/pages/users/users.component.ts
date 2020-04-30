@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '@app/models';
-import { UserService } from '@app/services';
+import { UserService, AuthenticationService } from '@app/services';
 
 @Component({
   selector: 'app-users',
@@ -13,13 +13,16 @@ export class UsersComponent implements OnInit {
   distance: Number = null;
   defaultDistance: Number[] = [0, 10, 20, 50, 100];
   public selectedDistance: Number;
+  currentUser: User = null;
   
-  constructor(private us: UserService) { }
+  constructor(private us: UserService,
+    private as: AuthenticationService) {
+    this.getCurrentUser();
+   }
 
   ngOnInit() {
-
-    const lat = null //43.0554254;
-    const long = null //13.4303147;
+    const lat = this.currentUser.latitude //43.0554254;
+    const long = this.currentUser.longitude //13.4303147;
 
     this.us.getAll(this.distance, lat, long).subscribe((x) => {
       this.users = x;
@@ -64,6 +67,13 @@ export class UsersComponent implements OnInit {
 
   distanceSelected() {
     this.distance = this.selectedDistance;
+    console.log('selectedDistance :', this.selectedDistance);
 }
 
+getCurrentUser(): void {
+  this.as.getCurrentUser()
+    .subscribe(x => {
+      this.currentUser = x;
+    });
+}
 }

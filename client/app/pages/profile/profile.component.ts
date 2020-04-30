@@ -23,9 +23,8 @@ export class ProfileComponent implements OnInit {
             this.isOwner = params.id == this.authService.currentUserValue.id;
             this.userService.getById(params.id).subscribe(x => {
                 this.user = x;
-                console.log(this.user);
             });
-        });
+        }); 
     }
 
     groupBy(objectArray, property) {

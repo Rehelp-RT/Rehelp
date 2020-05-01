@@ -52,6 +52,7 @@
     "jquery": "^3.5.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
+    "ng-recaptcha": "^5.0.0",
     "ng2-file-upload": "^1.4.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",

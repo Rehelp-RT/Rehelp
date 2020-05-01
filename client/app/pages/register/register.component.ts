@@ -61,4 +61,8 @@ export class RegisterComponent implements OnInit {
                     this.loading = false;
                 });
     }
+
+    resolved(captchaResponse: string) {
+      console.log(`Resolved response token: ${captchaResponse}`);
+    }
 }

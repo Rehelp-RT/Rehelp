@@ -38,6 +38,7 @@ import {
   faFacebook,
   faGoogle
 } from '@fortawesome/free-brands-svg-icons';
+import { RecaptchaModule, RecaptchaFormsModule, RECAPTCHA_SETTINGS, RECAPTCHA_LANGUAGE, RecaptchaSettings } from 'ng-recaptcha';
 
 // app module
 import {
@@ -98,6 +99,7 @@ export function provideConfig() {
         AlertModule, CategoriesModule, ChatModule,
         ModalModule, StarRatingModule, StarsModule, UserIconModule,
 
+        RecaptchaModule, RecaptchaFormsModule,
         SocialLoginModule
     ],
     declarations: [
@@ -110,6 +112,11 @@ export function provideConfig() {
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: AuthServiceConfig, useFactory: provideConfig },
+        {
+          provide: RECAPTCHA_SETTINGS,
+          useValue: { siteKey: '6LfzDvEUAAAAAAnUqnwbuaadUCj6mWivJIjHOwJx'} as RecaptchaSettings,
+        },
+        { provide: RECAPTCHA_LANGUAGE, useValue: 'it'},
         GoogleMapsAPIWrapper
     ],
     exports: [
@@ -118,6 +125,7 @@ export function provideConfig() {
         AlertModule, CategoriesModule, ChatModule,
         ModalModule, StarRatingModule, StarsModule, UserIconModule,
         FooterComponent, HeaderComponent,
+        RecaptchaModule, RecaptchaFormsModule,
         FilterCategoriesPipe
     ]
 })

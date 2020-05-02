@@ -63,6 +63,7 @@ router.post('/signin', function(req, res) {
                     as: 'helps',
                     where: { completed: true },
                     include: [{
+                        required: false,
                         model: db.HelpResponse,
                         attributes: ['ratingResponder'],
                         as: 'responses',

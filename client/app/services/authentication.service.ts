@@ -40,17 +40,16 @@ export class AuthenticationService {
     }
 
     public socialLogin(socialUser: SocialUser) {
-      return this.http.post<any>(`${environment.apiUrl}/socialLogin`, socialUser)
-      .pipe(map(x => {
-
-        // login successful if there's a jwt token in the response
-        if (x && x.token) {
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('currentUser', JSON.stringify(x));
-            this.currentUserSubject.next(x);
-        }
-        return x;
-      }));
+        return this.http.post<any>(`${environment.apiUrl}/socialLogin`, socialUser)
+        .pipe(map(user => {
+            // login successful if there's a jwt token in the response
+            if (user && user.token) {
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                this.currentUserSubject.next(user);
+            }
+            return user;
+        }));
     }
 
     public refresh(user: User) {

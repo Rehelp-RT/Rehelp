@@ -6,7 +6,7 @@ import { first } from 'rxjs/operators';
 import { AuthenticationService, UserService } from '@app/services';
 import { AlertService } from '@app/shared/components/alert';
 
-import { AuthService, FacebookLoginProvider, SocialUser } from 'angularx-social-login';
+import { AuthService, FacebookLoginProvider, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
 
 @Component({
   selector: 'app-login',
@@ -19,18 +19,19 @@ export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     loading = false;
     submitted = false;
-    private socialUser: SocialUser;
+    public socialUser: SocialUser;
 
   constructor(
       private formBuilder: FormBuilder,
       private route: ActivatedRoute,
       private router: Router,
-      private localAuthService: AuthenticationService,
+      private authService: AuthenticationService,
       private alertService: AlertService,
-      private socialAuthService: AuthService
+      private socialAuthService: AuthService,
+      private userService: UserService
   ) {
       // redirect to home if already logged in
-      if (this.localAuthService.currentUserValue) {
+      if (this.authService.currentUserValue) {
           this.router.navigate(['/']);
       }
   }
@@ -56,7 +57,7 @@ export class LoginComponent implements OnInit {
       }
 
       this.loading = true;
-      this.localAuthService.login(this.f.email.value, this.f.password.value)
+      this.authService.login(this.f.email.value, this.f.password.value)
           .pipe(first())
           .subscribe(
               () => {
@@ -68,21 +69,27 @@ export class LoginComponent implements OnInit {
               });
   }
 
-  signInWithFB() {
+  signInWithFacebook() {
       this.submitted = true;
       this.loading = true;
       this.socialAuthService
         .signIn(FacebookLoginProvider.PROVIDER_ID)
-        .then(x => {
+        .then(() => {
           // on success
           this.socialAuthService.authState.subscribe((user) => {
               this.socialUser = user;
-              console.log(this.socialUser, 'social user facebook');
-              console.log(this.socialUser.email, 'email');
-              console.log(this.socialUser.firstName, 'firstName');
-              console.log(this.socialUser.lastName, 'lastName');
-              console.log(this.socialUser.photoUrl, 'photoUrl');
           });
+        }).then (() => {
+          this.authService.socialLogin(this.socialUser)
+            .pipe(first())
+            .subscribe(
+                () => {
+                    this.router.navigate([this.returnUrl]);
+                },
+                error => {
+                    this.alertService.error(error);
+                    this.loading = false;
+                });
         })
         .catch(err => {
           // on error
@@ -91,5 +98,35 @@ export class LoginComponent implements OnInit {
           this.submitted = false;
         });
   }
+
+  signInWithGoogle() {
+    this.submitted = true;
+    this.loading = true;
+    this.socialAuthService
+      .signIn(GoogleLoginProvider.PROVIDER_ID)
+      .then(() => {
+        // on success
+        this.socialAuthService.authState.subscribe((user) => {
+            this.socialUser = user;
+        });
+      }).then (() => {
+        this.authService.socialLogin(this.socialUser)
+          .pipe(first())
+          .subscribe(
+              () => {
+                  this.router.navigate([this.returnUrl]);
+              },
+              error => {
+                  this.alertService.error(error);
+                  this.loading = false;
+              });
+      })
+      .catch(err => {
+        // on error
+        this.alertService.error(err);
+        this.loading = false;
+        this.submitted = false;
+      });
+}
 
 }

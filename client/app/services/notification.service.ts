@@ -5,7 +5,7 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 import { environment } from '@environments/environment';
-import { Notification } from '@app/models'
+import { Notification } from '@app/models';
 import { Observable } from 'rxjs';
 
 @Injectable({

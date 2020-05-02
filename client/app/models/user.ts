@@ -16,6 +16,11 @@ export class User {
     latitude: number;
     longitude: number;
 
+    responsesReviewsCount: number;
+    responsesReviewsSum: number;
+    helpsReviewsCount: number;
+    helpsReviewsSum: number;
+
     // meta
     likehelps: number;
     password: string;
@@ -23,6 +28,8 @@ export class User {
     loginLocal: boolean;
     loginFacebook: boolean;
     loginGoogle: boolean;
+    idFacebook: string;
+    idGoogle: string;
 
     // virtual
     helps: Help[];

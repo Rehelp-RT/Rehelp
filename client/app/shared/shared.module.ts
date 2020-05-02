@@ -12,7 +12,7 @@ import { CloudinaryModule } from '@cloudinary/angular-5.x';
 import { Cloudinary as CloudinaryCore } from 'cloudinary-core';
 export const cloudinaryLib = { Cloudinary: CloudinaryCore };
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { SocialLoginModule, AuthServiceConfig, FacebookLoginProvider } from 'angularx-social-login';
+import { SocialLoginModule, AuthServiceConfig, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import {
     faAngleDoubleRight,
     faBell,
@@ -34,6 +34,10 @@ import {
     faSquare as farSquare,
     faStar as farStar
 } from '@fortawesome/free-regular-svg-icons';
+import {
+  faFacebook,
+  faGoogle
+} from '@fortawesome/free-brands-svg-icons';
 
 // app module
 import {
@@ -58,6 +62,10 @@ import { NotificationsComponent } from './layout/header/notifications/notificati
 
 // social login configurations
 const config = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider('777650088501-7v0eembic12t9esbnht9lmmhi95tho4j.apps.googleusercontent.com')
+  },
   {
     id: FacebookLoginProvider.PROVIDER_ID,
     // provider prod
@@ -121,6 +129,8 @@ export class SharedModule {
             faBell,
             faCamera, faCircle, faCheck, faChevronLeft, faClock, faCloudUploadAlt, faCoffee,
             faEnvelope,
+            faFacebook,
+            faGoogle,
             faHands, faHandPaper,
             faMapMarkerAlt,
             faPencilAlt, faPlus,

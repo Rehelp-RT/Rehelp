@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { User } from '@app/models';
+import { SocialUser } from 'angularx-social-login';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -17,7 +18,7 @@ export class AuthenticationService {
     }
 
     public get currentUserValue(): User {
-        return this.currentUserSubject.value;
+      return this.currentUserSubject.value;
     }
 
     public getCurrentUser(): Observable<User> {
@@ -29,19 +30,28 @@ export class AuthenticationService {
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
                 if (user && user.token) {
-                    console.log('---if user && user.token');
-                    console.log(user);
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(user));
                     this.currentUserSubject.next(user);
                 }
-
                 return user;
             }));
     }
 
+    public socialLogin(socialUser: SocialUser) {
+        return this.http.post<any>(`${environment.apiUrl}/socialLogin`, socialUser)
+        .pipe(map(user => {
+            // login successful if there's a jwt token in the response
+            if (user && user.token) {
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                this.currentUserSubject.next(user);
+            }
+            return user;
+        }));
+    }
+
     public refresh(user: User) {
-        console.log(user);
         this.currentUserSubject.next(user);
     }
 

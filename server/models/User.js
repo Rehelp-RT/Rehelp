@@ -19,6 +19,9 @@ module.exports = (sequelize, DataTypes) => {
         loginLocal: DataTypes.BOOLEAN,
         loginFacebook: DataTypes.BOOLEAN,
         loginGoogle: DataTypes.BOOLEAN,
+
+        idFacebook: DataTypes.STRING,
+        idGoogle: DataTypes.STRING
     }, {});
 
     User.beforeSave((user, options) => {

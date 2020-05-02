@@ -82,7 +82,7 @@ router.post('/signin', function(req, res) {
                 }
             ]
         })
-        .then((user) => {
+        .then(user => {
             if (!user) {
                 return res.status(401).send({
                     message: 'Authentication failed. User not found.',
@@ -92,7 +92,6 @@ router.post('/signin', function(req, res) {
                 if (isMatch && !err) {
                     var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
                     var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
-                    console.log
                     jwt.verify(token, '***REMOVED-JWT-SECRET***', function(err, data) {
                         console.log(err, data);
                     });
@@ -103,7 +102,8 @@ router.post('/signin', function(req, res) {
                             return r.ratingCreator;
                         }
                     });
-                    const sumResponses = ratedResponses.reduce((prev, cur) => {
+                    user.responsesReviewsCount = ratedResponses.length;
+                    user.responsesReviewsSum = ratedResponses.reduce((prev, cur) => {
                         return prev + cur.ratingCreator;
                     }, 0);
 
@@ -121,35 +121,13 @@ router.post('/signin', function(req, res) {
                             h.responses.filter(r =>
                                 (r.ratingResponder)));
                     const flatArray = Array.prototype.concat.apply([], ratedHelpsResponses);
-                    const sumHelps = flatArray.reduce((prev, cur) => {
+
+                    user.helpsReviewsCount = ratedHelpsResponses.length;
+                    user.helpsReviewsSum = flatArray.reduce((prev, cur) => {
                         return prev + cur.ratingResponder;
                     }, 0);
 
-                    res.json({
-                        id: user.id,
-                        avatar: user.avatar,
-                        birthdate: user.birthdate,
-                        city: user.city,
-                        country: user.country,
-                        email: user.email,
-                        firstname: user.firstname,
-                        lastname: user.lastname,
-                        latitude: user.latitude,
-                        longitude: user.longitude,
-                        likehelps: user.likehelps,
-                        loginLocal: user.loginLocal,
-                        loginFacebook: user.loginFacebook,
-                        loginGoogle: user.loginGoogle,
-                        idFacebook: user.idFacebook,
-                        idGoogle: user.idGoogle,
-                        responsesReviewsCount: ratedResponses.length,
-                        responsesReviewsSum: sumResponses,
-                        helpsReviewsCount: ratedHelpsResponses.length,
-                        helpsReviewsSum: sumHelps,
-                        token: 'JWT ' + token,
-                        expiresIn: expiresIn,
-                        success: true
-                    });
+                    res.json(getLoggedUser(user, token, expiresIn));
                 } else {
                     res.status(401).send({
                         success: false,
@@ -170,9 +148,7 @@ router.post('/socialLogin', function(req, res) {
         res.status(400).send({ msg: 'Something goes wrong.' })
     } else {
         User.findOne({
-                where: {
-                    email: req.body.email
-                },
+                where: { email: req.body.email },
                 include: [{
                         required: false,
                         model: db.Help,
@@ -199,32 +175,34 @@ router.post('/socialLogin', function(req, res) {
                     }
                 ]
             })
-            .then((user) => {
+            .then(user => {
                 if (!user) {
+                    // new user
                     var randomstring = Math.random().toString(36).slice(-8);
-                    console.log(req.body, 'req.body')
-                    User
-                        .create({
+
+                    User.create({
                             email: req.body.email,
                             password: randomstring,
                             firstname: req.body.firstName,
                             lastname: req.body.lastName,
+                            idFacebook: req.body.provider === 'FACEBOOK' ? req.body.photoUrl : null,
+                            idGoogle: req.body.provider === 'GOOGLE' ? req.body.photoUrl : null,
                             loginFacebook: req.body.provider === 'FACEBOOK' ? true : false,
                             loginGoogle: req.body.provider === 'GOOGLE' ? true : false
                         })
-                        .then((user) => {
+                        .then(user => {
                             var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
                             var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
-                            res.json({ success: true, user: user, token: 'JWT ' + token, expiresIn: expiresIn });
+                            res.json(getLoggedUser(user, token, expiresIn));
                         })
-                        .catch((error) => {
+                        .catch(error => {
                             console.log(error)
                             res.status(400).send(error)
                         });
                 } else {
+                    // registered user
                     var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
                     var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
-
 
                     // sum reviews where user is responder
                     const ratedResponses = user.responses.filter(r => {
@@ -232,7 +210,8 @@ router.post('/socialLogin', function(req, res) {
                             return r.ratingCreator;
                         }
                     });
-                    const sumResponses = ratedResponses.reduce((prev, cur) => {
+                    user.responsesReviewsCount = ratedResponses.length;
+                    user.responsesReviewsSum = ratedResponses.reduce((prev, cur) => {
                         return prev + cur.ratingCreator;
                     }, 0);
 
@@ -250,34 +229,25 @@ router.post('/socialLogin', function(req, res) {
                             h.responses.filter(r =>
                                 (r.ratingResponder)));
                     const flatArray = Array.prototype.concat.apply([], ratedHelpsResponses);
-                    const sumHelps = flatArray.reduce((prev, cur) => {
+                    user.helpsReviewsCount = ratedHelpsResponses.length;
+                    user.helpsReviewsSum = flatArray.reduce((prev, cur) => {
                         return prev + cur.ratingResponder;
                     }, 0);
 
-                    res.json({
-                        id: user.id,
-                        avatar: user.avatar,
-                        birthdate: user.birthdate,
-                        city: user.city,
-                        country: user.country,
-                        email: user.email,
-                        firstname: user.firstname,
-                        lastname: user.lastname,
-                        latitude: user.latitude,
-                        longitude: user.longitude,
-                        likehelps: user.likehelps,
-                        loginLocal: user.loginLocal,
-                        loginFacebook: user.loginFacebook,
-                        loginGoogle: user.loginGoogle,
-                        responsesReviewsCount: ratedResponses.length,
-                        responsesReviewsSum: sumResponses,
-                        helpsReviewsCount: ratedHelpsResponses.length,
-                        helpsReviewsSum: sumHelps,
-
-                        success: true,
-                        token: 'JWT ' + token,
-                        expiresIn: expiresIn
-                    });
+                    if (req.body.provider === 'FACEBOOK' && (user.idFacebook === null || user.loginFacebook === null)) {
+                        // update with Facebook id
+                        user.update({ idFacebook: req.body.photoUrl, loginFacebook: true }).then(user => {
+                            res.json(getLoggedUser(user, token, expiresIn));
+                        });
+                    } else if (req.body.provider === 'GOOGLE' && (user.idGoogle === null || user.loginGoogle === null)) {
+                        // update with Google id
+                        user.update({ idGoogle: req.body.photoUrl, loginGoogle: true }).then(user => {
+                            res.json(getLoggedUser(user, token, expiresIn));
+                        });
+                    } else {
+                        // already updated
+                        res.json(getLoggedUser(user, token, expiresIn));
+                    }
                 }
             }).catch((error) => {
                 console.log(error)
@@ -285,6 +255,34 @@ router.post('/socialLogin', function(req, res) {
             })
     }
 });
+
+getLoggedUser = function(user, token, expiresIn) {
+    return {
+        id: user.id,
+        avatar: user.avatar,
+        birthdate: user.birthdate,
+        city: user.city,
+        country: user.country,
+        email: user.email,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        latitude: user.latitude,
+        longitude: user.longitude,
+        likehelps: user.likehelps,
+        loginLocal: user.loginLocal,
+        loginFacebook: user.loginFacebook,
+        loginGoogle: user.loginGoogle,
+        idFacebook: user.idFacebook,
+        idGoogle: user.idGoogle,
+        responsesReviewsCount: user.responsesReviewsCount,
+        responsesReviewsSum: user.responsesReviewsSum,
+        helpsReviewsCount: user.helpsReviewsCount,
+        helpsReviewsSum: user.helpsReviewsSum,
+        token: 'JWT ' + token,
+        expiresIn: expiresIn,
+        success: true
+    };
+}
 
 // Function to extract token
 getToken = function(headers) {

@@ -25,13 +25,13 @@ export class LoginComponent implements OnInit {
       private formBuilder: FormBuilder,
       private route: ActivatedRoute,
       private router: Router,
-      private localAuthService: AuthenticationService,
+      private authService: AuthenticationService,
       private alertService: AlertService,
       private socialAuthService: AuthService,
       private userService: UserService
   ) {
       // redirect to home if already logged in
-      if (this.localAuthService.currentUserValue) {
+      if (this.authService.currentUserValue) {
           this.router.navigate(['/']);
       }
   }
@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
       }
 
       this.loading = true;
-      this.localAuthService.login(this.f.email.value, this.f.password.value)
+      this.authService.login(this.f.email.value, this.f.password.value)
           .pipe(first())
           .subscribe(
               () => {
@@ -81,7 +81,7 @@ export class LoginComponent implements OnInit {
               console.log(this.socialUser, 'socialUser facebook');
           });
         }).then (() => {
-          this.localAuthService.socialLogin(this.socialUser)
+          this.authService.socialLogin(this.socialUser)
             .pipe(first())
             .subscribe(
                 () => {
@@ -112,7 +112,7 @@ export class LoginComponent implements OnInit {
             console.log(this.socialUser, 'socialUser google');
         });
       }).then (() => {
-        this.localAuthService.socialLogin(this.socialUser)
+        this.authService.socialLogin(this.socialUser)
           .pipe(first())
           .subscribe(
               () => {

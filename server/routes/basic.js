@@ -202,13 +202,15 @@ router.post('/socialLogin', function(req, res) {
             .then((user) => {
                 if (!user) {
                     var randomstring = Math.random().toString(36).slice(-8);
-                    console.log(req.body, 'req.body')
+
                     User
                         .create({
                             email: req.body.email,
                             password: randomstring,
                             firstname: req.body.firstName,
                             lastname: req.body.lastName,
+                            idFacebook: req.body.idSocial === 'FACEBOOK' ? req.idSocial : null,
+                            idGoogle: req.body.idSocial === 'GOOGLE' ? req.idSocial : null,
                             loginFacebook: req.body.provider === 'FACEBOOK' ? true : false,
                             loginGoogle: req.body.provider === 'GOOGLE' ? true : false
                         })
@@ -269,6 +271,8 @@ router.post('/socialLogin', function(req, res) {
                         loginLocal: user.loginLocal,
                         loginFacebook: user.loginFacebook,
                         loginGoogle: user.loginGoogle,
+                        idFacebook: user.idFacebook,
+                        idGoogle: user.idGoogle,
                         responsesReviewsCount: ratedResponses.length,
                         responsesReviewsSum: sumResponses,
                         helpsReviewsCount: ratedHelpsResponses.length,
@@ -302,3 +306,34 @@ getToken = function(headers) {
 
 // exports
 module.exports = router;
+
+
+{
+    authToken: "***REMOVED-FACEBOOK-TOKEN***"
+    email: "michelangelomarani88@gmail.com"
+    facebook: email: "michelangelomarani88@gmail.com"
+    first_name: "Michelangelo"
+    id: "10219490956097162"
+    last_name: "Marani"
+    name: "Michelangelo Marani"
+    picture: { data: {…} }
+    __proto__: Object
+    firstName: "Michelangelo"
+    id: "10219490956097162"
+    lastName: "Marani"
+    name: "Michelangelo Marani"
+    photoUrl: "https://graph.facebook.com/10219490956097162/picture?type=normal"
+    provider: "FACEBOOK"
+}
+
+{
+    authToken: "***REMOVED-GOOGLE-ACCESS-TOKEN***"
+    email: "michelangelomarani88@gmail.com"
+    firstName: "Michelangelo"
+    id: "106479016384997939438"
+    idToken: "***REMOVED-GOOGLE-ID-TOKEN***"
+    lastName: "Marani"
+    name: "Michelangelo Marani"
+    photoUrl: "https://lh3.googleusercontent.com/a-/AOh14Gg4nft3zvjDiY0zZlFz1l4ZvLl5CZPTr4_WFqqnXw=s96-c"
+    provider: "GOOGLE"
+}

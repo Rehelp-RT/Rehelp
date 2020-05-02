@@ -10,7 +10,7 @@
                     <div class="col-lg-12 col-md-6">
 
                         <figure class="overlay-wrapper rounded-circle mb-3">
-                            <img class="img-fluid" src="{{ user.avatar == null ? 'assets/img/avatar_512.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + user.avatar }}" alt="{{ user.firstname + ' ' + user.lastname }}" title="{{ user.firstname + ' ' + user.lastname }}">
+                            <img class="img-fluid" src="{{ getAvatar() }}" alt="{{ getFullname() }}">
                             <figcaption *ngIf="isOwner" class="overlay-panel overlay-black text-center">
                                 <a class="btn btn-lg btn-outline-secondary btn-circle mb-3" [routerLink]="['./upload-avatar/']">
                                     <fa-icon [icon]="['fas', 'camera']" size="lg"></fa-icon>

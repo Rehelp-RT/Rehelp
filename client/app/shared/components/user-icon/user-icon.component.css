@@ -1,0 +1,13 @@
+a {
+    display: inline-block;
+    padding: 8px 8px 8px 8px;
+}
+
+.img-avatar {
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.txt-avatar {
+    display: inline-block;
+}

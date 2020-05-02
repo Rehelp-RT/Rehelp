@@ -52,7 +52,6 @@ router.post('/signup', function(req, res) {
 
 // POST /api/signin
 router.post('/signin', function(req, res) {
-    console.log('req.body', req.body);
     User.findOne({
             where: {
                 email: req.body.email
@@ -85,7 +84,6 @@ router.post('/signin', function(req, res) {
             ]
         })
         .then(user => {
-            console.log('user', user);
             if (!user) {
                 return res.status(401).send({
                     message: 'Authentication failed. User not found.',

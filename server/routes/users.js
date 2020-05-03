@@ -9,7 +9,7 @@ const { Op, Sequelize } = require('sequelize');
 router.get('/', (req, res) => {
 
     //mt to km
-    var distance = req.query.distance * 1000;
+    var distance = req.query.distance !== undefined ? req.query.distance * 1000 : undefined;
     var latit = req.query.lat !== undefined ? parseFloat(req.query.lat) : undefined;
     var longit = req.query.long !== undefined ? parseFloat(req.query.long) : undefined;
 
@@ -30,6 +30,7 @@ router.get('/', (req, res) => {
             ]
         });
     }
+    console.log('filters', filters);
 
     db.User.findAll({
             attributes: [

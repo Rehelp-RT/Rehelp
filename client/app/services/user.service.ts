@@ -16,7 +16,7 @@ export class UserService {
         let params = '';
         params += distance != null ? 'distance=' + distance + '&' : '';
         params += lat != null ? 'lat=' + lat + '&' : '';
-        params += long != null ? 'long=' + long + '&' : '';
+        params += long != null ? 'long=' + long : '';
         if (params !== '') {
             params = '?' + params;
         }

@@ -14,17 +14,21 @@ export class UsersComponent implements OnInit {
   defaultDistance: Number[] = [0, 10, 20, 50, 100];
   public selectedDistance: Number;
   currentUser: User = null;
-  
+  lat: Number = null //this.currentUser.latitude //43.0554254;
+  long: Number = null //this.currentUser.longitude //13.4303147;
+
   constructor(private us: UserService,
     private as: AuthenticationService) {
-    this.getCurrentUser();
-   }
+    this.as.getCurrentUser()
+      .subscribe(x => {
+        this.currentUser = x;
+      });
+    this.lat = this.currentUser.latitude;
+    this.long = this.currentUser.longitude;
+  }
 
   ngOnInit() {
-    const lat = this.currentUser.latitude //43.0554254;
-    const long = this.currentUser.longitude //13.4303147;
-
-    this.us.getAll(this.distance, lat, long).subscribe((x) => {
+    this.us.getAll(this.distance, this.lat, this.long).subscribe((x) => {
       this.users = x;
     });
   }
@@ -42,11 +46,11 @@ export class UsersComponent implements OnInit {
     if (mold > mnew) {
       diff--;
     } else {
-        if (mold === mnew) {
-            if (dold > dnew) {
-              diff--;
-            }
+      if (mold === mnew) {
+        if (dold > dnew) {
+          diff--;
         }
+      }
     }
     return diff;
   }
@@ -55,7 +59,7 @@ export class UsersComponent implements OnInit {
     let count = 0;
     let sum = 0;
     user.helps.forEach(h => {
-      count ++;
+      count++;
       sum += h.responses[0].ratingResponder;
     });
     user.responses.forEach(r => {
@@ -67,13 +71,9 @@ export class UsersComponent implements OnInit {
 
   distanceSelected() {
     this.distance = this.selectedDistance;
-    console.log('selectedDistance :', this.selectedDistance);
-}
-
-getCurrentUser(): void {
-  this.as.getCurrentUser()
-    .subscribe(x => {
-      this.currentUser = x;
+    this.us.getAll(this.distance, this.lat, this.long).subscribe((x) => {
+      this.users = x;
     });
-}
+  }
+
 }

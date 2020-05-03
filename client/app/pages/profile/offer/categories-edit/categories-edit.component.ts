@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '@app/services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-categories-edit',
@@ -23,7 +24,8 @@ export class CategoriesEditComponent implements OnInit {
     constructor(
         public activeModal: NgbActiveModal,
         private userService: UserService,
-        private formBuilder: FormBuilder) { }
+        private formBuilder: FormBuilder,
+        private router: Router) { }
 
     ngOnInit(): void {
         this.form = this.formBuilder.group({
@@ -53,7 +55,9 @@ export class CategoriesEditComponent implements OnInit {
         console.log(selectedCategoryIds);
         this.userService.putCategories(this.idUser, selectedCategoryIds).subscribe(x => {
             console.log('success');
-            this.activeModal.close('Close click');
+            this.router.navigate(['/']).then(() => {
+                this.activeModal.dismiss();
+            });
         });
     }
 

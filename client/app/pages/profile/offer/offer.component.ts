@@ -24,6 +24,7 @@ export class OfferComponent implements OnInit {
 
     ngOnInit() {
         this.route.parent.params.subscribe(params => {
+            console.log('route changed');
             this.idProfile = params.id;
 
             this.isOwner = this.authService.currentUserValue.id == this.idProfile;

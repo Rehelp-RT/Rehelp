@@ -40,27 +40,13 @@ export class HelpsComponent implements OnInit {
   }
 
   checkAcceptedResponses(responses) {
-    return responses.some((response) => {
-      return response.accepted !== true;
-    });
+      return responses.some((response) => {
+          return response.accepted !== true;
+      });
   }
 
   likeHelpController() {
-    if (this.user) {
-      // number of user's likehelps
-      const userLikeHelp = this.user.likehelps;
-      // list of user's incompleted help
-      if (this.user.helps) {
-        const incompletedHelps = this.user.helps.filter(h => {
-          if (h.completed === false) {
-            return h;
-          }
-        })
-        // check if user has enough likehelps
-        const checkLikeHelps = userLikeHelp - incompletedHelps.length > 0 ? true : false;
-        return checkLikeHelps;
-      };
-    }
+      return this.currentUser.likehelps > 0;
   }
 
   /*

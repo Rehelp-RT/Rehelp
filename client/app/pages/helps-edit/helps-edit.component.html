@@ -42,7 +42,10 @@
 
                         <div class="row mb-3">
                             <label class="col-lg-4" for="category">immagine</label>
-                            <div class="col-lg-8" [hidden]="imageUploaded"><img src="{{ model.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + model.image }}" alt="{{ model.title }} image" width="100%" class="help-img"></div>
+                            <div class="col-lg-8" [hidden]="imageUploaded">
+                                <p>{{ idCat1 }} - {{ idCat2 }} - {{ idCat3 }}</p>
+                                <img src="{{ model.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + model.image }}" alt="{{ model.title }} image" width="100%" class="help-img">
+                            </div>
                         </div>
 
                         <div class="form-row mb-3">

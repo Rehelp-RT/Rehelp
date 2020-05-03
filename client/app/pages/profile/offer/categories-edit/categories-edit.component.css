@@ -1,7 +1,15 @@
-.cat {
+label {
+    display: block;
+    padding: 4px;
+    margin: 0px;
     border-bottom: 1px solid #e0e0e0;
 }
 
-.cat label {
-    display: block;
+label:hover {
+    background-color: #f0f0f0;
+}
+
+input {
+    padding: 0px;
+    margin: 0px;
 }

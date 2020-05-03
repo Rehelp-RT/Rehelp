@@ -11,8 +11,19 @@ import { map } from 'rxjs/operators';
 export class UserService {
     constructor(private http: HttpClient) { }
 
-    getAll() {
-        return this.http.get<User[]>(`${environment.apiUrl}/users`);
+    getAll(category = null, distance = null, lat = null, long = null) {
+        
+        let params = '';
+        params += category != null ? 'category=' + category + '&' : '';
+        params += distance != null ? 'distance=' + distance + '&' : '';
+        params += lat != null ? 'lat=' + lat + '&' : '';
+        params += long != null ? 'long=' + long : '';
+        if (params !== '') {
+            params = '?' + params;
+        }
+        console.log('params', params);
+
+        return this.http.get<User[]>(`${environment.apiUrl}/users${params}`);
     }
 
     getById(id: number) {
@@ -40,7 +51,7 @@ export class UserService {
     }
 
     uploadAvatar(id: number, path: string) {
-      return this.http.put<User>(`${environment.apiUrl}/users/${id}/upload-avatar`, { path });
+        return this.http.put<User>(`${environment.apiUrl}/users/${id}/upload-avatar`, { path });
     }
 
     delete(id: number) {

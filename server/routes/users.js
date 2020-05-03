@@ -3,10 +3,40 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 require('../config/passport')(passport);
 const db = require('../models');
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 
 // GET /api/users
 router.get('/', (req, res) => {
+
+    //mt to km
+    var distance = req.query.distance !== undefined ? req.query.distance * 1000 : undefined;
+    var latit = req.query.lat !== undefined ? parseFloat(req.query.lat) : undefined;
+    var longit = req.query.long !== undefined ? parseFloat(req.query.long) : undefined;
+
+    var category = null;
+    if (req.query.category !== undefined){
+        category = req.query.category;
+    }
+    var filters = [];
+    if (distance !== undefined && longit !== undefined && latit !== undefined) {
+        filters.push({
+            [Op.and]: [
+                Sequelize.fn(
+                    //https://postgis.net/docs/ST_DWithin.html
+                    'ST_DWithin',
+                    // https://postgis.net/docs/ST_MakePoint.html
+                    Sequelize.fn('ST_MakePoint', Sequelize.col('User.longitude'), Sequelize.col('User.latitude')),
+                    Sequelize.fn('ST_MakePoint', longit, latit),
+                    distance,
+                    true
+                )
+            ]
+        });
+    }
+    
+    console.log('req.query.category', req.query.category);
+    console.log('filters', filters);
+
     db.User.findAll({
             attributes: [
                 'id',
@@ -21,10 +51,11 @@ router.get('/', (req, res) => {
                 'birthdate',
                 'loginLocal',
                 'loginFacebook',
-                'loginGoogle',
-                'idFacebook',
-                'idGoogle'
+                'loginGoogle'
             ],
+            where: {
+                [Op.and]: filters
+            },
             include: [{
                     required: false,
                     model: db.Help,
@@ -47,6 +78,15 @@ router.get('/', (req, res) => {
                     as: 'responses',
                     where: {
                         [Op.not]: { ratingCreator: null }
+                    }
+                },
+                {
+                    required: category != null ? true : false,
+                    model: db.HelpCategory,
+                    attributes: ['id'],
+                    as: 'categories',
+                    where: {
+                        [Op.and]: {id: category}
                     }
                 }
             ]
@@ -171,7 +211,7 @@ router.put('/:id/update', function(req, res) {
         res.sendStatus(400)
     } else {
         db.User.findByPk(req.params.id)
-            .then(function(user) {
+            .then(function (user) {
                 // Check if record exists in db
                 if (user) {
                     user.update({
@@ -213,23 +253,23 @@ router.put('/:id/upload-avatar', (req, res) => {
 // GET /api/users/5/categories
 router.get('/:id/categories', (req, res) => {
     db.User.findByPk(req.params.id, {
-            attributes: ['id'],
+        attributes: ['id'],
+        include: [{
+            as: 'categories',
+            model: db.HelpCategory,
+            attributes: ['id', 'code', 'name'],
             include: [{
-                as: 'categories',
-                model: db.HelpCategory,
                 attributes: ['id', 'code', 'name'],
+                model: db.HelpCategory,
+                as: 'parent',
                 include: [{
                     attributes: ['id', 'code', 'name'],
                     model: db.HelpCategory,
-                    as: 'parent',
-                    include: [{
-                        attributes: ['id', 'code', 'name'],
-                        model: db.HelpCategory,
-                        as: 'parent'
-                    }]
+                    as: 'parent'
                 }]
             }]
-        })
+        }]
+    })
         .then(user => {
             if (!user) {
                 return res.status(404).send({

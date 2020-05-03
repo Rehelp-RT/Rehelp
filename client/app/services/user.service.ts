@@ -11,9 +11,10 @@ import { map } from 'rxjs/operators';
 export class UserService {
     constructor(private http: HttpClient) { }
 
-    getAll(distance = null, lat = null, long = null) {
-
+    getAll(category = null, distance = null, lat = null, long = null) {
+        
         let params = '';
+        params += category != null ? 'category=' + category + '&' : '';
         params += distance != null ? 'distance=' + distance + '&' : '';
         params += lat != null ? 'lat=' + lat + '&' : '';
         params += long != null ? 'long=' + long : '';

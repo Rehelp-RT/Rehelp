@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '@app/models';
-import { UserService, AuthenticationService } from '@app/services';
+import { User, HelpCategory } from '@app/models';
+import { UserService, AuthenticationService, CategoryService } from '@app/services';
 
 @Component({
   selector: 'app-users',
@@ -10,25 +10,38 @@ import { UserService, AuthenticationService } from '@app/services';
 export class UsersComponent implements OnInit {
 
   users: User[] = [];
-  distance: Number = null;
   defaultDistance: Number[] = [0, 10, 20, 50, 100];
-  public selectedDistance: Number;
+  public selectedDistance: Number = null;
   currentUser: User = null;
-  lat: Number = null //this.currentUser.latitude //43.0554254;
-  long: Number = null //this.currentUser.longitude //13.4303147;
+
+  //distance
+  lat: Number = null
+  long: Number = null
+  
+  // category
+  categories: HelpCategory[] = [];
+  public idCat1 = null;
 
   constructor(private us: UserService,
-    private as: AuthenticationService) {
+    private as: AuthenticationService,
+    private cs: CategoryService) { 
+
     this.as.getCurrentUser()
       .subscribe(x => {
         this.currentUser = x;
       });
+
     this.lat = this.currentUser.latitude;
     this.long = this.currentUser.longitude;
+
+    this.cs.getAll().subscribe(x => {
+      this.categories = x;
+    });
   }
 
   ngOnInit() {
-    this.us.getAll(this.distance, this.lat, this.long).subscribe((x) => {
+    console.log('this.selectedDistance', this.selectedDistance);
+    this.us.getAll(this.idCat1, this.selectedDistance, this.lat, this.long).subscribe((x) => {
       this.users = x;
     });
   }
@@ -69,9 +82,9 @@ export class UsersComponent implements OnInit {
     return sum / count;
   }
 
-  distanceSelected() {
-    this.distance = this.selectedDistance;
-    this.us.getAll(this.distance, this.lat, this.long).subscribe((x) => {
+  filter() {
+    console.log('idCat1' , this.idCat1)
+    this.us.getAll(this.idCat1, this.selectedDistance, this.lat, this.long).subscribe((x) => {
       this.users = x;
     });
   }

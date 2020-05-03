@@ -13,8 +13,11 @@ router.get('/', (req, res) => {
     var latit = req.query.lat !== undefined ? parseFloat(req.query.lat) : undefined;
     var longit = req.query.long !== undefined ? parseFloat(req.query.long) : undefined;
 
+    var category = null;
+    if (req.query.category !== undefined){
+        category = req.query.category;
+    }
     var filters = [];
-
     if (distance !== undefined && longit !== undefined && latit !== undefined) {
         filters.push({
             [Op.and]: [
@@ -30,6 +33,8 @@ router.get('/', (req, res) => {
             ]
         });
     }
+    
+    console.log('req.query.category', req.query.category);
     console.log('filters', filters);
 
     db.User.findAll({
@@ -73,6 +78,15 @@ router.get('/', (req, res) => {
                     as: 'responses',
                     where: {
                         [Op.not]: { ratingCreator: null }
+                    }
+                },
+                {
+                    required: category != null ? true : false,
+                    model: db.HelpCategory,
+                    attributes: ['id'],
+                    as: 'categories',
+                    where: {
+                        [Op.and]: {id: category}
                     }
                 }
             ]

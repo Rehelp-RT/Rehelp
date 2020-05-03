@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '@environments/environment';
-import { User, HelpCategory } from '@app/models';
-
-import { SocialUser } from 'angularx-social-login';
-import { map } from 'rxjs/operators';
+import { User } from '@app/models';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {

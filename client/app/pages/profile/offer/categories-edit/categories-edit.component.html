@@ -7,7 +7,7 @@
 <div class="modal-body">
 
     <form [formGroup]="form" (ngSubmit)="submit()">
-        <div class="checkbox m-0 p-0" formArrayName="categories" *ngFor="let category of form.controls.categories.controls; let i = index">
+        <div class="checkbox m-0 p-0" formArrayName="categories" *ngFor="let category of getFormCategories(); let i = index">
             <label>
                 <input class="mr-3" type="checkbox" [formControlName]="i" [checked]="categoriesData[i].checked">
                 <app-categories [category]="categoriesData[i]"></app-categories>

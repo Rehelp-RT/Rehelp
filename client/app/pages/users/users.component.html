@@ -11,15 +11,15 @@
                         <label>Distanza (km):</label>
                         <div>
                             <select class="form-control" [(ngModel)]="selectedDistance" name="selectedDistance" (change)="filter()">
-                                <option [ngValue]="null"></option>
+                                <option [ngValue]="null">--TUTTI--</option>
                                 <option *ngFor="let dis of defaultDistance">{{ dis }}</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group mb-3">
                         <label>Categoria:</label>
-                        <select class="form-control mb-1" [(ngModel)]="idCat1" name="idCat1">
-                            <option [ngValue]="null"></option>
+                        <select class="form-control mb-1" [(ngModel)]="idCat1" name="idCat1" (change)="filter()">
+                            <option [ngValue]="null">--TUTTE--</option>
                             <option *ngFor="let cat of categories" [value]="cat.id">
                                 {{ cat.name }}
                             </option>

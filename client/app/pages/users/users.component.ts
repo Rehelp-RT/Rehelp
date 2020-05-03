@@ -10,7 +10,7 @@ import { UserService, AuthenticationService, CategoryService } from '@app/servic
 export class UsersComponent implements OnInit {
 
   users: User[] = [];
-  defaultDistance: Number[] = [0, 10, 20, 50, 100];
+  defaultDistance: Number[] = [10, 20, 50, 100];
   public selectedDistance = null;
   currentUser: User = null;
 

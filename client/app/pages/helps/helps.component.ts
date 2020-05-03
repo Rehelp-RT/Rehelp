@@ -17,18 +17,18 @@ export class HelpsComponent implements OnInit {
     private hs: HelpService,
     private as: AuthenticationService,
     private us: UserService) {
-      this.getCurrentUser();
-    }
+    this.getCurrentUser();
+  }
 
   ngOnInit() {
     const type = 'MEH';
     const excludeUserId = this.currentUser.id;
     const accepted = false;
     this.hs.getAll(type, excludeUserId, accepted).subscribe(x => {
-        this.helps = x;
+      this.helps = x;
     });
     this.us.getById(excludeUserId).subscribe(x => {
-        this.user = x;
+      this.user = x;
     });
   }
 
@@ -50,14 +50,16 @@ export class HelpsComponent implements OnInit {
       // number of user's likehelps
       const userLikeHelp = this.user.likehelps;
       // list of user's incompleted help
-      const incompletedHelps = this.user.helps.filter(h => {
-        if (h.completed === false) {
-          return h;
-        }
-      });
-      // check if user has enough likehelps
-      const checkLikeHelps = userLikeHelp - incompletedHelps.length > 0 ? true : false;
-      return checkLikeHelps;
+      if (this.user.helps) {
+        const incompletedHelps = this.user.helps.filter(h => {
+          if (h.completed === false) {
+            return h;
+          }
+        })
+        // check if user has enough likehelps
+        const checkLikeHelps = userLikeHelp - incompletedHelps.length > 0 ? true : false;
+        return checkLikeHelps;
+      };
     }
   }
 

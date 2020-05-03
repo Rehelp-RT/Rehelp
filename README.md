@@ -3,7 +3,7 @@
 ## Quick running app
 
 * `npm install`
-* `createdb` (first time only)
+* `createdb rehelp` (first time only)
 * `npm run dev`
 * navigate to `http://localhost:4200`
 
@@ -49,6 +49,7 @@ For migration command look QueryInterface documentation: <https://sequelize.org/
 * `brew install postgresql`
 * start it with `brew services start postgresql`, stop it with `brew services stop postgresql`
 * run cli with `psql` or `psql postgres` to select the user (named "postgres" in this example)
+* `ALTER DATABASE rehelp OWNER TO postgres;`
 
 ### Postgresql Commands
 

@@ -11,7 +11,7 @@ export class UsersComponent implements OnInit {
 
   users: User[] = [];
   defaultDistance: Number[] = [0, 10, 20, 50, 100];
-  public selectedDistance: Number = null;
+  public selectedDistance = null;
   currentUser: User = null;
 
   //distance
@@ -21,6 +21,8 @@ export class UsersComponent implements OnInit {
   // category
   categories: HelpCategory[] = [];
   public idCat1 = null;
+  public idCat2 = null;
+  public idCat3 = null;
 
   constructor(private us: UserService,
     private as: AuthenticationService,
@@ -40,7 +42,7 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.us.getAll(this.idCat1, this.selectedDistance, this.lat, this.long).subscribe((x) => {
+    this.us.getAll().subscribe((x) => {
       this.users = x;
     });
   }
@@ -82,8 +84,8 @@ export class UsersComponent implements OnInit {
   }
 
   filter() {
-    console.log('idCat1' , this.idCat1)
-    this.us.getAll(this.idCat1, this.selectedDistance, this.lat, this.long).subscribe((x) => {
+    var cat = this.idCat3 != null ? this.idCat3 : this.idCat2;
+    this.us.getAll(cat, this.selectedDistance, this.lat, this.long).subscribe((x) => {
       this.users = x;
     });
   }

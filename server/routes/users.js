@@ -250,52 +250,126 @@ router.get('/:id/categories', (req, res) => {
         });
 });
 
-// POST /api/user/5/category
-router.post('/:id/category', (req, res) => {
+// GET /api/users/5/categories2
+router.get('/:id/categories2', (req, res) => {
+    db.Categories_Users.findAll({
+            attributes: ['idCategory'],
+            where: { idUser: req.params.id }
+        })
+        .then(cu => {
+            if (!cu) {
+                return res.status(404).send({
+                    message: "User not found with id " + req.params.id
+                });
+            } else {
+                db.HelpCategory.findAll({
+                        attributes: ['id', 'code', 'name'],
+                        where: { code: null },
+                        include: [{
+                            attributes: ['id', 'code', 'name'],
+                            model: db.HelpCategory,
+                            as: 'parent',
+                            include: [{
+                                attributes: ['id', 'code', 'name'],
+                                model: db.HelpCategory,
+                                as: 'parent'
+                            }]
+                        }]
+                    })
+                    .then(cats => {
+                        const idUserCategories = cu.map(x => x.idCategory);
+                        res.json(cats.map(x => {
+                            return {
+                                id: x.id,
+                                code: x.code,
+                                name: x.name,
+                                parent: x.parent,
+                                checked: idUserCategories.includes(x.id)
+                            }
+                        }))
+                    })
+            }
+        }).catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: "User not found with id " + req.params.id
+                });
+            }
+            return res.status(500).send({
+                message: "Error retrieving user with id " + req.params.id,
+                error: err
+            });
+        });
+});
+
+// PUT /api/user/5/categories
+router.put('/:id/categories', (req, res) => {
     const body = req.body;
-    if (body == undefined || body.idCategory == undefined) {
+    console.log(body);
+    if (body == undefined || body.length == 0) {
         res.sendStatus(400)
     } else {
+        const requestedIds = body;
+        const idUser = req.params.id;
+
         // find user
-        db.User.findByPk(req.params.id).then(function(user) {
-            db.HelpCategory.findByPk(body.idCategory).then((category) => {
-                if (user && category) {
-                    // user and category exist
-                    db.Categories_Users.findOne({
-                            where: {
-                                [Op.and]: [{ idCategory: category.id }, { idUser: user.id }]
+        db.User.findByPk(idUser).then(function(user) {
+            if (!user) {
+                res.status(404).send('User not found');
+            } else {
+                // exclude already inserted categories
+                db.Categories_Users.findAll({
+                        where: { idUser: user.id }
+                    })
+                    .then(cu => {
+                        const existingIds = cu.map(x => x.idCategory);
+                        const removableIds = [];
+                        const insertableIds = [];
+
+                        existingIds.forEach(id => {
+                            if (!requestedIds.includes(id)) {
+                                removableIds.push(id);
                             }
-                        })
-                        .then(catUser => {
-                            if (catUser) {
-                                // conflict
-                                res.sendStatus(409)
-                            } else {
-                                // insert
-                                db.Categories_Users.create({
-                                        idCategory: category.id,
-                                        idUser: user.id
+                        });
+                        requestedIds.forEach(id => {
+                            if (!existingIds.includes(id)) {
+                                insertableIds.push({ idCategory: id, idUser: idUser });
+                            }
+                        });
+
+                        // insert missing categoryIds
+                        db.Categories_Users.bulkCreate(insertableIds, { individualHooks: true })
+                            .then(inserted => {
+                                // remove not requested categories
+                                db.Categories_Users.destroy({
+                                        where: {
+                                            [Op.and]: [{
+                                                idCategory: removableIds
+                                            }, {
+                                                idUser: idUser
+                                            }]
+                                        },
+                                        individualHooks: true
                                     })
-                                    .then(cu => {
-                                        // inserted
-                                        res.status(201).send(cu)
+                                    .then(removed => {
+                                        res.status(200).json({ inserted: inserted.length, removed: removed });
                                     })
                                     .catch(err => {
                                         console.error(err);
-                                        res.status(500).send(err.message)
+                                        res.status(500).send('error while removing')
                                     });
-                            }
-                        })
-                        .catch(err => {
-                            console.error(err);
-                            res.status(500).send(err.message)
-                        });
-                } else {
-                    // user not found
-                    res.sendStatus(404);
-                }
-            })
-        })
+                            })
+                            .catch(err => {
+                                console.error(err);
+                                res.status(500).send('error while inserting')
+                            });
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        res.status(500).send(err.message)
+                    });
+            }
+        });
     }
 });
 

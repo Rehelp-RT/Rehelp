@@ -14,6 +14,7 @@ export class OfferComponent implements OnInit {
 
     categories: HelpCategory[] = [];
     isOwner = false;
+    idProfile: number;
 
     constructor(
         private route: ActivatedRoute,
@@ -23,11 +24,11 @@ export class OfferComponent implements OnInit {
 
     ngOnInit() {
         this.route.parent.params.subscribe(params => {
-            const idProfile = params.id;
+            this.idProfile = params.id;
 
-            this.isOwner = this.authService.currentUserValue.id == idProfile;
+            this.isOwner = this.authService.currentUserValue.id == this.idProfile;
 
-            this.userService.getCategories(idProfile).subscribe(x => {
+            this.userService.getCategories(this.idProfile).subscribe(x => {
                 if (x.categories && x.categories.length > 0) {
                     this.categories = x.categories;
                 }
@@ -35,9 +36,9 @@ export class OfferComponent implements OnInit {
         });
     }
 
-    open(userCategories: HelpCategory[]) {
+    open() {
         const modalRef = this.modalService.open(CategoriesEditComponent, { size: 'lg', backdrop: 'static' });
-        modalRef.componentInstance.userChoices = userCategories.map(x => x.id);
+        modalRef.componentInstance.idUser = this.idProfile;
     }
 
 }

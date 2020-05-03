@@ -40,6 +40,9 @@ export class NotificationsComponent implements OnInit {
           this.notifications = res;
       });
     }
+  console.log('notifications',this.notifications);
+  console.log('notificationsNumber',this.notificationsNumber);
+
   }
 
   navigate(id: number) {

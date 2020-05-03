@@ -18,8 +18,13 @@
                 </ul>
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item" *ngIf="!currentUser" routerLinkActive="active">
-                        <a class="nav-link btn btn-outline-secondary" routerLink="/login">Accedi</a>
+                        <a class="nav-link btn btn-outline-secondary mr-2" routerLink="/login">Accedi</a>
                     </li>
+
+                    <li class="nav-item" *ngIf="!currentUser" routerLinkActive="active">
+                      <a class="nav-link btn btn-outline-secondary" routerLink="/register">Registrati</a>
+                    </li>
+
                     <app-notifications [currentUser]="currentUser"></app-notifications>
 
                     <li class="nav-item" *ngIf="currentUser">

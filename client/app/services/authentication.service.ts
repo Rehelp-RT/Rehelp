@@ -25,6 +25,16 @@ export class AuthenticationService {
         return this.currentUser;
       }
 
+    public register(user: User) {
+        return this.http.post<any>(`${environment.apiUrl}/signup`, user)
+        .pipe(map(newUser => {
+          if (newUser && newUser.token) {
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+            this.currentUserSubject.next(newUser);
+          }
+        }));
+    }
+
     public login(email: string, password: string) {
         return this.http.post<any>(`${environment.apiUrl}/signin`, { email, password })
             .pipe(map(user => {
@@ -50,6 +60,11 @@ export class AuthenticationService {
             }
             return user;
         }));
+    }
+
+    public sendRecaptchaToken(token) {
+      console.log(token, 'token');
+      return this.http.post<any>(`${environment.apiUrl}/recaptcha_token_validate`, {recaptcha: token});
     }
 
     public refresh(user: User) {

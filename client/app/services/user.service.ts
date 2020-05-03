@@ -23,10 +23,6 @@ export class UserService {
         return this.http.get<User>(`${environment.apiUrl}/users/${id}/categories`);
     }
 
-    register(user: User) {
-        return this.http.post(`${environment.apiUrl}/signup`, user);
-    }
-
     update(user: User) {
         return this.http.put<User>(`${environment.apiUrl}/users/${user.id}/update`, user);
     }

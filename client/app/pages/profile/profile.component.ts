@@ -73,6 +73,10 @@ export class ProfileComponent implements OnInit {
     }
 
     getReviews(): number {
-      return (this.user.responsesReviewsCount + this.user.helpsReviewsCount);
+      if (isNaN(this.user.responsesReviewsCount + this.user.helpsReviewsCount)) {
+        return 0;
+      } else {
+        return (this.user.responsesReviewsCount + this.user.helpsReviewsCount);
+      }
     }
 }

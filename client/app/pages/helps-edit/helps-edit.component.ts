@@ -110,7 +110,7 @@ export class HelpsEditComponent implements OnInit {
         const autocomplete = new google.maps.places.Autocomplete(
           this.searchElementRef.nativeElement, {
             types: ['address']
-          }          
+          }
         );
 
         autocomplete.addListener('place_changed', () => {
@@ -127,7 +127,7 @@ export class HelpsEditComponent implements OnInit {
             this.model.latitude = place.geometry.location.lat();
             this.model.longitude = place.geometry.location.lng();
             this.zoom = 12;
-            this.getAddress(this.model.latitude,this.model.longitude);
+            this.getAddress(this.model.latitude, this.model.longitude);
           });
         });
       }, 500);
@@ -285,13 +285,13 @@ export class HelpsEditComponent implements OnInit {
       }
     }
   }
-  
+
   markerDragEnd($event: MouseEvent) {
     this.model.latitude = $event.coords.lat;
     this.model.longitude = $event.coords.lng;
     this.getAddress(this.model.latitude, this.model.longitude);
   }
-    
+
   getAddress(latitude, longitude) {
     if (this.geoCoder) {
       this.geoCoder.geocode(

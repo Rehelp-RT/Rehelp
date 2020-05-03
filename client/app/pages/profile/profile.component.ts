@@ -45,7 +45,7 @@ export class ProfileComponent implements OnInit {
         }, {});
     }
 
-    public getAge(birthdate): number {
+    getAge(birthdate): number {
         const datenew = new Date();
         const dateold = new Date(birthdate);
         const ynew = datenew.getFullYear();
@@ -65,6 +65,22 @@ export class ProfileComponent implements OnInit {
             }
         }
         return diff;
+    }
+
+    getFullname() {
+        return this.user.firstname + ' ' + this.user.lastname;
+    }
+
+    getAvatar() {
+        if (this.user.avatar != null) {
+            return 'https://res.cloudinary.com/hwbyvepex/image/upload/' + this.user.avatar;
+        } else if (this.user.loginFacebook && this.user.idFacebook) {
+            return this.user.idFacebook;
+        } else if (this.user.loginGoogle && this.user.idGoogle) {
+            return this.user.idGoogle;
+        } else {
+            return 'assets/img/avatar_512.png';
+        }
     }
 
     getAverage(): number {

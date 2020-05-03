@@ -264,6 +264,7 @@ getLoggedUser = function(user, token, expiresIn) {
         birthdate: user.birthdate,
         city: user.city,
         country: user.country,
+        description: user.description,
         email: user.email,
         firstname: user.firstname,
         lastname: user.lastname,

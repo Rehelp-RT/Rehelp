@@ -48,6 +48,10 @@ export class CategoriesEditComponent implements OnInit {
         });
     }
 
+    getFormCategories() {
+        return (this.form.get('categories') as FormArray).controls;
+    }
+
     submit() {
         const selectedCategoryIds = this.form.value.categories
             .map((v, i) => v ? this.categoriesData[i].id : null)

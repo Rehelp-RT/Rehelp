@@ -178,6 +178,7 @@ router.put('/:id/update', function(req, res) {
                             birthdate: body.birthdate,
                             city: body.city,
                             country: body.country,
+                            description: body.description,
                             email: body.email,
                             firstname: body.firstname,
                             lastname: body.lastname,

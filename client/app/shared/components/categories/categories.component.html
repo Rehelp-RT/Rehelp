@@ -1,5 +1,3 @@
-<div>
-    <span class="badge badge-secondary mr-1" *ngIf="category.parent.parent" [ngClass]="{ 'cat-help': category.parent.parent.code === 'JOB', 'cat-teach': category.parent.parent.code === 'TEA', 'cat-hobby': category.parent.parent.code === 'HOB' }">{{ category?.parent?.parent?.name }}</span>
-    <span class="badge badge-secondary mr-1" *ngIf="category.parent" [ngClass]="{ 'cat-help': category.parent.code === 'JOB', 'cat-teach': category.parent.code === 'TEA', 'cat-hobby': category.parent.code === 'HOB' }">{{ category?.parent?.name }}</span>
-    <span class="badge badge-secondary" [ngClass]="{ 'cat-help': category.code === 'JOB', 'cat-teach': category.code === 'TEA', 'cat-hobby': category.code === 'HOB' }">{{ category?.name }}</span>
-</div>
+<span class="badge badge-secondary mr-1" *ngIf="category.parent.parent" [ngClass]="{ 'cat-help': category.parent.parent.code === 'JOB', 'cat-teach': category.parent.parent.code === 'TEA', 'cat-hobby': category.parent.parent.code === 'HOB' }">{{ category?.parent?.parent?.name }}</span>
+<span class="badge badge-secondary mr-1" *ngIf="category.parent" [ngClass]="{ 'cat-help': category.parent.code === 'JOB', 'cat-teach': category.parent.code === 'TEA', 'cat-hobby': category.parent.code === 'HOB' }">{{ category?.parent?.name }}</span>
+<span class="badge badge-secondary" [ngClass]="{ 'cat-help': category.code === 'JOB', 'cat-teach': category.code === 'TEA', 'cat-hobby': category.code === 'HOB' }">{{ category?.name }}</span>

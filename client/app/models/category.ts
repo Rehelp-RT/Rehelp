@@ -4,4 +4,5 @@ export class HelpCategory {
     name: string;
     parent: HelpCategory;
     children: HelpCategory[];
+    checked: boolean;
 }

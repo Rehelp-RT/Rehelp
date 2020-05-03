@@ -34,6 +34,14 @@ export class UserService {
         return this.http.get<User>(`${environment.apiUrl}/users/${id}/categories`);
     }
 
+    getCategories2(id: number) {
+        return this.http.get<HelpCategory[]>(`${environment.apiUrl}/users/${id}/categories2`);
+    }
+
+    putCategories(idUser: number, idCategories: number[]) {
+      return this.http.put(`${environment.apiUrl}/users/${idUser}/categories`, idCategories);
+    }
+
     register(user: User) {
         return this.http.post(`${environment.apiUrl}/signup`, user);
     }

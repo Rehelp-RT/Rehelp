@@ -40,7 +40,6 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('this.selectedDistance', this.selectedDistance);
     this.us.getAll(this.idCat1, this.selectedDistance, this.lat, this.long).subscribe((x) => {
       this.users = x;
     });

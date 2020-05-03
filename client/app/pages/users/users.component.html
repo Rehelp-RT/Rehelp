@@ -1,12 +1,16 @@
 <section class="py-3">
-    <div class="container">
-        <div class="form-row mb-3">
+    <div class="form-inline">
+        <div class="form-group" style="width: 20%;">
+            <label>Distanza (km) dalla tua posizione attuale:</label>
             <select class="form-control mb-3" [(ngModel)]="selectedDistance" (change)="filter()">
+                <option [ngValue]="null"></option>
                 <option *ngFor="let dis of defaultDistance">{{ dis }}</option>
             </select>
         </div>
-        <div class="form-row mb-3">
+        <div class="form-group" style="width: 20%;">
+            <label>Categoria:</label>
             <select class="form-control mb-3" [(ngModel)]="idCat1" name="idCat1" (change)="filter()">
+                <option [ngValue]="null"></option>
                 <option *ngFor="let cat of categories" [value]="cat.id">
                     {{ cat.name }}
                 </option>

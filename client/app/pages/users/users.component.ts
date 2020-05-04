@@ -42,7 +42,7 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.us.getAll().subscribe((x) => {
+    this.us.getAll(this.currentUser.id).subscribe((x) => {
       this.users = x;
     });
   }
@@ -85,7 +85,7 @@ export class UsersComponent implements OnInit {
 
   filter() {
     var cat = this.idCat3 != null ? this.idCat3 : this.idCat2;
-    this.us.getAll(cat, this.selectedDistance, this.lat, this.long).subscribe((x) => {
+    this.us.getAll(this.currentUser.id, cat, this.selectedDistance, this.lat, this.long).subscribe((x) => {
       this.users = x;
     });
   }

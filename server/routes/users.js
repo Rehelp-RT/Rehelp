@@ -33,6 +33,11 @@ router.get('/', (req, res) => {
             ]
         });
     }
+    if (req.query.excludeUserId !== undefined) {
+        filters.push({
+            [Op.not]: { id: req.query.excludeUserId }
+        });
+    } 
     
     console.log('req.query.category', req.query.category);
     console.log('filters', filters);

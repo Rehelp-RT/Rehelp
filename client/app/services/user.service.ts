@@ -8,9 +8,13 @@ import { User, HelpCategory } from '@app/models';
 export class UserService {
     constructor(private http: HttpClient) { }
 
-    getAll(category = null, distance = null, lat = null, long = null) {
+    getAll(excludeUserId = null, category = null, distance = null, lat = null, long = null) {
 
         let params = '';
+        params += excludeUserId != null ? 'excludeUserId=' + excludeUserId : '';
+        if(category != null || distance != null || lat != null || long != null){
+            params += '&';
+        }
         params += category != null ? 'category=' + category + '&' : '';
         params += distance != null ? 'distance=' + distance + '&' : '';
         params += lat != null ? 'lat=' + lat + '&' : '';

@@ -20,7 +20,7 @@ export class UserIconComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {
-        console.log(this.showName);
+        //console.log(this.showName);
     }
 
     getFullname() {

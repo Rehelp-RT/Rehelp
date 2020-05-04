@@ -12,7 +12,7 @@ export class UserService {
     constructor(private http: HttpClient) { }
 
     getAll(category = null, distance = null, lat = null, long = null) {
-        
+
         let params = '';
         params += category != null ? 'category=' + category + '&' : '';
         params += distance != null ? 'distance=' + distance + '&' : '';

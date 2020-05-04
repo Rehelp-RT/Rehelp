@@ -7,7 +7,7 @@ const { Op, Sequelize } = require('sequelize');
 
 // GET /api/users
 router.get('/', (req, res) => {
-
+    
     //mt to km
     var distance = req.query.distance !== undefined ? req.query.distance * 1000 : undefined;
     var latit = req.query.lat !== undefined ? parseFloat(req.query.lat) : undefined;

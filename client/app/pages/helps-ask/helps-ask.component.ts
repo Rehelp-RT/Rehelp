@@ -295,7 +295,7 @@ export class HelpsAskComponent implements OnInit {
     // category
     this.model.idCategory = this.idCat3 != null ? this.idCat3 : this.idCat2;
 
-    this.acceptResponse();
+    this.addHelpPromise();
   }
 
   addHelp() {
@@ -307,29 +307,27 @@ export class HelpsAskComponent implements OnInit {
         this.response.idResponder = this.userToAsk.id;
         this.response.help = x;
         this.response.idHelp = x.id;
-        console.log('help', x);
+        this.response.message = "Ti aiuto io";
       },
         err => {
           console.log('errore addHelp', err);
         }
-      );      
+      );
   }
 
-  async addResponse() {
+  addResponse() {
     //crea la risposta
     this.responseService.addResponse(this.response).subscribe(
       res => {
-        console.log(res);
+        this.router.navigate(['/helps/', this.response.help.id]);
       },
       err => {
-        console.log('this.response', this.response)
         console.log('errore addResponse', err);
       }
     );
-    await this.addHelp();
   }
 
-  async acceptResponse() {
+  acceptResponse() {
     //accetta la risposta
     this.responseService.acceptResponse(this.response).subscribe(x => {
       this.router.navigate(['/helps/', this.response.help.id]);
@@ -337,7 +335,22 @@ export class HelpsAskComponent implements OnInit {
       err => {
         console.log('errore acceptResponse', err);
       })
-    await this.addResponse();
+  }
+
+  async addHelpPromise(): Promise<any> {
+    return new Promise((resolve) => {
+      this.addHelp();
+      setTimeout(() => resolve(), 500);
+    })
+      .then(() => {
+        new Promise((resolve) => {
+          this.addResponse();
+          setTimeout(() => resolve(), 500);
+        })
+        .then(() => {
+          this.acceptResponse();
+        })
+      })
   }
 
   back() {

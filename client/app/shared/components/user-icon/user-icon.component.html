@@ -1,13 +1,11 @@
-<div>
-    <a [routerLink]="['/profile', user.id ]">
-        <span class="img-avatar rounded-circle">
-            <img src="{{ user.avatar == null ? 'assets/img/avatar_64.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + user.avatar }}"
-              alt="{{ user.firstname + ' ' + user.lastname }}"
-              title="{{ user.firstname + ' ' + user.lastname }}"
-              width="32" class="mr-3">
-        </span>
-        <span class="text-dark" *ngIf="showName">
-            {{ user.firstname + ' ' + user.lastname }}
-        </span>
-    </a>
-</div>
+<a [routerLink]="['/profile', user.id ]" class="avatar">
+    <span class="img-avatar rounded-circle">
+        <img src="{{ getAvatar() }}"
+            alt="{{ getFullname() }}"
+            title="{{ getFullname() }}"
+            width="32" class="mr-3">
+    </span>
+    <span class="txt-avatar text-dark" *ngIf="showName">
+        {{ getFullname() }}
+    </span>
+</a>

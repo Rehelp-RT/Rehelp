@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         code: DataTypes.STRING,
         name: DataTypes.STRING,
+        image: DataTypes.STRING
     }, {});
 
     HelpCategory.associate = function(models) {

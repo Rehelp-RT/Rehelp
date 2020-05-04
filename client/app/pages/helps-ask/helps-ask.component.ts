@@ -14,7 +14,6 @@ import { Cloudinary } from '@cloudinary/angular-5.x';
   styleUrls: ['./helps-ask.component.css']
 })
 export class HelpsAskComponent implements OnInit {
-
   @Input()
   responses: Array<any> = [];
 

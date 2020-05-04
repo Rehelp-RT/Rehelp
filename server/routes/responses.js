@@ -110,8 +110,6 @@ router.post('/add', (req, res) => {
         res.status(400).send({ message: 'idHelp is missing' });
     } else if (body.idResponder === undefined) {
         res.status(400).send({ message: 'idResponder is missing' });
-    } else if (body.message === undefined) {
-        res.status(400).send({ message: 'message is missing' });
     } else {
         const currentDate = new Date();
         db.HelpResponse.create({

@@ -306,7 +306,6 @@ export class HelpsAskComponent implements OnInit {
         this.response.idResponder = this.userToAsk.id;
         this.response.help = x;
         this.response.idHelp = x.id;
-        this.response.message = "Ti aiuto io";
       },
         err => {
           console.log('errore addHelp', err);

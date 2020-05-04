@@ -1,10 +1,10 @@
 import { Component, ViewChild, ElementRef, Input, NgZone, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { AuthenticationService, CategoryService, HelpService, UserService } from '@app/services';
+import { AuthenticationService, CategoryService, HelpService, ResponseService, UserService } from '@app/services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
-import { HelpCategory, Help, User } from '@app/models';
+import { HelpCategory, Help, User, HelpResponse } from '@app/models';
 import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
 import { Cloudinary } from '@cloudinary/angular-5.x';
 
@@ -15,13 +15,15 @@ import { Cloudinary } from '@cloudinary/angular-5.x';
 })
 export class HelpsAskComponent implements OnInit {
 
-  @Input() 
+  @Input()
   responses: Array<any> = [];
 
   model: Help = null;
   submitted = false;
   currentUser: User;
   userToAsk: User;
+  // response
+  response: HelpResponse;
 
   // category
   categories: HelpCategory[] = [];
@@ -41,21 +43,22 @@ export class HelpsAskComponent implements OnInit {
   private geoCoder;
   @ViewChild('search')
   public searchElementRef: ElementRef;
-  object: {[key: number]: string} = {2: 'foo', 1: 'bar'};
+  object: { [key: number]: string } = { 2: 'foo', 1: 'bar' };
   map = new Map([[2, 'foo'], [1, 'bar']]);
 
   constructor(
-      private http: HttpClient,
-      private router: Router,
-      private cs: CategoryService,
-      private hs: HelpService,
-      private as: AuthenticationService,
-      private cloudinary: Cloudinary,
-      private ngZone: NgZone,
-      private location: Location,
-      private mapsAPILoader: MapsAPILoader,
-      private userService: UserService,
-      private activeRouter: ActivatedRoute
+    private http: HttpClient,
+    private router: Router,
+    private cs: CategoryService,
+    private hs: HelpService,
+    private as: AuthenticationService,
+    private cloudinary: Cloudinary,
+    private ngZone: NgZone,
+    private location: Location,
+    private mapsAPILoader: MapsAPILoader,
+    private userService: UserService,
+    private activeRouter: ActivatedRoute,
+    private responseService: ResponseService
   ) {
     this.as.currentUser.subscribe(x => {
       this.currentUser = x;
@@ -69,10 +72,8 @@ export class HelpsAskComponent implements OnInit {
 
     const id = this.activeRouter.snapshot.params.id;
     this.userService.getById(id).subscribe(x => {
-        console.log('x',x)
-        this.userToAsk = x;
-        console.log('userToAsk', this.userToAsk);
-      })
+      this.userToAsk = x;
+    })
   }
 
   ngOnInit() {
@@ -102,7 +103,7 @@ export class HelpsAskComponent implements OnInit {
           this.model.latitude = place.geometry.location.lat();
           this.model.longitude = place.geometry.location.lng();
           this.zoom = 12;
-          this.getAddress(this.model.latitude,this.model.longitude);
+          this.getAddress(this.model.latitude, this.model.longitude);
         });
       });
     });
@@ -204,10 +205,10 @@ export class HelpsAskComponent implements OnInit {
   // Delete an uploaded image
   // Requires setting 'Return delete token' to 'Yes' in your upload preset configuration
   // See also https://support.cloudinary.com/hc/en-us/articles/202521132-How-to-delete-an-image-from-the-client-side-
-  deleteImage = function(data: any, index: number) {
+  deleteImage = function (data: any, index: number) {
     const url = `https://api.cloudinary.com/v1_1/${
       this.cloudinary.config().cloud_name
-    }/delete_by_token`;
+      }/delete_by_token`;
     console.log(url, 'url');
     const headers = [
       {
@@ -294,20 +295,53 @@ export class HelpsAskComponent implements OnInit {
     // category
     this.model.idCategory = this.idCat3 != null ? this.idCat3 : this.idCat2;
 
-    this.hs.addHelp(this.model).subscribe(
-      () => {
-        this.router.navigate(['/profile' ]);
-      },
-      err => {
-        console.log(err);
-      }
-    );
-
-    //crea la risposta accettata
+    this.acceptResponse();
   }
 
-    back() {
-        this.location.back();
-    }
+  addHelp() {
+    // crea l'help
+    this.hs.addHelp(this.model)
+      .subscribe(x => {
+        this.response = new HelpResponse();
+        this.response.responder = this.userToAsk;
+        this.response.idResponder = this.userToAsk.id;
+        this.response.help = x;
+        this.response.idHelp = x.id;
+        console.log('help', x);
+      },
+        err => {
+          console.log('errore addHelp', err);
+        }
+      );      
+  }
+
+  async addResponse() {
+    //crea la risposta
+    this.responseService.addResponse(this.response).subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        console.log('this.response', this.response)
+        console.log('errore addResponse', err);
+      }
+    );
+    await this.addHelp();
+  }
+
+  async acceptResponse() {
+    //accetta la risposta
+    this.responseService.acceptResponse(this.response).subscribe(x => {
+      this.router.navigate(['/helps/', this.response.help.id]);
+    },
+      err => {
+        console.log('errore acceptResponse', err);
+      })
+    await this.addResponse();
+  }
+
+  back() {
+    this.location.back();
+  }
 
 }

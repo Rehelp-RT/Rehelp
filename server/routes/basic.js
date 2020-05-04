@@ -157,6 +157,7 @@ router.post('/socialLogin', function(req, res) {
                         as: 'helps',
                         where: { completed: true },
                         include: [{
+                            required:false,
                             model: db.HelpResponse,
                             attributes: ['ratingResponder'],
                             as: 'responses',

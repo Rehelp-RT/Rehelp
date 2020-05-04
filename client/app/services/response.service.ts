@@ -34,7 +34,6 @@ export class ResponseService {
   }
 
   acceptResponse(response: HelpResponse) {
-    console.log('response.service -> response:', response);
     return this.http.put<any>(`${this.api}/responses/accept/` + response.id, {});
   }
 

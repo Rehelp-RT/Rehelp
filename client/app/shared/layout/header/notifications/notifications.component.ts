@@ -29,18 +29,17 @@ export class NotificationsComponent implements OnInit {
   constructor(
     private router: Router,
     private notificationService: NotificationService,
-    private eRef: ElementRef,
-    private swPush: SwPush) { 
-      if (swPush.isEnabled) {
-        swPush
-          .requestSubscription({
-            serverPublicKey: this.VAPID_PUBLIC_KEY,
-          })
-          .then(subscription => {
-            // send subscription to the server
-          })
-          .catch(console.error)
-      }
+    private eRef: ElementRef ) { 
+      // if (swPush.isEnabled) {
+      //   swPush
+      //     .requestSubscription({
+      //       serverPublicKey: this.VAPID_PUBLIC_KEY,
+      //     })
+      //     .then(subscription => {
+      //       // send subscription to the server
+      //     })
+      //     .catch(console.error)
+      // }
     }
 
   ngOnInit() {

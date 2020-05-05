@@ -16,9 +16,7 @@
                         <div class="row mb-3">
                             <div class="col-4">Categoria</div>
                             <div class="col-8">
-                                <span class="badge badge-secondary mr-1" *ngIf="response.help.category?.parent?.parent">{{ response.help.category?.parent?.parent?.name }}</span>
-                                <span class="badge badge-secondary mr-1" *ngIf="response.help.category?.parent">{{ response.help.category?.parent?.name }}</span>
-                                <span class="badge badge-secondary" *ngIf="response.help.category">{{ response.help.category?.name }}</span>
+                              <app-categories [category]="response.help.category"></app-categories>
                             </div>
                         </div>
 

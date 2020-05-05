@@ -18,6 +18,8 @@ export class Help {
     reviewed: boolean;
     completed: boolean;
 
+    isOffer: boolean;
+
     type: HelpType;
     creator: User;
     category: HelpCategory;

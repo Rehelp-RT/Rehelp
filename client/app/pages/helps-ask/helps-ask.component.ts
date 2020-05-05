@@ -62,6 +62,7 @@ export class HelpsAskComponent implements OnInit {
       this.model = new Help();
       this.model.idCreator = this.currentUser.id;
       this.model.idType = 1;
+      this.model.isOffer = true;
     });
 
     const id = this.activeRouter.snapshot.params.id;

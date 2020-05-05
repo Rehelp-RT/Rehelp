@@ -27,7 +27,9 @@
                             <div class="col-lg-8">
                                 <select class="form-control mb-3" [(ngModel)]="idCat" name="idCat" required>
                                     <option *ngFor="let cat of categories" [value]="cat.id">
-                                        {{ cat.parent.parent.name }} - {{ cat.parent.name }} - {{ cat.name }}
+                                      <span  *ngIf="cat.parent.parent" [ngClass]="{ 'cat-help': cat.parent.parent.code === 'JOB', 'cat-teach': cat.parent.parent.code === 'TEA', 'cat-hobby': cat.parent.parent.code === 'HOB' }">{{ cat?.parent?.parent?.name }} /&nbsp;</span>
+                                      <span  *ngIf="cat.parent" [ngClass]="{ 'cat-help': cat.parent.code === 'JOB', 'cat-teach': cat.parent.code === 'TEA', 'cat-hobby': cat.parent.code === 'HOB' }">{{ cat?.parent?.name }} /&nbsp;</span>
+                                      <span   [ngClass]="{ 'cat-help': cat.code === 'JOB', 'cat-teach': cat.code === 'TEA', 'cat-hobby': cat.code === 'HOB' }">{{ cat?.name }}</span>
                                     </option>
                                 </select>
                                 <!-- <select *ngIf="idCat1 != null" class="form-control mb-3" [(ngModel)]="idCat2"

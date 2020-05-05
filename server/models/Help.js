@@ -40,7 +40,9 @@ module.exports = (sequelize, DataTypes) => {
 
         accepted: DataTypes.BOOLEAN,
         reviewed: DataTypes.BOOLEAN,
-        completed: DataTypes.BOOLEAN
+        completed: DataTypes.BOOLEAN,
+
+        isOffer: DataTypes.BOOLEAN
     }, {});
 
     Help.associate = function(models) {

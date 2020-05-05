@@ -27,7 +27,7 @@
                             <div class="col-lg-8">
                                 <select class="form-control mb-3" [(ngModel)]="idCat" name="idCat" required>
                                     <option *ngFor="let cat of categories" [value]="cat.id">
-                                      {{ cat.parent.name }} - {{ cat.name }}
+                                        {{ cat.parent.parent.name }} - {{ cat.parent.name }} - {{ cat.name }}
                                     </option>
                                 </select>
                                 <!-- <select *ngIf="idCat1 != null" class="form-control mb-3" [(ngModel)]="idCat2"

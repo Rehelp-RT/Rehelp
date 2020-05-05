@@ -59,7 +59,7 @@ export class CategoriesEditComponent implements OnInit {
         console.log(selectedCategoryIds);
         this.userService.putCategories(this.idUser, selectedCategoryIds).subscribe(x => {
             console.log('success');
-            this.router.navigate(['/']).then(() => {
+            this.router.navigate(['/profile/', this.idUser]).then(() => {
                 this.activeModal.dismiss();
             });
         });

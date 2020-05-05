@@ -72,7 +72,7 @@ export class HelpsAskComponent implements OnInit {
     const id = this.activeRouter.snapshot.params.id;
     this.userService.getById(id).subscribe(x => {
       this.userToAsk = x;
-    })
+    });
   }
 
   ngOnInit() {
@@ -204,7 +204,7 @@ export class HelpsAskComponent implements OnInit {
   // Delete an uploaded image
   // Requires setting 'Return delete token' to 'Yes' in your upload preset configuration
   // See also https://support.cloudinary.com/hc/en-us/articles/202521132-How-to-delete-an-image-from-the-client-side-
-  deleteImage = function (data: any, index: number) {
+  deleteImage = function(data: any, index: number) {
     const url = `https://api.cloudinary.com/v1_1/${
       this.cloudinary.config().cloud_name
       }/delete_by_token`;
@@ -314,7 +314,7 @@ export class HelpsAskComponent implements OnInit {
   }
 
   addResponse() {
-    //crea la risposta
+    // crea la risposta
     this.responseService.addResponse(this.response).subscribe(
       res => {
         this.router.navigate(['/helps/', this.response.help.id]);
@@ -326,13 +326,13 @@ export class HelpsAskComponent implements OnInit {
   }
 
   acceptResponse() {
-    //accetta la risposta
+    // accetta la risposta
     this.responseService.acceptResponse(this.response).subscribe(x => {
       this.router.navigate(['/helps/', this.response.help.id]);
     },
       err => {
         console.log('errore acceptResponse', err);
-      })
+      });
   }
 
   async addHelpPromise(): Promise<any> {
@@ -347,8 +347,8 @@ export class HelpsAskComponent implements OnInit {
         })
         .then(() => {
           this.acceptResponse();
-        })
-      })
+        });
+      });
   }
 
   back() {

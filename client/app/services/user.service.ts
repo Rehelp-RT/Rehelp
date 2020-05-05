@@ -12,7 +12,7 @@ export class UserService {
 
         let params = '';
         params += excludeUserId != null ? 'excludeUserId=' + excludeUserId : '';
-        if(category != null || distance != null || lat != null || long != null){
+        if (category != null || distance != null || lat != null || long != null) {
             params += '&';
         }
         params += category != null ? 'category=' + category + '&' : '';

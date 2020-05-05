@@ -91,7 +91,7 @@ export class HelpsAddComponent implements OnInit {
           this.model.latitude = place.geometry.location.lat();
           this.model.longitude = place.geometry.location.lng();
           this.zoom = 12;
-          this.getAddress(this.model.latitude,this.model.longitude);
+          this.getAddress(this.model.latitude, this.model.longitude);
         });
       });
     });
@@ -285,7 +285,7 @@ export class HelpsAddComponent implements OnInit {
 
     this.hs.addHelp(this.model).subscribe(
       () => {
-        this.router.navigate(['/profile' ]);
+        this.router.navigate(['/profile/', this.currentUser.id ]);
       },
       err => {
         console.log(err);

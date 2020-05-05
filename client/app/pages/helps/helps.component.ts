@@ -23,11 +23,11 @@ export class HelpsComponent implements OnInit {
   ngOnInit() {
     const type = 'MEH';
     const excludeUserId = this.currentUser.id;
-    const accepted = null //false;
+    const accepted = null; // false;
     const idCreator = null;
     const distance = null;
     const lat = this.currentUser.latitude;
-    const long = this.currentUser.longitude;    
+    const long = this.currentUser.longitude;
     this.hs.getAll(type, excludeUserId, accepted, idCreator, distance, lat, long).subscribe(x => {
         this.helps = x;
     });

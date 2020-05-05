@@ -21,7 +21,7 @@
 
                 <div *ngIf="r.accepted || r.idResponder === currentUser.id || isHelpCreator">
                     <app-user-icon [user]="r.responder"></app-user-icon>
-                    <div class="speech-bubble-left">
+                    <div *ngIf="!help.isOffer" class="speech-bubble-left">
                         {{ r.message }}
                     </div>
                 </div>
@@ -63,21 +63,45 @@
             </div>
 
             <div *ngIf="isHelpCreator" class="mb-3">
+                <div *ngIf="!help.isOffer">
+                    <a class="btn btn-block btn-outline-success" (click)="accept(r)" *ngIf="!isUserAccepted && !r.accepted">
+                      <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                      Accetta
+                    </a>
 
-                <a class="btn btn-block btn-outline-success" (click)="accept(r)" *ngIf="!isUserAccepted && !r.accepted">
-                    <fa-icon [icon]="['fas', 'check']"></fa-icon>
-                    Accetta
-                </a>
-
+                    <div *ngIf="r.accepted && !r.reviewed && !r.completed">
+                      <button class="btn btn-block btn-outline-primary mb-2" (click)="openModal('modal-complete-' + r.id)">
+                              Il lavoro è finito
+                          </button>
+                      <a class="btn btn-block btn-outline-secondary" (click)="cancel(r)">
+                              Cancella
+                          </a>
+                    </div>
+                </div>
+                <div *ngIf="help.isOffer && r.accepted">
                 <div *ngIf="r.accepted && !r.reviewed && !r.completed">
-                    <button class="btn btn-block btn-outline-primary mb-2" (click)="openModal('modal-complete-' + r.id)">
-                            Il lavoro è finito
-                        </button>
-                    <a class="btn btn-block btn-outline-secondary" (click)="cancel(r)">
-                            Cancella
-                        </a>
+                      <button class="btn btn-block btn-outline-primary mb-2" (click)="openModal('modal-complete-' + r.id)">
+                          Il lavoro è finito
+                      </button>
+
                 </div>
             </div>
+          </div>
+
+
+            <div *ngIf="!isHelpCreator && help.isOffer" class="mb-3">
+
+              <a class="btn btn-block btn-outline-success" (click)="accept(r)" *ngIf="!isUserAccepted && !r.accepted">
+                  <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                  Accetta
+              </a>
+
+              <div *ngIf="r.accepted && !r.reviewed && !r.completed">
+                  <a class="btn btn-block btn-outline-secondary" (click)="cancel(r)">
+                          Cancella
+                  </a>
+              </div>
+          </div>
 
             <div *ngIf="isResponderAccepted" class="mt-3">
                 <div *ngIf="r.accepted && r.reviewed && !r.completed">

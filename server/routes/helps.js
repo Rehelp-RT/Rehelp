@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
         filters.push({
             [Op.not]: { idCreator: req.query.excludeUserId }
         });
-    } 
+    }
     if (req.query.accepted !== undefined) {
         filters.push({
             accepted: req.query.accepted
@@ -197,7 +197,6 @@ router.post('/add', (req, res) => {
     } else if (body.longitude === undefined) {
         res.status(400).send({ message: 'longitude is missing' });
     } else {
-
         db.Help.create({
                 title: body.title,
                 description: body.description,
@@ -213,7 +212,8 @@ router.post('/add', (req, res) => {
                 image: body.image,
                 latitude: body.latitude,
                 longitude: body.longitude,
-                address: body.address
+                address: body.address,
+                isOffer: body.isOffer
             })
             .then(help => {
                 res.status(201).send({

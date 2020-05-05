@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         birthdate: DataTypes.DATEONLY,
         city: DataTypes.STRING,
         country: DataTypes.STRING,
+        description: DataTypes.STRING,
         email: DataTypes.STRING,
         firstname: DataTypes.STRING,
         lastname: DataTypes.STRING,
@@ -15,7 +16,13 @@ module.exports = (sequelize, DataTypes) => {
 
         likehelps: DataTypes.INTEGER,
         password: DataTypes.STRING,
-        username: DataTypes.STRING
+
+        loginLocal: DataTypes.BOOLEAN,
+        loginFacebook: DataTypes.BOOLEAN,
+        loginGoogle: DataTypes.BOOLEAN,
+
+        idFacebook: DataTypes.STRING,
+        idGoogle: DataTypes.STRING
     }, {});
 
     User.beforeSave((user, options) => {

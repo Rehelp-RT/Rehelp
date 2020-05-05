@@ -1,9 +1,14 @@
 var router = require('express').Router();
 const db = require('../models');
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 
 // GET /api/helps
 router.get('/', (req, res) => {
+
+    //mt to km
+    var distance = req.query.distance * 1000;
+    var latit = req.query.lat !== undefined ? parseFloat(req.query.lat) : undefined;
+    var longit = req.query.long !== undefined ? parseFloat(req.query.long) : undefined;
 
     // get parameters
     console.log('req.query', req.query);
@@ -12,15 +17,33 @@ router.get('/', (req, res) => {
         filters.push({
             [Op.not]: { idCreator: req.query.excludeUserId }
         });
-    } else if (req.query.accepted !== undefined) {
+    } 
+    if (req.query.accepted !== undefined) {
         filters.push({
             accepted: req.query.accepted
         });
-    } else if (req.query.idCreator !== undefined) {
+    }
+    if (req.query.idCreator !== undefined) {
         filters.push({
             idCreator: req.query.idCreator
         });
     }
+    if (distance !== undefined && longit !== undefined && latit !== undefined){
+        filters.push({
+            [Op.and]: [
+                    Sequelize.fn(
+                        //https://postgis.net/docs/ST_DWithin.html
+                        'ST_DWithin',
+                        // https://postgis.net/docs/ST_MakePoint.html
+                        Sequelize.fn('ST_MakePoint', Sequelize.col('Help.longitude'), Sequelize.col('Help.latitude')),
+                        Sequelize.fn('ST_MakePoint', longit, latit),
+                        distance,
+                        true
+                    )
+                ]
+        });
+    }
+
     console.log('filters', filters);
     const filterType = req.query.type === undefined || req.query.type === null ? {} : { code: req.query.type };
 
@@ -63,14 +86,14 @@ router.get('/', (req, res) => {
                     as: 'category'
                 },
                 {
-                    attributes: ['username', 'firstname', 'lastname', 'avatar', 'id'],
+                    attributes: ['email', 'firstname', 'lastname', 'avatar', 'id'],
                     model: db.User,
                     required: true,
                     as: 'creator'
                 },
                 {
                     include: [{
-                        attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
+                        attributes: ['id', 'email', 'firstname', 'lastname', 'avatar'],
                         model: db.User,
                         required: true,
                         as: 'responder'
@@ -116,10 +139,10 @@ router.get('/:id', (req, res) => {
                     required: true,
                     as: 'category'
                 },
-                { attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'], model: db.User, required: true, as: 'creator' },
+                { attributes: ['id', 'email', 'firstname', 'lastname', 'avatar'], model: db.User, required: true, as: 'creator' },
                 {
                     include: [{
-                        attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
+                        attributes: ['id', 'email', 'firstname', 'lastname', 'avatar'],
                         model: db.User,
                         required: true,
                         as: 'responder'

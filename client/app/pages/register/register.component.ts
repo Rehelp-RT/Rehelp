@@ -32,8 +32,9 @@ export class RegisterComponent implements OnInit {
         this.registerForm = this.formBuilder.group({
             firstname: ['', Validators.required],
             lastname: ['', Validators.required],
-            username: ['', Validators.required],
-            password: ['', [Validators.required, Validators.minLength(6)]]
+            email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
+            password: ['', [Validators.required, Validators.minLength(6)]],
+            recaptcha: [null, Validators.required]
         });
     }
 
@@ -41,6 +42,7 @@ export class RegisterComponent implements OnInit {
     get f() { return this.registerForm.controls; }
 
     onSubmit() {
+        console.log(this.sendTokenToBackend);
         this.submitted = true;
 
         // stop here if form is invalid
@@ -49,16 +51,35 @@ export class RegisterComponent implements OnInit {
         }
 
         this.loading = true;
-        this.userService.register(this.registerForm.value)
+        this.authenticationService.register(this.registerForm.value)
             .pipe(first())
             .subscribe(
                 data => {
                     this.alertService.success('Registrazione avvenuta con successo', true);
-                    this.router.navigate(['/login']);
+                    this.router.navigate(['/']);
                 },
                 error => {
                     this.alertService.error(error);
                     this.loading = false;
                 });
+    }
+
+    // function to resolve the reCaptcha and retrieve a token
+    async resolved(captchaResponse: string) {
+      console.log(`Resolved response token: ${captchaResponse}`);
+      // declaring the token send function with a token parameter
+      await this.sendTokenToBackend(captchaResponse);
+    }
+    // function to send the token to the node server
+    sendTokenToBackend(captchaToken) {
+      // calling the service and passing the token to the service
+      this.authenticationService.sendRecaptchaToken(captchaToken).pipe(first()).subscribe(
+        data => {
+          console.log(data, 'data');
+        },
+        err => {
+          console.log(err);
+        },
+      );
     }
 }

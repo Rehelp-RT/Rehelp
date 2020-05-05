@@ -18,19 +18,17 @@
                 </ul>
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item" *ngIf="!currentUser" routerLinkActive="active">
-                        <a class="nav-link btn btn-outline-secondary" routerLink="/login">Accedi</a>
+                        <a class="nav-link btn btn-outline-secondary mr-2" routerLink="/login">Accedi</a>
                     </li>
+
+                    <li class="nav-item" *ngIf="!currentUser" routerLinkActive="active">
+                      <a class="nav-link btn btn-outline-secondary" routerLink="/register">Registrati</a>
+                    </li>
+
                     <app-notifications [currentUser]="currentUser"></app-notifications>
 
                     <li class="nav-item" *ngIf="currentUser">
-                        <a class="nav-link" routerLink="/profile/{{ currentUser.id }}">
-                            <span class="img-avatar rounded-circle">
-                                <img src="{{ currentUser.avatar == null ? 'assets/img/avatar_64.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + currentUser.avatar }}"
-                                    alt="{{ currentUser.firstname + ' ' + currentUser.lastname }}"
-                                    alt="{{ currentUser.firstname + ' ' + currentUser.lastname }}"
-                                    title="{{ currentUser.firstname + ' ' + currentUser.lastname }}" width="32">
-                            </span>
-                        </a>
+                        <app-user-icon [user]="currentUser" [showName]="false"></app-user-icon>
                     </li>
                     <li class="nav-item" *ngIf="currentUser">
                         <button class="btn btn-outline-secondary" (click)="logout()">Esci</button>

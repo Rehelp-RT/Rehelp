@@ -1,36 +1,54 @@
 var router = require('express').Router();
 const User = require('../models').User;
 const jwt = require('jsonwebtoken');
-
+const db = require('../models');
+const { Op } = require('sequelize');
+const bodyParser = require('body-parser');
+const request = require('request');
 
 // GET /api/version
 router.get('/version', function(req, res) {
     res.send({ version: 'v0.2.0' });
 });
 
-// GET /api/signup
+// POST /api/signup
 router.post('/signup', function(req, res) {
     console.log(req.body);
-    if (!req.body.username || !req.body.password) {
-        res.status(400).send({ msg: 'Please pass username and password.' })
+    if (!req.body.email || !req.body.password) {
+        res.status(400).send({ msg: 'Please pass email and password.' })
     } else {
-        User
-            .create({
-                username: req.body.username,
-                password: req.body.password,
-                firstname: req.body.firstname,
-                lastname: req.body.lastname,
-                birthdate: req.body.birthdate
+
+        User.findOne({
+                where: {
+                    email: req.body.email
+                }
             })
-            .then((user) => {
-                var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
-                var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
-                res.json({ success: true, user: user, token: 'JWT ' + token, expiresIn: expiresIn });
+            .then((registeredUser) => {
+                if (!registeredUser) {
+                    User
+                        .create({
+                            email: req.body.email,
+                            password: req.body.password,
+                            firstname: req.body.firstname,
+                            lastname: req.body.lastname,
+                            birthdate: req.body.birthdate,
+                            loginLocal: true
+                        })
+                        .then((user) => {
+                            var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
+                            var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
+                            res.json(getLoggedUser(user, token, expiresIn));
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                            res.status(400).send(error);
+                        });
+                } else {
+                    return res.status(409).send({
+                        message: 'Email già utilizzata.',
+                    });
+                }
             })
-            .catch((error) => {
-                console.log(error);
-                res.status(400).send(error);
-            });
     }
 });
 
@@ -38,10 +56,36 @@ router.post('/signup', function(req, res) {
 router.post('/signin', function(req, res) {
     User.findOne({
             where: {
-                username: req.body.username
-            }
+                email: req.body.email
+            },
+            include: [{
+                    required: false,
+                    model: db.Help,
+                    attributes: ['id'],
+                    as: 'helps',
+                    where: { completed: true },
+                    include: [{
+                        required: false,
+                        model: db.HelpResponse,
+                        attributes: ['ratingResponder'],
+                        as: 'responses',
+                        where: {
+                            [Op.not]: { ratingResponder: null }
+                        }
+                    }]
+                },
+                {
+                    required: false,
+                    model: db.HelpResponse,
+                    attributes: ['ratingCreator'],
+                    as: 'responses',
+                    where: {
+                        [Op.not]: { ratingCreator: null }
+                    }
+                }
+            ]
         })
-        .then((user) => {
+        .then(user => {
             if (!user) {
                 return res.status(401).send({
                     message: 'Authentication failed. User not found.',
@@ -51,21 +95,42 @@ router.post('/signin', function(req, res) {
                 if (isMatch && !err) {
                     var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
                     var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
-                    console.log
                     jwt.verify(token, '***REMOVED-JWT-SECRET***', function(err, data) {
                         console.log(err, data);
-                    })
-                    res.json({
-                        success: true,
-                        id: user.id,
-                        avatar: user.avatar,
-                        username: user.username,
-                        firstname: user.firstname,
-                        lastname: user.lastname,
-                        token: 'JWT ' + token,
-                        expiresIn: expiresIn,
-                        likehelps: user.likehelps
                     });
+
+                    // sum reviews where user is responder
+                    const ratedResponses = user.responses.filter(r => {
+                        if (r.ratingCreator !== undefined) {
+                            return r.ratingCreator;
+                        }
+                    });
+                    user.responsesReviewsCount = ratedResponses.length;
+                    user.responsesReviewsSum = ratedResponses.reduce((prev, cur) => {
+                        return prev + cur.ratingCreator;
+                    }, 0);
+
+                    // sum reviews where user is creator
+                    const ratedHelps = user.helps.filter(h => {
+                        const ress = h.responses.filter(r => {
+                            if (r.ratingResponder !== undefined) {
+                                return r.ratingResponder;
+                            }
+                        });
+                        return (ress.length > 0) ? h : null;
+                    });
+                    const ratedHelpsResponses =
+                        ratedHelps.map(h =>
+                            h.responses.filter(r =>
+                                (r.ratingResponder)));
+                    const flatArray = Array.prototype.concat.apply([], ratedHelpsResponses);
+
+                    user.helpsReviewsCount = ratedHelpsResponses.length;
+                    user.helpsReviewsSum = flatArray.reduce((prev, cur) => {
+                        return prev + cur.ratingResponder;
+                    }, 0);
+
+                    res.json(getLoggedUser(user, token, expiresIn));
                 } else {
                     res.status(401).send({
                         success: false,
@@ -79,6 +144,185 @@ router.post('/signin', function(req, res) {
             res.status(400).send(error)
         });
 });
+
+// POST /api/socialLogin
+router.post('/socialLogin', function(req, res) {
+    if (req.body == null || req.body == undefined) {
+        res.status(400).send({ msg: 'Something goes wrong.' })
+    } else {
+        User.findOne({
+                where: { email: req.body.email },
+                include: [{
+                        required: false,
+                        model: db.Help,
+                        attributes: ['id'],
+                        as: 'helps',
+                        where: { completed: true },
+                        include: [{
+                            required:false,
+                            model: db.HelpResponse,
+                            attributes: ['ratingResponder'],
+                            as: 'responses',
+                            where: {
+                                [Op.not]: { ratingResponder: null }
+                            }
+                        }]
+                    },
+                    {
+                        required: false,
+                        model: db.HelpResponse,
+                        attributes: ['ratingCreator'],
+                        as: 'responses',
+                        where: {
+                            [Op.not]: { ratingCreator: null }
+                        }
+                    }
+                ]
+            })
+            .then(user => {
+                if (!user) {
+                    // new user
+                    var randomstring = Math.random().toString(36).slice(-8);
+
+                    User.create({
+                            email: req.body.email,
+                            password: randomstring,
+                            firstname: req.body.firstName,
+                            lastname: req.body.lastName,
+                            idFacebook: req.body.provider === 'FACEBOOK' ? req.body.photoUrl : null,
+                            idGoogle: req.body.provider === 'GOOGLE' ? req.body.photoUrl : null,
+                            loginFacebook: req.body.provider === 'FACEBOOK' ? true : false,
+                            loginGoogle: req.body.provider === 'GOOGLE' ? true : false
+                        })
+                        .then(user => {
+                            var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
+                            var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
+                            res.json(getLoggedUser(user, token, expiresIn));
+                        })
+                        .catch(error => {
+                            console.log(error)
+                            res.status(400).send(error)
+                        });
+                } else {
+                    // registered user
+                    var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
+                    var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
+
+                    // sum reviews where user is responder
+                    const ratedResponses = user.responses.filter(r => {
+                        if (r.ratingCreator !== undefined) {
+                            return r.ratingCreator;
+                        }
+                    });
+                    user.responsesReviewsCount = ratedResponses.length;
+                    user.responsesReviewsSum = ratedResponses.reduce((prev, cur) => {
+                        return prev + cur.ratingCreator;
+                    }, 0);
+
+                    // sum reviews where user is creator
+                    const ratedHelps = user.helps.filter(h => {
+                        const ress = h.responses.filter(r => {
+                            if (r.ratingResponder !== undefined) {
+                                return r.ratingResponder;
+                            }
+                        });
+                        return (ress.length > 0) ? h : null;
+                    });
+                    const ratedHelpsResponses =
+                        ratedHelps.map(h =>
+                            h.responses.filter(r =>
+                                (r.ratingResponder)));
+                    const flatArray = Array.prototype.concat.apply([], ratedHelpsResponses);
+                    user.helpsReviewsCount = ratedHelpsResponses.length;
+                    user.helpsReviewsSum = flatArray.reduce((prev, cur) => {
+                        return prev + cur.ratingResponder;
+                    }, 0);
+
+                    if (req.body.provider === 'FACEBOOK' && (user.idFacebook === null || user.loginFacebook === null)) {
+                        // update with Facebook id
+                        user.update({ idFacebook: req.body.photoUrl, loginFacebook: true }).then(user => {
+                            res.json(getLoggedUser(user, token, expiresIn));
+                        });
+                    } else if (req.body.provider === 'GOOGLE' && (user.idGoogle === null || user.loginGoogle === null)) {
+                        // update with Google id
+                        user.update({ idGoogle: req.body.photoUrl, loginGoogle: true }).then(user => {
+                            res.json(getLoggedUser(user, token, expiresIn));
+                        });
+                    } else {
+                        // already updated
+                        res.json(getLoggedUser(user, token, expiresIn));
+                    }
+                }
+            }).catch((error) => {
+                console.log(error)
+                res.status(400).send(error)
+            })
+    }
+});
+
+router.post('/recaptcha_token_validate', function(req, res) {
+
+  let token = req.body.recaptcha;
+
+  // the secret key from your google admin console;
+  const secretKey = "***REMOVED-RECAPTCHA-SECRET***";
+
+  // token validation url is URL: https://www.google.com/recaptcha/api/siteverify
+  // METHOD used is: POST
+
+  const url =  `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}&remoteip=${req.connection.remoteAddress}`
+
+  // note that remoteip is the users ip address and it is optional
+  // in node req.connection.remoteAddress gives the users ip address
+
+  if(token === null || token === undefined){
+    res.status(201).send({success: false, message: "Token is empty or invalid"})
+    return console.log("token empty");
+  }
+
+  request(url, function(err, response, body){
+    // the body is the data that contains success message
+    body = JSON.parse(body);
+    // check if the validation failed
+    if(body.success !== undefined && !body.success){
+         res.send({success: false, 'message': "recaptcha failed"});
+         return console.log("failed")
+     }
+    // if passed response success message to client
+     res.send({"success": true, 'message': "recaptcha passed"});
+  })
+})
+
+
+
+getLoggedUser = function(user, token, expiresIn) {
+    return {
+        id: user.id,
+        avatar: user.avatar,
+        birthdate: user.birthdate,
+        city: user.city,
+        country: user.country,
+        description: user.description,
+        email: user.email,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        latitude: user.latitude,
+        longitude: user.longitude,
+        likehelps: user.likehelps,
+        loginLocal: user.loginLocal,
+        loginFacebook: user.loginFacebook,
+        loginGoogle: user.loginGoogle,
+        idFacebook: user.idFacebook,
+        idGoogle: user.idGoogle,
+        responsesReviewsCount: user.responsesReviewsCount,
+        responsesReviewsSum: user.responsesReviewsSum,
+        helpsReviewsCount: user.helpsReviewsCount,
+        helpsReviewsSum: user.helpsReviewsSum,
+        token: 'JWT ' + token,
+        expiresIn: expiresIn,
+        success: true
+    };
+}
 
 // Function to extract token
 getToken = function(headers) {

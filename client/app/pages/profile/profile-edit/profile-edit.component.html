@@ -15,12 +15,18 @@
     </div>
 
     <div class="form-row mb-3">
+        <label class="col-md-4" for="description">Breve descrizione di sé</label>
+        <textarea class="col-md-8 form-control" rows="4" type="text" [(ngModel)]="model.description" name="description" placeholder="Sono appassionato di...">
+        </textarea>
+    </div>
+
+    <div class="form-row mb-3">
         <label class="col-md-4" for="lastname">Data di nascita</label>
         <input class="col-md-8 form-control" type="date" [(ngModel)]="model.birthdate" name="birthdate" />
     </div>
 
     <div class="form-row mb-3">
-        <label class="col-md-4" for="lastname">Email</label>
+        <label class="col-md-4" for="email">Email</label>
         <input class="col-md-8 form-control" type="text" [(ngModel)]="model.email" name="email" required />
     </div>
 

@@ -12,6 +12,7 @@ import { CloudinaryModule } from '@cloudinary/angular-5.x';
 import { Cloudinary as CloudinaryCore } from 'cloudinary-core';
 export const cloudinaryLib = { Cloudinary: CloudinaryCore };
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { SocialLoginModule, AuthServiceConfig, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import {
     faAngleDoubleRight,
     faBell,
@@ -33,6 +34,11 @@ import {
     faSquare as farSquare,
     faStar as farStar
 } from '@fortawesome/free-regular-svg-icons';
+import {
+  faFacebook,
+  faGoogle
+} from '@fortawesome/free-brands-svg-icons';
+import { RecaptchaModule, RecaptchaFormsModule, RECAPTCHA_SETTINGS, RECAPTCHA_LANGUAGE, RecaptchaSettings } from 'ng-recaptcha';
 
 // app module
 import {
@@ -55,6 +61,25 @@ import { ErrorInterceptor, JwtInterceptor } from './interceptors';
 import { FilterCategoriesPipe } from './pipes';
 import { NotificationsComponent } from './layout/header/notifications/notifications.component';
 
+// social login configurations
+const config = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider('777650088501-7v0eembic12t9esbnht9lmmhi95tho4j.apps.googleusercontent.com')
+  },
+  {
+    id: FacebookLoginProvider.PROVIDER_ID,
+    // provider prod
+    // provider: new FacebookLoginProvider('220996429157029')
+
+    // provider test
+    provider: new FacebookLoginProvider('688443305245420')
+  }
+]);
+export function provideConfig() {
+  return config;
+}
+
 @NgModule({
     imports: [
         CommonModule, FileUploadModule, FormsModule, ReactiveFormsModule, RouterModule,
@@ -73,6 +98,9 @@ import { NotificationsComponent } from './layout/header/notifications/notificati
 
         AlertModule, CategoriesModule, ChatModule,
         ModalModule, StarRatingModule, StarsModule, UserIconModule,
+
+        RecaptchaModule, RecaptchaFormsModule,
+        SocialLoginModule
     ],
     declarations: [
         HeaderComponent,
@@ -83,6 +111,12 @@ import { NotificationsComponent } from './layout/header/notifications/notificati
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { provide: AuthServiceConfig, useFactory: provideConfig },
+        {
+          provide: RECAPTCHA_SETTINGS,
+          useValue: { siteKey: '6LfzDvEUAAAAAAnUqnwbuaadUCj6mWivJIjHOwJx'} as RecaptchaSettings,
+        },
+        { provide: RECAPTCHA_LANGUAGE, useValue: 'it'},
         GoogleMapsAPIWrapper
     ],
     exports: [
@@ -91,6 +125,7 @@ import { NotificationsComponent } from './layout/header/notifications/notificati
         AlertModule, CategoriesModule, ChatModule,
         ModalModule, StarRatingModule, StarsModule, UserIconModule,
         FooterComponent, HeaderComponent,
+        RecaptchaModule, RecaptchaFormsModule,
         FilterCategoriesPipe
     ]
 })
@@ -102,6 +137,8 @@ export class SharedModule {
             faBell,
             faCamera, faCircle, faCheck, faChevronLeft, faClock, faCloudUploadAlt, faCoffee,
             faEnvelope,
+            faFacebook,
+            faGoogle,
             faHands, faHandPaper,
             faMapMarkerAlt,
             faPencilAlt, faPlus,

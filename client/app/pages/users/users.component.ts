@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '@app/models';
-import { UserService } from '@app/services';
+import { User, HelpCategory } from '@app/models';
+import { UserService, AuthenticationService, CategoryService } from '@app/services';
 
 @Component({
   selector: 'app-users',
@@ -10,12 +10,39 @@ import { UserService } from '@app/services';
 export class UsersComponent implements OnInit {
 
   users: User[] = [];
+  defaultDistance: Number[] = [10, 20, 50, 100];
+  public selectedDistance = null;
+  currentUser: User = null;
 
-  constructor(private us: UserService) { }
+  //distance
+  lat: Number = null
+  long: Number = null
+  
+  // category
+  categories: HelpCategory[] = [];
+  public idCat1 = null;
+  public idCat2 = null;
+  public idCat3 = null;
+
+  constructor(private us: UserService,
+    private as: AuthenticationService,
+    private cs: CategoryService) { 
+
+    this.as.getCurrentUser()
+      .subscribe(x => {
+        this.currentUser = x;
+      });
+
+    this.lat = this.currentUser.latitude;
+    this.long = this.currentUser.longitude;
+
+    this.cs.getAll().subscribe(x => {
+      this.categories = x;
+    });
+  }
 
   ngOnInit() {
-    this.us.getAll().subscribe((x) => {
-      console.log(x);
+    this.us.getAll(this.currentUser.id).subscribe((x) => {
       this.users = x;
     });
   }
@@ -33,11 +60,11 @@ export class UsersComponent implements OnInit {
     if (mold > mnew) {
       diff--;
     } else {
-        if (mold === mnew) {
-            if (dold > dnew) {
-              diff--;
-            }
+      if (mold === mnew) {
+        if (dold > dnew) {
+          diff--;
         }
+      }
     }
     return diff;
   }
@@ -46,7 +73,7 @@ export class UsersComponent implements OnInit {
     let count = 0;
     let sum = 0;
     user.helps.forEach(h => {
-      count ++;
+      count++;
       sum += h.responses[0].ratingResponder;
     });
     user.responses.forEach(r => {
@@ -54,6 +81,13 @@ export class UsersComponent implements OnInit {
       sum += r.ratingCreator;
     });
     return sum / count;
+  }
+
+  filter() {
+    var cat = this.idCat3 != null ? this.idCat3 : this.idCat2;
+    this.us.getAll(this.currentUser.id, cat, this.selectedDistance, this.lat, this.long).subscribe((x) => {
+      this.users = x;
+    });
   }
 
 }

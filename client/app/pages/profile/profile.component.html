@@ -10,7 +10,7 @@
                     <div class="col-lg-12 col-md-6">
 
                         <figure class="overlay-wrapper rounded-circle mb-3">
-                            <img class="img-fluid" src="{{ user.avatar == null ? 'assets/img/avatar_512.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/' + user.avatar }}" alt="{{ user.firstname + ' ' + user.lastname }}" title="{{ user.firstname + ' ' + user.lastname }}">
+                            <img class="img-fluid" src="{{ getAvatar() }}" alt="{{ getFullname() }}">
                             <figcaption *ngIf="isOwner" class="overlay-panel overlay-black text-center">
                                 <a class="btn btn-lg btn-outline-secondary btn-circle mb-3" [routerLink]="['./upload-avatar/']">
                                     <fa-icon [icon]="['fas', 'camera']" size="lg"></fa-icon>
@@ -31,6 +31,10 @@
                             {{ user.city }} ({{ user.country }})
                         </p>
 
+                        <p class="font-italic text-secondary">
+                            {{ user.description}}
+                        </p>
+
                         <table class="table text-left">
                             <tr>
                                 <th>Età</th>
@@ -46,12 +50,21 @@
                             <tr>
                                 <th>Recensioni</th>
                                 <td>
+                                    <p>
+                                        {{ getAverage() | number : '1.0-1' }}
+                                        <span *ngFor="let rat of [1,2,3,4,5] | slice:0:getAverage()">
+                                          <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
+                                        </span>
+                                    </p>
+                                    <p class="text-secondary">{{ getReviews() }} recensioni ricevute</p>
+                                    <!--
                                     {{ getAverage().average }}
                                     <span *ngFor="let rat of [1,2,3,4,5] | slice:0:getAverage().average">
                                       <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
                                     </span>
-                                    <!-- <app-stars [rating]="getAverage().average"></app-stars> -->
+                                    <app-stars [rating]="getAverage().average"></app-stars>
                                     <p class="text-secondary">{{ getAverage().reviews }} recensioni ricevute</p>
+                                    -->
                                 </td>
                             </tr>
                         </table>

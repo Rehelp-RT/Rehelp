@@ -10,6 +10,7 @@ import { ContactComponent } from './contact/contact.component';
 import { FaqComponent } from './faq/faq.component';
 import { HelpsComponent } from './helps/helps.component';
 import { HelpsAddComponent } from './helps-add/helps-add.component';
+import { HelpsAskComponent } from './helps-ask/helps-ask.component';
 import { HelpsDetailComponent } from './helps-detail/helps-detail.component';
 import { HelpsEditComponent } from './helps-edit/helps-edit.component';
 import { HelpsResponseComponent } from './helps-response/helps-response.component';
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'how-it-works', component: HowItWorksComponent, data: {title: 'Come funziona'} },
   { path: 'helps', component: HelpsComponent, data: {title: 'Lista aiuti'}, canActivate: [AuthGuard] },
   { path: 'helps/add', component: HelpsAddComponent, data: {title: 'Aggiungi aiuto'}, canActivate: [AuthGuard] },
+  { path: 'helps/ask/:id', component: HelpsAskComponent, data: {title: 'Chiedi aiuto'}, canActivate: [AuthGuard] },
   { path: 'helps/:id', component: HelpsDetailComponent,  data: {title: 'Dettagli aiuto'}, canActivate: [AuthGuard] },
   { path: 'helps/edit/:id', component: HelpsEditComponent,  data: {title: 'Modifica aiuto'}, canActivate: [AuthGuard] },
   { path: 'helps/:id/response', component: HelpsResponseComponent,  data: {title: 'Offri Aiuto'}, canActivate: [AuthGuard] },

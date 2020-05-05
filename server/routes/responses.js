@@ -47,7 +47,7 @@ router.get('/', (req, res) => {
                     as: 'help'
                 },
                 {
-                    attributes: ['id', 'username', 'firstname', 'lastname', 'avatar'],
+                    attributes: ['id', 'email', 'firstname', 'lastname', 'avatar'],
                     model: db.User,
                     required: true,
                     as: 'responder'
@@ -74,7 +74,7 @@ router.get('/:id', (req, res) => {
                         as: 'help'
                     },
                     {
-                        attributes: ['username', 'firstname', 'lastname'],
+                        attributes: ['email', 'firstname', 'lastname'],
                         model: db.User,
                         required: true,
                         as: 'responder'
@@ -110,8 +110,6 @@ router.post('/add', (req, res) => {
         res.status(400).send({ message: 'idHelp is missing' });
     } else if (body.idResponder === undefined) {
         res.status(400).send({ message: 'idResponder is missing' });
-    } else if (body.message === undefined) {
-        res.status(400).send({ message: 'message is missing' });
     } else {
         const currentDate = new Date();
         db.HelpResponse.create({

@@ -1,142 +1,113 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-  NgZone,
-  Input
-} from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { HelpService, CategoryService } from '@app/services';
-import { ActivatedRoute, Router } from '@angular/router';
-
-// model
-import { Help, HelpCategory } from '@app/models';
-
-// image
+import { Component, ViewChild, ElementRef, Input, NgZone, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { AuthenticationService, CategoryService, HelpService, ResponseService, UserService } from '@app/services';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { MapsAPILoader, MouseEvent } from '@agm/core';
+import { HelpCategory, Help, User, HelpResponse } from '@app/models';
 import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
 import { Cloudinary } from '@cloudinary/angular-5.x';
 
-// maps
-import { MapsAPILoader, MouseEvent } from '@agm/core';
-
 @Component({
-  selector: 'app-helps-edit',
-  templateUrl: './helps-edit.component.html',
-  styleUrls: ['./helps-edit.component.css']
+  selector: 'app-helps-ask',
+  templateUrl: './helps-ask.component.html',
+  styleUrls: ['./helps-ask.component.css']
 })
-export class HelpsEditComponent implements OnInit {
-   @Input()
-  responses: Array<any>;
+export class HelpsAskComponent implements OnInit {
+  @Input()
+  responses: Array<any> = [];
+
+  model: Help = null;
+  submitted = false;
+  currentUser: User;
+  userToAsk: User;
+  // response
+  response: HelpResponse;
+
+  // category
+  categories: HelpCategory[] = [];
+  public idCat = null;
 
   // image
+  public imageUploaded = false;
   public hasBaseDropZoneOver = false;
   public uploader: FileUploader;
 
-  // categories
-  categories: HelpCategory[] = [];
-  public idCat1 = null;
-  public idCat2 = null;
-  public idCat3 = null;
-  public imageUploaded = false;
-
-  // model
-  helpsForm: FormGroup;
-  id: number = null;
-  submitted = false;
-  model: Help = null;
-
-  // maps
+  // map
   zoom: number;
   address: string;
   lastAddress: string;
   private geoCoder;
   @ViewChild('search')
   public searchElementRef: ElementRef;
+  object: { [key: number]: string } = { 2: 'foo', 1: 'bar' };
+  map = new Map([[2, 'foo'], [1, 'bar']]);
 
   constructor(
-    private activeRouter: ActivatedRoute,
+    private http: HttpClient,
     private router: Router,
-    private hs: HelpService,
-    private cloudinary: Cloudinary,
     private cs: CategoryService,
+    private hs: HelpService,
+    private as: AuthenticationService,
+    private cloudinary: Cloudinary,
     private ngZone: NgZone,
-    private mapsAPILoader: MapsAPILoader
-  ) { }
+    private location: Location,
+    private mapsAPILoader: MapsAPILoader,
+    private userService: UserService,
+    private activeRouter: ActivatedRoute,
+    private responseService: ResponseService
+  ) {
+    this.as.currentUser.subscribe(x => {
+      this.currentUser = x;
+      this.model = new Help();
+      this.model.idCreator = this.currentUser.id;
+      this.model.idType = 1;
+    });
+
+    const id = this.activeRouter.snapshot.params.id;
+    this.userService.getById(id).subscribe(x => {
+      this.userToAsk = x;
+      this.userService.getCategories(this.userToAsk.id).subscribe(y => {
+        if (y.categories && y.categories.length > 0) {
+          this.categories = y.categories;
+        }
+      });
+    });
+  }
 
   ngOnInit() {
-    const id = this.activeRouter.snapshot.params.id;
-    this.hs.getById(id).subscribe(x => {
-      // model
-      this.model = x;
 
-      // categories
-      this.initCategories();
-
-      // responses
-      this.responses = [];
-
-      // maps
-      this.initMaps();
-    });
-
-    // categories
-    this.cs.getAll().subscribe(x => {
-      this.categories = x;
-    });
-
-    // images
-    this.initImages();
-  }
-
-  initCategories() {
-    if (this.model.category.parent.parent !== undefined && this.model.category.parent.parent !== null ) {
-      this.idCat3 = this.model.idCategory;
-      this.idCat2 = this.model.category.parent.id;
-      this.idCat1 = this.model.category.parent.parent.id;
-    } else if (this.model.category.parent !== undefined && this.model.category.parent !== null) {
-      this.idCat2 = this.model.idCategory;
-      this.idCat1 = this.model.category.parent.id;
-    } else {
-      this.idCat1 = this.model.idCategory;
-    }
-  }
-
-  initMaps() {
-    this.setCurrentLocation();
+    // init map
     this.mapsAPILoader.load().then(() => {
+      this.setCurrentLocation();
       this.geoCoder = new google.maps.Geocoder();
-      setTimeout(() => {
-        const autocomplete = new google.maps.places.Autocomplete(
-          this.searchElementRef.nativeElement, {
-            types: ['address']
+
+      const autocomplete = new google.maps.places.Autocomplete(
+        this.searchElementRef.nativeElement,
+        {
+          types: ['address']
+        }
+      );
+      autocomplete.addListener('place_changed', () => {
+        this.ngZone.run(() => {
+          // get the place result
+          const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+          // verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
           }
-        );
 
-        autocomplete.addListener('place_changed', () => {
-          this.ngZone.run(() => {
-            // get the place result
-            const place: google.maps.places.PlaceResult = autocomplete.getPlace();
-
-            // verify result
-            if (place.geometry === undefined || place.geometry === null) {
-              return;
-            }
-
-            // set latitude, longitude and zoom
-            this.model.latitude = place.geometry.location.lat();
-            this.model.longitude = place.geometry.location.lng();
-            this.zoom = 12;
-            this.getAddress(this.model.latitude, this.model.longitude);
-          });
+          // set latitude, longitude and zoom
+          this.model.latitude = place.geometry.location.lat();
+          this.model.longitude = place.geometry.location.lng();
+          this.zoom = 12;
+          this.getAddress(this.model.latitude, this.model.longitude);
         });
-      }, 500);
-
+      });
     });
-  }
 
-  initImages() {
-
+    // init image - create the file uploader, wire it to upload to your account
     const uploaderOptions: FileUploaderOptions = {
       url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/upload`,
       // Upload files automatically upon addition to upload queue
@@ -230,26 +201,32 @@ export class HelpsEditComponent implements OnInit {
     this.imageUploaded = !this.imageUploaded;
   }
 
+  // Delete an uploaded image
+  // Requires setting 'Return delete token' to 'Yes' in your upload preset configuration
+  // See also https://support.cloudinary.com/hc/en-us/articles/202521132-How-to-delete-an-image-from-the-client-side-
   deleteImage = function(data: any, index: number) {
-    // Delete an uploaded image
-    // Requires setting 'Return delete token' to 'Yes' in your upload preset configuration
-    // See also https://support.cloudinary.com/hc/en-us/articles/202521132-How-to-delete-an-image-from-the-client-side-
     const url = `https://api.cloudinary.com/v1_1/${
       this.cloudinary.config().cloud_name
-    }/delete_by_token`;
-    const headers = new Headers({
-      'Content-Type': 'application/json',
-      'X-Requested-With': 'XMLHttpRequest'
-    });
+      }/delete_by_token`;
+    console.log(url, 'url');
+    const headers = [
+      {
+        name: 'X-Requested-With',
+        value: 'XMLHttpRequest'
+      }
+    ];
     const options = { headers };
+    console.log(data, 'data');
     const body = {
       token: data.delete_token
     };
+    console.log(body, 'body');
     this.http.post(url, body, options).subscribe(response => {
       console.log(`Deleted image - ${data.public_id} ${response.result}`);
       // Remove deleted item for responses
       this.responses.splice(index, 1);
     });
+    this.imageUploaded = !this.imageUploaded;
   };
 
   fileOverBase(e: any): void {
@@ -270,19 +247,12 @@ export class HelpsEditComponent implements OnInit {
   // Get current location coordinates
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
-      if (this.model.latitude != null && this.model.longitude != null) {
-        navigator.geolocation.getCurrentPosition(position => {
-          this.zoom = 8;
-          this.getAddress(this.model.latitude, this.model.longitude);
-        });
-      } else {
-        navigator.geolocation.getCurrentPosition(position => {
-          this.model.latitude = position.coords.latitude;
-          this.model.longitude = position.coords.longitude;
-          this.zoom = 8;
-          this.getAddress(this.model.latitude, this.model.longitude);
-        });
-      }
+      navigator.geolocation.getCurrentPosition(position => {
+        this.model.latitude = position.coords.latitude;
+        this.model.longitude = position.coords.longitude;
+        this.zoom = 8;
+        this.getAddress(this.model.latitude, this.model.longitude);
+      });
     }
   }
 
@@ -315,24 +285,74 @@ export class HelpsEditComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    const i = this.responses.length - 1;
     // image
+    const i = this.responses.length - 1;
     const image = this.responses[i];
-    if (image != null) {
-      this.model.image = image.data.public_id;
-    }
+    this.model.image = image === undefined ? null : image.data.public_id;
+
     this.model.address = this.lastAddress;
-
     // category
-    this.model.idCategory = this.idCat3 != null ? this.idCat3 : this.idCat2;
+    this.model.idCategory = this.idCat;
 
-    this.hs.updateHelp(this.model).subscribe(
-      () => {
-        this.router.navigate(['/profile']);
+    this.addHelpPromise();
+  }
+
+  addHelp() {
+    // crea l'help
+    this.hs.addHelp(this.model)
+      .subscribe(x => {
+        this.response = new HelpResponse();
+        this.response.responder = this.userToAsk;
+        this.response.idResponder = this.userToAsk.id;
+        this.response.help = x;
+        this.response.idHelp = x.id;
+      },
+        err => {
+          console.log('errore addHelp', err);
+        }
+      );
+  }
+
+  addResponse() {
+    // crea la risposta
+    this.responseService.addResponse(this.response).subscribe(
+      res => {
+        this.router.navigate(['/helps/', this.response.help.id]);
       },
       err => {
-        console.log(err);
+        console.log('errore addResponse', err);
       }
     );
   }
+
+  acceptResponse() {
+    // accetta la risposta
+    this.responseService.acceptResponse(this.response).subscribe(x => {
+      this.router.navigate(['/helps/', this.response.help.id]);
+    },
+      err => {
+        console.log('errore acceptResponse', err);
+      });
+  }
+
+  async addHelpPromise(): Promise<any> {
+    return new Promise((resolve) => {
+      this.addHelp();
+      setTimeout(() => resolve(), 500);
+    })
+      .then(() => {
+        new Promise((resolve) => {
+          this.addResponse();
+          setTimeout(() => resolve(), 500);
+        })
+        .then(() => {
+          this.acceptResponse();
+        });
+      });
+  }
+
+  back() {
+    this.location.back();
+  }
+
 }

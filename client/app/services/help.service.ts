@@ -21,12 +21,15 @@ export class HelpService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(type = null, excludeUserId = null, accepted = null, idCreator = null) {
+  getAll(type = null, excludeUserId = null, accepted = null, idCreator = null, distance = null, lat = null, long = null) {
     let params = '';
     params += type != null ? 'type=' + type + '&' : '';
     params += excludeUserId != null ? 'excludeUserId=' + excludeUserId + '&' : '';
     params += accepted != null ? 'accepted=' + accepted + '&' : '';
     params += idCreator != null ? 'idCreator=' + idCreator + '&' : '';
+    params += distance != null ? 'distance=' + distance + '&' : '';
+    params += lat != null ? 'lat=' + lat + '&' : '';
+    params += long != null ? 'long=' + long : '';
     if (params !== '') {
       params = '?' + params;
     }

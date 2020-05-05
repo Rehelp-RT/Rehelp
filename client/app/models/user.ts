@@ -1,5 +1,6 @@
 import { Help } from './';
 import { HelpResponse } from './response';
+import { HelpCategory } from './category';
 
 export class User {
     id: number;
@@ -9,19 +10,31 @@ export class User {
     birthdate: Date;
     city: string;
     country: string;
+    description: string;
     email: string;
     firstname: string;
     lastname: string;
     latitude: number;
     longitude: number;
 
+    responsesReviewsCount: number;
+    responsesReviewsSum: number;
+    helpsReviewsCount: number;
+    helpsReviewsSum: number;
+
     // meta
     likehelps: number;
     password: string;
-    username: string;
     token: string;
+    loginLocal: boolean;
+    loginFacebook: boolean;
+    loginGoogle: boolean;
+    idFacebook: string;
+    idGoogle: string;
 
     // virtual
     helps: Help[];
     responses: HelpResponse[];
+    categories: HelpCategory[];
+
 }

@@ -7,7 +7,6 @@ import { startWith, switchMap } from 'rxjs/operators';
 import { SwPush } from '@angular/service-worker';
 
 
-
 @Component({
   selector: 'app-notifications',
   templateUrl: './notifications.component.html',
@@ -47,11 +46,7 @@ export class NotificationsComponent implements OnInit {
     }
 
   ngOnInit() {
-      // this.swPush.requestSubscription({
-      //     serverPublicKey: this.VAPID_PUBLIC_KEY
-      // })
-      // .then(sub => this.newsletterService.addPushSubscriber(sub).subscribe())
-      // .catch(err => console.error("Could not subscribe to notifications", err));
+    if (this.currentUser != null) {
       interval(5000)
       .pipe(
           startWith(0),
@@ -60,6 +55,10 @@ export class NotificationsComponent implements OnInit {
       .subscribe(res => {
           this.notifications = res;
       });
+    }
+  console.log('notifications',this.notifications);
+  console.log('notificationsNumber',this.notificationsNumber);
+
   }
 
   navigate(id: number) {

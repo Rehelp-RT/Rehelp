@@ -26,11 +26,14 @@
                                 </div>
                             </div>
                             <div class="form-row mb-3">
-                                <label class="col-md-4" for="username">Username</label>
-                                <input class="col-md-8 form-control" type="text" formControlName="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-                                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                                    <div *ngIf="f.username.errors.required">
-                                        L'username è obbligatorio
+                                <label class="col-md-4" for="email">Email</label>
+                                <input class="col-md-8 form-control" type="text" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                    <div *ngIf="f.email.errors.required">
+                                        L'email è obbligatoria
+                                    </div>
+                                    <div *ngIf="f.email.errors?.pattern">
+                                        Inserire un'email valida
                                     </div>
                                 </div>
                             </div>
@@ -45,6 +48,15 @@
                                         Password must be at least 6 characters
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-row mb-3">
+                              <label class="col-md-4">Captcha</label>
+                              <re-captcha class="col-md-8" formControlName="recaptcha" (resolved)="sendTokenToBackend($event)" [ngClass]="{ 'is-invalid': submitted && f.recaptcha.errors }"></re-captcha>
+                              <div *ngIf="submitted && f.recaptcha.errors" class="invalid-feedback">
+                                <div *ngIf="f.recaptcha.errors.required">
+                                    Non hai validato il captcha
+                                </div>
+                            </div>
                             </div>
                             <div class="form-group">
                                 <button [disabled]="loading" class="btn btn-outline-primary">

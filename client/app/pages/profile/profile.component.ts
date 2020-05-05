@@ -20,34 +20,18 @@ export class ProfileComponent implements OnInit {
 
     ngOnInit() {
         this.actRoute.params.subscribe(params => {
-            const idCurrentUser = this.authService.currentUserValue.id;
-            this.isOwner = params.id == idCurrentUser;
-            this.userService.getById(params.id).subscribe(x => {
-                this.user = x;
-            });
-        });
-    }
+            this.isOwner = params.id === this.authService.currentUserValue.id.toString();
 
-    getAge(birthdate) {
-      const datenew = new Date();
-      const dateold = new Date(birthdate);
-      const ynew = datenew.getFullYear();
-      const mnew = datenew.getMonth();
-      const dnew = datenew.getDate();
-      const yold = dateold.getFullYear();
-      const mold = dateold.getMonth();
-      const dold = dateold.getDate();
-      let diff = ynew - yold;
-      if (mold > mnew) {
-        diff--;
-      } else {
-          if (mold === mnew) {
-              if (dold > dnew) {
-                diff--;
-              }
-          }
-      }
-      return diff;
+            if (this.isOwner) {
+                this.authService.getCurrentUser().subscribe(x => {
+                    this.user = x;
+                });
+            } else {
+                this.userService.getById(params.id).subscribe(x => {
+                    this.user = x;
+                });
+            }
+        });
     }
 
     groupBy(objectArray, property) {
@@ -61,47 +45,54 @@ export class ProfileComponent implements OnInit {
         }, {});
     }
 
-    getAverage() {
-        // sum responses rating
-        const ratedResponses = this.user.responses.filter(r => {
-            if (r.ratingCreator !== undefined) {
-                return r.ratingCreator;
-            }
-        });
-        const sumResponses = ratedResponses.reduce((prev, cur) => {
-          return prev + cur.ratingCreator;
-        }, 0);
-
-        // sum responses of help rating
-        const ratedHelps = this.user.helps.filter(h => {
-          const ress = h.responses.filter(r => {
-              if (r.ratingResponder !== undefined) {
-                  return r.ratingResponder;
-              }
-          });
-          return (ress.length > 0) ? h : null;
-        });
-        const ratedHelpsResponses =
-            ratedHelps.map(h =>
-                h.responses.filter(r =>
-                    (r.ratingResponder)));
-        const flatArray = Array.prototype.concat.apply([], ratedHelpsResponses);
-        const sumHelps = flatArray.reduce((prev, cur) => {
-          return prev + cur.ratingResponder;
-        }, 0);
-
-        const reviews = ratedHelpsResponses.length + ratedResponses.length;
-        let average;
-
-        if (sumResponses !== 0) {
-            average = ((sumResponses + sumHelps) / (ratedResponses.length + ratedHelps.length)).toFixed(1);
+    getAge(birthdate): number {
+        const datenew = new Date();
+        const dateold = new Date(birthdate);
+        const ynew = datenew.getFullYear();
+        const mnew = datenew.getMonth();
+        const dnew = datenew.getDate();
+        const yold = dateold.getFullYear();
+        const mold = dateold.getMonth();
+        const dold = dateold.getDate();
+        let diff = ynew - yold;
+        if (mold > mnew) {
+            diff--;
         } else {
-            average = 'Ancora nessuna recensione.';
+            if (mold === mnew) {
+                if (dold > dnew) {
+                  diff--;
+                }
+            }
         }
+        return diff;
+    }
 
-        return {
-          average,
-          reviews
-         };
+    getFullname() {
+        return this.user.firstname + ' ' + this.user.lastname;
+    }
+
+    getAvatar() {
+        if (this.user.avatar != null) {
+            return 'https://res.cloudinary.com/hwbyvepex/image/upload/' + this.user.avatar;
+        } else if (this.user.loginFacebook && this.user.idFacebook) {
+            return this.user.idFacebook;
+        } else if (this.user.loginGoogle && this.user.idGoogle) {
+            return this.user.idGoogle;
+        } else {
+            return 'assets/img/avatar_512.png';
+        }
+    }
+
+    getAverage(): number {
+        return (this.user.responsesReviewsSum + this.user.helpsReviewsSum) /
+          (this.user.responsesReviewsCount + this.user.helpsReviewsCount);
+    }
+
+    getReviews(): number {
+      if (isNaN(this.user.responsesReviewsCount + this.user.helpsReviewsCount)) {
+        return 0;
+      } else {
+        return (this.user.responsesReviewsCount + this.user.helpsReviewsCount);
+      }
     }
 }

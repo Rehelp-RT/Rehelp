@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 import { NotificationService } from '@app/services';
 import { interval } from 'rxjs/internal/observable/interval';
 import { startWith, switchMap } from 'rxjs/operators';
-import { SwPush } from '@angular/service-worker';
-
 
 @Component({
   selector: 'app-notifications',

@@ -27,7 +27,7 @@ export class OfferComponent implements OnInit {
             console.log('route changed');
             this.idProfile = params.id;
 
-            this.isOwner = this.authService.currentUserValue.id == this.idProfile;
+            this.isOwner = this.authService.currentUserValue.id === this.idProfile;
 
             this.userService.getCategories(this.idProfile).subscribe(x => {
                 if (x.categories && x.categories.length > 0) {

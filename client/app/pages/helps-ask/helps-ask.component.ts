@@ -26,9 +26,7 @@ export class HelpsAskComponent implements OnInit {
 
   // category
   categories: HelpCategory[] = [];
-  public idCat1 = null;
-  public idCat2 = null;
-  public idCat3 = null;
+  public idCat = null;
 
   // image
   public imageUploaded = false;
@@ -65,13 +63,15 @@ export class HelpsAskComponent implements OnInit {
       this.model.idCreator = this.currentUser.id;
       this.model.idType = 1;
     });
-    this.cs.getAll().subscribe(x => {
-      this.categories = x;
-    });
 
     const id = this.activeRouter.snapshot.params.id;
     this.userService.getById(id).subscribe(x => {
       this.userToAsk = x;
+      this.userService.getCategories(this.userToAsk.id).subscribe(y => {
+        if (y.categories && y.categories.length > 0) {
+          this.categories = y.categories;
+        }
+      });
     });
   }
 
@@ -292,7 +292,7 @@ export class HelpsAskComponent implements OnInit {
 
     this.model.address = this.lastAddress;
     // category
-    this.model.idCategory = this.idCat3 != null ? this.idCat3 : this.idCat2;
+    this.model.idCategory = this.idCat;
 
     this.addHelpPromise();
   }

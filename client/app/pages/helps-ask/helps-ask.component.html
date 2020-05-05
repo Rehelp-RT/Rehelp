@@ -25,12 +25,12 @@
                         <div class="form-row mb-3">
                             <label class="col-lg-4" for="category">Categoria</label>
                             <div class="col-lg-8">
-                                <select class="form-control mb-3" [(ngModel)]="idCat1" name="idCat1" required>
+                                <select class="form-control mb-3" [(ngModel)]="idCat" name="idCat" required>
                                     <option *ngFor="let cat of categories" [value]="cat.id">
-                                        {{ cat.name }}
+                                      {{ cat.parent.name }} - {{ cat.name }}
                                     </option>
                                 </select>
-                                <select *ngIf="idCat1 != null" class="form-control mb-3" [(ngModel)]="idCat2"
+                                <!-- <select *ngIf="idCat1 != null" class="form-control mb-3" [(ngModel)]="idCat2"
                                     name="idCat2" required>
                                     <option *ngFor="let cat of categories | filterCategories : { id: idCat1 }"
                                         [value]="cat.id">
@@ -45,7 +45,7 @@
                                         [value]="cat.id">
                                         {{ cat.name }}
                                     </option>
-                                </select>
+                                </select> -->
                             </div>
                         </div>
 

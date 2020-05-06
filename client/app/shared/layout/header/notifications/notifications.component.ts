@@ -52,6 +52,9 @@ export class NotificationsComponent implements OnInit {
         .subscribe(res => {
           this.notifications = res;
           this.notificationsNumber = res.length;
+        },
+        (err) => {
+          console.error('errore :', err);
         });
     }
   }
@@ -61,17 +64,6 @@ export class NotificationsComponent implements OnInit {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.router.onSameUrlNavigation = 'reload';
     this.router.navigate(['/helps/', id]);
-  }
-
-  getNotifications(): void {
-    this.notificationService.getByUser(this.currentUser.id)
-      .subscribe(x => {
-        this.notifications = x;
-        this.notificationsNumber = this.notifications.length;
-      },
-        (err) => {
-          console.error('errore :', err);
-        });
   }
 
   checkNotification(n: Notification) {

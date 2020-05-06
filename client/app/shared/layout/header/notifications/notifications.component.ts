@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NotificationService } from '@app/services';
 import { interval } from 'rxjs/internal/observable/interval';
 import { startWith, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-notifications',
@@ -43,20 +44,36 @@ export class NotificationsComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.currentUser != null) {
-      interval(3000)
-        .pipe(
-          startWith(0),
-          switchMap(() => this.notificationService.getByUser(this.currentUser.id))
-        )
-        .subscribe(res => {
-          this.notifications = res;
-          this.notificationsNumber = res.length;
-        },
+    setInterval(() => {
+      if (this.currentUser != null) {
+        this.callFuntionAtIntervals();
+      }
+    }, 3000);
+
+    // if (this.currentUser != null) {
+    //   interval(3000)
+    //     .pipe(
+    //       startWith(0),
+    //       switchMap(() => this.notificationService.getByUser(this.currentUser.id))
+    //     )
+    //     .subscribe(res => {
+    //       this.notifications = res;
+    //       this.notificationsNumber = res.length;
+    //     },
+    //       (err) => {
+    //         console.error('errore :', err);
+    //       });
+    // }
+  }
+  callFuntionAtIntervals() {
+    this.notificationService.getByUser(this.currentUser.id)
+      .subscribe(res => {
+        this.notifications = res;
+        this.notificationsNumber = res.length;
+      },
         (err) => {
           console.error('errore :', err);
         });
-    }
   }
 
   navigate(id: number) {

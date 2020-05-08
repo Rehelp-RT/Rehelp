@@ -3,30 +3,31 @@
 <div *ngIf="helps.length > 0">
     <table class="table">
         <tbody>
-            <tr *ngFor="let h of helps">
+            <tr *ngFor="let help of helps">
                 <td>
-                    <img src="{{ h.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + h.image }}" alt="{{ h.title }} image" width="100" class="help-img">
+                    <img src="{{ help.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + help.image : (help.category.image != null ? 'assets/img/categories/' + help.category.image : 'assets/img/placeholder-help.png')  }}"
+                    alt="{{ help.title }} image" class="help-img" width="100">
                 </td>
                 <td>
-                    <app-categories [category]="h.category"></app-categories>
-                    {{ h.title }}
+                    <app-categories [category]="help.category"></app-categories>
+                    {{ help.title }}
                 </td>
                 <td>
-                    <a [routerLink]="['/helps/', h.id]" class="btn btn-sm btn-outline-secondary m-1">
+                    <a [routerLink]="['/helps/', help.id]" class="btn btn-sm btn-outline-secondary m-1">
                       Dettagli
                     </a>
                 </td>
                 <td>
-                    <div *ngIf="!h.accepted">
+                    <div *ngIf="!help.accepted">
                         <fa-icon title="In attesa di accettazione" [icon]="['fas', 'clock']"></fa-icon>
                     </div>
-                    <div *ngIf="h.accepted && !h.reviewed">
+                    <div *ngIf="help.accepted && !help.reviewed">
                         <fa-icon title="Accettato" [icon]="['fas', 'check']"></fa-icon>
                     </div>
-                    <div *ngIf="h.reviewed && !h.completed">
+                    <div *ngIf="help.reviewed && !help.completed">
                         <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
                     </div>
-                    <div *ngIf="h.completed">
+                    <div *ngIf="help.completed">
                         <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon>
                     </div>
                 </td>

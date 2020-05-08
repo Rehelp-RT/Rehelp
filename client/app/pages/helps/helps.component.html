@@ -20,35 +20,36 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let h of helps">
+                <tr *ngFor="let help of helps">
                     <td>
-                        <a class="help-img" [routerLink]="['/helps/', h.id]">
-                            <img class="help-img" src="{{ h.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + h.image }}" alt="{{ h.title }} image" width="100">
+                        <a class="help-img" [routerLink]="['/helps/', help.id]">
+                            <img src="{{ help.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + help.image : (help.category.image != null ? 'assets/img/categories/' + help.category.image : 'assets/img/placeholder-help.png')  }}"
+                            alt="{{ help.title }} image" class="help-img">
                         </a>
                         <div class="help-desc">
-                            <app-categories [category]="h.category"></app-categories>
+                            <app-categories [category]="help.category"></app-categories>
                             <p>
-                                <a [routerLink]="['/helps/', h.id]" class="text-dark">
-                                {{ h.title }}
+                                <a [routerLink]="['/helps/', help.id]" class="text-dark">
+                                {{ help.title }}
                               </a>
                             </p>
                         </div>
                     </td>
                     <td class="col-location">
                         <fa-icon [icon]="['fas', 'map-marker-alt']"></fa-icon>
-                        {{ h.address }}
+                        {{ help.address }}
                     </td>
                     <td>
-                        {{ h.createdAt | date: "dd/MM/yyyy" }}
+                        {{ help.createdAt | date: "dd/MM/yyyy" }}
                     </td>
                     <td>
-                        <app-user-icon [user]="h.creator"></app-user-icon>
+                        <app-user-icon [user]="help.creator"></app-user-icon>
                     </td>
                     <td>
-                        <a [routerLink]="['/helps/', h.id]" class="btn btn-outline-secondary btn-block">
+                        <a [routerLink]="['/helps/', help.id]" class="btn btn-outline-secondary btn-block">
                         Visualizza
                       </a>
-                        <a [routerLink]="['/helps/', h.id, 'response']" class="btn btn-outline-primary btn-block">
+                        <a [routerLink]="['/helps/', help.id, 'response']" class="btn btn-outline-primary btn-block">
                         Aiuta
                       </a>
                     </td>

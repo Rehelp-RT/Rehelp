@@ -1,19 +1,21 @@
 <div *ngIf="currentUser">
     <div class="dropdown" [ngClass]="{'show': isOpen}">
-        <li class="dropdown-toggle" (click)="isOpen = !isOpen" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <li class="dropdown-toggle" (click)="isOpen = !isOpen" role="button" id="dropdownMenuLink"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <fa-layers [fixedWidth]="true" size="2x" class="header-icon">
                 <fa-icon [icon]="['fas', 'bell']"></fa-icon>
-                <fa-layers-counter *ngIf="notifications.length !== 0" content="{{notificationsNumber}}" size="2x" class="fa-icon-counter">
+                <fa-layers-counter content="{{notificationsNumber}}" size="2x" class="fa-icon-counter">
                 </fa-layers-counter>
             </fa-layers>
         </li>
 
         <div class="dropdown-menu dropdown-menu-right" [ngClass]="{'show': isOpen}" aria-labelledby="dropdownMenuLink">
-            <p class="p-3 m-0" *ngIf="notificationsNumber == 0 || notificationsNumber == undefined">
+            <p class="p-3 m-0" *ngIf="notificationsNumber == 0 || notifications == undefined">
                 Non ci sono notifiche
             </p>
             <div *ngFor="let n of notifications">
-                <div class="dropdown-item" (click)="navigate(n.idHelp); checkNotification(n)" ngClass="{'bg-white': n.checked, 'bg-light': !n.checked, 'font-weight-bold' : !n.checked}">
+                <div class="dropdown-item" (click)="navigate(n.idHelp); checkNotification(n)"
+                    [ngClass]="{'bg-white': n.checked, 'bg-light': !n.checked, 'font-weight-bold' : !n.checked}">
                     {{ n.message }}
                 </div>
                 <div class="dropdown-divider"></div>

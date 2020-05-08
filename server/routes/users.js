@@ -56,7 +56,9 @@ router.get('/', (req, res) => {
                 'birthdate',
                 'loginLocal',
                 'loginFacebook',
-                'loginGoogle'
+                'loginGoogle',
+                'idGoogle',
+                'idFacebook'
             ],
             where: {
                 [Op.and]: filters

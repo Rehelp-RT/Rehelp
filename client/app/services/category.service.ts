@@ -10,8 +10,14 @@ import { environment } from '@environments/environment';
 export class CategoryService {
   constructor(private http: HttpClient) {}
 
-  getAll() {
-    return this.http.get<HelpCategory[]>(`${environment.apiUrl}/categories`);
+  getAll(idHelpType: number = null) {
+    let params = '';
+    params += idHelpType != null ? 'idHelpType=' + idHelpType + '&' : '';
+    if (params !== '') {
+      params = '?' + params;
+    }
+
+    return this.http.get<HelpCategory[]>(`${environment.apiUrl}/categories${params}`);
   }
 
 }

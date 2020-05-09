@@ -17,36 +17,58 @@
             </h2>
             <div class="card mt-3">
                 <div class="card-body">
-                    <form *ngIf="model" #helpForm="ngForm" (ngSubmit)="onSubmit()">
+                    <form [formGroup]="helpsForm" *ngIf="model" (ngSubmit)="onSubmit()">
 
                         <div class="form-row mb-3">
                             <label class="col-lg-4" for="category">Categoria</label>
                             <div class="col-lg-8">
-                                <select class="form-control mb-3" [(ngModel)]="idCat1" name="idCat1" required>
-                              <option *ngFor="let cat of categories" [value]="cat.id">
-                                  {{ cat.name }}
-                              </option>
-                          </select>
-                                <select *ngIf="idCat1 != null" class="form-control mb-3" [(ngModel)]="idCat2" name="idCat2" required>
-                              <option *ngFor="let cat of categories | filterCategories : { id: idCat1 }" [value]="cat.id">
-                                  {{ cat.name }}
-                              </option>
-                          </select>
-                                <select *ngIf="idCat2 != null && (categories | filterCategories : { id: idCat1, idChild: idCat2 }).length > 0" class="form-control mb-3" [(ngModel)]="idCat3" name="idCat3">
-                              <option *ngFor="let cat of categories | filterCategories : { id: idCat1, idChild: idCat2 }" [value]="cat.id">
-                                  {{ cat.name }}
-                              </option>
-                          </select>
+                                <select
+                                    class="form-control mb-3"
+                                    [(ngModel)]="idCat1"
+                                    [ngModelOptions]="{standalone: true}">
+                                    <option *ngFor="let cat of categories" [value]="cat.id">
+                                        {{ cat.name }}
+                                    </option>
+                                </select>
+                                <select
+                                    class="form-control mb-3"
+                                    [(ngModel)]="idCat2"
+                                    [ngModelOptions]="{standalone: true}"
+                                    *ngIf="idCat1 != null">
+                                    <option *ngFor="let cat of categories | filterCategories : { id: idCat1 }" [value]="cat.id">
+                                        {{ cat.name }}
+                                    </option>
+                                </select>
+                                <select
+                                    class="form-control mb-3"
+                                    [(ngModel)]="idCat3"
+                                    [ngModelOptions]="{standalone: true}"
+                                    *ngIf="idCat2 != null && (categories | filterCategories : { id: idCat1, idChild: idCat2 }).length > 0">
+                                    <option *ngFor="let cat of categories | filterCategories : { id: idCat1, idChild: idCat2 }" [value]="cat.id">
+                                        {{ cat.name }}
+                                    </option>
+                                </select>
                             </div>
                         </div>
 
                         <div class="form-row mb-3">
                             <label class="col-lg-4" for="title">Titolo</label>
-                            <input class="col-lg-8 form-control" type="text" [(ngModel)]="model.title" name="title" required />
+                            <div class="col-lg-8">
+                                <input
+                                    class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && f.title.errors }"
+                                    type="text"
+                                    formControlName="title"
+                                    name="title"
+                                    required />
+                                <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                                    <div *ngIf="f.title.errors.required">Il campo "Titolo" è obbligatorio</div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row mb-3">
-                            <label class="col-lg-4" for="category">immagine</label>
+                            <label class="col-lg-4" for="category">Immagine</label>
                             <div class="col-lg-8" [hidden]="imageUploaded">
                                 <!-- <p>{{ idCat1 }} - {{ idCat2 }} - {{ idCat3 }}</p>
                                 <img src="{{ model.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + model.image : (getCategoryById(idCat3) ? 'assets/img/categories/' + getCategoryById(idCat3).image : 'assets/img/placeholder-help.png')  }}"
@@ -73,19 +95,32 @@
                                                       <fa-icon [icon]="['fas', 'cloud-upload-alt']"></fa-icon> Sfoglia
                                                   </label>
                                                     <!-- onChange hanlder resets the input value to get the change event when uploading the same file consecutively -->
-                                                    <input type="file" id="fileupload" #fileInput ng2FileSelect [style.display]="'none'" [uploader]="uploader" (change)="fileInput.value = ''" multiple />
+                                                    <input 
+                                                        type="file"
+                                                        id="fileupload"
+                                                        #fileInput
+                                                        ng2FileSelect
+                                                        [style.display]="'none'"
+                                                        [uploader]="uploader"
+                                                        (change)="fileInput.value = ''"
+                                                        multiple />
                                                 </div>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
-                                
+
                                 <div class="file" *ngFor="let response of responses; let i = index; last as isLast">
                                     <div *ngIf="imageUploaded && isLast">
                                         <div class="status">
-                                            <p *ngIf="!response.status">Caricamento... {{ response.progress }}%</p>   
+                                            <p *ngIf="!response.status">Caricamento... {{ response.progress }}%</p>
                                             <p *ngIf="response.status==200">Caricamento completo</p>
-                                            <input type="hidden" [(ngModel)]="model.image" [value]="response.data.public_id " name="image" />
+                                            <input
+                                                type="hidden"
+                                                [(ngModel)]="model.image"
+                                                [ngModelOptions]="{standalone: true}"
+                                                [value]="response.data.public_id"
+                                                name="image" />
                                         </div>
                                         <div class="progress-bar">
                                             <div *ngIf="!response.status" class="progress" role="progressbar" [style.width.%]="response.progress"></div>
@@ -104,21 +139,53 @@
 
                         <div class="form-row mb-3">
                             <label class="col-lg-4" for="description">Descrizione</label>
-                            <textarea class="col-lg-8 form-control" rows="4" [(ngModel)]="model.description" name="description" required>
-                        </textarea>
+                            <div class="col-lg-8">
+                                <textarea
+                                    class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && f.description.errors }"
+                                    formControlName="description"
+                                    name="description"
+                                    rows="4"
+                                    required>
+                                </textarea>
+                                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                                    <div *ngIf="f.description.errors.required">Il campo "Descrizione" è obbligatorio</div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-row mb-3">
                             <label class="col-lg-4" for="location">Zona</label>
-                            <agm-map class="col-lg-8" [latitude]="model.latitude" [longitude]="model.longitude" [zoom]="zoom">
-                                <agm-marker [latitude]="model.latitude" [longitude]="model.longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
+                            <agm-map
+                                class="col-lg-8"
+                                [latitude]="model.latitude"
+                                [longitude]="model.longitude"
+                                [zoom]="zoom">
+                                <agm-marker
+                                    [latitude]="model.latitude"
+                                    [longitude]="model.longitude"
+                                    [markerDraggable]="true"
+                                    (dragEnd)="markerDragEnd($event)">
                                 </agm-marker>
                             </agm-map>
                         </div>
 
                         <div class="form-row mb-3">
                             <label class="col-lg-4" for="address">Indirizzo</label>
-                            <input class="col-lg-8 form-control" type="text" [(ngModel)]="model.address" name="address" (keydown.enter)="$event.preventDefault()" placeholder="{{address}}" value="{{address}}" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
+                            <input
+                                class="col-lg-8 form-control"
+                                type="text"
+                                [(ngModel)]="model.address"
+                                [ngModelOptions]="{standalone: true}"
+                                name="address"
+                                (keydown.enter)="$event.preventDefault()"
+                                placeholder="{{address}}"
+                                value="{{address}}"
+                                autocorrect="off"
+                                autocapitalize="off"
+                                spellcheck="off"
+                                type="text"
+                                #search>
                         </div>
 
                         <div class="form-row mb-3">

@@ -6,6 +6,7 @@ module.exports = {
         return Promise.all([
             queryInterface.bulkDelete('HelpCategories', null, {}),
             queryInterface.bulkInsert('HelpCategories', [
+                // Meet & Help Categories
                 { id: 1, idHelpType: 1, code: 'JOB', createdAt: date, updatedAt: date, name: 'Aiuto' },
                 { id: 2, idHelpType: 1, code: 'TEA', createdAt: date, updatedAt: date, name: 'Insegnamento' },
                 { id: 3, idHelpType: 1, code: 'HOB', createdAt: date, updatedAt: date, name: 'Hobby' },
@@ -123,7 +124,111 @@ module.exports = {
                 { id: 115, idParent: 3, idHelpType: 1, createdAt: date, updatedAt: date, name: 'teatro' },
                 { id: 116, idParent: 3, idHelpType: 1, createdAt: date, updatedAt: date, name: 'cinema' },
                 { id: 117, idParent: 3, idHelpType: 1, createdAt: date, updatedAt: date, name: 'shopping' },
-                { id: 118, idParent: 3, idHelpType: 1, createdAt: date, updatedAt: date, name: 'altro' }
+                { id: 118, idParent: 3, idHelpType: 1, createdAt: date, updatedAt: date, name: 'altro' },
+
+                // Collective Help Categories
+
+                { id: 119, idHelpType: 2, createdAt: date, updatedAt: date, name: 'Costruzione e ristrutturazione' },
+
+                { id: 120, idHelpType: 2, createdAt: date, updatedAt: date, name: 'Piantumazione' },
+
+                { id: 121, idHelpType: 2, createdAt: date, updatedAt: date, name: 'Pulizia ambienti' },
+
+
+                // Immediate Help Categories
+
+                { id: 122, idHelpType: 3, createdAt: date, updatedAt: date, name: 'Assistenza stradale' },
+
+                { id: 123, idHelpType: 3, createdAt: date, updatedAt: date, name: 'Fame e sete' },
+
+                { id: 124, idHelpType: 3, createdAt: date, updatedAt: date, name: 'Prestito oggetti' },
+
+                { id: 125, idHelpType: 3, createdAt: date, updatedAt: date, name: 'Primo soccorso' },
+
+                // Meet & Share Categories
+
+                { id: 126, idHelpType: 4, createdAt: date, updatedAt: date, name: 'Abbigliamento e accessori' },
+
+                { id: 127, idHelpType: 4, idParent: 126, createdAt: date, updatedAt: date, name: 'abbigliamento uomo' },
+                { id: 128, idHelpType: 4, idParent: 126, createdAt: date, updatedAt: date, name: 'abbigliamento donna' },
+                { id: 129, idHelpType: 4, idParent: 126, createdAt: date, updatedAt: date, name: 'abbigliamento bambino/a' },
+                { id: 130, idHelpType: 4, idParent: 126, createdAt: date, updatedAt: date, name: 'accessori' },
+                { id: 131, idHelpType: 4, idParent: 126, createdAt: date, updatedAt: date, name: 'altro' },
+
+                { id: 132, idHelpType: 4, createdAt: date, updatedAt: date, name: 'Attrezzature sportive' },
+
+                { id: 133, idHelpType: 4, idParent: 132, createdAt: date, updatedAt: date, name: 'arti marziali' },
+                { id: 134, idHelpType: 4, idParent: 132, createdAt: date, updatedAt: date, name: 'basket' },
+                { id: 135, idHelpType: 4, idParent: 132, createdAt: date, updatedAt: date, name: 'boxe' },
+                { id: 136, idHelpType: 4, idParent: 132, createdAt: date, updatedAt: date, name: 'calcio' },
+                { id: 137, idHelpType: 4, idParent: 132, createdAt: date, updatedAt: date, name: 'canottaggio e barca' },
+                { id: 138, idHelpType: 4, idParent: 132, createdAt: date, updatedAt: date, name: 'ciclismo' },
+                { id: 139, idHelpType: 4, idParent: 132, createdAt: date, updatedAt: date, name: 'pallavolo' },
+                { id: 140, idHelpType: 4, idParent: 132, createdAt: date, updatedAt: date, name: 'sci e snowboard' },
+                { id: 141, idHelpType: 4, idParent: 132, createdAt: date, updatedAt: date, name: 'surf' },
+                { id: 142, idHelpType: 4, idParent: 132, createdAt: date, updatedAt: date, name: 'tennis' },
+                { id: 143, idHelpType: 4, idParent: 132, createdAt: date, updatedAt: date, name: 'altro' },
+
+                { id: 144, idHelpType: 4, createdAt: date, updatedAt: date, name: 'Casa' },
+
+                { id: 145, idHelpType: 4, idParent: 144, createdAt: date, updatedAt: date, name: 'attrezzi edilizia' },
+                { id: 146, idHelpType: 4, idParent: 144, createdAt: date, updatedAt: date, name: 'divano' },
+                { id: 147, idHelpType: 4, idParent: 144, createdAt: date, updatedAt: date, name: 'materasso' },
+                { id: 148, idHelpType: 4, idParent: 144, createdAt: date, updatedAt: date, name: 'pentole, stoviglie, accessori cucina' },
+                { id: 149, idHelpType: 4, idParent: 144, createdAt: date, updatedAt: date, name: 'sedia' },
+                { id: 150, idHelpType: 4, idParent: 144, createdAt: date, updatedAt: date, name: 'tavolo' },
+
+                { id: 151, idHelpType: 4, createdAt: date, updatedAt: date, name: 'Cellulari e tablet' },
+
+                { id: 152, idHelpType: 4, createdAt: date, updatedAt: date, name: 'Elettrodomestici' },
+
+                { id: 153, idHelpType: 4, idParent: 152, createdAt: date, updatedAt: date, name: 'aspirapolvere' },
+                { id: 154, idHelpType: 4, idParent: 152, createdAt: date, updatedAt: date, name: 'frigo' },
+                { id: 155, idHelpType: 4, idParent: 152, createdAt: date, updatedAt: date, name: 'lavatrice' },
+                { id: 156, idHelpType: 4, idParent: 152, createdAt: date, updatedAt: date, name: 'quadri' },
+                { id: 157, idHelpType: 4, idParent: 152, createdAt: date, updatedAt: date, name: 'stereo' },
+                { id: 158, idHelpType: 4, idParent: 152, createdAt: date, updatedAt: date, name: 'TV' },
+                { id: 159, idHelpType: 4, idParent: 152, createdAt: date, updatedAt: date, name: 'altro' },
+
+                { id: 160, idHelpType: 4, createdAt: date, updatedAt: date, name: 'Elettronica e computer' },
+
+                { id: 161, idHelpType: 4, createdAt: date, updatedAt: date, name: 'Giochi' },
+
+                { id: 162, idHelpType: 4, idParent: 161, createdAt: date, updatedAt: date, name: 'giochi per bimbi' },
+                { id: 163, idHelpType: 4, idParent: 161, createdAt: date, updatedAt: date, name: 'giochi da tavolo' },
+                { id: 164, idHelpType: 4, idParent: 161, createdAt: date, updatedAt: date, name: 'videogiochi' },
+                { id: 165, idHelpType: 4, idParent: 161, createdAt: date, updatedAt: date, name: 'altro' },
+
+                { id: 166, idHelpType: 4, createdAt: date, updatedAt: date, name: 'Mezzi di trasporto' },
+
+                { id: 167, idHelpType: 4, idParent: 166, createdAt: date, updatedAt: date, name: 'auto' },
+                { id: 168, idHelpType: 4, idParent: 166, createdAt: date, updatedAt: date, name: 'bicicletta' },
+                { id: 169, idHelpType: 4, idParent: 166, createdAt: date, updatedAt: date, name: 'camion' },
+                { id: 170, idHelpType: 4, idParent: 166, createdAt: date, updatedAt: date, name: 'furgone' },
+                { id: 171, idHelpType: 4, idParent: 166, createdAt: date, updatedAt: date, name: 'moto' },
+                { id: 172, idHelpType: 4, idParent: 166, createdAt: date, updatedAt: date, name: 'altro' },
+
+                { id: 173, idHelpType: 4, createdAt: date, updatedAt: date, name: 'Tempo libero' },
+
+                { id: 174, idHelpType: 4, idParent: 173, createdAt: date, updatedAt: date, name: 'dischi' },
+                { id: 175, idHelpType: 4, idParent: 173, createdAt: date, updatedAt: date, name: 'libri' },
+                { id: 176, idHelpType: 4, idParent: 173, createdAt: date, updatedAt: date, name: 'strumenti musicali' },
+
+                { id: 177, idHelpType: 4, createdAt: date, updatedAt: date, name: 'Viaggi' },
+
+                { id: 178, idHelpType: 4, idParent: 177, createdAt: date, updatedAt: date, name: 'sacco a pelo' },
+                { id: 179, idHelpType: 4, idParent: 177, createdAt: date, updatedAt: date, name: 'tenda' },
+                { id: 180, idHelpType: 4, idParent: 177, createdAt: date, updatedAt: date, name: 'valigia' },
+                { id: 181, idHelpType: 4, idParent: 177, createdAt: date, updatedAt: date, name: 'zaino' },
+                { id: 182, idHelpType: 4, idParent: 177, createdAt: date, updatedAt: date, name: 'altro' },
+
+
+                // aggiunte immediate help
+
+                { id: 183, idHelpType: 3, idParent: 124, createdAt: date, updatedAt: date, name: 'biglietti inutilizzati' },
+                { id: 184, idHelpType: 3, idParent: 124, createdAt: date, updatedAt: date, name: 'posto auto' },
+                { id: 185, idHelpType: 3, idParent: 124, createdAt: date, updatedAt: date, name: 'ombrellone' },
+
             ], {}),
         ]);
     },

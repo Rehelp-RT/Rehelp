@@ -70,13 +70,13 @@ router.get('/', (req, res) => {
                     as: 'type'
                 },
                 {
-                    attributes: ['id', 'code', 'name'],
+                    attributes: ['id', 'code', 'name', 'image'],
                     model: db.HelpCategory,
                     include: [{
-                        attributes: ['id', 'code', 'name'],
+                        attributes: ['id', 'code', 'name', 'image'],
                         model: db.HelpCategory,
                         include: [{
-                            attributes: ['id', 'code', 'name'],
+                            attributes: ['id', 'code', 'name', 'image'],
                             model: db.HelpCategory,
                             as: 'parent'
                         }],
@@ -124,13 +124,13 @@ router.get('/:id', (req, res) => {
             include: [
                 { attributes: ['code', 'name'], model: db.HelpType, required: true, as: 'type' },
                 {
-                    attributes: ['id', 'code', 'name'],
+                    attributes: ['id', 'code', 'name', 'image'],
                     model: db.HelpCategory,
                     include: [{
-                        attributes: ['id', 'code', 'name'],
+                        attributes: ['id', 'code', 'name', 'image'],
                         model: db.HelpCategory,
                         include: [{
-                            attributes: ['id', 'code', 'name'],
+                            attributes: ['id', 'code', 'name', 'image'],
                             model: db.HelpCategory,
                             as: 'parent'
                         }],
@@ -139,7 +139,13 @@ router.get('/:id', (req, res) => {
                     required: true,
                     as: 'category'
                 },
-                { attributes: ['id', 'email', 'firstname', 'lastname', 'avatar'], model: db.User, required: true, as: 'creator' },
+                { 
+                    attributes: ['id', 'email', 'firstname', 'lastname',
+                    'avatar', 'idGoogle', 'idFacebook', 'loginLocal', 'loginGoogle', 'loginFacebook'],
+                    model: db.User,
+                    required: true,
+                    as: 'creator'
+                },
                 {
                     include: [{
                         attributes: ['id', 'email', 'firstname', 'lastname', 'avatar'],

@@ -27,7 +27,8 @@
                                       {{ cat.name }}
                                   </option>
                               </select>
-                                <select *ngIf="idCat2 != null && (categories | filterCategories : { id: idCat1, idChild: idCat2 }).length > 0" class="form-control mb-3" [(ngModel)]="idCat3" name="idCat3">
+                                <select *ngIf="idCat2 != null && (categories | filterCategories : { id: idCat1, idChild: idCat2 }).length > 0"
+                                    class="form-control mb-3" [(ngModel)]="idCat3" name="idCat3">
                                   <option *ngFor="let cat of categories | filterCategories : { id: idCat1, idChild: idCat2 }" [value]="cat.id">
                                       {{ cat.name }}
                                   </option>
@@ -47,6 +48,14 @@
                                 </sub>
                             </label>
                             <div class="col-lg-8">
+                                <!-- <div>{{idCat1}}</div>
+                                <div>{{idCat2}}</div>
+                                <div>{{idCat3}}</div>
+                                <div class="category-image" *ngIf="!model.image">
+                                    <div *ngIf="idCat3">merkel 3</div>
+                                    <div *ngIf="(idCat3 == null || idCat3 == '') && idCat2">merkel 2</div>
+                                    <div *ngIf="(idCat3 == null || idCat3 == '') && (idCat2 == null || idCat2 == '') && idCat1">merkel 1</div>
+                                </div> -->
                                 <div [hidden]="imageUploaded">
                                     <form id="direct_upload" ng2FileDrop [uploader]="uploader" (fileOver)="fileOverBase($event)" [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }">
                                         <div class="py-3">

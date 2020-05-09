@@ -33,7 +33,9 @@ export class HeaderComponent implements OnInit {
         this.router.navigate(['/login']);
     }
 
-    sendMessage() {
-        this.ns.sendMessage();
-    }
+    // sendMessage() {
+    //     this.ns.sendMessage(30,43.0554254,13.4303147).subscribe(x => 
+    //         console.log(x)
+    //     );
+    // }
 }

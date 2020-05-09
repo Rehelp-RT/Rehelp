@@ -48,7 +48,7 @@ export class NotificationsComponent implements OnInit {
       if (this.currentUser != null) {
         this.callFuntionAtIntervals();
       }
-    }, 3000);
+    }, 120000);
 
     // if (this.currentUser != null) {
     //   interval(3000)

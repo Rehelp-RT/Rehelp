@@ -1,17 +1,10 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-  NgZone,
-  Input
-} from '@angular/core';
+import { Component, ViewChild, ElementRef, Input, NgZone, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { HelpService, CategoryService } from '@app/services';
+import { HelpService, CategoryService, AuthenticationService } from '@app/services';
 import { ActivatedRoute, Router } from '@angular/router';
 
 // model
-import { Help, HelpCategory } from '@app/models';
+import { Help, HelpCategory, User } from '@app/models';
 
 // image
 import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
@@ -26,12 +19,16 @@ import { MapsAPILoader, MouseEvent } from '@agm/core';
   styleUrls: ['./helps-edit.component.css']
 })
 export class HelpsEditComponent implements OnInit {
-   @Input()
-  responses: Array<any>;
+  @Input()
+  responses: Array<any> = [];
 
-  // image
-  public hasBaseDropZoneOver = false;
-  public uploader: FileUploader;
+  // model
+  submitted = false;
+  helpsForm: FormGroup;
+  idHelp: number = null;
+  idType = 1;
+  model: Help = null;
+  currentUser: User;
 
   // categories
   categories: HelpCategory[] = [];
@@ -40,11 +37,9 @@ export class HelpsEditComponent implements OnInit {
   public idCat3 = null;
   public imageUploaded = false;
 
-  // model
-  helpsForm: FormGroup;
-  id: number = null;
-  submitted = false;
-  model: Help = null;
+  // image
+  public hasBaseDropZoneOver = false;
+  public uploader: FileUploader;
 
   // maps
   zoom: number;
@@ -57,16 +52,37 @@ export class HelpsEditComponent implements OnInit {
   constructor(
     private activeRouter: ActivatedRoute,
     private router: Router,
+    private as: AuthenticationService,
+    private cs: CategoryService,
     private hs: HelpService,
     private cloudinary: Cloudinary,
-    private cs: CategoryService,
     private ngZone: NgZone,
     private mapsAPILoader: MapsAPILoader
   ) { }
 
   ngOnInit() {
-    const id = this.activeRouter.snapshot.params.id;
-    this.hs.getById(id).subscribe(x => {
+    // get id
+    this.idHelp = this.activeRouter.snapshot.params.id;
+
+    if (this.idHelp) {
+      // edit
+      this.initEditHelp();
+    } else {
+      // create
+      this.initCreateHelp();
+    }
+
+    // categories
+    this.cs.getAll(this.model.idType).subscribe(x => {
+      this.categories = x;
+  });
+
+    // images
+    this.initImages();
+  }
+
+  private initEditHelp() {
+    this.hs.getById(this.idHelp).subscribe(x => {
       // model
       this.model = x;
 
@@ -79,17 +95,24 @@ export class HelpsEditComponent implements OnInit {
       // maps
       this.initMaps();
     });
-
-    // categories
-    this.cs.getAll().subscribe(x => {
-      this.categories = x;
-    });
-
-    // images
-    this.initImages();
   }
 
-  initCategories() {
+  private initCreateHelp() {
+    this.as.currentUser.subscribe(x => {
+      // help
+      this.model = new Help();
+
+      // current user
+      this.currentUser = x;
+      this.model.idCreator = this.currentUser.id;
+      this.model.idType = this.idType;
+
+      // maps
+      this.initMaps();
+    });
+  }
+
+  private initCategories() {
     if (this.model.category.parent.parent !== undefined && this.model.category.parent.parent !== null ) {
       this.idCat3 = this.model.idCategory;
       this.idCat2 = this.model.category.parent.id;
@@ -102,7 +125,7 @@ export class HelpsEditComponent implements OnInit {
     }
   }
 
-  initMaps() {
+  private initMaps() {
     this.setCurrentLocation();
     this.mapsAPILoader.load().then(() => {
       this.geoCoder = new google.maps.Geocoder();
@@ -135,7 +158,7 @@ export class HelpsEditComponent implements OnInit {
     });
   }
 
-  initImages() {
+  private initImages() {
 
     const uploaderOptions: FileUploaderOptions = {
       url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/upload`,
@@ -270,12 +293,14 @@ export class HelpsEditComponent implements OnInit {
   // Get current location coordinates
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
-      if (this.model.latitude != null && this.model.longitude != null) {
+      if (this.idHelp && this.model.latitude != null && this.model.longitude != null) {
+        console.log('---------- location edit');
         navigator.geolocation.getCurrentPosition(position => {
           this.zoom = 8;
           this.getAddress(this.model.latitude, this.model.longitude);
         });
       } else {
+        console.log('---------- location new');
         navigator.geolocation.getCurrentPosition(position => {
           this.model.latitude = position.coords.latitude;
           this.model.longitude = position.coords.longitude;
@@ -315,24 +340,44 @@ export class HelpsEditComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    const i = this.responses.length - 1;
+
     // image
+    const i = this.responses.length - 1;
     const image = this.responses[i];
     if (image != null) {
       this.model.image = image.data.public_id;
     }
+
+    // map
     this.model.address = this.lastAddress;
 
     // category
     this.model.idCategory = this.idCat3 != null ? this.idCat3 : this.idCat2;
 
-    this.hs.updateHelp(this.model).subscribe(
-      () => {
-        this.router.navigate(['/profile']);
-      },
-      err => {
-        console.log(err);
-      }
-    );
+    if (this.idHelp) {
+      // update help
+      this.updateHelp();
+    } else {
+      // create help
+      this.createHelp();
+    }
+  }
+
+  private createHelp() {
+    this.hs.addHelp(this.model).subscribe(() => {
+      this.router.navigate(['/helps/', this.model.id]);
+    },
+    err => {
+      console.log(err);
+    });
+  }
+
+  private updateHelp() {
+    this.hs.updateHelp(this.model).subscribe(() => {
+      this.router.navigate(['/helps/', this.model.id]);
+    },
+    err => {
+      console.log(err);
+    });
   }
 }

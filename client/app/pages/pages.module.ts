@@ -20,7 +20,6 @@ import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { FaqComponent } from './faq/faq.component';
 import { HelpsComponent } from './helps/helps.component';
-import { HelpsAddComponent } from './helps-add/helps-add.component';
 import { HelpsAskComponent } from './helps-ask/helps-ask.component';
 import { HelpsEditComponent } from './helps-edit/helps-edit.component';
 import { HelpsResponseComponent } from './helps-response/helps-response.component';
@@ -50,7 +49,6 @@ import { RegisterComponent } from './register/register.component';
         ContactComponent,
         FaqComponent,
         HelpsComponent,
-        HelpsAddComponent,
         HelpsAskComponent,
         HelpsEditComponent,
         HelpsResponseComponent,

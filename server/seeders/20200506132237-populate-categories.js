@@ -132,7 +132,7 @@ module.exports = {
 
                 { id: 120, idHelpType: 2, createdAt: date, updatedAt: date, name: 'Piantumazione' },
 
-                { id: 121, idHelpType: 2, createdAt: date, updatedAt: date, name: 'Costruzione e ristrutturazione' },
+                { id: 121, idHelpType: 2, createdAt: date, updatedAt: date, name: 'Pulizia ambienti' },
 
 
                 // Immediate Help Categories

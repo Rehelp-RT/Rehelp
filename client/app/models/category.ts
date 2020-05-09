@@ -6,4 +6,5 @@ export class HelpCategory {
     parent: HelpCategory;
     children: HelpCategory[];
     checked: boolean;
+    idHelpType: number;
 }

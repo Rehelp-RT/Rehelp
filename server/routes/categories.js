@@ -6,19 +6,24 @@ const { Op } = require('sequelize');
 router.get('/', (req, res) => {
 
     // filters
-    filters = [{ idParent: null }];
+    var filters = [{ idParent: null }];
+    if (req.query.idHelpType !== undefined) {
+      filters.push({
+        idHelpType: req.query.idHelpType
+      })
+    }
 
     db.HelpCategory.findAll({
-            attributes: ['id', 'code', 'name'],
+            attributes: ['id', 'code', 'name', 'idHelpType'],
             where: {
                 [Op.and]: filters
             },
             include: [{
-                attributes: ['id', 'name'],
+                attributes: ['id', 'name', 'idHelpType'],
                 model: db.HelpCategory,
                 as: 'children',
                 include: [{
-                    attributes: ['id', 'name'],
+                    attributes: ['id', 'name', 'idHelpType'],
                     model: db.HelpCategory,
                     as: 'children'
                 }]

@@ -59,9 +59,11 @@ export class HelpsAddComponent implements OnInit {
       this.model.idCreator = this.currentUser.id;
       this.model.idType = 1;
     });
-    this.cs.getAll().subscribe(x => {
+
+    this.cs.getAll(this.model.idType).subscribe(x => {
+      console.log('idType', this.model.idType);
       this.categories = x;
-    });
+  });
   }
 
   ngOnInit() {

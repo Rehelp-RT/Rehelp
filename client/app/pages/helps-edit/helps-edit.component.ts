@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, Input, NgZone, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HelpService, CategoryService, AuthenticationService } from '@app/services';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -51,6 +51,7 @@ export class HelpsEditComponent implements OnInit {
 
   constructor(
     private activeRouter: ActivatedRoute,
+    private formBuilder: FormBuilder,
     private router: Router,
     private as: AuthenticationService,
     private cs: CategoryService,
@@ -72,13 +73,19 @@ export class HelpsEditComponent implements OnInit {
       this.initCreateHelp();
     }
 
-    // categories
-    this.cs.getAll(this.model.idType).subscribe(x => {
-      this.categories = x;
-  });
-
     // images
     this.initImages();
+  }
+
+  // convenience getter for easy access to form fields
+  get f() { return this.helpsForm.controls; }
+
+  private initForm() {
+    this.helpsForm = this.formBuilder.group({
+      title: [this.model.title, Validators.required],
+      description: [this.model.description, Validators.required],
+      address: []
+    });
   }
 
   private initEditHelp() {
@@ -86,8 +93,11 @@ export class HelpsEditComponent implements OnInit {
       // model
       this.model = x;
 
+      // form validation
+      this.initForm();
+
       // categories
-      this.initCategories();
+      this.initCategories(this.model.idType);
 
       // responses
       this.responses = [];
@@ -106,23 +116,40 @@ export class HelpsEditComponent implements OnInit {
       this.currentUser = x;
       this.model.idCreator = this.currentUser.id;
       this.model.idType = this.idType;
+      this.model.title = '';
+      this.model.description = '';
+
+      // form validation
+      this.initForm();
+
+      // categories
+      this.initCategories(this.model.idType);
 
       // maps
       this.initMaps();
     });
   }
 
-  private initCategories() {
-    if (this.model.category.parent.parent !== undefined && this.model.category.parent.parent !== null ) {
-      this.idCat3 = this.model.idCategory;
-      this.idCat2 = this.model.category.parent.id;
-      this.idCat1 = this.model.category.parent.parent.id;
-    } else if (this.model.category.parent !== undefined && this.model.category.parent !== null) {
-      this.idCat2 = this.model.idCategory;
-      this.idCat1 = this.model.category.parent.id;
-    } else {
-      this.idCat1 = this.model.idCategory;
-    }
+  private initCategories(idType: number) {
+    // categories
+    this.cs.getAll(idType).subscribe(x => {
+      this.categories = x;
+
+      if (this.model.category) {
+        if (this.model.category.parent !== undefined && this.model.category.parent !== null) {
+          if (this.model.category.parent.parent !== undefined && this.model.category.parent.parent !== null) {
+            this.idCat3 = this.model.idCategory;
+            this.idCat2 = this.model.category.parent.id;
+            this.idCat1 = this.model.category.parent.parent.id;
+          } else {
+            this.idCat2 = this.model.idCategory;
+            this.idCat1 = this.model.category.parent.id;
+          }
+        } else {
+          this.idCat1 = this.model.idCategory;
+        }
+      }
+    });
   }
 
   private initMaps() {
@@ -341,31 +368,40 @@ export class HelpsEditComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    // image
-    const i = this.responses.length - 1;
-    const image = this.responses[i];
-    if (image != null) {
-      this.model.image = image.data.public_id;
-    }
-
-    // map
-    this.model.address = this.lastAddress;
-
-    // category
-    this.model.idCategory = this.idCat3 != null ? this.idCat3 : this.idCat2;
-
-    if (this.idHelp) {
-      // update help
-      this.updateHelp();
+    if (this.helpsForm.invalid) {
+      // form is invalid
+      return;
     } else {
-      // create help
-      this.createHelp();
+      // get forms value
+      this.model.title = this.f.title.value;
+      this.model.description = this.f.description.value;
+
+      // image
+      const i = this.responses.length - 1;
+      const image = this.responses[i];
+      if (image != null) {
+        this.model.image = image.data.public_id;
+      }
+
+      // map
+      this.model.address = this.lastAddress;
+
+      // category
+      this.model.idCategory = this.idCat3 != null ? this.idCat3 : this.idCat2;
+
+      if (this.idHelp) {
+        // update help
+        this.updateHelp();
+      } else {
+        // create help
+        this.createHelp();
+      }
     }
   }
 
   private createHelp() {
-    this.hs.addHelp(this.model).subscribe(() => {
-      this.router.navigate(['/helps/', this.model.id]);
+    this.hs.addHelp(this.model).subscribe(x => {
+      this.router.navigate(['/helps/', x.id]);
     },
     err => {
       console.log(err);

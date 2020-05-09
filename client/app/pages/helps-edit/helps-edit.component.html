@@ -2,14 +2,19 @@
     <div class="row">
 
         <div class="col-lg-2 col-md-3 mb-3">
-            <a *ngIf="model" class="btn btn-block btn-outline-secondary" [routerLink]="['/helps/', model.id]">
+            <a *ngIf="idHelp" class="btn btn-block btn-outline-secondary" [routerLink]="['/helps/', idHelp]">
                 <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon> Richiesta
+            </a>
+            <a *ngIf="!idHelp" class="btn btn-block btn-outline-secondary" [routerLink]="['/helps/']">
+                <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon> Richieste
             </a>
         </div>
 
         <div class="col-lg-10 col-md-9">
 
-            <h2 class="display-4">Modifica Help</h2>
+            <h2 class="display-4">
+                {{ idHelp ? 'Modifica aiuto' : 'Nuovo aiuto' }}
+            </h2>
             <div class="card mt-3">
                 <div class="card-body">
                     <form *ngIf="model" #helpForm="ngForm" (ngSubmit)="onSubmit()">
@@ -43,8 +48,11 @@
                         <div class="row mb-3">
                             <label class="col-lg-4" for="category">immagine</label>
                             <div class="col-lg-8" [hidden]="imageUploaded">
-                                <p>{{ idCat1 }} - {{ idCat2 }} - {{ idCat3 }}</p>
-                                <img src="{{ model.image == null ? 'assets/img/placeholder-help.png' : 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + model.image }}" alt="{{ model.title }} image" width="100%" class="help-img">
+                                <!-- <p>{{ idCat1 }} - {{ idCat2 }} - {{ idCat3 }}</p>
+                                <img src="{{ model.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + model.image : (getCategoryById(idCat3) ? 'assets/img/categories/' + getCategoryById(idCat3).image : 'assets/img/placeholder-help.png')  }}"
+                                    alt="{{ model.title }} image" width="100%" class="help-img"> -->
+                                <img src="{{ model.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + model.image : 'assets/img/placeholder-help.png'  }}"
+                                    alt="{{ model.title }} image" width="100%" class="help-img">
                             </div>
                         </div>
 
@@ -54,43 +62,44 @@
                                     <p>Trascina sul riquadro la foto da caricare</p>
                                 </sub>
                             </label>
-                            <div [hidden]="imageUploaded">
-                                <form id="direct_upload" ng2FileDrop [uploader]="uploader" (fileOver)="fileOverBase($event)" [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }">
-                                    <div class="py-3">
-                                        <div class="form_controls">
-                                            <div class="upload_button_holder">
-                                                <label class="btn btn-outline-secondary" for="fileupload">
-                                                  <fa-icon [icon]="['fas', 'cloud-upload-alt']"></fa-icon> Sfoglia
-                                              </label>
-                                                <!-- onChange hanlder resets the input value to get the change event when uploading the same file consecutively -->
-                                                <input type="file" id="fileupload" #fileInput ng2FileSelect [style.display]="'none'" [uploader]="uploader" (change)="fileInput.value = ''" multiple />
+                            <div class="col-lg-8">
+
+                                <div [hidden]="imageUploaded">
+                                    <form id="direct_upload" ng2FileDrop [uploader]="uploader" (fileOver)="fileOverBase($event)" [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }">
+                                        <div class="py-3">
+                                            <div class="form_controls">
+                                                <div class="upload_button_holder">
+                                                    <label class="btn btn-outline-secondary" for="fileupload">
+                                                      <fa-icon [icon]="['fas', 'cloud-upload-alt']"></fa-icon> Sfoglia
+                                                  </label>
+                                                    <!-- onChange hanlder resets the input value to get the change event when uploading the same file consecutively -->
+                                                    <input type="file" id="fileupload" #fileInput ng2FileSelect [style.display]="'none'" [uploader]="uploader" (change)="fileInput.value = ''" multiple />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </form>
-                            </div>
-
-                            <div class="file" *ngFor="let response of responses; let i = index; last as isLast">
-                                <div *ngIf="imageUploaded && isLast">
-                                    <div class="status">
-                                        Caricamento... {{ response.progress }}%
-                                        <div *ngIf="!response.status">In progress</div>
-                                        <div class="status-code" *ngIf="response.status==200">
-                                            Caricamento completo
+                                    </form>
+                                </div>
+                                
+                                <div class="file" *ngFor="let response of responses; let i = index; last as isLast">
+                                    <div *ngIf="imageUploaded && isLast">
+                                        <div class="status">
+                                            <p *ngIf="!response.status">Caricamento... {{ response.progress }}%</p>   
+                                            <p *ngIf="response.status==200">Caricamento completo</p>
+                                            <input type="hidden" [(ngModel)]="model.image" [value]="response.data.public_id " name="image" />
                                         </div>
-                                        <input type="hidden" [(ngModel)]="model.image" [value]="response.data.public_id " name="image" />
+                                        <div class="progress-bar">
+                                            <div *ngIf="!response.status" class="progress" role="progressbar" [style.width.%]="response.progress"></div>
+                                        </div>
+                                        <a target="_blank" href="{{ response.data.url}}">
+                                            <img class="img-fluid" src="{{ response.data.url}}" alt="{{ response.data.public_id }}">
+                                        </a>
+                                        <a (click)="toggleImgUploader()" class="btn btn-danger btn-block col-md-1 mt-2">
+                                            <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon>
+                                        </a>
                                     </div>
-                                    <div class="progress-bar">
-                                        <div class="progress" role="progressbar" [style.width.%]="response.progress"></div>
-                                    </div>
-                                    <a target="_blank" href="{{ response.data.url}}">
-                                        <img src="{{ response.data.url}}" alt="{{ response.data.public_id }}">
-                                    </a>
-                                    <a (click)="toggleImgUploader()" class="btn btn-danger btn-block col-md-1 mt-2">
-                                        <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon>
-                                    </a>
                                 </div>
                             </div>
+
                         </div>
 
                         <div class="form-row mb-3">

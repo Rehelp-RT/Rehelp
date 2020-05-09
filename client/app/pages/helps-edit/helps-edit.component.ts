@@ -1,10 +1,10 @@
 import { Component, ViewChild, ElementRef, Input, NgZone, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { HelpService, CategoryService, AuthenticationService } from '@app/services';
+import { AuthenticationService, CategoryService, HelpService, TypeService } from '@app/services';
 import { ActivatedRoute, Router } from '@angular/router';
 
 // model
-import { Help, HelpCategory, User } from '@app/models';
+import { Help, HelpCategory, User, HelpType } from '@app/models';
 
 // image
 import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
@@ -26,7 +26,7 @@ export class HelpsEditComponent implements OnInit {
   submitted = false;
   helpsForm: FormGroup;
   idHelp: number = null;
-  idType = 1;
+  type: HelpType = null;
   model: Help = null;
   currentUser: User;
 
@@ -50,27 +50,37 @@ export class HelpsEditComponent implements OnInit {
   public searchElementRef: ElementRef;
 
   constructor(
-    private activeRouter: ActivatedRoute,
+    private activeRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private router: Router,
     private as: AuthenticationService,
     private cs: CategoryService,
     private hs: HelpService,
+    private ts: TypeService,
     private cloudinary: Cloudinary,
     private ngZone: NgZone,
     private mapsAPILoader: MapsAPILoader
   ) { }
 
   ngOnInit() {
-    // get id
-    this.idHelp = this.activeRouter.snapshot.params.id;
-
+    // get params
+    if (this.activeRoute.snapshot.params.id) {
+      this.idHelp = this.activeRoute.snapshot.params.id;
+    }
+    const type = 
+      this.activeRoute.snapshot.params.type 
+      ? this.activeRoute.snapshot.params.type 
+      : 'MEH';
+      
+    console.log('idHelp', this.idHelp);
+    console.log('type', type);
+      
     if (this.idHelp) {
       // edit
       this.initEditHelp();
     } else {
       // create
-      this.initCreateHelp();
+      this.initCreateHelp(type);
     }
 
     // images
@@ -92,6 +102,7 @@ export class HelpsEditComponent implements OnInit {
     this.hs.getById(this.idHelp).subscribe(x => {
       // model
       this.model = x;
+      this.type = x.type;
 
       // form validation
       this.initForm();
@@ -107,7 +118,7 @@ export class HelpsEditComponent implements OnInit {
     });
   }
 
-  private initCreateHelp() {
+  private initCreateHelp(type: string) {
     this.as.currentUser.subscribe(x => {
       // help
       this.model = new Help();
@@ -115,15 +126,20 @@ export class HelpsEditComponent implements OnInit {
       // current user
       this.currentUser = x;
       this.model.idCreator = this.currentUser.id;
-      this.model.idType = this.idType;
       this.model.title = '';
       this.model.description = '';
 
+      // get type
+      this.ts.getByCode(type).subscribe(x => {
+        this.type = x;
+        this.model.idType = x.id;
+        
+        // categories
+        this.initCategories(x.id);
+      });
+
       // form validation
       this.initForm();
-
-      // categories
-      this.initCategories(this.model.idType);
 
       // maps
       this.initMaps();
@@ -321,13 +337,11 @@ export class HelpsEditComponent implements OnInit {
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
       if (this.idHelp && this.model.latitude != null && this.model.longitude != null) {
-        console.log('---------- location edit');
         navigator.geolocation.getCurrentPosition(position => {
           this.zoom = 8;
           this.getAddress(this.model.latitude, this.model.longitude);
         });
       } else {
-        console.log('---------- location new');
         navigator.geolocation.getCurrentPosition(position => {
           this.model.latitude = position.coords.latitude;
           this.model.longitude = position.coords.longitude;

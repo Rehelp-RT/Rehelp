@@ -16,6 +16,7 @@ export class User {
     lastname: string;
     latitude: number;
     longitude: number;
+    phoneNumber: string;
 
     responsesReviewsCount: number;
     responsesReviewsSum: number;

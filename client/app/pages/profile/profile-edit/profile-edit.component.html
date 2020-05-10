@@ -31,6 +31,11 @@
     </div>
 
     <div class="form-row mb-3">
+        <label class="col-md-4" for="phoneNumber">Cellulare</label>
+        <input class="col-md-8 form-control" type="text" [(ngModel)]="model.phoneNumber" name="phoneNumber" required />
+    </div>
+
+    <div class="form-row mb-3">
         <label class="col-md-4" for="location">Zona</label>
         <agm-map class="col-md-8" [latitude]="model.latitude" [longitude]="model.longitude" [zoom]="zoom">
             <agm-marker [latitude]="model.latitude" [longitude]="model.longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">

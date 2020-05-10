@@ -5,7 +5,7 @@ import { UserService, AuthenticationService, CategoryService } from '@app/servic
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+  styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
 
@@ -14,10 +14,9 @@ export class UsersComponent implements OnInit {
   public selectedDistance = null;
   currentUser: User = null;
 
-  //distance
   lat: Number = null
   long: Number = null
-  
+
   // category
   categories: HelpCategory[] = [];
   public idCat1 = null;
@@ -26,7 +25,7 @@ export class UsersComponent implements OnInit {
 
   constructor(private us: UserService,
     private as: AuthenticationService,
-    private cs: CategoryService) { 
+    private cs: CategoryService) {
 
     this.as.getCurrentUser()
       .subscribe(x => {

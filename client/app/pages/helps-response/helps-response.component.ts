@@ -10,7 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-helps-response',
   templateUrl: './helps-response.component.html',
-  styleUrls: ['./helps-response.component.css']
+  styleUrls: ['./helps-response.component.scss']
 })
 export class HelpsResponseComponent implements OnInit {
   author: boolean;

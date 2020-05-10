@@ -8,7 +8,7 @@ import { AuthenticationService } from '@app/services';
 @Component({
     selector: 'app-chat',
     templateUrl: './chat.component.html',
-    styleUrls: ['./chat.component.css']
+    styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     @ViewChild('scrollMe') private scrolly: ElementRef;

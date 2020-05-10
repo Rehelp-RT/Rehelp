@@ -16,7 +16,7 @@ import { MapsAPILoader, MouseEvent } from '@agm/core';
 @Component({
   selector: 'app-helps-edit',
   templateUrl: './helps-edit.component.html',
-  styleUrls: ['./helps-edit.component.css']
+  styleUrls: ['./helps-edit.component.scss']
 })
 export class HelpsEditComponent implements OnInit {
   @Input()
@@ -67,14 +67,14 @@ export class HelpsEditComponent implements OnInit {
     if (this.activeRoute.snapshot.params.id) {
       this.idHelp = this.activeRoute.snapshot.params.id;
     }
-    const type = 
-      this.activeRoute.snapshot.params.type 
-      ? this.activeRoute.snapshot.params.type 
+    const type =
+      this.activeRoute.snapshot.params.type
+      ? this.activeRoute.snapshot.params.type
       : 'MEH';
-      
+
     console.log('idHelp', this.idHelp);
     console.log('type', type);
-      
+
     if (this.idHelp) {
       // edit
       this.initEditHelp();
@@ -133,7 +133,7 @@ export class HelpsEditComponent implements OnInit {
       this.ts.getByCode(type).subscribe(x => {
         this.type = x;
         this.model.idType = x.id;
-        
+
         // categories
         this.initCategories(x.id);
       });

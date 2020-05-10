@@ -11,7 +11,7 @@ import { Cloudinary } from '@cloudinary/angular-5.x';
 @Component({
   selector: 'app-helps-ask',
   templateUrl: './helps-ask.component.html',
-  styleUrls: ['./helps-ask.component.css']
+  styleUrls: ['./helps-ask.component.scss']
 })
 export class HelpsAskComponent implements OnInit {
   @Input()

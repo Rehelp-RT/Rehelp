@@ -6,7 +6,7 @@ import { HelpService } from '@app/services';
 @Component({
   selector: 'app-requested-help',
   templateUrl: './requested-help.component.html',
-  styleUrls: ['./requested-help.component.css']
+  styleUrls: ['./requested-help.component.scss']
 })
 export class RequestedHelpComponent implements OnInit {
 

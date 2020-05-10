@@ -9,7 +9,7 @@ import { User } from '@app/models';
 @Component({
     selector: 'app-user-icon',
     templateUrl: './user-icon.component.html',
-    styleUrls: ['./user-icon.component.css'],
+    styleUrls: ['./user-icon.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
 export class UserIconComponent implements OnInit {

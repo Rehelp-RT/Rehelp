@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-categories-edit',
   templateUrl: './categories-edit.component.html',
-  styleUrls: ['./categories-edit.component.css']
+  styleUrls: ['./categories-edit.component.scss']
 })
 export class CategoriesEditComponent implements OnInit {
 

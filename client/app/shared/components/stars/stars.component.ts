@@ -3,7 +3,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '
 @Component({
   selector: 'app-stars',
   templateUrl: './stars.component.html',
-  styleUrls: ['./stars.component.css']
+  styleUrls: ['./stars.component.scss']
 })
 export class StarsComponent implements OnInit, AfterViewInit {
 

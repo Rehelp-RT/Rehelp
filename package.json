@@ -96,15 +96,13 @@
     "tslint": "~5.15.0"
   },
   "browser": {
+    "crypto": false,
     "fs": false,
-    "path": false,
-    "os": false,
-    "http": false,
-    "https": false,
     "net": false,
+    "os": false,
+    "path": false,
     "stream": false,
-    "tls": false,
-    "crypto": false
+    "tls": false
   }
 
 }

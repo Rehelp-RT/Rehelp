@@ -7,12 +7,18 @@ const moment = require('moment');
 router.get('/', (req, res) => {
 
     //mt to km
-    var distance = req.query.distance !== undefined ? req.query.distance * 1000 : undefined;
-    var latit = req.query.lat !== undefined ? parseFloat(req.query.lat) : undefined;
-    var longit = req.query.long !== undefined ? parseFloat(req.query.long) : undefined;
+    const type = req.query.type !== undefined ? req.query.type : undefined;
+    const distance = req.query.distance !== undefined ? req.query.distance * 1000 : undefined;
+    const latit = req.query.lat !== undefined ? parseFloat(req.query.lat) : undefined;
+    const longit = req.query.long !== undefined ? parseFloat(req.query.long) : undefined;
 
     // get parameters
+    console.log('---- query ----');
+    console.log('---------------');
     console.log('req.query', req.query);
+    console.log('---------------');
+    console.log('---------------');
+    const filterType = type === undefined ? {} : { code: type };
     var filters = [];
     if (req.query.excludeUserId !== undefined) {
         filters.push({
@@ -44,9 +50,6 @@ router.get('/', (req, res) => {
                 ]
         });
     }
-
-    console.log('filters', filters);
-    const filterType = req.query.type === undefined || req.query.type === null ? {} : { code: req.query.type };
 
     // query
     db.Help.findAll({

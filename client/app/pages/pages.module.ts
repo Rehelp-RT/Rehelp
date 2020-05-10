@@ -1,5 +1,6 @@
 // core modules
 import { CommonModule } from '@angular/common';
+import { MatSliderModule } from '@angular/material/slider';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -34,6 +35,7 @@ import { RegisterComponent } from './register/register.component';
         FileUploadModule,
         FormsModule,
         HttpClientModule,
+        MatSliderModule,
         ReactiveFormsModule,
         RouterModule,
 

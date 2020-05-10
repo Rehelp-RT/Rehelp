@@ -8,13 +8,15 @@ import { AppComponent } from './app.component';
 import { PagesModule } from './pages';
 import { SharedModule } from './shared';
 import { environment } from '../environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     imports: [
         AppRoutingModule,
         BrowserModule,
         PagesModule,
-        SharedModule
+        SharedModule,
+        BrowserAnimationsModule
     ],
     declarations: [
         AppComponent

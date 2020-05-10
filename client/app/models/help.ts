@@ -14,6 +14,9 @@ export class Help {
     longitude: number;
     address: string;
 
+    // IMH
+    halfhourValidity: number;
+
     accepted: boolean;
     reviewed: boolean;
     completed: boolean;

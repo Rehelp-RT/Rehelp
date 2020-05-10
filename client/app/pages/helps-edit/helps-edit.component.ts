@@ -379,6 +379,14 @@ export class HelpsEditComponent implements OnInit {
     }
   }
 
+  getDateEndValidity() {
+    if (!this.model.halfhourValidity) {
+      return 0;
+    } else {
+      return this.model.halfhourValidity*30;
+    }
+  }
+
   onSubmit() {
     this.submitted = true;
 

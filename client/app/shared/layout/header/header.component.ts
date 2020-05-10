@@ -4,15 +4,9 @@ import { AuthenticationService, NotificationService } from '@app/services';
 import { Router } from '@angular/router';
 
 @Component({
-<<<<<<< HEAD
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
-=======
-    selector: 'app-header',
-    templateUrl: './header.component.html',
-    styleUrls: ['./header.component.css']
->>>>>>> 5fa77115c01587ca14b1406e814bfbe990e37899
 })
 export class HeaderComponent implements OnInit {
     currentUser: User;

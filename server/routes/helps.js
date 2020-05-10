@@ -1,6 +1,7 @@
 var router = require('express').Router();
 const db = require('../models');
 const { Op, Sequelize } = require('sequelize');
+const moment = require('moment');
 
 // GET /api/helps
 router.get('/', (req, res) => {
@@ -185,7 +186,11 @@ router.get('/:id', (req, res) => {
 // POST /api/helps/add
 router.post('/add', (req, res) => {
     const body = req.body;
-    console.log(body, "body add")
+    console.log('---- body ----')
+    console.log('--------------')
+    console.log(body)
+    console.log('--------------')
+    console.log('--------------')
     if (body == undefined) {
         res.sendStatus(400)
     } else if (body.title === undefined) {
@@ -203,6 +208,10 @@ router.post('/add', (req, res) => {
     } else if (body.longitude === undefined) {
         res.status(400).send({ message: 'longitude is missing' });
     } else {
+        const dateEndValidity =
+            body.halfhourValidity === undefined
+            ? null
+            : moment(new Date()).add(body.halfhourValidity*30, 'm').toDate();
         db.Help.create({
                 title: body.title,
                 description: body.description,
@@ -211,7 +220,7 @@ router.post('/add', (req, res) => {
                 idCreator: body.idCreator,
                 halfhourValidity: body.halfhourValidity,
                 dateStartValidity: body.dateStartValidity,
-                dateEndValidity: body.dateEndValidity,
+                dateEndValidity: dateEndValidity,
                 accepted: false,
                 reviewed: false,
                 completed: false,

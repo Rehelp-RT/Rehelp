@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef, Input, NgZone, OnInit } from '@angula
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService, CategoryService, HelpService, TypeService } from '@app/services';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 
 // model
 import { Help, HelpCategory, User, HelpType } from '@app/models';
@@ -44,7 +45,6 @@ export class HelpsEditComponent implements OnInit {
   // maps
   zoom: number;
   address: string;
-  lastAddress: string;
   private geoCoder;
   @ViewChild('search')
   public searchElementRef: ElementRef;
@@ -93,8 +93,7 @@ export class HelpsEditComponent implements OnInit {
   private initForm() {
     this.helpsForm = this.formBuilder.group({
       title: [this.model.title, Validators.required],
-      description: [this.model.description, Validators.required],
-      address: []
+      description: [this.model.description, Validators.required]
     });
   }
 
@@ -134,12 +133,16 @@ export class HelpsEditComponent implements OnInit {
         this.type = x;
         this.model.idType = x.id;
 
+        if (this.type.code == 'IMH') {
+          this.model.halfhourValidity = 1;
+        }
         // categories
         this.initCategories(x.id);
+        
       });
 
-      // form validation
-      this.initForm();
+        // form validation
+        this.initForm();
 
       // maps
       this.initMaps();
@@ -367,7 +370,6 @@ export class HelpsEditComponent implements OnInit {
             if (results[0]) {
               this.zoom = 12;
               this.model.address = results[0].formatted_address;
-              this.lastAddress = results[0].formatted_address;
             } else {
               window.alert('No results found');
             }
@@ -379,12 +381,22 @@ export class HelpsEditComponent implements OnInit {
     }
   }
 
-  getDateEndValidity() {
-    if (!this.model.halfhourValidity) {
-      return 0;
-    } else {
-      return this.model.halfhourValidity*30;
-    }
+  getTimeEndValidity() {
+    const expiredDate = moment(new Date()).add(this.model.halfhourValidity*30, 'm').toDate();
+    return expiredDate;
+  }
+
+  getDayEndValidity() {
+    const today = new Date();
+    const expiredDate = moment(today).add(this.model.halfhourValidity*30, 'm').toDate();
+
+    return (today.getDay() === expiredDate.getDay() ? '' : 'domani');
+  }
+
+  getTimespan() {
+    const hours = this.model.halfhourValidity ? Math.floor(this.model.halfhourValidity*0.5) : 0;
+    const half = (this.model.halfhourValidity % 2) == 0 ? '00' : '30';
+    return hours + ':' + half;
   }
 
   onSubmit() {
@@ -405,11 +417,8 @@ export class HelpsEditComponent implements OnInit {
         this.model.image = image.data.public_id;
       }
 
-      // map
-      this.model.address = this.lastAddress;
-
       // category
-      this.model.idCategory = this.idCat3 != null ? this.idCat3 : this.idCat2;
+      this.model.idCategory = this.idCat3 != null ? this.idCat3 : (this.idCat2 != null ? this.idCat2 : this.idCat1);
 
       if (this.idHelp) {
         // update help

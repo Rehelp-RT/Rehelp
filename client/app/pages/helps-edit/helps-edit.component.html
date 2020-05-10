@@ -75,7 +75,7 @@
                             </div>
                         </div>
 
-                        <div class="form-row mb-3">
+                        <div class="form-row mb-3" *ngIf="type?.code == 'IMH'">
                             <label class="col-lg-4" for="title">Scadenza</label>
                             <div class="col-lg-8">
                                 <div class="row">
@@ -89,7 +89,10 @@
                                             step="1"></mat-slider>
                                     </div>
                                     <div class="col-md-4">
-                                        {{ getDateEndValidity() }} minutes
+                                        <p>tra {{ getTimespan() }} ore</p>
+                                        <p class="text-secondary">
+                                            {{ getDayEndValidity() }} alle {{ getTimeEndValidity() | date:'HH:mm' }}
+                                        </p>
                                     </div>
                                 </div>
                             </div>

@@ -7,7 +7,6 @@ import {
 import { environment } from '@environments/environment';
 import { Notification, User } from '@app/models';
 import { Observable } from 'rxjs';
-import { Twilio } from 'twilio';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +15,6 @@ export class NotificationService {
 
 
   constructor(private http: HttpClient) { }
-
-  accountSid = '***REMOVED-TWILIO-SID***';
-  authToken = '***REMOVED-TWILIO-TOKEN***';
-  client = new Twilio(this.accountSid, this.authToken)
 
   getAll() {
     return this.http.get<Notification[]>(`${environment.apiUrl}/notifications`);

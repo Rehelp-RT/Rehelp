@@ -7,7 +7,7 @@ import { AlertService } from '@app/shared/components/alert';
 @Component({
   selector: 'app-meet-and-help',
   templateUrl: './meet-and-help.component.html',
-  styleUrls: ['./meet-and-help.component.css']
+  styleUrls: ['./meet-and-help.component.scss']
 })
 export class MeetAndHelpComponent implements OnInit {
   user: User;

@@ -9,7 +9,7 @@ import { Cloudinary } from '@cloudinary/angular-5.x';
 @Component({
   selector: 'app-helps-detail-responses',
   templateUrl: './helps-detail-responses.component.html',
-  styleUrls: ['./helps-detail-responses.component.css']
+  styleUrls: ['./helps-detail-responses.component.scss']
 })
 export class HelpsDetailResponsesComponent implements OnInit {
 

@@ -5,7 +5,7 @@ import { Help, User } from '@app/models';
 @Component({
   selector: 'app-helps',
   templateUrl: './helps.component.html',
-  styleUrls: ['./helps.component.css']
+  styleUrls: ['./helps.component.scss']
 })
 export class HelpsComponent implements OnInit {
 

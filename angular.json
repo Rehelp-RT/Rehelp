@@ -26,7 +26,7 @@
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "client/styles.css"
+              "client/styles.scss"
             ],
             "scripts": []
           },
@@ -91,7 +91,7 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
-              "client/styles.css"
+              "client/styles.scss"
             ],
             "scripts": []
           }
@@ -127,5 +127,10 @@
   "defaultProject": "rehelp-web",
   "cli": {
     "analytics": "ad44c2a0-6e24-4e3f-b734-f528be57be4d"
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
   }
 }

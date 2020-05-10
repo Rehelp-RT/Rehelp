@@ -6,7 +6,7 @@ import { ResponseService } from '@app/services';
 @Component({
   selector: 'app-offered-help',
   templateUrl: './offered-help.component.html',
-  styleUrls: ['./offered-help.component.css']
+  styleUrls: ['./offered-help.component.scss']
 })
 export class OfferedHelpComponent implements OnInit {
 

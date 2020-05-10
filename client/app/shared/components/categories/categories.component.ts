@@ -4,7 +4,7 @@ import { HelpCategory } from '@app/models';
 @Component({
     selector: 'app-categories',
     templateUrl: './categories.component.html',
-    styleUrls: ['./categories.component.css'],
+    styleUrls: ['./categories.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
 export class CategoriesComponent implements OnInit {

@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-helps-detail',
   templateUrl: './helps-detail.component.html',
-  styleUrls: ['./helps-detail.component.css']
+  styleUrls: ['./helps-detail.component.scss']
 })
 export class HelpsDetailComponent implements OnInit {
 

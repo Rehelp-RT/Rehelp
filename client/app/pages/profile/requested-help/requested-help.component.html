@@ -13,6 +13,9 @@
                     {{ help.title }}
                 </td>
                 <td>
+                    {{ help.type?.name }}
+                </td>
+                <td>
                     <a [routerLink]="['/helps/', help.id]" class="btn btn-sm btn-outline-secondary m-1">
                       Dettagli
                     </a>

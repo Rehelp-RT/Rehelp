@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService, HelpService, UserService } from '@app/services';
+import { AuthenticationService, HelpService, UserService, TypeService } from '@app/services';
 import { Help, User, HelpType } from '@app/models';
 import { ActivatedRoute } from '@angular/router';
 
@@ -12,34 +12,40 @@ export class HelpsComponent implements OnInit {
 
   user: User;
   helps: Help[] = [];
-  type: string;
+  type: HelpType;
   currentUser: User = null;
 
   constructor(
     private activeRoute: ActivatedRoute,
     private hs: HelpService,
     private as: AuthenticationService,
+    private ts: TypeService,
     private us: UserService) {
     this.getCurrentUser();
   }
 
   ngOnInit() {
-    const type =
+    const codeType =
       this.activeRoute.snapshot.queryParamMap.get('type')
         ? this.activeRoute.snapshot.queryParamMap.get('type')
         : 'MEH';
-    console.log('type', type);
+    console.log('codeType', codeType);
     const excludeUserId = this.currentUser.id;
     const accepted = null; // false;
     const idCreator = null;
     const distance = null;
     const lat = this.currentUser.latitude;
     const long = this.currentUser.longitude;
-    this.hs.getAll(type, excludeUserId, accepted, idCreator, distance, lat, long).subscribe(x => {
-        this.helps = x;
-    });
-    this.us.getById(excludeUserId).subscribe(x => {
-      this.user = x;
+
+    // get type
+    this.ts.getByCode(codeType).subscribe(type => {
+      this.type = type;
+      this.hs.getAll(type.code, excludeUserId, accepted, idCreator, distance, lat, long).subscribe(x => {
+          this.helps = x;
+      });
+      this.us.getById(excludeUserId).subscribe(x => {
+        this.user = x;
+      });
     });
   }
 
@@ -57,7 +63,7 @@ export class HelpsComponent implements OnInit {
   }
 
   likeHelpController() {
-      return this.currentUser.likehelps > 0;
+      return this.currentUser?.likehelps > 0;
   }
 
   /*

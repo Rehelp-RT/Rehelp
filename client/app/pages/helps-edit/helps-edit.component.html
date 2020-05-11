@@ -5,7 +5,10 @@
             <a *ngIf="idHelp" class="btn btn-block btn-outline-secondary" [routerLink]="['/helps/', idHelp]">
                 <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon> Richiesta
             </a>
-            <a *ngIf="!idHelp" class="btn btn-block btn-outline-secondary" [routerLink]="['/helps/']">
+            <a *ngIf="!idHelp" 
+                class="btn btn-block btn-outline-secondary"
+                [queryParams]="{type: type?.code}"
+                [routerLink]="['/helps/']" >
                 <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon> Richieste
             </a>
         </div>

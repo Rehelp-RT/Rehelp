@@ -46,9 +46,23 @@
                         <hr>
                         <p class="lead">Hai bisogno di un aiuto immediato?</p>
                         <hr>
-                        <a [routerLink]="['/helps/add/IMH']" class="btn btn-block btn-outline-secondary">
-                            <fa-icon [icon]="['fas', 'angle-double-right']"></fa-icon> Inizia
-                        </a>
+                        <div class="row">
+                            <div class="col-md-6 mb-1 text-center">
+                                <a [routerLink]="['/helps']"
+                                    [queryParams]="{type: 'IMH'}"
+                                    class="btn btn-block btn-outline-secondary py-3">
+                                    <fa-icon [icon]="['fas', 'angle-double-right']"></fa-icon>
+                                    Richieste
+                                </a>
+                            </div>
+
+                            <div class="col-md-6 mb-1 text-center">
+                                <a [routerLink]="['/helps/add/IMH']" class="btn btn-block btn-outline-primary py-3">
+                                    <fa-icon [icon]="['fas', 'angle-double-right']"></fa-icon>
+                                    Nuovo
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -118,7 +132,7 @@
                             </div>
 
                             <div class="col-md-6 mb-1 text-center">
-                                <a [routerLink]="['/helps/add/COH']" class="btn btn-block btn-outline-secondary py-3">
+                                <a [routerLink]="['/helps/add/COH']" class="btn btn-block btn-outline-primary py-3">
                                     <fa-icon [icon]="['fas', 'angle-double-right']"></fa-icon>
                                     Nuovo
                                 </a>

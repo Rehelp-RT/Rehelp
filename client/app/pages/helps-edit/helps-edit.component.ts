@@ -36,11 +36,16 @@ export class HelpsEditComponent implements OnInit {
   public idCat1 = null;
   public idCat2 = null;
   public idCat3 = null;
-  public imageUploaded = false;
+
+
+  // shareTypes
+  public shareType = null;
+  public shareTypes: Array<string> = ['prestito', 'regalo'];
 
   // image
   public hasBaseDropZoneOver = false;
   public uploader: FileUploader;
+  public imageUploaded = false;
 
   // maps
   zoom: number;
@@ -102,6 +107,7 @@ export class HelpsEditComponent implements OnInit {
       // model
       this.model = x;
       this.type = x.type;
+      this.shareType = x.shareType;
 
       // form validation
       this.initForm();
@@ -138,11 +144,11 @@ export class HelpsEditComponent implements OnInit {
         }
         // categories
         this.initCategories(x.id);
-        
+
       });
 
-        // form validation
-        this.initForm();
+      // form validation
+      this.initForm();
 
       // maps
       this.initMaps();
@@ -419,6 +425,9 @@ export class HelpsEditComponent implements OnInit {
 
       // category
       this.model.idCategory = this.idCat3 != null ? this.idCat3 : (this.idCat2 != null ? this.idCat2 : this.idCat1);
+
+      // shareType
+      this.model.shareType = this.shareType != null ? this.shareType : null;
 
       if (this.idHelp) {
         // update help

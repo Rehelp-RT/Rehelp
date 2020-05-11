@@ -75,6 +75,20 @@
                             </div>
                         </div>
 
+                        <div class="form-row mb-3" *ngIf="type?.code == 'MES'">
+                          <label class="col-lg-4" for="title">Tipologia di scambio</label>
+                            <div class="col-lg-8">
+                              <select
+                                    class="form-control mb-3"
+                                    [(ngModel)]="shareType"
+                                    [ngModelOptions]="{standalone: true}">
+                                    <option *ngFor="let type of shareTypes" [value]="type">
+                                        {{ type }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-row mb-3" *ngIf="type?.code == 'IMH'">
                             <label class="col-lg-4" for="title">Scadenza</label>
                             <div class="col-lg-8">
@@ -126,7 +140,7 @@
                                                       <fa-icon [icon]="['fas', 'cloud-upload-alt']"></fa-icon> Sfoglia
                                                   </label>
                                                     <!-- onChange hanlder resets the input value to get the change event when uploading the same file consecutively -->
-                                                    <input 
+                                                    <input
                                                         type="file"
                                                         id="fileupload"
                                                         #fileInput

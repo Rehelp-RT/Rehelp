@@ -1,10 +1,10 @@
 import { Component, ViewChild, ElementRef, Input, NgZone, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { AuthenticationService, CategoryService, HelpService, ResponseService, UserService } from '@app/services';
+import { AuthenticationService, CategoryService, HelpService, ResponseService, UserService, TypeService } from '@app/services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
-import { HelpCategory, Help, User, HelpResponse } from '@app/models';
+import { HelpCategory, Help, User, HelpResponse, HelpType } from '@app/models';
 import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
 import { Cloudinary } from '@cloudinary/angular-5.x';
 
@@ -18,6 +18,7 @@ export class HelpsAskComponent implements OnInit {
   responses: Array<any> = [];
 
   model: Help = null;
+  type: HelpType = null;
   submitted = false;
   currentUser: User;
   userToAsk: User;
@@ -49,6 +50,7 @@ export class HelpsAskComponent implements OnInit {
     private cs: CategoryService,
     private hs: HelpService,
     private as: AuthenticationService,
+    private ts: TypeService,
     private cloudinary: Cloudinary,
     private ngZone: NgZone,
     private location: Location,
@@ -56,7 +58,14 @@ export class HelpsAskComponent implements OnInit {
     private userService: UserService,
     private activeRouter: ActivatedRoute,
     private responseService: ResponseService
-  ) {
+  ) { }
+
+  ngOnInit() {
+    const type =
+      this.activeRouter.snapshot.params.type
+      ? this.activeRouter.snapshot.params.type
+      : 'MEH';
+
     this.as.currentUser.subscribe(x => {
       this.currentUser = x;
       this.model = new Help();
@@ -74,9 +83,16 @@ export class HelpsAskComponent implements OnInit {
         }
       });
     });
-  }
 
-  ngOnInit() {
+    // get type
+    this.ts.getByCode(type).subscribe(x => {
+     this.type = x;
+     this.model.idType = x.id;
+
+     if (this.type.code == 'IMH') {
+       this.model.halfhourValidity = 1;
+     }
+    });
 
     // init map
     this.mapsAPILoader.load().then(() => {

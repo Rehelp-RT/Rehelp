@@ -17,6 +17,9 @@ export class Help {
     // IMH
     halfhourValidity: number;
 
+    // MES
+    shareType: string;
+
     accepted: boolean;
     reviewed: boolean;
     completed: boolean;

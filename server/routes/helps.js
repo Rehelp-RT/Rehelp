@@ -227,6 +227,7 @@ router.post('/add', (req, res) => {
             halfhourValidity: body.halfhourValidity,
             dateStartValidity: body.dateStartValidity,
             dateEndValidity: dateEndValidity,
+            shareType: body.shareType,
             accepted: false,
             reviewed: false,
             completed: false,
@@ -286,7 +287,7 @@ router.post('/add', (req, res) => {
                             });
                     }
                 })
-                .catch(err => console.log('err',err));                
+                .catch(err => console.log('err',err));
                 res.status(201).send({
                     id: help.id
                 })
@@ -338,6 +339,7 @@ router.put('/update/:id', (req, res) => {
                         halfhourValidity: body.halfhourValidity,
                         dateStartValidity: body.dateStartValidity,
                         dateEndValidity: body.dateEndValidity,
+                        shareType: body.shareType,
                         image: body.image,
                         latitude: body.latitude,
                         longitude: body.longitude,

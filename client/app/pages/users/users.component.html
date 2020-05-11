@@ -59,8 +59,8 @@
                     <thead>
                         <tr>
                             <th>Persona</th>
-                            <th>Età</th>
                             <th>Luogo</th>
+                            <th>Categorie</th>
                             <th>Recensioni medie</th>
                             <th></th>
                         </tr>
@@ -71,9 +71,7 @@
                                 <a [routerLink]="['/profile/', user.id]">
                                     <app-user-icon [user]="user"></app-user-icon>
                                 </a>
-                            </td>
-                            <td>
-                                {{ user.birthdate ? getAge(user.birthdate) : '-' }}
+                                {{ user.birthdate ? '(' + getAge(user.birthdate) + ' anni)' : '-' }}
                             </td>
                             <td>
                                 <p *ngIf="user.city && user.country">
@@ -81,6 +79,9 @@
                                     {{ user.city }} ({{ user.country }})
                                 </p>
                                 <p *ngIf="!user.city || !user.country">-</p>
+                            </td>
+                            <td>
+                                <div *ngFor="let cat of user.categories">{{ cat.name }}</div>
                             </td>
                             <td>
                                 <p *ngIf="user.helps.length > 0 || user.responses.length > 0">

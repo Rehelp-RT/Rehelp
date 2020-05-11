@@ -47,6 +47,10 @@ export class UserService {
         return this.http.put<User>(`${environment.apiUrl}/users/${user.id}/update`, user);
     }
 
+    updatePassword(user: User) {
+      return this.http.put<User>(`${environment.apiUrl}/users/${user.id}/updatePassword`, user);
+    }
+
     uploadAvatar(id: number, path: string) {
         return this.http.put<User>(`${environment.apiUrl}/users/${id}/upload-avatar`, { path });
     }

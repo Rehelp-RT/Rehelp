@@ -75,9 +75,10 @@
                         <p class="lead">Hai bisogno di qualche oggetto in prestito?</p>
                         <hr>
                         <div class="row">
-
                             <div class="col-md-6 mb-1 text-center">
-                                <a [routerLink]="['/helps/MES']" class="btn btn-block btn-outline-secondary py-3">
+                                <a [routerLink]="['/helps']"
+                                    [queryParams]="{type: 'MES'}"
+                                    class="btn btn-block btn-outline-secondary py-3">
                                     <fa-icon [icon]="['fas', 'angle-double-right']"></fa-icon>
                                     Cerca
                                 </a>
@@ -106,10 +107,23 @@
                             Alcune imprese come la pulizia di un parco, non possono essere fatte da una persona sola.
                         </p>
                         <hr>
-                        <a [routerLink]="['/helps/add/COH']" class="btn btn-block btn-outline-secondary">
-                            <fa-icon [icon]="['fas', 'angle-double-right']"></fa-icon>
-                            Aiuto collettivo
-                        </a>
+                        <div class="row">
+                            <div class="col-md-6 mb-1 text-center">
+                                <a [routerLink]="['/helps']"
+                                    [queryParams]="{type: 'COH'}"
+                                    class="btn btn-block btn-outline-secondary py-3">
+                                    <fa-icon [icon]="['fas', 'angle-double-right']"></fa-icon>
+                                    Richieste
+                                </a>
+                            </div>
+
+                            <div class="col-md-6 mb-1 text-center">
+                                <a [routerLink]="['/helps/add/COH']" class="btn btn-block btn-outline-secondary py-3">
+                                    <fa-icon [icon]="['fas', 'angle-double-right']"></fa-icon>
+                                    Nuovo
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -9,6 +9,7 @@ import { SharedModule } from '@app/shared';
 
 import { ProfileComponent } from './profile.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
+import { PasswordEditComponent } from './password-edit/password-edit.component';
 import { RequestedHelpComponent } from './requested-help/requested-help.component';
 import { OfferComponent } from './offer/offer.component';
 import { OfferedHelpComponent } from './offered-help/offered-help.component';
@@ -29,6 +30,7 @@ import { CategoriesEditComponent } from './offer/categories-edit/categories-edit
         CategoriesEditComponent,
         ProfileComponent,
         ProfileEditComponent,
+        PasswordEditComponent,
         OfferComponent,
         OfferedHelpComponent,
         RequestedHelpComponent,

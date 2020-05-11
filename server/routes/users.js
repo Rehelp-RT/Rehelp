@@ -7,7 +7,7 @@ const { Op, Sequelize } = require('sequelize');
 
 // GET /api/users
 router.get('/', (req, res) => {
-    
+
     //mt to km
     var distance = req.query.distance !== undefined ? req.query.distance * 1000 : undefined;
     var latit = req.query.lat !== undefined ? parseFloat(req.query.lat) : undefined;
@@ -37,8 +37,8 @@ router.get('/', (req, res) => {
         filters.push({
             [Op.not]: { id: req.query.excludeUserId }
         });
-    } 
-    
+    }
+
     console.log('req.query.category', req.query.category);
     console.log('filters', filters);
 
@@ -242,6 +242,28 @@ router.put('/:id/update', function(req, res) {
                 }
             })
     }
+});
+
+// PUT /api/users/5/updatePassword
+router.put('/:id/updatePassword', function(req, res) {
+  const body = req.body;
+  if (body == undefined) {
+      res.sendStatus(400)
+  } else {
+      db.User.findByPk(req.params.id)
+          .then(function (user) {
+              // Check if record exists in db
+              if (user) {
+                  console.log(body.password, 'body.password')
+                  user.update({
+                          password: body.password
+                      })
+                      .then(x => {
+                          res.status(200).send(user)
+                      })
+              }
+          })
+  }
 });
 
 // PUT /api/user/5/upload-avatar

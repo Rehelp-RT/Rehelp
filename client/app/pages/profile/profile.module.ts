@@ -1,9 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FileUploadModule } from 'ng2-file-upload';
+import { NgModule } from '@angular/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { FileUploadModule } from 'ng2-file-upload';
 
 import { SharedModule } from '@app/shared';
 
@@ -19,8 +20,9 @@ import { CategoriesEditComponent } from './offer/categories-edit/categories-edit
 @NgModule({
     imports: [
         CommonModule,
-        FileUploadModule,
         FormsModule,
+        FileUploadModule,
+        NgbModule,
         ProfileRoutingModule,
         ReactiveFormsModule,
         RouterModule,
@@ -36,6 +38,7 @@ import { CategoriesEditComponent } from './offer/categories-edit/categories-edit
         RequestedHelpComponent,
         UploadAvatarComponent
     ],
+    entryComponents: [ CategoriesEditComponent ],
     exports: [
         ProfileComponent,
         CategoriesEditComponent

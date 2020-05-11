@@ -224,7 +224,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
       // if is a collective help, set all responses as reviewed
       if (this.help.type.code == 'COH') {
         this.rs.collectiveFeedback(response).subscribe(() => {
-          for(var res in this.help.responses){
+          for (var res in this.help.responses) {
             this.help.responses[res].reviewed = true;
             this.help.responses[res].imageReviewCreator = image === undefined ? null : image.data.public_id;
             this.help.responses[res].messageCreator = this.message;
@@ -254,25 +254,11 @@ export class HelpsDetailResponsesComponent implements OnInit {
       response.messageResponder = this.message;
       response.ratingResponder = this.selectedValue;
 
-
-      // if is a collective help, set all responses as reviewed
-      if (this.help.type.code == 'COH') {
-        console.log('response', response)
-        // this.rs.collectiveFeedback(this.help).subscribe(() => {
-        //   for(var res in this.help.responses){
-        //     this.help.responses[res].reviewed = true;
-        //   }
-        //   this.modalService.close('modal-complete-' + response.id);
-        //   this.router.navigate(['/helps/', this.help.id]);
-        // })
-      }
-      else {
-        this.rs.completeResponse(response).subscribe(() => {
-          response.completed = true;
-          this.modalService.close('modal-complete-' + response.id);
-          this.router.navigate(['/helps/', this.help.id]);
-        });
-      }
+      this.rs.completeResponse(response).subscribe(() => {
+        response.completed = true;
+        this.modalService.close('modal-complete-' + response.id);
+        this.router.navigate(['/helps/', this.help.id]);
+      });
     }
   }
 

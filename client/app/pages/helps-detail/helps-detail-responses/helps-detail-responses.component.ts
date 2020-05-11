@@ -131,10 +131,10 @@ export class HelpsDetailResponsesComponent implements OnInit {
   // Delete an uploaded image
   // Requires setting 'Return delete token' to 'Yes' in your upload preset configuration
   // See also https://support.cloudinary.com/hc/en-us/articles/202521132-How-to-delete-an-image-from-the-client-side-
-  deleteImage = function(data: any, index: number) {
+  deleteImage = function (data: any, index: number) {
     const url = `https://api.cloudinary.com/v1_1/${
       this.cloudinary.config().cloud_name
-    }/delete_by_token`;
+      }/delete_by_token`;
     console.log(url, 'url');
     const headers = [
       {
@@ -198,7 +198,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
     this.rs.acceptResponse(response)
       .subscribe(() => {
         response.accepted = true;
-        if (this.help.type.code != 'COH'){
+        if (this.help.type.code != 'COH') {
           this.isUserAccepted = this.checkUserAccept(this.help.responses);
         }
       });
@@ -216,16 +216,34 @@ export class HelpsDetailResponsesComponent implements OnInit {
     if (this.isHelpCreator) {
       const i = this.responses.length - 1;
       const image = this.responses[i];
-      response.imageReviewCreator = image === undefined ? null : image.data.public_id;
-      response.messageCreator = this.message;
-      response.ratingCreator = this.selectedValue;
-      this.rs.creatorFeedback(response).subscribe(() => {
-        response.reviewed = true;
-        this.modalService.close('modal-complete-' + response.id);
-        this.router.navigate(['/helps/', this.help.id]);
-      });
-    }
 
+      // if is a collective help, set all responses as reviewed
+      if (this.help.type.code == 'COH') {
+        response.imageReviewCreator = image === undefined ? null : image.data.public_id;
+        response.messageCreator = this.message;
+        response.ratingCreator = this.selectedValue;
+        this.rs.collectiveFeedback(response).subscribe(() => {
+          for(var res in this.help.responses){
+            this.help.responses[res].reviewed = true;
+            this.help.responses[res].imageReviewCreator = image === undefined ? null : image.data.public_id;
+            this.help.responses[res].messageCreator = this.message;
+            this.help.responses[res].ratingCreator = this.selectedValue;
+          }
+          this.modalService.close('modal-complete-' + response.id);
+          this.router.navigate(['/helps/', this.help.id]);
+        })
+      }
+      else {
+        this.rs.creatorFeedback(response).subscribe(() => {
+          response.imageReviewCreator = image === undefined ? null : image.data.public_id;
+          response.messageCreator = this.message;
+          response.ratingCreator = this.selectedValue;
+          response.reviewed = true;
+          this.modalService.close('modal-complete-' + response.id);
+          this.router.navigate(['/helps/', this.help.id]);
+        });
+      }
+    }
   }
 
   complete(response: HelpResponse): void {
@@ -236,11 +254,25 @@ export class HelpsDetailResponsesComponent implements OnInit {
       response.messageResponder = this.message;
       response.ratingResponder = this.selectedValue;
 
-      this.rs.completeResponse(response).subscribe(() => {
+
+      // if is a collective help, set all responses as reviewed
+      if (this.help.type.code == 'COH') {
+        console.log('response', response)
+        // this.rs.collectiveFeedback(this.help).subscribe(() => {
+        //   for(var res in this.help.responses){
+        //     this.help.responses[res].reviewed = true;
+        //   }
+        //   this.modalService.close('modal-complete-' + response.id);
+        //   this.router.navigate(['/helps/', this.help.id]);
+        // })
+      }
+      else {
+        this.rs.completeResponse(response).subscribe(() => {
           response.completed = true;
           this.modalService.close('modal-complete-' + response.id);
           this.router.navigate(['/helps/', this.help.id]);
         });
+      }
     }
   }
 

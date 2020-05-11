@@ -44,6 +44,10 @@ export class ResponseService {
   creatorFeedback(response: HelpResponse) {
     return this.http.put<any>(`${this.api}/responses/feedback/` + response.id, response);
   }
+  
+  collectiveFeedback(response: HelpResponse) {
+    return this.http.put<any>(`${this.api}/responses/cohFeedback/` + response.id, response);
+  }
 
   completeResponse(response: HelpResponse) {
     return this.http.put<any>(`${this.api}/responses/complete/` + response.id, response);

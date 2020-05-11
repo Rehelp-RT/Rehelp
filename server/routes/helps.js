@@ -240,20 +240,6 @@ router.post('/add', (req, res) => {
             .then(help => {
                 db.HelpType.findByPk(help.idType).then(type => {
                     if (type.code == 'IMH') {
-                        var filters = [];
-                        filters.push({
-                            [Op.and]: [
-                                Sequelize.fn(
-                                    //https://postgis.net/docs/ST_DWithin.html
-                                    'ST_DWithin',
-                                    // https://postgis.net/docs/ST_MakePoint.html
-                                    Sequelize.fn('ST_MakePoint', Sequelize.col('User.longitude'), Sequelize.col('User.latitude')),
-                                    Sequelize.fn('ST_MakePoint', help.longitude, help.latitude),
-                                    25000,
-                                    true
-                                )
-                            ]
-                        });
                         db.User.findAll({
                             attributes: [
                                 'id',
@@ -262,24 +248,41 @@ router.post('/add', (req, res) => {
                                 'phoneNumber'
                             ],
                             where: {
-                                [Op.and]: filters,
-                                phoneNumber: {
-                                    [Op.ne]: null
-                                }
+                                [Op.and]: Sequelize.fn(
+                                    //https://postgis.net/docs/ST_DWithin.html
+                                    'ST_DWithin',
+                                    // https://postgis.net/docs/ST_MakePoint.html
+                                    Sequelize.fn('ST_MakePoint', Sequelize.col('User.longitude'), Sequelize.col('User.latitude')),
+                                    Sequelize.fn('ST_MakePoint', help.longitude, help.latitude),
+                                    25000,
+                                    true
+                                ),
+                                [Op.not]: { id: help.idCreator }
                             }
                         })
                             .then(x => {
                                 for (var y in x) {
-                                    console.log('+39' + x[y].phoneNumber);
-                                    client.messages
-                                        .create({
-                                            body: help.description + ' https://localhost:4200/helps/' + help.id,
-                                            from: '+12513090971',
-                                            to: '+39' + x[y].phoneNumber
-                                        })
-                                        .then(message => console.log(message.sid));
+                                    const currentDate = new Date();
+                                    db.Notification.create({
+                                        idUser: x[y].id,
+                                        idHelp: help.id,
+                                        message: 'Aiuto Immediato! ' + help.description,
+                                        createdAt: currentDate
+                                    }).then(not => console.log('not', not.id))
+                                        .catch(err => console.log('errCreateNotification', err));
+
+                                    if (x[y].phoneNumber != null) {
+                                        console.log('+39' + x[y].phoneNumber);
+                                        client.messages
+                                            .create({
+                                                body: help.description + ' https://localhost:4200/helps/' + help.id,
+                                                from: '+12513090971',
+                                                to: '+39' + x[y].phoneNumber
+                                            })
+                                            .then(message => console.log('message', message.sid))
+                                            .catch(err => console.log('errSendSMS', err));
+                                    }
                                 }
-                                res.json(x)
                             })
                             .catch(err => {
                                 console.log(err);

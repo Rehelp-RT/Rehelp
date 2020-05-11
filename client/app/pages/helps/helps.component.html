@@ -22,8 +22,8 @@
                 <tr>
                     <th>Richiesta di aiuto</th>
                     <th>Posizione</th>
-                    <th>Tipo</th>
-                    <th>Creata</th>
+                    <th *ngIf="type?.code != 'IMH'">Creata</th>
+                    <th *ngIf="type?.code == 'IMH'">Scadenza</th>
                     <th>Autore</th>
                     <th></th>
                 </tr>
@@ -48,11 +48,11 @@
                         <fa-icon [icon]="['fas', 'map-marker-alt']"></fa-icon>
                         {{ help.address }}
                     </td>
-                    <td>
-                        {{ help.type.name }}
-                    </td>
-                    <td>
+                    <td *ngIf="type?.code != 'IMH'">
                         {{ help.createdAt | date: "dd/MM/yyyy" }}
+                    </td>
+                    <td *ngIf="type?.code == 'IMH'">
+                        {{ getRemainingTime(help.dateEndValidity) }}
                     </td>
                     <td>
                         <app-user-icon [user]="help.creator"></app-user-icon>

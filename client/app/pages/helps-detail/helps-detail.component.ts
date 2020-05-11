@@ -30,8 +30,8 @@ export class HelpsDetailComponent implements OnInit {
 
   getHelp(id: number): void {
       this.hs.getById(id)
-          .subscribe(x => {
-              this.help = x;
+          .subscribe(help => {
+              this.help = help;
       });
   }
 

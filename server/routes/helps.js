@@ -61,6 +61,7 @@ router.get('/', (req, res) => {
             'title',
             'address',
             'createdAt',
+            'dateEndValidity',
             'image',
             'accepted',
             'reviewed',

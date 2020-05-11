@@ -157,9 +157,13 @@ router.put('/accept/:id', (req, res) => {
                         acceptedAt: currentDate
                     })
                     .then(() => {
-                        response.help.update({
-                                accepted: true
-                            })
+                        db.HelpType.findByPk(response.help.idType).then(type =>{
+                            if(type.code != 'COH'){
+                                response.help.update({
+                                        accepted: true
+                                    })
+                            }
+                        })
                             .then(() => {
                                 db.Notification.create({
                                         idUser: response.help.idResponder,

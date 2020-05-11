@@ -198,7 +198,9 @@ export class HelpsDetailResponsesComponent implements OnInit {
     this.rs.acceptResponse(response)
       .subscribe(() => {
         response.accepted = true;
-        this.isUserAccepted = this.checkUserAccept(this.help.responses);
+        if (this.help.type.code != 'COH'){
+          this.isUserAccepted = this.checkUserAccept(this.help.responses);
+        }
       });
   }
 

@@ -284,10 +284,16 @@ router.put('/cohFeedback/:id', (req, res) => {
                 const currentDate = new Date();
                 db.Help.findByPk(response.idHelp, {
                     include: [
-                        { model: db.HelpResponse, required: true, as: 'responses' }
+                        { model: db.HelpResponse, required: true, as: 'responses' },
+                        { model: db.User, require: true, as: 'creator' }
                     ]
                 })
                     .then(help => {
+                        const creatorLh = help.creator.likehelps;
+                        // update creator
+                        help.creator.update({
+                            likehelps: creatorLh + 3
+                        })
                         help.update({
                             reviewed: true
                         })
@@ -300,19 +306,33 @@ router.put('/cohFeedback/:id', (req, res) => {
                                         imageReviewCreator: body.imageReviewCreator,
                                         ratingCreator: body.ratingCreator
                                     })
-                                    db.Notification.create({
-                                        idUser: help.responses[resp].idResponder,
-                                        idHelp: help.id,
-                                        message: 'hai ricevuto una nuova recensione!',
-                                        createdAt: currentDate
-                                    })
+                                    db.User.findByPk(help.responses[resp].idResponder)
+                                        .then(responder => {
+                                            const responderLh = responder.likehelps;
+                                            db.Notification.create({
+                                                idUser: responder.id,
+                                                idHelp: help.id,
+                                                message: 'hai ricevuto una nuova recensione!',
+                                                createdAt: currentDate
+                                            }),
+                                                // update responder
+                                                responder.update({
+                                                    likehelps: responderLh + 1
+                                                }),
+                                                db.Notification.create({
+                                                    idUser: responder.id,
+                                                    idHelp: help.id,
+                                                    message: 'hai guadagnato un likehelp!',
+                                                    createdAt: currentDate
+                                                })
+                                        })
                                 }
                             })
                     })
                     .catch(err => {
                         res.status(500).send(err)
                     });
-                    res.status(201).send(response)
+                res.status(201).send(response)
             })
             .catch(err => {
                 if (err.kind === 'ObjectId') {
@@ -330,7 +350,7 @@ router.put('/cohFeedback/:id', (req, res) => {
 // PUT /api/responses/complete/5
 router.put('/complete/:id', (req, res) => {
     const body = req.body;
-    console.log("body ", body)
+    console.log('body',body)
     if (body == undefined) {
         res.sendStatus(400)
     } else if (body.messageResponder === undefined) {
@@ -358,57 +378,50 @@ router.put('/complete/:id', (req, res) => {
             }
             ]
         })
-            .then(function (response) {
+            .then(response => {
                 // check if record exists in db
-                if (response) {
-                    const currentDate = new Date();
-                    const creatorLh = response.help.creator.likehelps;
-                    const responderLh = response.responder.likehelps;
-                    // update response
-                    response.update({
-                        completed: true,
-                        completedAt: currentDate,
-                        responderReviewedAt: currentDate,
-                        imageReviewResponder: body.imageReviewResponder,
-                        messageResponder: body.messageResponder,
-                        ratingResponder: body.ratingResponder
-
+                const currentDate = new Date();
+                const creatorLh = response.help.creator.likehelps;
+                const responderLh = response.responder.likehelps;
+                // update response
+                response.update({
+                    completed: true,
+                    completedAt: currentDate,
+                    responderReviewedAt: currentDate,
+                    imageReviewResponder: body.imageReviewResponder,
+                    messageResponder: body.messageResponder,
+                    ratingResponder: body.ratingResponder
+                }),
+                    // update help
+                    response.help.update({
+                        completed: true
                     })
-                        .then(() => {
-                            // update help
-                            response.help.update({
-                                completed: true
+                db.HelpType.findByPk(response.help.idType)
+                    .then(type => {
+                        if (type.code != 'COH') {
+                            // update creator
+                            response.help.creator.update({
+                                likehelps: creatorLh - 1
                             })
-                                .then(() => {
-                                    // update creator
-                                    response.help.creator.update({
-                                        likehelps: creatorLh - 1
-                                    })
-                                        .then(() => {
-                                            // update responder
-                                            response.responder.update({
-                                                likehelps: responderLh + 1
-                                            })
-                                                .then(() => {
-                                                    db.Notification.create({
-                                                        idUser: response.help.creator.id,
-                                                        idHelp: response.help.id,
-                                                        message: 'hai ricevuto una nuova recensione!',
-                                                        createdAt: currentDate
-                                                    }),
-                                                        db.Notification.create({
-                                                            idUser: response.responder.id,
-                                                            idHelp: response.help.id,
-                                                            message: 'hai guadagnato un likehelp!',
-                                                            createdAt: currentDate
-                                                        }),
-                                                        res.status(200).send(response);
-                                                })
-                                        })
-                                });
-                        })
-
-                }
+                            // update responder
+                            response.responder.update({
+                                likehelps: responderLh + 1
+                            })
+                            db.Notification.create({
+                                idUser: response.help.creator.id,
+                                idHelp: response.help.id,
+                                message: 'hai ricevuto una nuova recensione!',
+                                createdAt: currentDate
+                            })
+                            db.Notification.create({
+                                idUser: response.responder.id,
+                                idHelp: response.help.id,
+                                message: 'hai guadagnato un likehelp!',
+                                createdAt: currentDate
+                            })
+                        }
+                        res.status(200).send(response);
+                    })
             })
     }
 });

@@ -19,40 +19,36 @@
 
                             <div class="col-lg-6">
 
-                                <div class="mb-3">
-                                    <div class="mb-1"><strong>Tipo</strong></div>
-                                    <div>{{ help?.type?.name }}</div>
+                                <div class="mb-3 row">
+                                    <div class="mb-1 col-md-4"><strong>Tipo</strong></div>
+                                    <div class="col-md-8">{{ help?.type?.name }}</div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <div class="mb-1"><strong>Categoria</strong></div>
-                                    <div>
+                                <div class="mb-3 row">
+                                    <div class="mb-1 col-md-4"><strong>Categoria</strong></div>
+                                    <div class="col-md-8">
                                         <app-categories [category]="help.category"></app-categories>
                                     </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <div class="mb-1"><strong>Creatore</strong></div>
-                                    <div>
+                                <div class="mb-3 row">
+                                    <div class="mb-1 col-md-4"><strong>Creatore</strong></div>
+                                    <div class="col-md-8">
                                         <app-user-icon [user]="help.creator"></app-user-icon>
                                     </div>
                                 </div>
-                                <div class="mb-3">
-                                    <div class="mb-1"><strong>Data creazione</strong></div>
-                                    <div>
+
+                                <div class="mb-3 row">
+                                    <div class="mb-1 col-md-4"><strong>Creato il</strong></div>
+                                    <div class="col-md-8">
                                         {{ help.createdAt | date: "dd/MM/yyyy" }}
                                     </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <div class="mb-1"><strong>Descrizione</strong></div>
-                                    <div>{{ help.description }}</div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <div class="mb-1"><strong>Luogo</strong></div>
-                                    <div>
-                                        {{ help.address }}<br>
+                                <div class="mb-3 row" *ngIf="help.dateEndValidity">
+                                    <div class="mb-1 col-md-4"><strong>Scade il</strong></div>
+                                    <div class="col-md-8">
+                                        {{ help.dateEndValidity | date: "dd/MM/yyyy HH:mm" }}
                                     </div>
                                 </div>
 
@@ -61,6 +57,19 @@
                         </div>
 
                         <div class="py-3">
+                            
+                            <div class="mb-3">
+                                <div class="mb-1"><strong>Descrizione</strong></div>
+                                <div>{{ help.description }}</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="mb-1"><strong>Luogo</strong></div>
+                                <div>
+                                    {{ help.address }}<br>
+                                </div>
+                            </div>
+
                             <agm-map class="w-100" [latitude]="help.latitude" [longitude]="help.longitude">
                                 <agm-marker [latitude]="help.latitude" [longitude]="help.longitude">
                                 </agm-marker>

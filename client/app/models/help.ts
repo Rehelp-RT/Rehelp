@@ -16,6 +16,7 @@ export class Help {
 
     // IMH
     halfhourValidity: number;
+    dateEndValidity: Date;
 
     accepted: boolean;
     reviewed: boolean;

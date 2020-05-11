@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, NgZone } from '@angular/core';
 import { Help, HelpResponse, User } from '@app/models';
-import { ResponseService } from '@app/services';
+import { ResponseService, AuthenticationService } from '@app/services';
 import { Router } from '@angular/router';
 import { ModalService } from '@app/shared/components';
 import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
@@ -39,6 +39,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
     private rs: ResponseService,
     private router: Router,
     private modalService: ModalService,
+    private authenticationService: AuthenticationService,
     private cloudinary: Cloudinary,
     private ngZone: NgZone) { }
 
@@ -216,30 +217,29 @@ export class HelpsDetailResponsesComponent implements OnInit {
     if (this.isHelpCreator) {
       const i = this.responses.length - 1;
       const image = this.responses[i];
+      response.imageReviewCreator = image === undefined ? null : image.data.public_id;
+      response.messageCreator = this.message;
+      response.ratingCreator = this.selectedValue;
 
       // if is a collective help, set all responses as reviewed
       if (this.help.type.code == 'COH') {
-        response.imageReviewCreator = image === undefined ? null : image.data.public_id;
-        response.messageCreator = this.message;
-        response.ratingCreator = this.selectedValue;
         this.rs.collectiveFeedback(response).subscribe(() => {
-          for(var res in this.help.responses){
+          for (var res in this.help.responses) {
             this.help.responses[res].reviewed = true;
             this.help.responses[res].imageReviewCreator = image === undefined ? null : image.data.public_id;
             this.help.responses[res].messageCreator = this.message;
             this.help.responses[res].ratingCreator = this.selectedValue;
           }
           this.modalService.close('modal-complete-' + response.id);
+          this.authenticationService.refresh(this.currentUser);
           this.router.navigate(['/helps/', this.help.id]);
         })
       }
       else {
         this.rs.creatorFeedback(response).subscribe(() => {
-          response.imageReviewCreator = image === undefined ? null : image.data.public_id;
-          response.messageCreator = this.message;
-          response.ratingCreator = this.selectedValue;
           response.reviewed = true;
           this.modalService.close('modal-complete-' + response.id);
+          this.authenticationService.refresh(this.currentUser);
           this.router.navigate(['/helps/', this.help.id]);
         });
       }
@@ -254,25 +254,11 @@ export class HelpsDetailResponsesComponent implements OnInit {
       response.messageResponder = this.message;
       response.ratingResponder = this.selectedValue;
 
-
-      // if is a collective help, set all responses as reviewed
-      if (this.help.type.code == 'COH') {
-        console.log('response', response)
-        // this.rs.collectiveFeedback(this.help).subscribe(() => {
-        //   for(var res in this.help.responses){
-        //     this.help.responses[res].reviewed = true;
-        //   }
-        //   this.modalService.close('modal-complete-' + response.id);
-        //   this.router.navigate(['/helps/', this.help.id]);
-        // })
-      }
-      else {
-        this.rs.completeResponse(response).subscribe(() => {
-          response.completed = true;
-          this.modalService.close('modal-complete-' + response.id);
-          this.router.navigate(['/helps/', this.help.id]);
-        });
-      }
+      this.rs.completeResponse(response).subscribe(() => {
+        response.completed = true;
+        this.modalService.close('modal-complete-' + response.id);
+        this.router.navigate(['/helps/', this.help.id]);
+      });
     }
   }
 

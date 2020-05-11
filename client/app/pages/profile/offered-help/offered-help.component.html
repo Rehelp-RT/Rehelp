@@ -13,9 +13,12 @@
                     {{ r.help.title }}
                 </td>
                 <td>
+                    {{ r.help.type?.name }}
+                </td>
+                <td>
                     <a [routerLink]="['/helps/', r.help.id]" class="btn btn-sm btn-outline-secondary m-1">
-                                              Dettagli
-                                            </a>
+                        Dettagli
+                    </a>
                 </td>
                 <td>
                     <div *ngIf="!r.help.accepted">

@@ -36,6 +36,9 @@ import { CategoriesEditComponent } from './offer/categories-edit/categories-edit
         RequestedHelpComponent,
         UploadAvatarComponent
     ],
-    exports: [ProfileComponent]
+    exports: [
+        ProfileComponent,
+        CategoriesEditComponent
+    ]
 })
 export class ProfileModule { }

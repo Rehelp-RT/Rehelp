@@ -5,6 +5,7 @@
         <div class="row">
             <div class="col-md-8">
                 <h3>{{ type?.name }}</h3>
+                <h4 class="display-4" *ngIf="type?.code == 'MES'">Domande</h4>
             </div>
             <div class="col-md-4 text-right">
                 <a *ngIf="likeHelpController()"

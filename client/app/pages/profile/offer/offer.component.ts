@@ -38,7 +38,9 @@ export class OfferComponent implements OnInit {
     }
 
     open() {
+        console.log('open modal')
         const modalRef = this.modalService.open(CategoriesEditComponent, { size: 'lg', backdrop: 'static' });
+        console.log('modalRef', modalRef)
         modalRef.componentInstance.idUser = this.idProfile;
     }
 

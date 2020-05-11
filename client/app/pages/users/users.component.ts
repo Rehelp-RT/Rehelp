@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { User, HelpCategory } from '@app/models';
-import { UserService, AuthenticationService, CategoryService } from '@app/services';
+import { User, HelpCategory, HelpType } from '@app/models';
+import { UserService, AuthenticationService, CategoryService, TypeService } from '@app/services';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -9,6 +10,7 @@ import { UserService, AuthenticationService, CategoryService } from '@app/servic
 })
 export class UsersComponent implements OnInit {
 
+  type: HelpType;
   users: User[] = [];
   defaultDistance: Number[] = [10, 20, 50, 100];
   public selectedDistance = null;
@@ -23,10 +25,14 @@ export class UsersComponent implements OnInit {
   public idCat2 = null;
   public idCat3 = null;
 
-  constructor(private us: UserService,
+  constructor(
+    private activeRoute: ActivatedRoute,
     private as: AuthenticationService,
-    private cs: CategoryService) {
+    private cs: CategoryService,
+    private ts: TypeService,
+    private us: UserService) { }
 
+  ngOnInit() {
     this.as.getCurrentUser()
       .subscribe(x => {
         this.currentUser = x;
@@ -35,14 +41,21 @@ export class UsersComponent implements OnInit {
     this.lat = this.currentUser.latitude;
     this.long = this.currentUser.longitude;
 
-    this.cs.getAll().subscribe(x => {
-      this.categories = x;
-    });
-  }
+    const codeType =
+      this.activeRoute.snapshot.queryParamMap.get('type')
+        ? this.activeRoute.snapshot.queryParamMap.get('type')
+        : 'MEH';
+    this.ts.getByCode(codeType).subscribe(type => {
+      this.type = type;
+    })
 
-  ngOnInit() {
-    this.us.getAll(this.currentUser.id).subscribe((x) => {
-      this.users = x;
+    this.cs.getAll().subscribe(cats => {
+      this.categories = cats;
+    });
+
+    this.us.getAll(this.currentUser.id).subscribe(users => {
+      console.log('users', users);
+      this.users = users;
     });
   }
 

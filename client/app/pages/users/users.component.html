@@ -47,6 +47,12 @@
 
             <!-- users -->
             <div class="col-lg-10 py-3">
+
+                <div class="mb-3">
+                    <h3>{{ type?.name }}</h3>
+                    <h4 class="display-4" *ngIf="type?.code == 'MES'">Offerte</h4>
+                </div>
+
                 <p *ngIf="users.length == 0">Nesuna persona trovata.</p>
 
                 <table *ngIf="users.length > 0" class="table">

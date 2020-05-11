@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService, HelpService, UserService } from '@app/services';
-import { Help, User } from '@app/models';
+import { Help, User, HelpType } from '@app/models';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-helps',
@@ -11,9 +12,11 @@ export class HelpsComponent implements OnInit {
 
   user: User;
   helps: Help[] = [];
+  type: string;
   currentUser: User = null;
 
   constructor(
+    private activeRoute: ActivatedRoute,
     private hs: HelpService,
     private as: AuthenticationService,
     private us: UserService) {
@@ -21,7 +24,11 @@ export class HelpsComponent implements OnInit {
   }
 
   ngOnInit() {
-    const type = 'MEH';
+    const type =
+      this.activeRoute.snapshot.queryParamMap.get('type')
+        ? this.activeRoute.snapshot.queryParamMap.get('type')
+        : 'MEH';
+    console.log('type', type);
     const excludeUserId = this.currentUser.id;
     const accepted = null; // false;
     const idCreator = null;

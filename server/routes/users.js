@@ -58,7 +58,8 @@ router.get('/', (req, res) => {
                 'loginFacebook',
                 'loginGoogle',
                 'idGoogle',
-                'idFacebook'
+                'idFacebook',
+                'phoneNumber'
             ],
             where: {
                 [Op.and]: filters
@@ -109,12 +110,13 @@ router.get('/', (req, res) => {
 
 // GET /api/users/5
 router.get('/:id', (req, res) => {
+    console.log('test')
     db.User.findByPk(req.params.id, {
             attributes: [
                 'id', 'avatar', 'birthdate', 'city', 'country',
                 'email', 'firstname', 'lastname', 'latitude', 'longitude',
                 'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
-                'idFacebook', 'idGoogle'
+                'idFacebook', 'idGoogle', 'phoneNumber'
             ],
             include: [{
                     required: false,
@@ -193,6 +195,7 @@ router.get('/:id', (req, res) => {
                 loginGoogle: user.loginGoogle,
                 idFacebook: user.idFacebook,
                 idGoogle: user.idGoogle,
+                phoneNumber: user.phoneNumber,
                 responsesReviewsCount: ratedResponses.length,
                 responsesReviewsSum: sumResponses,
                 helpsReviewsCount: ratedHelpsResponses.length,
@@ -227,10 +230,11 @@ router.put('/:id/update', function(req, res) {
                             country: body.country,
                             description: body.description,
                             email: body.email,
+                            phoneNumber: body.phoneNumber,
                             firstname: body.firstname,
                             lastname: body.lastname,
                             latitude: body.latitude,
-                            longitude: body.longitude
+                            longitude: body.longitude                            
                         })
                         .then(x => {
                             res.status(200).send(user)

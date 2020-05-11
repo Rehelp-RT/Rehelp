@@ -14,6 +14,7 @@
                 <tr>
                     <th>Richiesta di aiuto</th>
                     <th>Posizione</th>
+                    <th>Tipo</th>
                     <th>Creata</th>
                     <th>Autore</th>
                     <th></th>
@@ -38,6 +39,9 @@
                     <td class="col-location">
                         <fa-icon [icon]="['fas', 'map-marker-alt']"></fa-icon>
                         {{ help.address }}
+                    </td>
+                    <td>
+                        {{ help.type.name }}
                     </td>
                     <td>
                         {{ help.createdAt | date: "dd/MM/yyyy" }}

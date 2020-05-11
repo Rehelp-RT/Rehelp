@@ -7,6 +7,7 @@ import { AuthGuard } from '@app/guards';
 // pages
 import { ProfileComponent } from './profile.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
+import { PasswordEditComponent } from './password-edit/password-edit.component';
 import { RequestedHelpComponent } from './requested-help/requested-help.component';
 import { OfferComponent } from './offer/offer.component';
 import { OfferedHelpComponent } from './offered-help/offered-help.component';
@@ -19,6 +20,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'edit', component: ProfileEditComponent,  data: {title: 'Modifica dati personali'}, canActivate: [AuthGuard] },
+      { path: 'password-edit', component: PasswordEditComponent,  data: {title: 'Modifica della password'}, canActivate: [AuthGuard] },
       { path: 'offer', component: OfferComponent, data: {title: 'Offerta'}, canActivate: [AuthGuard] },
       { path: 'offered-help', component: OfferedHelpComponent, data: {title: 'Aiuti offerti'}, canActivate: [AuthGuard] },
       { path: 'requested-help', component: RequestedHelpComponent, data: {title: 'Aiuti richiesti'}, canActivate: [AuthGuard] },

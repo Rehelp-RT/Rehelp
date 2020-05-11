@@ -68,13 +68,14 @@
                                 </td>
                             </tr>
                         </table>
-
-                        <div class="text-right" *ngIf="isOwner">
-                            <a class="btn btn-outline-secondary btn-circle" title="Modifica" [routerLink]="['./edit']">
-                                <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon>
-                            </a>
+                        <div *ngIf="isOwner">
+                          <a class="btn btn-sm btn-outline-secondary mb-2 mr-1" title="Modifica" [routerLink]="['./edit']">
+                            <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon> Modifica profilo
+                          </a>
+                            <a class="btn btn-sm btn-outline-secondary mb-2 mr-1" title="Modifica" [routerLink]="['./password-edit']">
+                              <fa-icon [icon]="['fas', 'key']"></fa-icon> Modifica password
+                          </a>
                         </div>
-
                     </div>
 
                 </div>

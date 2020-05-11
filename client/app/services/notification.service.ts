@@ -28,17 +28,4 @@ export class NotificationService {
     return this.http.put<Notification>(`${environment.apiUrl}/notifications/check/` + id, {});
   }
 
-  sendMessage(distance = null, lat = null, long = null){
-
-    let params = '';
-    params += distance != null ? 'distance=' + distance + '&' : '';
-    params += lat != null ? 'lat=' + lat + '&' : '';
-    params += long != null ? 'long=' + long : '';
-    if (params !== '') {
-        params = '?' + params;
-    }
-    console.log('params', params);
-
-    return this.http.get<User>(`${environment.apiUrl}/notifications/sms${params}`);
-  }
 }

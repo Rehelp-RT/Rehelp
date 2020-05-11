@@ -2,6 +2,9 @@ var router = require('express').Router();
 const db = require('../models');
 const { Op, Sequelize } = require('sequelize');
 const moment = require('moment');
+const accountSid = '***REMOVED-TWILIO-SID***';
+const authToken = '***REMOVED-TWILIO-TOKEN***';
+const client = require('twilio')(accountSid, authToken);
 
 // GET /api/helps
 router.get('/', (req, res) => {
@@ -29,19 +32,19 @@ router.get('/', (req, res) => {
             idCreator: req.query.idCreator
         });
     }
-    if (distance !== undefined && longit !== undefined && latit !== undefined){
+    if (distance !== undefined && longit !== undefined && latit !== undefined) {
         filters.push({
             [Op.and]: [
-                    Sequelize.fn(
-                        //https://postgis.net/docs/ST_DWithin.html
-                        'ST_DWithin',
-                        // https://postgis.net/docs/ST_MakePoint.html
-                        Sequelize.fn('ST_MakePoint', Sequelize.col('Help.longitude'), Sequelize.col('Help.latitude')),
-                        Sequelize.fn('ST_MakePoint', longit, latit),
-                        distance,
-                        true
-                    )
-                ]
+                Sequelize.fn(
+                    //https://postgis.net/docs/ST_DWithin.html
+                    'ST_DWithin',
+                    // https://postgis.net/docs/ST_MakePoint.html
+                    Sequelize.fn('ST_MakePoint', Sequelize.col('Help.longitude'), Sequelize.col('Help.latitude')),
+                    Sequelize.fn('ST_MakePoint', longit, latit),
+                    distance,
+                    true
+                )
+            ]
         });
     }
 
@@ -50,66 +53,66 @@ router.get('/', (req, res) => {
 
     // query
     db.Help.findAll({
-            attributes: [
-                'id',
-                'title',
-                'address',
-                'createdAt',
-                'image',
-                'accepted',
-                'reviewed',
-                'completed'
-            ],
-            where: {
-                [Op.and]: filters
-            },
+        attributes: [
+            'id',
+            'title',
+            'address',
+            'createdAt',
+            'image',
+            'accepted',
+            'reviewed',
+            'completed'
+        ],
+        where: {
+            [Op.and]: filters
+        },
+        include: [{
+            attributes: ['code', 'name'],
+            model: db.HelpType,
+            where: filterType,
+            required: true,
+            as: 'type'
+        },
+        {
+            attributes: ['id', 'code', 'name', 'image'],
+            model: db.HelpCategory,
             include: [{
-                    attributes: ['code', 'name'],
-                    model: db.HelpType,
-                    where: filterType,
-                    required: true,
-                    as: 'type'
-                },
-                {
+                attributes: ['id', 'code', 'name', 'image'],
+                model: db.HelpCategory,
+                include: [{
                     attributes: ['id', 'code', 'name', 'image'],
                     model: db.HelpCategory,
-                    include: [{
-                        attributes: ['id', 'code', 'name', 'image'],
-                        model: db.HelpCategory,
-                        include: [{
-                            attributes: ['id', 'code', 'name', 'image'],
-                            model: db.HelpCategory,
-                            as: 'parent'
-                        }],
-                        as: 'parent'
-                    }],
-                    required: true,
-                    as: 'category'
-                },
-                {
-                    attributes: ['email', 'firstname', 'lastname', 'avatar', 'id'],
-                    model: db.User,
-                    required: true,
-                    as: 'creator'
-                },
-                {
-                    include: [{
-                        attributes: ['id', 'email', 'firstname', 'lastname', 'avatar'],
-                        model: db.User,
-                        required: true,
-                        as: 'responder'
-                    }],
-                    model: db.HelpResponse,
-                    as: 'responses',
-                    order: [
-                        [{ model: db.Help.HelpResponse, as: 'responses' }, 'ddd', 'desc']
-                    ]
-                }
-            ],
+                    as: 'parent'
+                }],
+                as: 'parent'
+            }],
+            required: true,
+            as: 'category'
+        },
+        {
+            attributes: ['email', 'firstname', 'lastname', 'avatar', 'id'],
+            model: db.User,
+            required: true,
+            as: 'creator'
+        },
+        {
+            include: [{
+                attributes: ['id', 'email', 'firstname', 'lastname', 'avatar'],
+                model: db.User,
+                required: true,
+                as: 'responder'
+            }],
+            model: db.HelpResponse,
+            as: 'responses',
             order: [
-                ['id', 'desc']
+                [{ model: db.Help.HelpResponse, as: 'responses' }, 'ddd', 'desc']
             ]
-        })
+        }
+        ],
+        order: [
+            ['id', 'desc']
+        ]
+    })
         .then(x => {
             res.json(x)
         })
@@ -122,46 +125,46 @@ router.get('/', (req, res) => {
 // GET /api/helps/5
 router.get('/:id', (req, res) => {
     db.Help.findByPk(req.params.id, {
-            include: [
-                { attributes: ['code', 'name'], model: db.HelpType, required: true, as: 'type' },
-                {
+        include: [
+            { attributes: ['code', 'name'], model: db.HelpType, required: true, as: 'type' },
+            {
+                attributes: ['id', 'code', 'name', 'image'],
+                model: db.HelpCategory,
+                include: [{
                     attributes: ['id', 'code', 'name', 'image'],
                     model: db.HelpCategory,
                     include: [{
                         attributes: ['id', 'code', 'name', 'image'],
                         model: db.HelpCategory,
-                        include: [{
-                            attributes: ['id', 'code', 'name', 'image'],
-                            model: db.HelpCategory,
-                            as: 'parent'
-                        }],
                         as: 'parent'
                     }],
-                    required: true,
-                    as: 'category'
-                },
-                { 
-                    attributes: ['id', 'email', 'firstname', 'lastname',
+                    as: 'parent'
+                }],
+                required: true,
+                as: 'category'
+            },
+            {
+                attributes: ['id', 'email', 'firstname', 'lastname',
                     'avatar', 'idGoogle', 'idFacebook', 'loginLocal', 'loginGoogle', 'loginFacebook'],
+                model: db.User,
+                required: true,
+                as: 'creator'
+            },
+            {
+                include: [{
+                    attributes: ['id', 'email', 'firstname', 'lastname', 'avatar'],
                     model: db.User,
                     required: true,
-                    as: 'creator'
-                },
-                {
-                    include: [{
-                        attributes: ['id', 'email', 'firstname', 'lastname', 'avatar'],
-                        model: db.User,
-                        required: true,
-                        as: 'responder'
-                    }],
-                    model: db.HelpResponse,
-                    as: 'responses',
-                    order: [
-                        [{ model: db.Help.HelpResponse, as: 'responses' }, 'ddd', 'desc']
-                    ]
-                }
-            ]
-        })
+                    as: 'responder'
+                }],
+                model: db.HelpResponse,
+                as: 'responses',
+                order: [
+                    [{ model: db.Help.HelpResponse, as: 'responses' }, 'ddd', 'desc']
+                ]
+            }
+        ]
+    })
         .then(x => {
             if (!x) {
                 return res.status(404).send({
@@ -210,27 +213,77 @@ router.post('/add', (req, res) => {
     } else {
         const dateEndValidity =
             body.halfhourValidity === undefined
-            ? null
-            : moment(new Date()).add(body.halfhourValidity*30, 'm').toDate();
+                ? null
+                : moment(new Date()).add(body.halfhourValidity * 30, 'm').toDate();
         db.Help.create({
-                title: body.title,
-                description: body.description,
-                idType: body.idType,
-                idCategory: body.idCategory,
-                idCreator: body.idCreator,
-                halfhourValidity: body.halfhourValidity,
-                dateStartValidity: body.dateStartValidity,
-                dateEndValidity: dateEndValidity,
-                accepted: false,
-                reviewed: false,
-                completed: false,
-                image: body.image,
-                latitude: body.latitude,
-                longitude: body.longitude,
-                address: body.address,
-                isOffer: body.isOffer
-            })
+            title: body.title,
+            description: body.description,
+            idType: body.idType,
+            idCategory: body.idCategory,
+            idCreator: body.idCreator,
+            halfhourValidity: body.halfhourValidity,
+            dateStartValidity: body.dateStartValidity,
+            dateEndValidity: dateEndValidity,
+            accepted: false,
+            reviewed: false,
+            completed: false,
+            image: body.image,
+            latitude: body.latitude,
+            longitude: body.longitude,
+            address: body.address,
+            isOffer: body.isOffer
+        })
             .then(help => {
+                db.HelpType.findByPk(help.idType).then(type => {
+                    if (type.code == 'IMH') {
+                        var filters = [];
+                        filters.push({
+                            [Op.and]: [
+                                Sequelize.fn(
+                                    //https://postgis.net/docs/ST_DWithin.html
+                                    'ST_DWithin',
+                                    // https://postgis.net/docs/ST_MakePoint.html
+                                    Sequelize.fn('ST_MakePoint', Sequelize.col('User.longitude'), Sequelize.col('User.latitude')),
+                                    Sequelize.fn('ST_MakePoint', help.longitude, help.latitude),
+                                    25000,
+                                    true
+                                )
+                            ]
+                        });
+                        db.User.findAll({
+                            attributes: [
+                                'id',
+                                'firstname',
+                                'lastname',
+                                'phoneNumber'
+                            ],
+                            where: {
+                                [Op.and]: filters,
+                                phoneNumber: {
+                                    [Op.ne]: null
+                                }
+                            }
+                        })
+                            .then(x => {
+                                for (var y in x) {
+                                    console.log('+39' + x[y].phoneNumber);
+                                    client.messages
+                                        .create({
+                                            body: help.description + ' https://localhost:4200/helps/' + help.id,
+                                            from: '+12513090971',
+                                            to: '+39' + x[y].phoneNumber
+                                        })
+                                        .then(message => console.log(message.sid));
+                                }
+                                res.json(x)
+                            })
+                            .catch(err => {
+                                console.log(err);
+                                res.sendStatus(500)
+                            });
+                    }
+                })
+                .catch(err => console.log('err',err));                
                 res.status(201).send({
                     id: help.id
                 })
@@ -249,7 +302,7 @@ router.delete('/delete/:id', (req, res) => {
         res.sendStatus(400)
     } else {
         db.Help.findByPk(req.params.id)
-            .then(function(help) {
+            .then(function (help) {
                 // Check if record exists in db
                 if (help) {
                     help.destroy()
@@ -272,21 +325,21 @@ router.put('/update/:id', (req, res) => {
         res.sendStatus(400)
     } else {
         db.Help.findByPk(req.params.id)
-            .then(function(help) {
+            .then(function (help) {
                 // Check if record exists in db
                 if (help) {
                     help.update({
-                            title: body.title,
-                            description: body.description,
-                            idCategory: body.idCategory,
-                            halfhourValidity: body.halfhourValidity,
-                            dateStartValidity: body.dateStartValidity,
-                            dateEndValidity: body.dateEndValidity,
-                            image: body.image,
-                            latitude: body.latitude,
-                            longitude: body.longitude,
-                            address: body.address
-                        })
+                        title: body.title,
+                        description: body.description,
+                        idCategory: body.idCategory,
+                        halfhourValidity: body.halfhourValidity,
+                        dateStartValidity: body.dateStartValidity,
+                        dateEndValidity: body.dateEndValidity,
+                        image: body.image,
+                        latitude: body.latitude,
+                        longitude: body.longitude,
+                        address: body.address
+                    })
                         .then(x => {
                             res.status(200).send(help)
                         })
@@ -294,6 +347,56 @@ router.put('/update/:id', (req, res) => {
             })
     }
 });
+
+function sendSms(distance, long, lat, description, id) {
+    var filters = [];
+    if (distance !== undefined && long !== undefined && lat !== undefined) {
+        filters.push({
+            [Op.and]: [
+                Sequelize.fn(
+                    //https://postgis.net/docs/ST_DWithin.html
+                    'ST_DWithin',
+                    // https://postgis.net/docs/ST_MakePoint.html
+                    Sequelize.fn('ST_MakePoint', Sequelize.col('User.longitude'), Sequelize.col('User.latitude')),
+                    Sequelize.fn('ST_MakePoint', longit, latit),
+                    distance,
+                    true
+                )
+            ]
+        });
+    }
+    db.User.findAll({
+        attributes: [
+            'id',
+            'firstname',
+            'lastname',
+            'phoneNumber'
+        ],
+        where: {
+            [Op.and]: filters,
+            phoneNumber: {
+                [Op.ne]: null
+            }
+        }
+    })
+        .then(x => {
+            for (var y in x) {
+                console.log('+39' + x[y].phoneNumber);
+                client.messages
+                    .create({
+                        body: description + ' https://localhost:4200/helps/' + id,
+                        from: '+12513090971',
+                        to: '+39' + x[y].phoneNumber
+                    })
+                    .then(message => console.log(message.sid));
+            }
+            res.json(x)
+        })
+        .catch(err => {
+            console.log(err);
+            res.sendStatus(500)
+        });
+};
 
 // exports
 module.exports = router;

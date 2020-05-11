@@ -5,4 +5,5 @@ export * from './help.service';
 export * from './notification.service';
 export * from './user.service';
 export * from './response.service';
+export * from './trade.service';
 export * from './type.service';

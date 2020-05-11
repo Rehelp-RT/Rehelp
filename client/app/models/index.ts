@@ -3,5 +3,6 @@ export * from './help';
 export * from './message';
 export * from './notification';
 export * from './response';
+export * from './trade';
 export * from './type';
 export * from './user';

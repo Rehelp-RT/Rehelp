@@ -20,6 +20,20 @@
                             </div>
                         </div>
 
+                          <div class="form-row mb-3" *ngIf="response.help.type?.code == 'MES'">
+                            <label class="col-lg-4" for="tradeTypes">Tipo</label>
+                            <div class="col-lg-8">
+                                <select
+                                    class="form-control mb-3"
+                                    [(ngModel)]="response.idTradeType"
+                                    [ngModelOptions]="{standalone: true}">
+                                    <option *ngFor="let trd of tradeTypes" [value]="trd.id">
+                                        {{ trd.name }}
+                                    </option>
+                                </select>
+                            </div>
+                          </div>
+
                         <div class="form-row mb-3">
                             <label class="col-md-4">Richiesta</label>
                             <div class="col-md-8">

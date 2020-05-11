@@ -5,7 +5,7 @@
             <a *ngIf="idHelp" class="btn btn-block btn-outline-secondary" [routerLink]="['/helps/', idHelp]">
                 <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon> Richiesta
             </a>
-            <a *ngIf="!idHelp" 
+            <a *ngIf="!idHelp"
                 class="btn btn-block btn-outline-secondary"
                 [queryParams]="{type: type?.code}"
                 [routerLink]="['/helps/']" >
@@ -75,20 +75,6 @@
                                 <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
                                     <div *ngIf="f.title.errors.required">Il campo "Titolo" è obbligatorio</div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="form-row mb-3" *ngIf="type?.code == 'MES'">
-                          <label class="col-lg-4" for="title">Tipologia di scambio</label>
-                            <div class="col-lg-8">
-                              <select
-                                    class="form-control mb-3"
-                                    [(ngModel)]="shareType"
-                                    [ngModelOptions]="{standalone: true}">
-                                    <option *ngFor="let type of shareTypes" [value]="type">
-                                        {{ type }}
-                                    </option>
-                                </select>
                             </div>
                         </div>
 

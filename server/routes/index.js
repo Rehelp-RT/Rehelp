@@ -7,6 +7,7 @@ router.use('/messages', require('./messages'));
 router.use('/notifications', require('./notifications'));
 router.use('/responses', require('./responses'));
 router.use('/users', require('./users'));
+router.use('/trades', require('./trades'));
 router.use('/types', require('./types'));
 
 router.use(function(err, req, res, next) {

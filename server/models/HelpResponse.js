@@ -11,7 +11,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             references: { model: db.User, key: 'id' }
         },
-        idTradeType: DataTypes.INTEGER,
+        idTradeType: {
+          type: DataTypes.INTEGER,
+          references: { model: db.TradeTypes, key: 'id' }
+        },
         isTutor: DataTypes.BOOLEAN,
         accepted: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
         reviewed: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },

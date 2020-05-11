@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {
   AuthenticationService,
   HelpService,
-  ResponseService
+  ResponseService,
+  TradeService
 } from '@app/services';
-import { HelpResponse, User } from '@app/models';
+import { HelpResponse, HelpType, User, TradeTypes } from '@app/models';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -17,13 +18,19 @@ export class HelpsResponseComponent implements OnInit {
   response: HelpResponse;
   creator: User = null;
   currentUser: User = null;
+  type: HelpType = null;
+
+  // MES trade types
+  tradeTypes: TradeTypes[] = [];
+  public idTradeType = null;
 
   constructor(
     private hs: HelpService,
     private actRoute: ActivatedRoute,
     private router: Router,
     private as: AuthenticationService,
-    private rs: ResponseService
+    private rs: ResponseService,
+    private ts: TradeService
   ) {
     const id = this.actRoute.snapshot.params.id;
     this.getHelp(id);
@@ -31,6 +38,9 @@ export class HelpsResponseComponent implements OnInit {
 
   ngOnInit() {
     this.getCurrentUser();
+
+    // trade types
+    this.initTrades();
   }
 
   getHelp(id: number): void {
@@ -40,6 +50,17 @@ export class HelpsResponseComponent implements OnInit {
       this.response.responder = this.currentUser;
       this.response.idHelp = x.id;
       this.response.idResponder = this.currentUser.id;
+    });
+  }
+
+  private initTrades() {
+    // trades
+    this.ts.getAll().subscribe(x => {
+      this.tradeTypes = x;
+
+      if (this.response.trade) {
+        this.idTradeType = this.response.idTradeType;
+      }
     });
   }
 

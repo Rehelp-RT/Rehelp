@@ -1,3 +1,4 @@
+import { TradeTypes } from './trade';
 import { Help, Message, User } from './';
 
 export class HelpResponse {
@@ -8,6 +9,7 @@ export class HelpResponse {
     completed: boolean;
     idHelp: number;
     idResponder: number;
+    idTradeType: number;
 
     messageCreator: string;
     messageResponder: string;
@@ -21,4 +23,5 @@ export class HelpResponse {
     help: Help;
     responder: User;
     messages: Message[];
+    trade: TradeTypes[];
 }

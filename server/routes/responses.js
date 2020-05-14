@@ -284,7 +284,12 @@ router.put('/cohFeedback/:id', (req, res) => {
                 const currentDate = new Date();
                 db.Help.findByPk(response.idHelp, {
                     include: [
-                        { model: db.HelpResponse, required: true, as: 'responses' },
+                        {
+                            model: db.HelpResponse,
+                            where: { accepted: true },
+                            required: true,
+                            as: 'responses'
+                        },
                         { model: db.User, require: true, as: 'creator' }
                     ]
                 })
@@ -350,7 +355,7 @@ router.put('/cohFeedback/:id', (req, res) => {
 // PUT /api/responses/complete/5
 router.put('/complete/:id', (req, res) => {
     const body = req.body;
-    console.log('body',body)
+    console.log('body', body)
     if (body == undefined) {
         res.sendStatus(400)
     } else if (body.messageResponder === undefined) {

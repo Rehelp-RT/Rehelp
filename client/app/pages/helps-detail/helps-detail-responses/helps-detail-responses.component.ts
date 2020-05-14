@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ModalService } from '@app/shared/components';
 import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
 import { Cloudinary } from '@cloudinary/angular-5.x';
+import { response } from 'express';
 
 @Component({
   selector: 'app-helps-detail-responses',
@@ -21,6 +22,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
   isResponderAccepted: boolean;
   isUserResponded: boolean;
   isUserAccepted: boolean;
+  isAnyResponseAccepted: boolean;
 
   // feedback
   stars: number[] = [1, 2, 3, 4, 5];
@@ -48,7 +50,8 @@ export class HelpsDetailResponsesComponent implements OnInit {
     this.isUserResponded = this.checkUserResponse(this.help.responses, this.currentUser.id);
     this.isUserAccepted = this.checkUserAccept(this.help.responses);
     this.isResponderAccepted = this.checkResponderAccepted(this.help.responses, this.currentUser.id);
-
+    this.isAnyResponseAccepted = this.checkAnyResponseAccepted(this.help);
+    console.log('this.isUserAccepted', this.isUserAccepted);
 
     // init image - create the file uploader, wire it to upload to your account
     const uploaderOptions: FileUploaderOptions = {
@@ -195,13 +198,18 @@ export class HelpsDetailResponsesComponent implements OnInit {
     });
   }
 
+  checkAnyResponseAccepted(help) {
+    return help.responses.some((response) => {
+      return response.accepted === true;
+    });
+  }
+
   accept(response: HelpResponse): void {
     this.rs.acceptResponse(response)
       .subscribe(() => {
         response.accepted = true;
-        if (this.help.type.code != 'COH') {
-          this.isUserAccepted = this.checkUserAccept(this.help.responses);
-        }
+        this.isUserAccepted = this.checkUserAccept(this.help.responses);
+        this.isAnyResponseAccepted = this.checkAnyResponseAccepted(this.help);
       });
   }
 
@@ -210,6 +218,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
       .subscribe(() => {
         response.accepted = false;
         this.isUserAccepted = this.checkUserAccept(this.help.responses);
+        this.isAnyResponseAccepted = this.checkAnyResponseAccepted(this.help);
       });
   }
 
@@ -221,10 +230,10 @@ export class HelpsDetailResponsesComponent implements OnInit {
       response.messageCreator = this.message;
       response.ratingCreator = this.selectedValue;
 
-      // if is a collective help, set all responses as reviewed
+      // if is a collective help, set all accepted responses as reviewed
       if (this.help.type.code == 'COH') {
         this.rs.collectiveFeedback(response).subscribe(() => {
-          for (var res in this.help.responses) {
+          for (var res in this.help.responses.filter(x => x.accepted == true)) {
             this.help.responses[res].reviewed = true;
             this.help.responses[res].imageReviewCreator = image === undefined ? null : image.data.public_id;
             this.help.responses[res].messageCreator = this.message;

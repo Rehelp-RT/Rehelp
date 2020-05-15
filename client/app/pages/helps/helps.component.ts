@@ -32,7 +32,7 @@ export class HelpsComponent implements OnInit {
         : 'MEH';
     console.log('codeType', codeType);
     const excludeUserId = this.currentUser.id;
-    const accepted = null; // false;
+    const accepted = false;
     const idCreator = null;
     const distance = null;
     const lat = this.currentUser.latitude;
@@ -67,7 +67,7 @@ export class HelpsComponent implements OnInit {
       return 'scaduto';
     } else {
       const resultDate = moment.utc(timespan);
-      const result = resultDate.format('HH') + ' ore ' + resultDate.format('mm') + ' minuti'
+      const result = resultDate.format('HH') + ' ore ' + resultDate.format('mm') + ' minuti';
       console.log('result', result);
       return result;
     }

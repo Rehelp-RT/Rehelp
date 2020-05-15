@@ -46,6 +46,11 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'idResponder',
             as: 'responder'
         });
+        models.HelpResponse.belongsTo(models.TradeType, {
+          onDelete: "CASCADE",
+          foreignKey: 'idTradeType',
+          as: 'trade'
+      });
     };
 
     return HelpResponse;

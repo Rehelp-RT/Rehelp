@@ -155,12 +155,20 @@ router.get('/:id', (req, res) => {
                 as: 'creator'
             },
             {
-                include: [{
+                include: [
+                  {
                     attributes: ['id', 'email', 'firstname', 'lastname', 'avatar'],
                     model: db.User,
                     required: true,
                     as: 'responder'
-                }],
+                  },
+                  {
+                    attributes: ['id', 'code', 'name'],
+                    model: db.TradeType,
+                    required: false,
+                    as: 'trade'
+                  }
+                ],
                 model: db.HelpResponse,
                 as: 'responses',
                 order: [

@@ -23,5 +23,5 @@ export class HelpResponse {
     help: Help;
     responder: User;
     messages: Message[];
-    trade: TradeTypes[];
+    trade: TradeTypes;
 }

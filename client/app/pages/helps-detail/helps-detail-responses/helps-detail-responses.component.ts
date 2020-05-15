@@ -182,6 +182,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
 
   checkUserResponse(reponses, userId) {
     return reponses.some((response) => {
+      console.log(response, 'response')
       return response.responder.id === userId;
     });
   }

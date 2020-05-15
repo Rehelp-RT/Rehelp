@@ -51,8 +51,14 @@ router.get('/', (req, res) => {
             model: db.User,
             required: true,
             as: 'responder'
+        },
+        {
+          attributes: ['id', 'code', 'name'],
+          model: db.TradeTypes,
+          required: false,
+          as: 'trade'
         }
-        ]
+      ]
     })
         .then(x => {
             res.json(x)
@@ -78,6 +84,12 @@ router.get('/:id', (req, res) => {
             model: db.User,
             required: true,
             as: 'responder'
+        },
+        {
+          attributes: ['id', 'code', 'name'],
+          model: db.TradeTypes,
+          required: false,
+          as: 'trade'
         }
         ]
     })
@@ -104,6 +116,7 @@ router.get('/:id', (req, res) => {
 // POST /api/responses/add
 router.post('/add', (req, res) => {
     const body = req.body;
+    console.log(req.body, 'req.body')
     if (body == undefined) {
         res.sendStatus(400)
     } else if (body.idHelp === undefined) {

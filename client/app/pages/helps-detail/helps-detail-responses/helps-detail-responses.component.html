@@ -21,10 +21,18 @@
 
                 <div *ngIf="r.accepted || r.idResponder === currentUser.id || isHelpCreator || help.type.code == 'COH'">
                     <app-user-icon [user]="r.responder"></app-user-icon>
-                    <div *ngIf="!help.isOffer" class="speech-bubble-left">
+                    <div *ngIf="!help.isOffer && help.type.code != 'MES'" class="speech-bubble-left">
                         {{ r.message }}
                     </div>
-                </div> 
+                    <div *ngIf="!help.isOffer && help.type.code == 'MES'" class="speech-bubble-left">
+                      <div class="mb-2">
+                        <strong>Tipo scambio:</strong> {{ r.trade.name }}
+                      </div>
+                      <div class="mb-2">
+                        <strong>Messaggio:</strong> {{ r.message }}
+                      </div>
+                  </div>
+                </div>
 
                 <div *ngIf="r.reviewed && r.accepted">
                     <div class="text-right">

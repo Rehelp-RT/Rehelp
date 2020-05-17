@@ -54,8 +54,7 @@ router.get('/', (req, res) => {
                 as: 'responder'
             },
             {
-                attributes: ['id', 'code', 'name'],
-                model: db.TradeTypes,
+                model: db.TradeType,
                 required: false,
                 as: 'trade'
             }

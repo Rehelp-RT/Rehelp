@@ -15,7 +15,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 
 // maps
-import { MapsAPILoader, MouseEvent, MarkerOptions } from '@agm/core';
+import { MapsAPILoader } from '@agm/core';
 
 @Component({
   selector: 'app-users',
@@ -31,10 +31,6 @@ export class UsersComponent implements OnInit {
 
   lat: Number = null;
   long: Number = null;
-
-  markers: any[] = [];
-
-  pins: any[] = null;
 
   // category
   categories: HelpCategory[] = [];
@@ -80,20 +76,6 @@ export class UsersComponent implements OnInit {
 
     this.us.getAll(this.currentUser.id).subscribe((users) => {
       this.users = users;
-      users.forEach((value) => {
-        console.log(value, 'value');
-        if (value.latitude != null && value.longitude != null) {
-          this.markers.push(
-            new google.maps.Marker({
-              position: {
-                lat: value.latitude,
-                lng: value.longitude,
-              },
-            })
-          );
-        }
-      });
-      console.log(this.markers, 'markers');
     });
 
     // maps

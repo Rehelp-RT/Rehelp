@@ -5,9 +5,9 @@
         <div class="row">
 
             <!-- filters -->
-            <div class="col-lg-2 cat-help py-3 filters">
-                <form>
-                    <div class="form-group mb-3">
+            <div class="col-lg-12 cat-help py-3 filters">
+                <form class="row">
+                    <div class="form-group col-lg-2 col-md-4 mb-3">
                         <label>Distanza (km):</label>
                         <div>
                             <select class="form-control" [(ngModel)]="selectedDistance" name="selectedDistance" (change)="filter()">
@@ -16,7 +16,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group mb-3">
+                    <div class="form-group col-lg-2 col-md-4 mb-3">
                         <label>Categoria:</label>
                         <select class="form-control mb-1" [(ngModel)]="idCat1" name="idCat1" (change)="filter()">
                             <option [ngValue]="null">--TUTTE--</option>
@@ -25,7 +25,7 @@
                             </option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-lg-2 col-md-4">
                         <select *ngIf="idCat1 != null" class="form-control mb-1" [(ngModel)]="idCat2" name="idCat2" (change)="filter()">
                             <option [ngValue]="null"></option>
                             <option *ngFor="let cat of categories | filterCategories : { id: idCat1 }" [value]="cat.id">
@@ -33,7 +33,7 @@
                             </option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-lg-2 col-md-4">
                         <select *ngIf="idCat2 != null && (categories | filterCategories : { id: idCat1, idChild: idCat2 }).length > 0" class="form-control mb-3" [(ngModel)]="idCat3" name="idCat3" (change)="filter()">
                             <option [ngValue]="null"></option>
                             <option *ngFor="let cat of categories | filterCategories : { id: idCat1, idChild: idCat2 }"
@@ -46,76 +46,79 @@
             </div>
 
             <!-- users -->
-            <div class="col-lg-10 py-3">
+            <div class="col-lg-12 py-3">
 
                 <div class="mb-3">
                     <h3>{{ type?.name }}</h3>
                     <h4 class="display-4" *ngIf="type?.code == 'MES'">Offerte</h4>
                 </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p *ngIf="users.length == 0">Nesuna persona trovata.</p>
 
-                <p *ngIf="users.length == 0">Nesuna persona trovata.</p>
+                    <table *ngIf="users.length > 0" class="table">
+                        <thead>
+                            <tr>
+                                <th>Persona</th>
+                                <th>Luogo</th>
+                                <th>Categorie</th>
+                                <th>Recensioni medie</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of users">
+                                <td>
+                                    <a [routerLink]="['/profile/', user.id]">
+                                        <app-user-icon [user]="user"></app-user-icon>
+                                    </a>
+                                    {{ user.birthdate ? '(' + getAge(user.birthdate) + ' anni)' : '-' }}
+                                </td>
+                                <td>
+                                    <p *ngIf="user.city && user.country">
+                                        <fa-icon [icon]="['fas', 'map-marker-alt']"></fa-icon>
+                                        {{ user.city }} ({{ user.country }})
+                                    </p>
+                                    <p *ngIf="!user.city || !user.country">-</p>
+                                </td>
+                                <td>
+                                    <div *ngFor="let cat of user.categories">{{ cat.name }}</div>
+                                </td>
+                                <td>
+                                    <p *ngIf="user.helps.length > 0 || user.responses.length > 0">
+                                        <span class="mr-3">{{ getAverage(user) | number:'1.0-1' }}</span>
+                                        <span *ngFor="let rat of [1,2,3,4,5] | slice:0:getAverage(user)">
+                                    <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
+                                </span>
+                                    </p>
+                                    <p *ngIf="user.helps.length == 0 && user.responses.length == 0">
+                                        -
+                                    </p>
+                                </td>
+                                <td>
+                                    <a [routerLink]="['/helps/ask', user.id]" class="btn btn-outline-primary">
+                                        <fa-icon title="Aiuto" [icon]="['fas', 'hand-paper']" class="mr-2"></fa-icon>
+                                        Chiedi aiuto
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                  </div>
 
-                <table *ngIf="users.length > 0" class="table">
-                    <thead>
-                        <tr>
-                            <th>Persona</th>
-                            <th>Luogo</th>
-                            <th>Categorie</th>
-                            <th>Recensioni medie</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let user of users">
-                            <td>
-                                <a [routerLink]="['/profile/', user.id]">
-                                    <app-user-icon [user]="user"></app-user-icon>
-                                </a>
-                                {{ user.birthdate ? '(' + getAge(user.birthdate) + ' anni)' : '-' }}
-                            </td>
-                            <td>
-                                <p *ngIf="user.city && user.country">
-                                    <fa-icon [icon]="['fas', 'map-marker-alt']"></fa-icon>
-                                    {{ user.city }} ({{ user.country }})
-                                </p>
-                                <p *ngIf="!user.city || !user.country">-</p>
-                            </td>
-                            <td>
-                                <div *ngFor="let cat of user.categories">{{ cat.name }}</div>
-                            </td>
-                            <td>
-                                <p *ngIf="user.helps.length > 0 || user.responses.length > 0">
-                                    <span class="mr-3">{{ getAverage(user) | number:'1.0-1' }}</span>
-                                    <span *ngFor="let rat of [1,2,3,4,5] | slice:0:getAverage(user)">
-                                <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
-                            </span>
-                                </p>
-                                <p *ngIf="user.helps.length == 0 && user.responses.length == 0">
-                                    -
-                                </p>
-                            </td>
-                            <td>
-                                <a [routerLink]="['/helps/ask', user.id]" class="btn btn-outline-primary">
-                                    <fa-icon title="Aiuto" [icon]="['fas', 'hand-paper']" class="mr-2"></fa-icon>
-                                    Chiedi aiuto
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div>
-                  <label class="col-lg-4" for="location">Zona</label>
-                  <agm-map
-                      class="col-lg-8"
-                      [latitude]="currentUser.latitude"
-                      [longitude]="currentUser.longitude"
-                      [zoom]=10>
-                      <agm-marker
-                        *ngFor="let marker of markers;"
-                        [latitude]="marker.position.lat"
-                        [longitude]="marker.position.lon">
-                      </agm-marker>
-                  </agm-map>
+                  <div class="col-md-6">
+                    <agm-map
+                        class="col-lg-8"
+                        [latitude]="currentUser.latitude"
+                        [longitude]="currentUser.longitude"
+                        [zoom]=10>
+                        <agm-marker
+                          *ngFor="let user of users;"
+                          [latitude]="user.latitude"
+                          [longitude]="user.longitude">
+                        </agm-marker>
+                    </agm-map>
+                  </div>
                 </div>
             </div>
         </div>

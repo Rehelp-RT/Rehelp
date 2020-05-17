@@ -53,7 +53,7 @@
                     <h4 class="display-4" *ngIf="type?.code == 'MES'">Offerte</h4>
                 </div>
                 <div class="row">
-                  <div class="col-md-6">
+                    <div class="col-md-6">
                     <p *ngIf="users.length == 0">Nesuna persona trovata.</p>
 
                     <table *ngIf="users.length > 0" class="table">
@@ -69,9 +69,7 @@
                         <tbody>
                             <tr *ngFor="let user of users">
                                 <td>
-                                    <a [routerLink]="['/profile/', user.id]">
-                                        <app-user-icon [user]="user"></app-user-icon>
-                                    </a>
+                                    <app-user-icon [user]="user"></app-user-icon>
                                     <p class="text-secondary">{{ user.birthdate ? getAge(user.birthdate) + ' anni' : '' }}</p>
                                 </td>
                                 <td>
@@ -104,31 +102,26 @@
                             </tr>
                         </tbody>
                     </table>
-                  </div>
+                </div>
 
-                  <div class="col-md-6">
+                <div class="col-md-6">
                     <agm-map
                         class="col-lg-8"
                         [latitude]="currentUser.latitude"
                         [longitude]="currentUser.longitude"
                         [zoom]=10>
                         <agm-marker
-                          *ngFor="let user of users;"
-                          [latitude]="user.latitude"
-                          [longitude]="user.longitude">
-                          <agm-info-window>
-                            <div>
-                              <a [routerLink]="['/profile/', user.id]">
+                            *ngFor="let user of users;"
+                            [latitude]="user.latitude"
+                            [longitude]="user.longitude">
+                            <agm-info-window>
                                 <app-user-icon [user]="user"></app-user-icon>
-                              </a>
-                            </div>
-                            <div>
-                              <a [routerLink]="['/helps/ask', user.id]" class="btn btn-outline-secondary">
-                                <fa-icon title="Aiuto" [icon]="['fas', 'hand-paper']" class="mr-2"></fa-icon>
-                                Chiedi aiuto
-                              </a>
-                            </div>
-                          </agm-info-window>
+                                <hr style="clear: both;">
+                                <a [routerLink]="['/helps/ask', user.id]" class="btn btn-block btn-outline-primary">
+                                    <fa-icon title="Aiuto" [icon]="['fas', 'hand-paper']" class="mr-2"></fa-icon>
+                                    Chiedi aiuto
+                                </a>
+                            </agm-info-window>
                         </agm-marker>
                     </agm-map>
                   </div>

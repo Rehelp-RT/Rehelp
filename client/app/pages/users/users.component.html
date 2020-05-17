@@ -116,6 +116,11 @@
                           *ngFor="let user of users;"
                           [latitude]="user.latitude"
                           [longitude]="user.longitude">
+                          <agm-info-window>
+                            <a [routerLink]="['/profile/', user.id]">
+                              <app-user-icon [user]="user"></app-user-icon>
+                            </a>
+                          </agm-info-window>
                         </agm-marker>
                     </agm-map>
                   </div>

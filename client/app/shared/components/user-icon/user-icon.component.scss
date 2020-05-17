@@ -1,13 +1,20 @@
-a.avatar {
-    display: inline-block;
-    padding: 8px 8px 8px 8px;
+.flex-container {
+    -ms-box-orient: horizontal;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    float: left;
+    -webkit-align-items: stretch; 
+    align-items: stretch; 
 }
 
 .img-avatar {
-    display: inline-block;
-    margin-right: 8px;
+    margin: 8px 8px 0 8px;
 }
 
 .txt-avatar {
-    display: inline-block;
+    padding: 0 8px 0 8px;
 }

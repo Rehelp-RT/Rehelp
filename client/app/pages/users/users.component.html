@@ -72,7 +72,7 @@
                                     <a [routerLink]="['/profile/', user.id]">
                                         <app-user-icon [user]="user"></app-user-icon>
                                     </a>
-                                    {{ user.birthdate ? '(' + getAge(user.birthdate) + ' anni)' : '-' }}
+                                    <p class="text-secondary">{{ user.birthdate ? getAge(user.birthdate) + ' anni' : '' }}</p>
                                 </td>
                                 <td>
                                     <p *ngIf="user.city && user.country">

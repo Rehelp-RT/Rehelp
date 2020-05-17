@@ -1,11 +1,13 @@
-<a [routerLink]="['/profile', user.id ]" class="avatar">
-    <span class="img-avatar rounded-circle">
-        <img src="{{ getAvatar() }}"
-            alt="{{ getFullname() }}"
-            title="{{ getFullname() }}"
-            width="32" class="mr-3">
+<a [routerLink]="['/profile', user.id ]" class="flex-container avatar">
+    <span class="flex-item">
+        <span class="img-avatar rounded-circle">
+            <img src="{{ getAvatar() }}"
+                alt="{{ getFullname() }}"
+                title="{{ getFullname() }}"
+                width="32">
+        </span>
     </span>
-    <span class="txt-avatar text-dark" *ngIf="showName">
+    <span class="flex-item txt-avatar text-dark" *ngIf="showName">
         {{ getFullname() }}
     </span>
 </a>

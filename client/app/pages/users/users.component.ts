@@ -11,6 +11,7 @@ import {
   AuthenticationService,
   CategoryService,
   TypeService,
+  DistanceService,
 } from '@app/services';
 import { ActivatedRoute } from '@angular/router';
 
@@ -49,6 +50,7 @@ export class UsersComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private as: AuthenticationService,
     private cs: CategoryService,
+    private ds: DistanceService,
     private ts: TypeService,
     private us: UserService,
     private ngZone: NgZone,

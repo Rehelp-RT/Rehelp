@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 })
 export class CategoriesEditComponent implements OnInit {
 
+    @Output('loadCategories') loadCategories: EventEmitter<any> = new EventEmitter();
     @Input() idUser: number;
     categoriesData = [];
     form: FormGroup;
@@ -59,7 +60,9 @@ export class CategoriesEditComponent implements OnInit {
         console.log(selectedCategoryIds);
         this.userService.putCategories(this.idUser, selectedCategoryIds).subscribe(x => {
             console.log('success');
+            this.loadCategories.emit();
             this.router.navigate(['/profile/', this.idUser]).then(() => {
+                console.log('close modal');
                 this.activeModal.dismiss();
             });
         });
@@ -68,15 +71,16 @@ export class CategoriesEditComponent implements OnInit {
     closeModal() {
         this.activeModal.close('Close click');
     }
+
 }
 
 function minSelectedCheckboxes(min = 1) {
-        const validator: ValidatorFn = (formArray: FormArray) => {
-            const totalSelected = formArray.controls
-                .map(control => control.value)
-                .reduce((prev, next) => next ? prev + next : prev, 0);
+    const validator: ValidatorFn = (formArray: FormArray) => {
+        const totalSelected = formArray.controls
+            .map(control => control.value)
+            .reduce((prev, next) => next ? prev + next : prev, 0);
 
-            return totalSelected >= min ? null : { required: true };
-        };
-        return validator;
-    }
+        return totalSelected >= min ? null : { required: true };
+    };
+    return validator;
+}

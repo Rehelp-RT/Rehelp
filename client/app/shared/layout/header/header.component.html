@@ -21,10 +21,16 @@
                 <ul class="nav navbar-nav ml-auto">
                     
                     <li class="nav-item p-1" *ngIf="currentUser" routerLinkActive="active">
-                        <a class="btn btn-outline-secondary" routerLink="/helps/add">Pubblica richiesta aiuto</a>
+                        <a class="btn btn-outline-secondary" routerLink="/helps/add">
+                            <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+                            Richiesta di aiuto
+                        </a>
                     </li>
                     <li class="nav-item p-1" *ngIf="currentUser" routerLinkActive="active">
-                        <a class="btn btn-outline-warning text-secondary" routerLink="/helps/add/IMH">Pubblica richiesta immediata</a>
+                        <a class="btn btn-outline-secondary" routerLink="/helps/add/IMH">
+                            <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+                            Richiesta immediata
+                        </a>
                     </li>
 
                     <app-notifications [currentUser]="currentUser"></app-notifications>

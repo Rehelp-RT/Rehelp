@@ -5,7 +5,6 @@
     </button>
 </div>
 <div class="modal-body">
-
     <form [formGroup]="form" (ngSubmit)="submit()">
         <div class="checkbox m-0 p-0" formArrayName="categories" *ngFor="let category of getFormCategories(); let i = index">
             <label>
@@ -23,5 +22,4 @@
         <button class="btn btn-lg btn-outline-primary" [disabled]="!form.valid">Salva</button>
 
     </form>
-
 </div>

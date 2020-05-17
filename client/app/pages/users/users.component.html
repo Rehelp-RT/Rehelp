@@ -103,11 +103,22 @@
                         </tr>
                     </tbody>
                 </table>
-
+                <div>
+                  <label class="col-lg-4" for="location">Zona</label>
+                  <agm-map
+                      class="col-lg-8"
+                      [latitude]="currentUser.latitude"
+                      [longitude]="currentUser.longitude"
+                      [zoom]=10>
+                      <agm-marker
+                        *ngFor="let marker of markers;"
+                        [latitude]="marker.position.lat"
+                        [longitude]="marker.position.lon">
+                      </agm-marker>
+                  </agm-map>
+                </div>
             </div>
-
         </div>
-
     </div>
 
 </section>

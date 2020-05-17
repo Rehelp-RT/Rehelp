@@ -24,49 +24,50 @@ router.get('/', (req, res) => {
         where: {
             [Op.and]: filters
         },
-        include: [{
-            attributes: ['id', 'title', 'image'],
-            model: db.Help,
-            required: true,
-            include: [{
-                attributes: ['id', 'code', 'name'],
-                model: db.HelpCategory,
+        include: [
+            {
+                attributes: ['id', 'title', 'image'],
+                model: db.Help,
+                required: true,
+                as: 'help',
                 include: [{
                     attributes: ['id', 'code', 'name'],
                     model: db.HelpCategory,
+                    required: true,
+                    as: 'category',
                     include: [{
                         attributes: ['id', 'code', 'name'],
                         model: db.HelpCategory,
-                        as: 'parent'
-                    }],
-                    as: 'parent'
-                }],
+                        as: 'parent',
+                        include: [{
+                            attributes: ['id', 'code', 'name'],
+                            model: db.HelpCategory,
+                            as: 'parent'
+                        }]
+                    }]
+                }]
+            },
+            {
+                attributes: ['id', 'email', 'firstname', 'lastname', 'avatar'],
+                model: db.User,
                 required: true,
-                as: 'category'
-            }],
-            as: 'help'
-        },
-        {
-            attributes: ['id', 'email', 'firstname', 'lastname', 'avatar'],
-            model: db.User,
-            required: true,
-            as: 'responder'
-        },
-        {
-          attributes: ['id', 'code', 'name'],
-          model: db.TradeTypes,
-          required: false,
-          as: 'trade'
-        }
-      ]
+                as: 'responder'
+            },
+            {
+                attributes: ['id', 'code', 'name'],
+                model: db.TradeTypes,
+                required: false,
+                as: 'trade'
+            }
+        ]
     })
-        .then(x => {
-            res.json(x)
-        })
-        .catch(err => {
-            console.log(err);
-            res.sendStatus(500)
-        })
+    .then(x => {
+        res.json(x)
+    })
+    .catch(err => {
+        console.log(err);
+        res.sendStatus(500)
+    })
 });
 
 // GET /api/responses/5

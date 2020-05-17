@@ -84,6 +84,15 @@ export class UsersComponent implements OnInit {
     this.initMaps();
   }
 
+  getDistance(latitude: number, longitude: number) {
+      const distance = this.ds.calcCrow(latitude, longitude, this.currentUser.latitude, this.currentUser.longitude);
+      if (distance < 1) {
+        return (distance * 1000).toFixed(0) + ' metri';
+      } else {
+        return distance.toFixed(1).replace('.', ',') + ' km';
+      }
+  }
+
   getAge(birthdate) {
     const datenew = new Date();
     const dateold = new Date(birthdate);

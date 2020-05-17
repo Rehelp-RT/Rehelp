@@ -76,8 +76,13 @@
                                     <p *ngIf="user.city && user.country">
                                         <fa-icon [icon]="['fas', 'map-marker-alt']"></fa-icon>
                                         {{ user.city }} ({{ user.country }})
+                                        <br>
+                                        
                                     </p>
                                     <p *ngIf="!user.city || !user.country">-</p>
+                                    <p *ngIf="user.latitude && user.longitude">
+                                        {{ getDistance(user.latitude, user.longitude) }}
+                                    </p>
                                 </td>
                                 <td>
                                     <div *ngFor="let cat of user.categories">{{ cat.name }}</div>
@@ -94,7 +99,7 @@
                                     </p>
                                 </td>
                                 <td>
-                                    <a [routerLink]="['/helps/ask', user.id]" class="btn btn-outline-primary">
+                                    <a [routerLink]="['/helps/ask', user.id]" class="btn btn-outline-primary" *ngIf="user.categories.length > 0">
                                         <fa-icon title="Aiuto" [icon]="['fas', 'hand-paper']" class="mr-2"></fa-icon>
                                         Chiedi aiuto
                                     </a>
@@ -117,7 +122,7 @@
                             <agm-info-window>
                                 <app-user-icon [user]="user"></app-user-icon>
                                 <hr style="clear: both;">
-                                <a [routerLink]="['/helps/ask', user.id]" class="btn btn-block btn-outline-primary">
+                                <a [routerLink]="['/helps/ask', user.id]" class="btn btn-block btn-outline-primary" *ngIf="user.categories.length > 0">
                                     <fa-icon title="Aiuto" [icon]="['fas', 'hand-paper']" class="mr-2"></fa-icon>
                                     Chiedi aiuto
                                 </a>

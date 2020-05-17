@@ -7,8 +7,8 @@ export class DistanceService {
 
   constructor() { }
 
-    //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
-    public calcCrow(lat1, lon1, lat2, lon2) 
+    // this function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
+    public calcCrow(lat1, lon1, lat2, lon2) : number
     {
       var R = 6371; // Radius of the earth in km
       var dLat = this.toRad(lat2-lat1);
@@ -23,8 +23,8 @@ export class DistanceService {
       return d;
     }
 
-    // Converts numeric degrees to radians
-    public toRad(value) 
+    // converts numeric degrees to radians
+    public toRad(value) : number
     {
         return value * Math.PI / 180;
     }

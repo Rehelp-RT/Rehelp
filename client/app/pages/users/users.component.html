@@ -117,9 +117,17 @@
                           [latitude]="user.latitude"
                           [longitude]="user.longitude">
                           <agm-info-window>
-                            <a [routerLink]="['/profile/', user.id]">
-                              <app-user-icon [user]="user"></app-user-icon>
-                            </a>
+                            <div>
+                              <a [routerLink]="['/profile/', user.id]">
+                                <app-user-icon [user]="user"></app-user-icon>
+                              </a>
+                            </div>
+                            <div>
+                              <a [routerLink]="['/helps/ask', user.id]" class="btn btn-outline-secondary">
+                                <fa-icon title="Aiuto" [icon]="['fas', 'hand-paper']" class="mr-2"></fa-icon>
+                                Chiedi aiuto
+                              </a>
+                            </div>
                           </agm-info-window>
                         </agm-marker>
                     </agm-map>

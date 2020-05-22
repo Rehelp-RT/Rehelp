@@ -1,7 +1,7 @@
 <div class="chat">
     <div class="chat-expanded card bg-light" *ngIf="isOpen">
         <div class="card-header">
-            {{ help.title }}
+            {{ help.description }}
             <button class="btn btn-circle btn-outline-secondary float-right" (click)="isOpen = false">X</button>
         </div>
         <div class="card-body messages" #scrollMe>

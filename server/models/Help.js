@@ -28,7 +28,6 @@ module.exports = (sequelize, DataTypes) => {
                 as: 'creator'
             }
         },
-        title: DataTypes.STRING,
         description: DataTypes.TEXT,
         image: DataTypes.STRING,
         halfhourValidity: DataTypes.INTEGER,

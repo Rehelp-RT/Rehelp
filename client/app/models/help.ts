@@ -2,7 +2,6 @@ import { HelpCategory, HelpResponse, HelpType, User } from './';
 
 export class Help {
     id: number;
-    title: string;
     description: string;
     image: string;
     idCategory: number;

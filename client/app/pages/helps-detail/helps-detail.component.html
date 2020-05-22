@@ -7,14 +7,14 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <h3 class="mb-3">{{ help.title }}</h3>
+                      <h3 class="mb-3">{{ help.description }}</h3>
                         <hr>
 
                         <div class="row">
 
                             <div class="col-lg-6">
                                 <img src="{{ help.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + help.image : (help.category.image != null ? 'assets/img/categories/' + help.category.image : 'assets/img/placeholder-help.png')  }}"
-                                    alt="{{ help.title }} image" class="img-fluid mb-3">
+                                    alt="{{ help.description }} image" class="img-fluid mb-3">
                             </div>
 
                             <div class="col-lg-6">
@@ -57,11 +57,6 @@
                         </div>
 
                         <div class="py-3">
-                            
-                            <div class="mb-3">
-                                <div class="mb-1"><strong>Descrizione</strong></div>
-                                <div>{{ help.description }}</div>
-                            </div>
 
                             <div class="mb-3">
                                 <div class="mb-1"><strong>Luogo</strong></div>

@@ -92,7 +92,6 @@ export class HelpsEditComponent implements OnInit {
 
   private initForm() {
     this.helpsForm = this.formBuilder.group({
-      title: [this.model.title, Validators.required],
       description: [this.model.description, Validators.required]
     });
   }
@@ -125,7 +124,6 @@ export class HelpsEditComponent implements OnInit {
       // current user
       this.currentUser = x;
       this.model.idCreator = this.currentUser.id;
-      this.model.title = '';
       this.model.description = '';
 
       // get type
@@ -407,7 +405,6 @@ export class HelpsEditComponent implements OnInit {
       return;
     } else {
       // get forms value
-      this.model.title = this.f.title.value;
       this.model.description = this.f.description.value;
 
       // image

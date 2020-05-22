@@ -52,9 +52,10 @@
                         </div>
 
                         <div class="form-row mb-3">
-                            <label class="col-lg-4" for="title">Titolo</label>
-                            <input class="col-lg-8 form-control" type="text" [(ngModel)]="model.title" name="title"
-                                required />
+                          <label class="col-lg-4" for="description">Descrizione</label>
+                          <textarea class="col-lg-8 form-control" rows="4" [(ngModel)]="model.description"
+                              name="description" required>
+                          </textarea>
                         </div>
 
                         <div class="form-row mb-3">
@@ -72,7 +73,7 @@
                                             <div class="form_controls">
                                                 <div class="upload_button_holder">
                                                     <label class="btn btn-outline-secondary" for="fileupload">
-                                                        <fa-icon [icon]="['fas', 'cloud-upload-alt']"></fa-icon> Sfoglia
+                                                        <fa-icon [icon]="['fas', 'cloud-upload-alt']"></fa-icon> Carica immagine
                                                     </label>
                                                     <!-- onChange hanlder resets the input value to get the change event when uploading the same file consecutively -->
                                                     <input type="file" id="fileupload"
@@ -117,13 +118,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="form-row mb-3">
-                            <label class="col-lg-4" for="description">Descrizione</label>
-                            <textarea class="col-lg-8 form-control" rows="4" [(ngModel)]="model.description"
-                                name="description" required>
-                            </textarea>
                         </div>
 
                         <div class="form-row mb-3">

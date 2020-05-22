@@ -58,7 +58,7 @@ router.get('/', (req, res) => {
     db.Help.findAll({
         attributes: [
             'id',
-            'title',
+            'description',
             'address',
             'createdAt',
             'dateEndValidity',
@@ -208,8 +208,6 @@ router.post('/add', (req, res) => {
     console.log('--------------')
     if (body == undefined) {
         res.sendStatus(400)
-    } else if (body.title === undefined) {
-        res.status(400).send({ message: 'title is missing' });
     } else if (body.description === undefined) {
         res.status(400).send({ message: 'description is missing' });
     } else if (body.idCategory === undefined) {
@@ -228,7 +226,6 @@ router.post('/add', (req, res) => {
                 ? null
                 : moment(new Date()).add(body.halfhourValidity * 30, 'm').toDate();
         db.Help.create({
-            title: body.title,
             description: body.description,
             idType: body.idType,
             idCategory: body.idCategory,
@@ -345,7 +342,6 @@ router.put('/update/:id', (req, res) => {
                 // Check if record exists in db
                 if (help) {
                     help.update({
-                        title: body.title,
                         description: body.description,
                         idCategory: body.idCategory,
                         halfhourValidity: body.halfhourValidity,

@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
         },
         include: [
             {
-                attributes: ['id', 'title', 'image'],
+                attributes: ['id', 'description', 'image'],
                 model: db.Help,
                 required: true,
                 as: 'help',
@@ -74,7 +74,7 @@ router.get('/:id', (req, res) => {
     db.HelpResponse.findByPk(
         req.params.id, {
         include: [{
-            attributes: ['id', 'title'],
+            attributes: ['id', 'description'],
             model: db.Help,
             required: true,
             as: 'help'

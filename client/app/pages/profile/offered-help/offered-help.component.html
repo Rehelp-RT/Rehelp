@@ -6,11 +6,11 @@
             <tr *ngFor="let r of responses">
                 <td>
                     <img src="{{ r.help.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + r.help.image : (r.help.category.image != null ? 'assets/img/categories/' + r.help.category.image : 'assets/img/placeholder-help.png')  }}"
-                    alt="{{ r.help.title }} image" class="help-img" width="100">
+                    alt="{{ r.help.description }} image" class="help-img" width="100">
                 </td>
                 <td>
                     <app-categories [category]="r.help.category"></app-categories>
-                    {{ r.help.title }}
+                    {{ r.help.description }}
                 </td>
                 <td>
                     {{ r.help.type?.name }}

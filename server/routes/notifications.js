@@ -7,7 +7,7 @@ router.get('/', (req, res) =>
     db.Notification.findAll({
         attributes: ['id', 'message', 'checked', 'createdAt'],
         include: [{
-            attributes: ['id', 'title'],
+            attributes: ['id', 'description'],
             model: db.Help,
             as: 'help'
         },

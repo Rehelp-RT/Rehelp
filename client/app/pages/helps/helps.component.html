@@ -33,13 +33,13 @@
                     <td>
                         <a class="help-img" [routerLink]="['/helps/', help.id]">
                             <img src="{{ help.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + help.image : (help.category.image != null ? 'assets/img/categories/' + help.category.image : 'assets/img/placeholder-help.png')  }}"
-                            alt="{{ help.title }} image" class="help-img">
+                            alt="{{ help.description}} image" class="help-img">
                         </a>
                         <div class="help-desc">
                             <app-categories [category]="help.category"></app-categories>
                             <p>
                                 <a [routerLink]="['/helps/', help.id]" class="text-dark">
-                                {{ help.title }}
+                                {{ help.description }}
                               </a>
                             </p>
                         </div>

@@ -1,13 +1,10 @@
 <section class="p-0">
 
-    <div class="container-fluid">
-
-        <div class="row">
-
-            <!-- filters -->
-            <div class="col-lg-12 cat-help py-3 filters">
-                <form class="row">
-                    <div class="form-group col-lg-2 col-md-4 mb-3">
+    <!-- filters -->
+    <div class="cat-help pt-3 filters">
+        <div class="container">
+            <form class="row">
+                <div class="form-group col-lg-2 col-md-4 mb-3">
                         <label>Distanza (km):</label>
                         <div>
                             <select class="form-control" [(ngModel)]="selectedDistance" name="selectedDistance" (change)="filter()">
@@ -42,96 +39,74 @@
                             </option>
                         </select>
                     </div>
-                </form>
-            </div>
+            </form>
+        </div>
+    </div>
 
-            <!-- users -->
-            <div class="col-lg-12 py-3">
+    <div class="container">
 
-                <div class="mb-3">
-                    <h3>{{ type?.name }}</h3>
-                    <h4 class="display-4" *ngIf="type?.code == 'MES'">Offerte</h4>
-                </div>
+        <!-- users -->
+        <div class="col-lg-12 py-3">
+
                 <div class="row">
                     <div class="col-md-6">
-                    <p *ngIf="users.length == 0">Nesuna persona trovata.</p>
+                        <p *ngIf="users.length == 0">Nesuna persona trovata.</p>
 
-                    <table *ngIf="users.length > 0" class="table">
-                        <thead>
-                            <tr>
-                                <th>Persona</th>
-                                <th>Luogo</th>
-                                <th>Categorie</th>
-                                <th>Recensioni medie</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let user of users">
-                                <td>
+                        <table *ngIf="users.length > 0" class="table">
+                            <tbody>
+                                <tr *ngFor="let user of users">
+                                    <td>
+                                        <app-user-icon [user]="user"></app-user-icon>
+                                        <p class="text-secondary">{{ user.birthdate ? getAge(user.birthdate) + ' anni' : '' }}</p>
+                                        <p *ngIf="user.helps.length > 0 || user.responses.length > 0">
+                                            <span class="mr-3">{{ getAverage(user) | number:'1.0-1' }}</span>
+                                            <span *ngFor="let rat of [1,2,3,4,5] | slice:0:getAverage(user)">
+                                                <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
+                                            </span>
+                                        </p>
+                                        <p *ngIf="user.city && user.country">
+                                            <fa-icon [icon]="['fas', 'map-marker-alt']"></fa-icon>
+                                            {{ user.city }} ({{ user.country }})
+                                        </p>
+                                        <p *ngIf="user.latitude && user.longitude">
+                                            {{ getDistance(user.latitude, user.longitude) }}
+                                        </p>
+                                        <a [routerLink]="['/helps/ask', user.id]" class="btn btn-outline-primary" *ngIf="user.categories.length > 0">
+                                            <fa-icon title="Aiuto" [icon]="['fas', 'hand-paper']" class="mr-2"></fa-icon>
+                                            Chiedi aiuto
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <app-categories *ngFor="let cat of user.categories" [category]="cat"></app-categories>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-md-6 p-0">
+                        <agm-map
+                            class="col-lg-8 p-0"
+                            [latitude]="currentUser.latitude"
+                            [longitude]="currentUser.longitude"
+                            [zoom]=10>
+                            <agm-marker
+                                *ngFor="let user of users;"
+                                [latitude]="user.latitude"
+                                [longitude]="user.longitude">
+                                <agm-info-window>
                                     <app-user-icon [user]="user"></app-user-icon>
-                                    <p class="text-secondary">{{ user.birthdate ? getAge(user.birthdate) + ' anni' : '' }}</p>
-                                </td>
-                                <td>
-                                    <p *ngIf="user.city && user.country">
-                                        <fa-icon [icon]="['fas', 'map-marker-alt']"></fa-icon>
-                                        {{ user.city }} ({{ user.country }})
-                                        <br>
-                                        
-                                    </p>
-                                    <p *ngIf="!user.city || !user.country">-</p>
-                                    <p *ngIf="user.latitude && user.longitude">
-                                        {{ getDistance(user.latitude, user.longitude) }}
-                                    </p>
-                                </td>
-                                <td>
-                                    <app-categories *ngFor="let cat of user.categories" [category]="cat"></app-categories>
-                                </td>
-                                <td>
-                                    <p *ngIf="user.helps.length > 0 || user.responses.length > 0">
-                                        <span class="mr-3">{{ getAverage(user) | number:'1.0-1' }}</span>
-                                        <span *ngFor="let rat of [1,2,3,4,5] | slice:0:getAverage(user)">
-                                    <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
-                                </span>
-                                    </p>
-                                    <p *ngIf="user.helps.length == 0 && user.responses.length == 0">
-                                        -
-                                    </p>
-                                </td>
-                                <td>
-                                    <a [routerLink]="['/helps/ask', user.id]" class="btn btn-outline-primary" *ngIf="user.categories.length > 0">
+                                    <hr style="clear: both;">
+                                    <a [routerLink]="['/helps/ask', user.id]" class="btn btn-block btn-outline-primary" *ngIf="user.categories.length > 0">
                                         <fa-icon title="Aiuto" [icon]="['fas', 'hand-paper']" class="mr-2"></fa-icon>
                                         Chiedi aiuto
                                     </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                                </agm-info-window>
+                            </agm-marker>
+                        </agm-map>
+                    </div>
 
-                <div class="col-md-6">
-                    <agm-map
-                        class="col-lg-8"
-                        [latitude]="currentUser.latitude"
-                        [longitude]="currentUser.longitude"
-                        [zoom]=10>
-                        <agm-marker
-                            *ngFor="let user of users;"
-                            [latitude]="user.latitude"
-                            [longitude]="user.longitude">
-                            <agm-info-window>
-                                <app-user-icon [user]="user"></app-user-icon>
-                                <hr style="clear: both;">
-                                <a [routerLink]="['/helps/ask', user.id]" class="btn btn-block btn-outline-primary" *ngIf="user.categories.length > 0">
-                                    <fa-icon title="Aiuto" [icon]="['fas', 'hand-paper']" class="mr-2"></fa-icon>
-                                    Chiedi aiuto
-                                </a>
-                            </agm-info-window>
-                        </agm-marker>
-                    </agm-map>
-                  </div>
                 </div>
-            </div>
         </div>
     </div>
 

@@ -99,6 +99,16 @@ router.get('/', (req, res) => {
                 {
                     required: filterCategory.length > 0 ? true : false,
                     model: db.HelpCategory,
+                    include: [{
+                        attributes: ['id', 'code', 'name', 'image'],
+                        model: db.HelpCategory,
+                        include: [{
+                            attributes: ['id', 'code', 'name', 'image'],
+                            model: db.HelpCategory,
+                            as: 'parent'
+                        }],
+                        as: 'parent'
+                    }],
                     as: 'categories'
                 }
             ]

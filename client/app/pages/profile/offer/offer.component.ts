@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { HelpCategory } from '@app/models';
+import { Component, OnInit, Input } from '@angular/core';
+import { HelpCategory, User } from '@app/models';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService, UserService } from '@app/services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -7,15 +7,16 @@ import { CategoriesEditComponent } from './categories-edit/categories-edit.compo
 import { FormArray, FormControl, FormGroup, ValidatorFn, FormBuilder } from '@angular/forms';
 
 @Component({
-  selector: 'app-offer',
-  templateUrl: './offer.component.html',
-  styleUrls: ['./offer.component.scss']
+    selector: 'app-offer',
+    templateUrl: './offer.component.html',
+    styleUrls: ['./offer.component.scss']
 })
 export class OfferComponent implements OnInit {
 
     categories: HelpCategory[] = [];
     isOwner = false;
-    idProfile: number;
+    isLoading = true;
+    idUser: number;
     
     categoriesData = [];
     form: FormGroup;
@@ -28,6 +29,12 @@ export class OfferComponent implements OnInit {
         private modalService: NgbModal) { }
 
     ngOnInit() {
+        this.route.params.subscribe(params => {
+            this.idUser = params.id;
+            this.isOwner = this.authService.currentUserValue.id == this.idUser;
+            this.loadCategories();
+        });
+        /*
         this.route.parent.params.subscribe(params => {
             console.log('route changed');
             this.idProfile = params.id;
@@ -35,10 +42,12 @@ export class OfferComponent implements OnInit {
             this.isOwner = this.authService.currentUserValue.id === this.idProfile;
             this.loadCategories();
         });
+        */
     }
 
     loadCategories() {
-        this.userService.getCategories(this.idProfile).subscribe(x => {
+        this.userService.getCategories(this.idUser).subscribe(x => {
+            this.isLoading = false;
             if (x.categories && x.categories.length > 0) {
                 this.categories = x.categories;
             }
@@ -58,7 +67,7 @@ export class OfferComponent implements OnInit {
           });
   
           // async categories
-          this.userService.getCategories2(this.idProfile).subscribe(x => {
+          this.userService.getCategories2(this.idUser).subscribe(x => {
               this.categoriesData = x;
               this.addCheckboxes();
           });
@@ -89,7 +98,7 @@ export class OfferComponent implements OnInit {
             .map((v, i) => v ? this.categoriesData[i].id : null)
             .filter(v => v !== null);
         console.log(selectedCategoryIds);
-        this.userService.putCategories(this.idProfile, selectedCategoryIds).subscribe(x => {
+        this.userService.putCategories(this.idUser, selectedCategoryIds).subscribe(x => {
             console.log('success');
             this.loadCategories();
             this.modalService.dismissAll();

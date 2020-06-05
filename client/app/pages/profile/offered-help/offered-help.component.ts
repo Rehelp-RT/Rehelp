@@ -4,25 +4,26 @@ import { ActivatedRoute } from '@angular/router';
 import { ResponseService } from '@app/services';
 
 @Component({
-  selector: 'app-offered-help',
-  templateUrl: './offered-help.component.html',
-  styleUrls: ['./offered-help.component.scss']
+    selector: 'app-offered-help',
+    templateUrl: './offered-help.component.html',
+    styleUrls: ['./offered-help.component.scss']
 })
 export class OfferedHelpComponent implements OnInit {
 
-  responses: HelpResponse[] = [];
+    responses: HelpResponse[] = [];
+    isLoading = true;
 
-  constructor(private route: ActivatedRoute, private rs: ResponseService) { }
+    constructor(private route: ActivatedRoute, private rs: ResponseService) { }
 
-  ngOnInit() {
-    this.route.parent.params.subscribe(params => {
-      const idResponder = params.id;
+    ngOnInit() {
+        this.route.params.subscribe(params => {
+            const idResponder = params.id;
 
-      this.rs.getAll(idResponder, true).subscribe(x => {
-          console.log('x', x);
-          this.responses = x;
-      });
-    });
-  }
+            this.rs.getAll(idResponder, true).subscribe(x => {
+                this.isLoading = false;
+                this.responses = x;
+            });
+        });
+    }
 
 }

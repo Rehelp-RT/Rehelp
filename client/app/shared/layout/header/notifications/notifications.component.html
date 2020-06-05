@@ -4,7 +4,7 @@
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <fa-layers [fixedWidth]="true" size="2x" class="header-icon">
                 <fa-icon [icon]="['fas', 'bell']"></fa-icon>
-                <fa-layers-counter *ngIf="notifications.length > 0" content="{{notifications.length}}" size="2x" class="fa-icon-counter">
+                <fa-layers-counter *ngIf="notifications.length > 0" content="{{ notifications.length }}" size="2x" class="fa-icon-counter">
                 </fa-layers-counter>
             </fa-layers>
         </li>

@@ -1,44 +1,43 @@
 <h3 class="mb-3">Richieste di aiuto</h3>
 
-<div *ngIf="helps.length > 0">
-    <table class="table">
-        <tbody>
-            <tr *ngFor="let help of helps">
-                <td>
-                    <img src="{{ help.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + help.image : (help.category.image != null ? 'assets/img/categories/' + help.category.image : 'assets/img/placeholder-help.png')  }}"
-                    alt="{{ help.description }} image" class="help-img" width="100">
-                </td>
-                <td>
-                    <div><app-categories [category]="help.category"></app-categories></div>
-                    {{ help.description }}
-                </td>
-                <td>
-                    {{ help.type?.name }}
-                </td>
-                <td>
-                    <a [routerLink]="['/helps/', help.id]" class="btn btn-sm btn-outline-secondary m-1">
-                      Dettagli
-                    </a>
-                </td>
-                <td>
-                    <div *ngIf="!help.accepted">
-                        <fa-icon title="In attesa di accettazione" [icon]="['fas', 'clock']"></fa-icon>
-                    </div>
-                    <div *ngIf="help.accepted && !help.reviewed">
-                        <fa-icon title="Accettato" [icon]="['fas', 'check']"></fa-icon>
-                    </div>
-                    <div *ngIf="help.reviewed && !help.completed">
-                        <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
-                    </div>
-                    <div *ngIf="help.completed">
-                        <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<div *ngIf="helps.length == 0">
-    <hr>
-    <p>Nessuna richiesta trovata.</p>
+<fa-icon [icon]="['fas', 'sync']" [spin]="isLoading" *ngIf="isLoading"></fa-icon>
+
+<div *ngIf="!isLoading">
+    <p *ngIf="helps.length == 0">Nessun risultato trovato.</p>
+    <div *ngIf="helps.length > 0">
+        <table class="table">
+            <tbody>
+                <tr *ngFor="let help of helps">
+                    <td>
+                        <img src="{{ help.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + help.image : (help.category.image != null ? 'assets/img/categories/' + help.category.image : 'assets/img/placeholder-help.png')  }}"
+                        alt="{{ help.description }} image" class="help-img" width="100">
+                    </td>
+                    <td>
+                        <div>{{ help.type?.name }}</div>
+                        <div><app-categories [category]="help.category"></app-categories></div>
+                        {{ help.description }}
+                    </td>
+                    <td>
+                        <div *ngIf="!help.accepted">
+                            <fa-icon title="In attesa di accettazione" [icon]="['fas', 'clock']"></fa-icon>
+                        </div>
+                        <div *ngIf="help.accepted && !help.reviewed">
+                            <fa-icon title="Accettato" [icon]="['fas', 'check']"></fa-icon>
+                        </div>
+                        <div *ngIf="help.reviewed && !help.completed">
+                            <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
+                        </div>
+                        <div *ngIf="help.completed">
+                            <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon>
+                        </div>
+                    </td>
+                    <td>
+                        <a [routerLink]="['/helps/', help.id]" class="btn btn-sm btn-outline-secondary m-1">
+                        Dettagli
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

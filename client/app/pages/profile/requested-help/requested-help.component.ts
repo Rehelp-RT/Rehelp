@@ -4,25 +4,26 @@ import { ActivatedRoute } from '@angular/router';
 import { HelpService } from '@app/services';
 
 @Component({
-  selector: 'app-requested-help',
-  templateUrl: './requested-help.component.html',
-  styleUrls: ['./requested-help.component.scss']
+    selector: 'app-requested-help',
+    templateUrl: './requested-help.component.html',
+    styleUrls: ['./requested-help.component.scss']
 })
 export class RequestedHelpComponent implements OnInit {
 
-  helps: Help[] = [];
+    helps: Help[] = [];
+    isLoading = true;
 
-  constructor(private route: ActivatedRoute, private hs: HelpService) { }
+    constructor(private route: ActivatedRoute, private hs: HelpService) { }
 
-  ngOnInit() {
-      this.route.parent.params.subscribe(params => {
-        const idCreator = params.id;
+    ngOnInit() {
+        this.route.params.subscribe(params => {
+            const idCreator = params.id;
 
-        this.hs.getAll(null, null, null, idCreator).subscribe(x => {
-            console.log('x', x);
-            this.helps = x;
+            this.hs.getAll(null, null, null, idCreator).subscribe(x => {
+                this.isLoading = false;
+                this.helps = x;
+            });
         });
-      });
-  }
+    }
 
 }

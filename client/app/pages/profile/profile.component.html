@@ -85,7 +85,7 @@
             <div class="col-lg-8">
 
                 <div class="card">
-                    <div class="card-header">
+                    <!-- <div class="card-header">
                         <ul class="nav nav-tabs card-header-tabs" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link" routerLinkActive="active" [routerLink]="['./offer']" role="tab" aria-controls="offerta" aria-selected="true">Offerta</a>
@@ -97,10 +97,20 @@
                                 <a class="nav-link" routerLinkActive="active" [routerLink]="['./offered-help']" role="tab" aria-controls="aiuti-offerti" aria-selected="false">Aiuti offerti</a>
                             </li>
                         </ul>
-                    </div>
+                    </div> -->
                     <div class="card-body">
 
-                        <router-outlet></router-outlet>
+                        <!-- <router-outlet></router-outlet> -->
+
+                        <app-offer></app-offer>
+
+                        <hr>
+
+                        <app-requested-help></app-requested-help>
+
+                        <hr>
+
+                        <app-offered-help></app-offered-help>
 
                     </div>
                 </div>

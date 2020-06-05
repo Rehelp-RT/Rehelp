@@ -4,13 +4,13 @@
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <fa-layers [fixedWidth]="true" size="2x" class="header-icon">
                 <fa-icon [icon]="['fas', 'bell']"></fa-icon>
-                <fa-layers-counter *ngIf="notificationsNumber>0" content="{{notificationsNumber}}" size="2x" class="fa-icon-counter">
+                <fa-layers-counter *ngIf="notifications.length > 0" content="{{notifications.length}}" size="2x" class="fa-icon-counter">
                 </fa-layers-counter>
             </fa-layers>
         </li>
 
         <div class="dropdown-menu dropdown-menu-right" [ngClass]="{'show': isOpen}" aria-labelledby="dropdownMenuLink">
-            <p class="p-3 m-0" *ngIf="notificationsNumber == 0 || notifications == undefined">
+            <p class="p-3 m-0" *ngIf="notifications.length == 0">
                 Non ci sono notifiche
             </p>
             <div *ngFor="let n of notifications">

@@ -85,7 +85,7 @@
                                     </p>
                                 </td>
                                 <td>
-                                    <div *ngFor="let cat of user.categories">{{ cat.name }}</div>
+                                    <app-categories *ngFor="let cat of user.categories" [category]="cat"></app-categories>
                                 </td>
                                 <td>
                                     <p *ngIf="user.helps.length > 0 || user.responses.length > 0">

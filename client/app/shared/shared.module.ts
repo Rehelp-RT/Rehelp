@@ -23,7 +23,7 @@ import {
     faImage,
     faKey,
     faMapMarkerAlt,
-    faPencilAlt, faPlus,
+    faPencilAlt, faFilePdf, faPlus,
     faSave, faSpinner, faSquare, faStar, faStarOfLife, faSync,
     faTrashAlt,
     faUsers
@@ -145,7 +145,7 @@ export class SharedModule {
             faImage,
             faKey,
             faMapMarkerAlt,
-            faPencilAlt, faPlus,
+            faPencilAlt, faFilePdf, faPlus,
             faSave, faSpinner, faSquare, faStar, faStarOfLife, faSync,
             faTrashAlt,
             faUsers,

@@ -93,42 +93,6 @@ export class UsersComponent implements OnInit {
         }
     }
 
-    getAge(birthdate) {
-      const datenew = new Date();
-      const dateold = new Date(birthdate);
-      const ynew = datenew.getFullYear();
-      const mnew = datenew.getMonth();
-      const dnew = datenew.getDate();
-      const yold = dateold.getFullYear();
-      const mold = dateold.getMonth();
-      const dold = dateold.getDate();
-      let diff = ynew - yold;
-      if (mold > mnew) {
-        diff--;
-      } else {
-        if (mold === mnew) {
-          if (dold > dnew) {
-            diff--;
-          }
-        }
-      }
-      return diff;
-    }
-
-    getAverage(user: User): number {
-      let count = 0;
-      let sum = 0;
-      user.helps.forEach((h) => {
-        count++;
-        sum += h.responses[0].ratingResponder;
-      });
-      user.responses.forEach((r) => {
-        count++;
-        sum += r.ratingCreator;
-      });
-      return sum / count;
-    }
-
     filter() {
       var cat = this.idCat3 != null ? this.idCat3 : this.idCat2;
       this.us

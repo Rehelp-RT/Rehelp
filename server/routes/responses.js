@@ -31,6 +31,11 @@ router.get('/', (req, res) => {
                 required: true,
                 as: 'help',
                 include: [{
+                    attributes: ['code', 'name'],
+                    model: db.HelpType,
+                    required: true,
+                    as: 'type'
+                },{
                     attributes: ['id', 'code', 'name'],
                     model: db.HelpCategory,
                     required: true,

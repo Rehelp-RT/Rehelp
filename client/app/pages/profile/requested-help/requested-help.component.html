@@ -13,13 +13,16 @@
                         alt="{{ help.description }} image" class="help-img" width="100">
                     </td>
                     <td>
-                        <div>{{ help.type?.name }}</div>
+                        <div *ngIf="help.type">
+                            <fa-icon [icon]="['fas', getHelpTypeLogo(help.type?.code)]"></fa-icon>
+                            {{ help.type?.name }}
+                        </div>
                         <div><app-categories [category]="help.category"></app-categories></div>
                         {{ help.description }}
                     </td>
                     <td>
                         <div *ngIf="!help.accepted">
-                            <fa-icon title="In attesa di accettazione" [icon]="['fas', 'clock']"></fa-icon>
+                            In accettazione
                         </div>
                         <div *ngIf="help.accepted && !help.reviewed">
                             <fa-icon title="Accettato" [icon]="['fas', 'check']"></fa-icon>

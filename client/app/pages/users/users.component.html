@@ -52,36 +52,35 @@
                     <div class="col-md-6">
                         <p *ngIf="users.length == 0">Nesuna persona trovata.</p>
 
-                        <table *ngIf="users.length > 0" class="table">
-                            <tbody>
-                                <tr *ngFor="let user of users">
-                                    <td>
-                                        <app-user-icon [user]="user"></app-user-icon>
-                                        <p class="text-secondary">{{ user.birthdate ? getAge(user.birthdate) + ' anni' : '' }}</p>
-                                        <p *ngIf="user.helps.length > 0 || user.responses.length > 0">
-                                            <span class="mr-3">{{ getAverage(user) | number:'1.0-1' }}</span>
-                                            <span *ngFor="let rat of [1,2,3,4,5] | slice:0:getAverage(user)">
-                                                <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
-                                            </span>
-                                        </p>
-                                        <p *ngIf="user.city && user.country">
-                                            <fa-icon [icon]="['fas', 'map-marker-alt']"></fa-icon>
-                                            {{ user.city }} ({{ user.country }})
-                                        </p>
-                                        <p *ngIf="user.latitude && user.longitude">
-                                            {{ getDistance(user.latitude, user.longitude) }}
-                                        </p>
-                                        <a [routerLink]="['/helps/ask', user.id]" class="btn btn-outline-primary" *ngIf="user.categories.length > 0">
-                                            <fa-icon title="Aiuto" [icon]="['fas', 'hand-paper']" class="mr-2"></fa-icon>
-                                            Chiedi aiuto
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <app-categories *ngFor="let cat of user.categories" [category]="cat"></app-categories>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div *ngFor="let user of users" class="user-detail">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <app-user-icon [user]="user" [showName]="true" [showAge]="true" [showRating]="true"></app-user-icon>
+                                </div>
+                                <div class="col-md-6">
+                                    <span *ngIf="user.city && user.country" class="text-dark">
+                                        <fa-icon [icon]="['fas', 'map-marker-alt']"></fa-icon>
+                                        {{ user.city }} ({{ user.country }})
+                                    </span>
+                                    <span *ngIf="user.latitude && user.longitude" class="text-secondary">
+                                        <br>{{ getDistance(user.latitude, user.longitude) }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <app-categories *ngFor="let cat of user.categories" [category]="cat"></app-categories>
+                            </div>
+                            <div class="mb-3 row">
+                                <div class="col-md-6 offset-md-6">
+                                    <a [routerLink]="['/helps/ask', user.id]"
+                                        class="btn btn-block btn-outline-primary"
+                                        *ngIf="user.categories.length > 0">
+                                        <fa-icon title="Aiuto" [icon]="['fas', 'hand-paper']" class="mr-2"></fa-icon>
+                                        Chiedi aiuto
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-md-6 p-0">

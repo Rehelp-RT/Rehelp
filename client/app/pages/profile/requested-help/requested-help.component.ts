@@ -26,4 +26,18 @@ export class RequestedHelpComponent implements OnInit {
         });
     }
 
+    getHelpTypeLogo(code: string) {
+        if (code === 'MEH') {
+            return 'hands';
+        } else if (code == 'IMH') {
+            return 'clock';
+        } else if (code == 'COH') {
+            return 'users';
+        } else if (code == 'MES') {
+            return 'sync';
+        } else {
+            return ''
+        }
+    }
+
 }

@@ -134,7 +134,7 @@ export function provideConfig() {
 export class SharedModule {
 
     constructor(private library: FaIconLibrary) {
-        library.addIcons(
+        this.library.addIcons(
             faAngleDoubleRight,
             faBell,
             faCamera, faCircle, faCheck, faChevronLeft, faClock, faCloudUploadAlt, faCoffee,

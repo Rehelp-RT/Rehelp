@@ -11,8 +11,8 @@
         <span *ngIf="showName" class="text-dark">{{ getFullname() }}</span>
         <span *ngIf="showAge" class="text-secondary"><br>({{ getAge() }} anni)</span>
         <span *ngIf="showRating">
-            <br><span class="mr-3">{{ getRating(user) | number:'1.0-1' }}</span>
-            <span *ngFor="let rat of [1,2,3,4,5] | slice:0:getRating(user)">
+            <br><span class="mr-3">{{ getRating() | number:'1.0-1' }}</span>
+            <span *ngFor="let rat of [1,2,3,4,5] | slice:0:getRating()">
                 <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
             </span>
         </span>

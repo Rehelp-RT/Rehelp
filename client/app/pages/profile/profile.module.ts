@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '@app/shared';
 
 import { ProfileComponent } from './profile.component';
+import { ProfileDetailComponent } from './profile-detail/profile-detail.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { PasswordEditComponent } from './password-edit/password-edit.component';
 import { RequestedHelpComponent } from './requested-help/requested-help.component';
@@ -31,6 +32,7 @@ import { CategoriesEditComponent } from './offer/categories-edit/categories-edit
     declarations: [
         CategoriesEditComponent,
         ProfileComponent,
+        ProfileDetailComponent,
         ProfileEditComponent,
         PasswordEditComponent,
         OfferComponent,

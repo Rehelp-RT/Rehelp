@@ -45,9 +45,9 @@ export class ProfileComponent implements OnInit {
         }, {});
     }
 
-    getAge(birthdate): number {
+    getAge(): number {
         const datenew = new Date();
-        const dateold = new Date(birthdate);
+        const dateold = new Date(this.user.birthdate);
         const ynew = datenew.getFullYear();
         const mnew = datenew.getMonth();
         const dnew = datenew.getDate();

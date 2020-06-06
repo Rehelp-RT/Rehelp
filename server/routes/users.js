@@ -13,10 +13,6 @@ router.get('/', (req, res) => {
     var latit = req.query.lat !== undefined ? parseFloat(req.query.lat) : undefined;
     var longit = req.query.long !== undefined ? parseFloat(req.query.long) : undefined;
 
-    const filterCategory = [];
-    if (req.query.category !== undefined){
-        filterCategory.push({ id: req.query.category });
-    }
     var filters = [];
     if (distance !== undefined && longit !== undefined && latit !== undefined) {
         filters.push({
@@ -41,14 +37,7 @@ router.get('/', (req, res) => {
 
     console.log('req.query.category', req.query.category);
     console.log('filters', filters);
-
-
-    // {
-    //     required: filterCategory.length > 0 ? true : false,
-    //     model: db.HelpCategory,
-    //     as: 'categories',
-    //     where: {[Op.and]: {filterCategory}}
-    // }
+    
 
     db.User.findAll({
             attributes: [
@@ -97,7 +86,7 @@ router.get('/', (req, res) => {
                     }
                 },
                 {
-                    required: filterCategory.length > 0 ? true : false,
+                    required: req.query.category !== undefined ? true : false,
                     model: db.HelpCategory,
                     include: [{
                         attributes: ['id', 'code', 'name', 'image'],
@@ -109,6 +98,8 @@ router.get('/', (req, res) => {
                         }],
                         as: 'parent'
                     }],
+                    where: req.query.category !== undefined ? {[Op.and]: { id: req.query.category}}
+                    : {[Op.not]: {id : null}},
                     as: 'categories'
                 }
             ]

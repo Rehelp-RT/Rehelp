@@ -14,8 +14,7 @@
                     </td>
                     <td>
                         <div *ngIf="help.type">
-                            <fa-icon [icon]="['fas', getHelpTypeLogo(help.type?.code)]"></fa-icon>
-                            {{ help.type?.name }}
+                            <app-help-type [type]="help.type"></app-help-type>
                         </div>
                         <div><app-categories [category]="help.category"></app-categories></div>
                         {{ help.description }}

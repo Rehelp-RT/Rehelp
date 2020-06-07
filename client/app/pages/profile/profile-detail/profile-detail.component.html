@@ -13,10 +13,23 @@
                         </ul>
                     </div> -->
     <div class="card-body">
-        <app-offer></app-offer>
+
+        <h3>Su di me</h3>
+        <p class="font-italic">
+            {{ user.description}}
+        </p>
+
         <hr>
-        <app-requested-help></app-requested-help>
+
+        <app-offer [idUser]="idUser" [isOwner]="isOwner"></app-offer>
+
         <hr>
-        <app-offered-help></app-offered-help>
+
+        <app-requested-help [idUser]="idUser"></app-requested-help>
+
+        <hr>
+
+        <app-offered-help [idUser]="idUser"></app-offered-help>
+
     </div>
 </div>

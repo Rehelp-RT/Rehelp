@@ -14,35 +14,20 @@ import { FormArray, FormControl, FormGroup, ValidatorFn, FormBuilder } from '@an
 export class OfferComponent implements OnInit {
 
     categories: HelpCategory[] = [];
-    isOwner = false;
     isLoading = true;
-    idUser: number;
+    @Input() isOwner = false;
+    @Input() idUser: number;
     
     categoriesData = [];
     form: FormGroup;
 
     constructor(
-        private route: ActivatedRoute,
         private formBuilder: FormBuilder,
-        private authService: AuthenticationService,
         private userService: UserService,
         private modalService: NgbModal) { }
 
     ngOnInit() {
-        this.route.params.subscribe(params => {
-            this.idUser = params.id;
-            this.isOwner = this.authService.currentUserValue.id == this.idUser;
-            this.loadCategories();
-        });
-        /*
-        this.route.parent.params.subscribe(params => {
-            console.log('route changed');
-            this.idProfile = params.id;
-
-            this.isOwner = this.authService.currentUserValue.id === this.idProfile;
-            this.loadCategories();
-        });
-        */
+        this.loadCategories();
     }
 
     loadCategories() {

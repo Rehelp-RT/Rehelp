@@ -62,6 +62,7 @@ import { ErrorInterceptor, JwtInterceptor } from './interceptors';
 // app pipes
 import { FilterCategoriesPipe } from './pipes';
 import { NotificationsComponent } from './layout/header/notifications/notifications.component';
+import { HelpTypeComponent } from './components/help-type/help-type.component';
 
 // social login configurations
 const config = new AuthServiceConfig([
@@ -108,6 +109,7 @@ export function provideConfig() {
         HeaderComponent,
         FooterComponent,
         FilterCategoriesPipe,
+        HelpTypeComponent,
         NotificationsComponent
     ],
     providers: [
@@ -125,6 +127,7 @@ export function provideConfig() {
         AgmCoreModule,
         FontAwesomeModule,
         AlertModule, CategoriesModule, ChatModule,
+        HelpTypeComponent,
         ModalModule, StarRatingModule, StarsModule, UserIconModule,
         FooterComponent, HeaderComponent,
         RecaptchaModule, RecaptchaFormsModule,

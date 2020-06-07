@@ -19,16 +19,12 @@
 
                             <div class="col-lg-6">
 
-                                <div class="mb-3 row">
-                                    <div class="mb-1 col-md-4"><strong>Tipo</strong></div>
-                                    <div class="col-md-8">{{ help?.type?.name }}</div>
+                                <div class="mb-3" *ngIf="help.type">
+                                    <app-help-type [type]="help.type"></app-help-type>
                                 </div>
 
-                                <div class="mb-3 row">
-                                    <div class="mb-1 col-md-4"><strong>Categoria</strong></div>
-                                    <div class="col-md-8">
-                                        <app-categories [category]="help.category"></app-categories>
-                                    </div>
+                                <div class="mb-3">
+                                    <app-categories [category]="help.category"></app-categories>
                                 </div>
 
                                 <div class="mb-3 row">

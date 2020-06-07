@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { HelpResponse } from '@app/models';
 import { ActivatedRoute } from '@angular/router';
 import { ResponseService } from '@app/services';
@@ -12,32 +12,15 @@ export class OfferedHelpComponent implements OnInit {
 
     responses: HelpResponse[] = [];
     isLoading = true;
+    @Input() idUser: number;
 
     constructor(private route: ActivatedRoute, private rs: ResponseService) { }
 
     ngOnInit() {
-        this.route.params.subscribe(params => {
-            const idResponder = params.id;
-
-            this.rs.getAll(idResponder, true).subscribe(x => {
-                this.isLoading = false;
-                this.responses = x;
-            });
+        this.rs.getAll(this.idUser, true).subscribe(x => {
+            this.isLoading = false;
+            this.responses = x;
         });
-    }
-    
-    getHelpTypeLogo(code: string) {
-        if (code === 'MEH') {
-            return 'hands';
-        } else if (code == 'IMH') {
-            return 'clock';
-        } else if (code == 'COH') {
-            return 'users';
-        } else if (code == 'MES') {
-            return 'sync';
-        } else {
-            return ''
-        }
     }
 
 }

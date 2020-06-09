@@ -35,7 +35,7 @@
                             <div class="col-lg-8">
                                 <select
                                     class="form-control mb-3"
-                                    [(ngModel)]="idCat1"
+                                    [(ngModel)]="cat1Id"
                                     [ngModelOptions]="{standalone: true}">
                                     <option *ngFor="let cat of categories" [value]="cat.id">
                                         {{ cat.name }}
@@ -43,19 +43,19 @@
                                 </select>
                                 <select
                                     class="form-control mb-3"
-                                    [(ngModel)]="idCat2"
+                                    [(ngModel)]="cat2Id"
                                     [ngModelOptions]="{standalone: true}"
-                                    *ngIf="idCat1 != null && (categories | filterCategories : { id: idCat1 }).length > 0">
-                                    <option *ngFor="let cat of categories | filterCategories : { id: idCat1 }" [value]="cat.id">
+                                    *ngIf="cat1Id && (categories | filterCategories : { id: cat1Id }).length > 0">
+                                    <option *ngFor="let cat of categories | filterCategories : { id: cat1Id }" [value]="cat.id">
                                         {{ cat.name }}
                                     </option>
                                 </select>
                                 <select
                                     class="form-control mb-3"
-                                    [(ngModel)]="idCat3"
+                                    [(ngModel)]="cat3Id"
                                     [ngModelOptions]="{standalone: true}"
-                                    *ngIf="idCat2 != null && (categories | filterCategories : { id: idCat1, idChild: idCat2 }).length > 0">
-                                    <option *ngFor="let cat of categories | filterCategories : { id: idCat1, idChild: idCat2 }" [value]="cat.id">
+                                    *ngIf="cat2Id && (categories | filterCategories : { id: cat1Id, idChild: cat2Id }).length > 0">
+                                    <option *ngFor="let cat of categories | filterCategories : { id: cat1Id, idChild: cat2Id }" [value]="cat.id">
                                         {{ cat.name }}
                                     </option>
                                 </select>
@@ -108,13 +108,11 @@
                             <label class="col-lg-4" for="category">Immagine</label>
 
                             <div class="col-lg-8">
-
+                                
                                 <div *ngIf="!imageUploaded">
-                                    <!-- <p>{{ idCat1 }} - {{ idCat2 }} - {{ idCat3 }}</p>
-                                    <img src="{{ model.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + model.image : (getCategoryById(idCat3) ? 'assets/img/categories/' + getCategoryById(idCat3).image : 'assets/img/placeholder-help.png')  }}"
+                                    <!-- <img src="{{ model.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + model.image : (getCategoryById(idCat3) ? 'assets/img/categories/' + getCategoryById(idCat3).image : 'assets/img/placeholder-help.png')  }}"
                                         alt="{{ model.description }} image" width="100%" class="help-img"> -->
-                                    <img src="{{ model.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + model.image : 'assets/img/placeholder-help.png'  }}"
-                                        alt="{{ model.description }} image" width="100%" class="help-img">
+                                    <img src="{{ getCategoryImage() }}" alt="{{ model.description }} image" width="100%" class="help-img">
                                 </div>
                                 
                                 <div class="file" *ngFor="let response of responses; let i = index; last as isLast">

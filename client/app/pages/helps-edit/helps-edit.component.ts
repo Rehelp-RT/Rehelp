@@ -151,6 +151,7 @@ export class HelpsEditComponent implements OnInit {
     // categories
     this.cs.getAll(idType).subscribe(x => {
       this.categories = x;
+      console.log('cats', this.categories)
 
       if (this.model.category) {
         if (this.model.category.parent !== undefined && this.model.category.parent !== null) {

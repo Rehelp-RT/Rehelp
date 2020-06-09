@@ -14,16 +14,17 @@ router.get('/', (req, res) => {
     }
 
     db.HelpCategory.findAll({
-            attributes: ['id', 'code', 'name', 'idHelpType'],
+            order: [
+                ['name', 'ASC'],
+                [{ model: db.HelpCategory, as: 'children' }, 'name', 'ASC']
+            ],
             where: {
                 [Op.and]: filters
             },
             include: [{
-                attributes: ['id', 'name', 'idHelpType'],
                 model: db.HelpCategory,
                 as: 'children',
                 include: [{
-                    attributes: ['id', 'name', 'idHelpType'],
                     model: db.HelpCategory,
                     as: 'children'
                 }]

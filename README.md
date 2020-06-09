@@ -38,7 +38,7 @@ For migration command look QueryInterface documentation: <https://sequelize.org/
 | create a seeder | `sequelize --options-path=server/options.js seed:create --name new-seed` |
 | apply all seeders | `sequelize --options-path=server/options.js db:seed:all` |
 | undo all seeders | `sequelize --options-path=server/options.js db:seed:undo:all` |
-| run specific seed | `sequelize --options-path=server/options.js db:seed --seed 20200301180220-recreate-categories` |
+| run specific seed | `sequelize --options-path=server/options.js db:seed --seed 20200506132237-populate-categories` |
 
 ## Postgresql
 

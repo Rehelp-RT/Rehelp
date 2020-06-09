@@ -71,6 +71,7 @@
                                   formControlName="description"
                                   name="description"
                                   rows="4"
+                                  placeholder="Ho bisogno di..."
                                   required>
                               </textarea>
                               <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
@@ -102,24 +103,42 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <label class="col-lg-4" for="category">Immagine</label>
-                            <div class="col-lg-8" [hidden]="imageUploaded">
-                                <!-- <p>{{ idCat1 }} - {{ idCat2 }} - {{ idCat3 }}</p>
-                                <img src="{{ model.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + model.image : (getCategoryById(idCat3) ? 'assets/img/categories/' + getCategoryById(idCat3).image : 'assets/img/placeholder-help.png')  }}"
-                                    alt="{{ model.description }} image" width="100%" class="help-img"> -->
-                                <img src="{{ model.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + model.image : 'assets/img/placeholder-help.png'  }}"
-                                    alt="{{ model.description }} image" width="100%" class="help-img">
-                            </div>
-                        </div>
-
                         <div class="form-row mb-3">
-                            <label class="col-lg-4" for="image">Sostituisci immagine
-                                <sub style="color:grey;">
-                                    <p>Trascina sul riquadro la foto da caricare</p>
-                                </sub>
-                            </label>
+
+                            <label class="col-lg-4" for="category">Immagine</label>
+
                             <div class="col-lg-8">
+
+                                <div *ngIf="!imageUploaded">
+                                    <!-- <p>{{ idCat1 }} - {{ idCat2 }} - {{ idCat3 }}</p>
+                                    <img src="{{ model.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + model.image : (getCategoryById(idCat3) ? 'assets/img/categories/' + getCategoryById(idCat3).image : 'assets/img/placeholder-help.png')  }}"
+                                        alt="{{ model.description }} image" width="100%" class="help-img"> -->
+                                    <img src="{{ model.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + model.image : 'assets/img/placeholder-help.png'  }}"
+                                        alt="{{ model.description }} image" width="100%" class="help-img">
+                                </div>
+                                
+                                <div class="file" *ngFor="let response of responses; let i = index; last as isLast">
+                                    <div *ngIf="imageUploaded && isLast">
+                                        <div class="status">
+                                            <p *ngIf="!response.status">Caricamento... {{ response.progress }}%</p>
+                                            <input
+                                                type="hidden"
+                                                [(ngModel)]="model.image"
+                                                [ngModelOptions]="{standalone: true}"
+                                                [value]="response.data.public_id"
+                                                name="image" />
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div *ngIf="!response.status" class="progress" role="progressbar" [style.width.%]="response.progress"></div>
+                                        </div>
+                                        <a target="_blank" href="{{ response.data.url}}">
+                                            <img class="img-fluid" src="{{ response.data.url}}" alt="{{ response.data.public_id }}">
+                                        </a>
+                                        <a (click)="toggleImgUploader()" class="btn btn-outline-danger btn-block col-md-1 mt-2">
+                                            <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon>
+                                        </a>
+                                    </div>
+                                </div>
 
                                 <div [hidden]="imageUploaded">
                                     <form id="direct_upload" ng2FileDrop [uploader]="uploader" (fileOver)="fileOverBase($event)" [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }">
@@ -127,8 +146,8 @@
                                             <div class="form_controls">
                                                 <div class="upload_button_holder">
                                                     <label class="btn btn-outline-secondary" for="fileupload">
-                                                      <fa-icon [icon]="['fas', 'cloud-upload-alt']"></fa-icon> Carica immagine
-                                                  </label>
+                                                        <fa-icon [icon]="['fas', 'camera']"></fa-icon> Cambia immagine
+                                                    </label>
                                                     <!-- onChange hanlder resets the input value to get the change event when uploading the same file consecutively -->
                                                     <input
                                                         type="file"
@@ -143,33 +162,11 @@
                                             </div>
                                         </div>
                                     </form>
+                                    
                                 </div>
 
-                                <div class="file" *ngFor="let response of responses; let i = index; last as isLast">
-                                    <div *ngIf="imageUploaded && isLast">
-                                        <div class="status">
-                                            <p *ngIf="!response.status">Caricamento... {{ response.progress }}%</p>
-                                            <p *ngIf="response.status==200">Caricamento completo</p>
-                                            <input
-                                                type="hidden"
-                                                [(ngModel)]="model.image"
-                                                [ngModelOptions]="{standalone: true}"
-                                                [value]="response.data.public_id"
-                                                name="image" />
-                                        </div>
-                                        <div class="progress-bar">
-                                            <div *ngIf="!response.status" class="progress" role="progressbar" [style.width.%]="response.progress"></div>
-                                        </div>
-                                        <a target="_blank" href="{{ response.data.url}}">
-                                            <img class="img-fluid" src="{{ response.data.url}}" alt="{{ response.data.public_id }}">
-                                        </a>
-                                        <a (click)="toggleImgUploader()" class="btn btn-danger btn-block col-md-1 mt-2">
-                                            <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon>
-                                        </a>
-                                    </div>
-                                </div>
                             </div>
-
+                            
                         </div>
 
                         <div class="form-row mb-3">
@@ -211,6 +208,7 @@
                                 <fa-icon [icon]="['fas', 'save']"></fa-icon> Salva
                             </button>
                         </div>
+
                     </form>
                 </div>
             </div>

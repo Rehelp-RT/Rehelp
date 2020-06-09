@@ -15,8 +15,11 @@
     <div class="card-body">
 
         <h3>Su di me</h3>
-        <p class="font-italic">
+        <p *ngIf="user.description" class="font-italic">
             {{ user.description}}
+        </p>
+        <p *ngIf="!user.description">
+            Nessuna descrizione.
         </p>
 
         <hr>

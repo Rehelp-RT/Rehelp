@@ -99,7 +99,7 @@ export class HelpsComponent implements OnInit {
   }
 
   filter() {
-    var cat = this.idCat3 != null ? this.idCat3 : this.idCat2;
+    var cat = this.idCat2 != null ? this.idCat2 : this.idCat1;
     this.hs
       .getAll(
         this.type.code,

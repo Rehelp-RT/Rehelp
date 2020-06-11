@@ -58,10 +58,10 @@ export class HelpsComponent implements OnInit {
       this.us.getById(excludeUserId).subscribe(x => {
         this.user = x;
       });
+      this.cs.getAll(type.id).subscribe((cats) => {
+        this.categories = cats;
     });
     
-    this.cs.getAll().subscribe((cats) => {
-      this.categories = cats;
   });
   }
 

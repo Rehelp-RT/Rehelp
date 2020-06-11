@@ -72,7 +72,7 @@ export class UsersComponent implements OnInit {
             this.type = type;
         });
 
-        this.cs.getAll().subscribe((cats) => {
+        this.cs.getAll(this.type.id).subscribe((cats) => {
             this.categories = cats;
         });
 

@@ -94,7 +94,7 @@ export class UsersComponent implements OnInit {
     }
 
     filter() {
-      var cat = this.idCat3 != null ? this.idCat3 : this.idCat2;
+      var cat = this.idCat2 != null ? this.idCat2 : this.idCat1;
       this.us
         .getAll(
           this.currentUser.id,

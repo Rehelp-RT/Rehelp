@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService, HelpService, UserService, TypeService } from '@app/services';
-import { Help, User, HelpType } from '@app/models';
+import { AuthenticationService, HelpService, UserService, TypeService, CategoryService } from '@app/services';
+import { Help, User, HelpType, HelpCategory } from '@app/models';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 
@@ -15,11 +15,22 @@ export class HelpsComponent implements OnInit {
   helps: Help[] = [];
   type: HelpType;
   currentUser: User = null;
+  defaultDistance: Number[] = [10, 20, 50, 100];
+  public selectedDistance = null;
+  lat: Number = null;
+  long: Number = null;
+
+  // category
+  categories: HelpCategory[] = [];
+  public idCat1 = null;
+  public idCat2 = null;
+  public idCat3 = null;
 
   constructor(
     private activeRoute: ActivatedRoute,
     private hs: HelpService,
     private as: AuthenticationService,
+    private cs: CategoryService,
     private ts: TypeService,
     private us: UserService) {
     this.getCurrentUser();
@@ -35,19 +46,23 @@ export class HelpsComponent implements OnInit {
     const accepted = false;
     const idCreator = null;
     const distance = null;
-    const lat = this.currentUser.latitude;
-    const long = this.currentUser.longitude;
+    this.lat = this.currentUser.latitude;
+    this.long = this.currentUser.longitude;
 
     // get type
     this.ts.getByCode(codeType).subscribe(type => {
       this.type = type;
-      this.hs.getAll(type.code, excludeUserId, accepted, idCreator, distance, lat, long).subscribe(x => {
+      this.hs.getAll(type.code, excludeUserId, accepted, idCreator, distance, this.lat, this.long).subscribe(x => {
           this.helps = x;
       });
       this.us.getById(excludeUserId).subscribe(x => {
         this.user = x;
       });
     });
+    
+    this.cs.getAll().subscribe((cats) => {
+      this.categories = cats;
+  });
   }
 
   getCurrentUser(): void {
@@ -83,6 +98,23 @@ export class HelpsComponent implements OnInit {
       return this.currentUser?.likehelps > 0;
   }
 
+  filter() {
+    var cat = this.idCat3 != null ? this.idCat3 : this.idCat2;
+    this.hs
+      .getAll(
+        this.type.code,
+        this.currentUser.id,
+        false,
+        null,
+        this.selectedDistance,
+        this.lat,
+        this.long,
+        cat
+      )
+      .subscribe((x) => {
+        this.helps = x;
+      });
+  }
   /*
   deleteHelps(id, index) {
     this.hs.deleteHelps(id)

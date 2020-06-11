@@ -91,6 +91,8 @@ router.get('/', (req, res) => {
                 as: 'parent'
             }],
             required: true,
+            where: req.query.idCategory !== undefined ? {[Op.and]: { id: req.query.idCategory}}
+            : {[Op.not]: {id : null}},
             as: 'category'
         },
         {

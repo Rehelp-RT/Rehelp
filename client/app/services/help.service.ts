@@ -21,7 +21,7 @@ export class HelpService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(type = null, excludeUserId = null, accepted = null, idCreator = null, distance = null, lat = null, long = null) {
+  getAll(type = null, excludeUserId = null, accepted = null, idCreator = null, distance = null, lat = null, long = null, idCategory = null) {
     let params = '';
     params += type != null ? 'type=' + type + '&' : '';
     params += excludeUserId != null ? 'excludeUserId=' + excludeUserId + '&' : '';
@@ -29,7 +29,8 @@ export class HelpService {
     params += idCreator != null ? 'idCreator=' + idCreator + '&' : '';
     params += distance != null ? 'distance=' + distance + '&' : '';
     params += lat != null ? 'lat=' + lat + '&' : '';
-    params += long != null ? 'long=' + long : '';
+    params += long != null ? 'long=' + long + '&' : '';
+    params += idCategory != null ? 'idCategory=' + idCategory : '';
     if (params !== '') {
       params = '?' + params;
     }

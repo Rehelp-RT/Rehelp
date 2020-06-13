@@ -35,7 +35,7 @@ router.get('/', (req, res) => {
                     model: db.HelpType,
                     required: true,
                     as: 'type'
-                },{
+                }, {
                     attributes: ['id', 'code', 'name'],
                     model: db.HelpCategory,
                     required: true,
@@ -65,13 +65,13 @@ router.get('/', (req, res) => {
             }
         ]
     })
-    .then(x => {
-        res.json(x)
-    })
-    .catch(err => {
-        console.log(err);
-        res.sendStatus(500)
-    })
+        .then(x => {
+            res.json(x)
+        })
+        .catch(err => {
+            console.log(err);
+            res.sendStatus(500)
+        })
 });
 
 // GET /api/responses/5
@@ -91,10 +91,10 @@ router.get('/:id', (req, res) => {
             as: 'responder'
         },
         {
-          attributes: ['id', 'code', 'name'],
-          model: db.TradeTypes,
-          required: false,
-          as: 'trade'
+            attributes: ['id', 'code', 'name'],
+            model: db.TradeTypes,
+            required: false,
+            as: 'trade'
         }
         ]
     })
@@ -141,11 +141,13 @@ router.post('/add', (req, res) => {
             message: body.message
         })
             .then(x => {
-                db.Notification.create({
-                    idUser: body.help.idCreator,
-                    idHelp: body.help.id,
-                    message: 'hai ricevuto una risposta alla tua richiesta di aiuto!',
-                    createdAt: currentDate
+                db.User.findByPk(body.idResponder).then(user => {
+                    db.Notification.create({
+                        idUser: body.help.idCreator,
+                        idHelp: body.help.id,
+                        message: user.firstname + ' ha risposto alla tua richiesta di aiuto!',
+                        createdAt: currentDate
+                    })
                 }),
                     res.status(201).send({
                         id: x.id
@@ -181,17 +183,17 @@ router.put('/accept/:id', (req, res) => {
                                     accepted: true
                                 })
                             }
-                        })
-                            .then(() => {
+                            db.User.findByPk(response.help.idCreator).then(user => {
                                 db.Notification.create({
-                                    idUser: response.help.idResponder,
+                                    idUser: response.idResponder,
                                     idHelp: response.help.id,
-                                    message: 'la tua risposta è stata accettata!',
+                                    message: user.firstname + ' ha accettato la tua risposta!',
                                     createdAt: currentDate
-                                }),
-                                    res.status(200).send(response)
+                                })
                             })
-                    })
+                        })
+                    }),
+                    res.status(200).send(response);
             })
     }
 });
@@ -257,11 +259,13 @@ router.put('/feedback/:id', (req, res) => {
                             reviewed: true
                         })
                             .then(() => {
-                                db.Notification.create({
-                                    idUser: response.help.idCreator,
-                                    idHelp: response.help.id,
-                                    message: 'hai ricevuto una nuova recensione!',
-                                    createdAt: currentDate
+                                db.User.findByPk(response.help.idCreator).then(user => {
+                                    db.Notification.create({
+                                        idUser: response.idResponder,
+                                        idHelp: response.help.id,
+                                        message: user.firstname + ' ti ha dato una nuova recensione!',
+                                        createdAt: currentDate
+                                    })
                                 }),
                                     res.status(201).send(response)
                             })
@@ -317,6 +321,12 @@ router.put('/cohFeedback/:id', (req, res) => {
                         help.creator.update({
                             likehelps: creatorLh + 3
                         })
+                        db.Notification.create({
+                            idUser: help.creator.id,
+                            idHelp: help.id,
+                            message: 'hai guadagnato 3 likehelp!',
+                            createdAt: currentDate
+                        })
                         help.update({
                             reviewed: true
                         })
@@ -335,7 +345,7 @@ router.put('/cohFeedback/:id', (req, res) => {
                                             db.Notification.create({
                                                 idUser: responder.id,
                                                 idHelp: help.id,
-                                                message: 'hai ricevuto una nuova recensione!',
+                                                message: help.creator.firstname + ' ti ha dato una nuova recensione!',
                                                 createdAt: currentDate
                                             }),
                                                 // update responder
@@ -430,14 +440,16 @@ router.put('/complete/:id', (req, res) => {
                             response.responder.update({
                                 likehelps: responderLh + 1
                             })
-                            db.Notification.create({
-                                idUser: response.help.creator.id,
-                                idHelp: response.help.id,
-                                message: 'hai ricevuto una nuova recensione!',
-                                createdAt: currentDate
+                            db.User.findByPk(response.idResponder).then(user => {
+                                db.Notification.create({
+                                    idUser: response.help.idCreator,
+                                    idHelp: response.help.id,
+                                    message: user.firstname + ' ti ha dato una nuova recensione!',
+                                    createdAt: currentDate
+                                })
                             })
                             db.Notification.create({
-                                idUser: response.responder.id,
+                                idUser: response.idResponder,
                                 idHelp: response.help.id,
                                 message: 'hai guadagnato un likehelp!',
                                 createdAt: currentDate

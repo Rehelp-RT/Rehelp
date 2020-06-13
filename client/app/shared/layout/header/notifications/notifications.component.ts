@@ -33,10 +33,12 @@ export class NotificationsComponent implements OnInit {
         private eRef: ElementRef) { }
 
     ngOnInit() {
+        console.log("check currentUser");
         if (this.currentUser != null) {
+            console.log("cerco le notifiche");
             setInterval(() => {
                 this.callFuntionAtIntervals();
-            }, 120000);
+            }, 2000);
         }
     }
 

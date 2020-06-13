@@ -91,8 +91,8 @@ router.get('/', (req, res) => {
                 as: 'parent'
             }],
             required: true,
-            where: req.query.idCategory !== undefined ? {[Op.and]: { id: req.query.idCategory}}
-            : {[Op.not]: {id : null}},
+            where: req.query.idCategory !== undefined ? { [Op.and]: { id: req.query.idCategory } }
+                : { [Op.not]: { id: null } },
             as: 'category'
         },
         {
@@ -158,18 +158,18 @@ router.get('/:id', (req, res) => {
             },
             {
                 include: [
-                  {
-                    attributes: ['id', 'email', 'firstname', 'lastname', 'avatar'],
-                    model: db.User,
-                    required: true,
-                    as: 'responder'
-                  },
-                  {
-                    attributes: ['id', 'code', 'name'],
-                    model: db.TradeType,
-                    required: false,
-                    as: 'trade'
-                  }
+                    {
+                        attributes: ['id', 'email', 'firstname', 'lastname', 'avatar'],
+                        model: db.User,
+                        required: true,
+                        as: 'responder'
+                    },
+                    {
+                        attributes: ['id', 'code', 'name'],
+                        model: db.TradeType,
+                        required: false,
+                        as: 'trade'
+                    }
                 ],
                 model: db.HelpResponse,
                 as: 'responses',
@@ -271,14 +271,15 @@ router.post('/add', (req, res) => {
                             .then(x => {
                                 for (var y in x) {
                                     const currentDate = new Date();
-                                    db.Notification.create({
-                                        idUser: x[y].id,
-                                        idHelp: help.id,
-                                        message: 'Aiuto Immediato! ' + help.description,
-                                        createdAt: currentDate
-                                    }).then(not => console.log('not', not.id))
-                                        .catch(err => console.log('errCreateNotification', err));
-
+                                    db.User.findByPk(help.idCreator).then(user => {
+                                        db.Notification.create({
+                                            idUser: x[y].id,
+                                            idHelp: help.id,
+                                            message: user.firstname + ' ha bisogno di un Aiuto Immediato!',
+                                            createdAt: currentDate
+                                        })
+                                    })
+                                    .catch(err => console.log('errCreateNotification', err));
                                     if (x[y].phoneNumber != null) {
                                         console.log('+39' + x[y].phoneNumber);
                                         client.messages
@@ -298,7 +299,7 @@ router.post('/add', (req, res) => {
                             });
                     }
                 })
-                .catch(err => console.log('err',err));
+                    .catch(err => console.log('err', err));
                 res.status(201).send({
                     id: help.id
                 })

@@ -1,5 +1,11 @@
-.header-icon {
-    margin-top: 8px;
+
+.notification-img {
+    padding: 0 0 0 0;
+}
+
+.notification-text {
+    padding: 0 0 0 0;
+    font-size: 1rem;
 }
 
 .fa-icon-counter {
@@ -16,12 +22,14 @@
     font-weight: bold;
 }
 
+/* 
 .dropdown-menu {
-    /* border: 2px solid darkslategray;
+    border: 2px solid darkslategray;
     border-radius: 5px;
-    background-color: #6eba34; */
-    /* width: 240px; */
+    background-color: #6eba34;
+    width: 240px;
 }
+*/
 
 .dropdown-item {
     cursor: pointer;

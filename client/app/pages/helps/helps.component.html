@@ -1,20 +1,3 @@
-<section class="py-3">
-
-    <div class="container">
-
-        <div class="row">
-            <div class="col-md-8">
-                <h3>{{ type?.name }}</h3>
-                <h4 class="display-4" *ngIf="type?.code == 'MES'">Domande</h4>
-            </div>
-            <div class="col-md-4 text-right">
-                <a *ngIf="likeHelpController()"
-                    [routerLink]="['/helps/add/', type ? type.code : '' ]"
-                    class="btn btn-outline-primary mb-3">
-                    <fa-icon [icon]="['fas', 'plus']"></fa-icon> Nuova richiesta di aiuto
-                </a>
-            </div>
-        </div>
 
     <!-- filters -->
     <div class="cat-help pt-3 filters">
@@ -64,57 +47,66 @@
         </div>
     </div>
 
+    <section class="py-3">
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-8">
+                <h3>{{ type?.name }}</h3>
+                <h4 class="display-4" *ngIf="type?.code == 'MES'">Domande</h4>
+            </div>
+            <div class="col-md-4 text-right">
+                <a *ngIf="likeHelpController()"
+                    [routerLink]="['/helps/add/', type ? type.code : '' ]"
+                    class="btn btn-outline-primary mb-3">
+                    <fa-icon [icon]="['fas', 'plus']"></fa-icon> Nuova richiesta di aiuto
+                </a>
+            </div>
+        </div>
+
         <p *ngIf="helps.length == 0">Non ci sono richieste di aiuto.</p>
-        <table class="table" *ngIf="helps.length > 0">
-            <thead>
-                <tr>
-                    <th>Richiesta di aiuto</th>
-                    <th>Posizione</th>
-                    <th *ngIf="type?.code != 'IMH'">Creata</th>
-                    <th *ngIf="type?.code == 'IMH'">Scadenza</th>
-                    <th>Autore</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let help of helps">
-                    <td>
-                        <a class="help-img" [routerLink]="['/helps/', help.id]">
-                            <img src="{{ help.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + help.image : (help.category.image != null ? 'assets/img/categories/' + help.category.image : 'assets/img/placeholder-help.png')  }}"
-                            alt="{{ help.description}} image" class="help-img">
-                        </a>
-                        <div class="help-desc">
-                            <app-categories [category]="help.category"></app-categories>
-                            <p>
-                                <a [routerLink]="['/helps/', help.id]" class="text-dark">
-                                {{ help.description }}
-                              </a>
-                            </p>
+            <div class="list-group list-group-flush">
+                <div class="list-group-item" *ngFor="let help of helps">
+                    <div class="row">
+                        
+                        <div class="col-md">
+                            <a class="help-img" [routerLink]="['/helps/', help.id]">
+                                <img src="{{ help.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + help.image : (help.category.image != null ? 'assets/img/categories/' + help.category.image : 'assets/img/placeholder-help.png')  }}"
+                                alt="{{ help.description}} image" class="help-img">
+                            </a>
+                            <div class="help-desc">
+                                <app-categories [category]="help.category"></app-categories>
+                                <p>
+                                    <a [routerLink]="['/helps/', help.id]" class="text-dark">
+                                    {{ help.description }}
+                                </a>
+                                </p>
+                            </div>
                         </div>
-                    </td>
-                    <td class="col-location">
-                        <fa-icon [icon]="['fas', 'map-marker-alt']"></fa-icon>
-                        {{ help.address }}
-                    </td>
-                    <td *ngIf="type?.code != 'IMH'">
-                        {{ help.createdAt | date: "dd/MM/yyyy" }}
-                    </td>
-                    <td *ngIf="type?.code == 'IMH'">
-                        {{ getRemainingTime(help.dateEndValidity) }}
-                    </td>
-                    <td>
-                        <app-user-icon [user]="help.creator"></app-user-icon>
-                    </td>
-                    <td>
-                        <a [routerLink]="['/helps/', help.id]" class="btn btn-outline-secondary btn-block">
-                        Visualizza
-                      </a>
-                        <a [routerLink]="['/helps/', help.id, 'response']" class="btn btn-outline-primary btn-block">
-                        Aiuta
-                      </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        <div class="col-md col-location">
+                            <fa-icon [icon]="['fas', 'map-marker-alt']" *ngIf="help.address"></fa-icon>
+                            {{ help.address }}
+                        </div>
+                        <div class="col-lg-1" *ngIf="type?.code != 'IMH'">
+                            {{ getDayFromNow(help.createdAt) }}
+                        </div>
+                        <div class="col-lg-1" *ngIf="type?.code == 'IMH'">
+                            {{ getRemainingTime(help.dateEndValidity) }}
+                        </div>
+                        <div class="col-lg-1">
+                            <app-user-icon [user]="help.creator"></app-user-icon>
+                        </div>
+                        <div class="col-lg-2">
+                            <a [routerLink]="['/helps/', help.id]" class="btn btn-outline-secondary btn-block">
+                                Visualizza
+                            </a>
+                            <a [routerLink]="['/helps/', help.id, 'response']" class="btn btn-outline-primary btn-block">
+                                Aiuta
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
 </section>

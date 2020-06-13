@@ -5,21 +5,21 @@
 <div *ngIf="!isLoading">
     <p *ngIf="helps.length == 0">Nessun risultato trovato.</p>
     <div *ngIf="helps.length > 0">
-        <table class="table">
-            <tbody>
-                <tr *ngFor="let help of helps">
-                    <td>
+        <div class="list-group">
+            <div class="list-group-item" *ngFor="let help of helps">
+                <div class="row">
+                    <div class="col-md">
                         <img src="{{ help.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + help.image : (help.category.image != null ? 'assets/img/categories/' + help.category.image : 'assets/img/placeholder-help.png')  }}"
                         alt="{{ help.description }} image" class="help-img" width="100">
-                    </td>
-                    <td>
+                    </div>
+                    <div class="col-md">
                         <div *ngIf="help.type">
                             <app-help-type [type]="help.type"></app-help-type>
                         </div>
                         <div><app-categories [category]="help.category"></app-categories></div>
                         {{ help.description }}
-                    </td>
-                    <td>
+                    </div>
+                    <div class="col-md">
                         <div *ngIf="!help.accepted">
                             In accettazione
                         </div>
@@ -32,14 +32,14 @@
                         <div *ngIf="help.completed">
                             <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon>
                         </div>
-                    </td>
-                    <td>
+                    </div>
+                    <div class="col-md">
                         <a [routerLink]="['/helps/', help.id]" class="btn btn-sm btn-outline-secondary m-1">
                         Dettagli
                         </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,13 +1,11 @@
-<a [routerLink]="['/profile', user.id ]" class="flex-container avatar">
-    <span class="flex-item">
-        <span class="img-avatar rounded-circle">
-            <img src="{{ getAvatar() }}"
-                alt="{{ getFullname() }}"
-                title="{{ getFullname() }}"
-                width="32">
-        </span>
+<a [routerLink]="['/profile', user.id ]" class="avatar">
+    <span class="avatar-img rounded-circle">
+        <img src="{{ getAvatar() }}"
+            alt="{{ getFullname() }}"
+            title="{{ getFullname() }}"
+            width="32">
     </span>
-    <span class="flex-item txt-avatar" *ngIf="showName || showAge || showRating">
+    <span class="avatar-txt" *ngIf="showName || showAge || showRating">
         <span *ngIf="showName" class="text-dark">{{ getFullname() }}</span>
         <span *ngIf="showAge" class="text-secondary"><br>({{ getAge() }} anni)</span>
         <span *ngIf="showRating">

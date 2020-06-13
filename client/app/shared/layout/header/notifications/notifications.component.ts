@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 export class NotificationsComponent implements OnInit {
 
     @Input() currentUser: User;
+    @Input() showName: boolean;
     notifications: Notification[] = [];
     isOpen = false;
     //readonly VAPID_PUBLIC_KEY = "BMFfBA24EM7OSESBe6gRHhuKB1u2YHGUnL-wlEzKUh7gJ_Vnd9dKSwuw64TeMvfc5r1KNZc7Mkpk-92O51TmHTU";

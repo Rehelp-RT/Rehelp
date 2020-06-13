@@ -17,7 +17,7 @@
                         </p>
                         <div class="row">
 
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-1">
                                 <a [routerLink]="['/helps/add/MEH']" class="btn btn-block btn-outline-primary py-3">
                                     <fa-icon [icon]="['fas', 'angle-double-right']"></fa-icon>
                                     Nuova richiesta
@@ -56,14 +56,14 @@
                         <hr>
                         <div class="row">
                             
-                            <div class="col-md-6 mb-1 text-center">
+                            <div class="col-lg-6 mb-1 text-center">
                                 <a [routerLink]="['/helps/add/IMH']" class="btn btn-block btn-outline-primary py-3">
                                     <fa-icon [icon]="['fas', 'angle-double-right']"></fa-icon>
                                     Nuovo
                                 </a>
                             </div>
 
-                            <div class="col-md-6 mb-1 text-center">
+                            <div class="col-lg-6 mb-1 text-center">
                                 <a [routerLink]="['/helps']"
                                     [queryParams]="{type: 'IMH'}"
                                     class="btn btn-block btn-outline-secondary py-3">
@@ -100,15 +100,12 @@
                         <hr>
 
                         <div class="row mb-3">
-                            <div class="col-md-12">
+                            <div class="col-md-12 mb-1">
                                 <a [routerLink]="['/helps/add/MES']" class="btn btn-block btn-outline-primary py-3">
                                     <fa-icon [icon]="['fas', 'angle-double-right']"></fa-icon>
                                     Chiedi un oggetto in prestito
                                 </a>
                             </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-md-6 mb-1 text-center">
                                 <a [routerLink]="['/helps']"
                                     [queryParams]="{type: 'MES'}"

@@ -29,24 +29,18 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     ngOnInit() {
         this.currentUser = this.authService.currentUserValue;
         this.otherUser = this.isCreator ? this.response.responder : this.help.creator;
-        console.log('currentUser', this.currentUser);
-        console.log('otherUser', this.otherUser);
 
         this.chatService.getAll(this.response.id).subscribe(x => {
             // saved message
             this.messages = x;
-            console.log('messages', this.messages);
 
             // listen on incoming message
             this.subscription =
                 this.chatService.getMessages()
                 .pipe(distinctUntilChanged())
                 .subscribe((message) => {
-                    // const currentTime = moment().format('HH:mm:ss');
-                    // const messageWithTimestamp =  `${currentTime}: ${message}`;
-                    if (message.idResponse == this.response.id) {
+                    if (message.idResponse === this.response.id) {
                         this.messages.push(message);
-                        console.log('messages', this.messages);
                         this.scrollToBottom();
                     }
                 });

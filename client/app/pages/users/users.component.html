@@ -83,7 +83,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6 p-0">
+                    <div class="col-md-6 p-0" *ngIf="currentUser">
                         <agm-map
                             class="col-lg-8 p-0"
                             [latitude]="currentUser.latitude"

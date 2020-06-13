@@ -70,11 +70,11 @@ export class UsersComponent implements OnInit {
             : 'MEH';
         this.ts.getByCode(codeType).subscribe((type) => {
             this.type = type;
+            this.cs.getAll(type.id).subscribe((cats) => {
+                this.categories = cats;
+            });
         });
 
-        this.cs.getAll(this.type.id).subscribe((cats) => {
-            this.categories = cats;
-        });
 
         this.us.getAll(this.currentUser.id).subscribe(users => {
             this.users = users;

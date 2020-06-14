@@ -35,29 +35,31 @@ export class UserIconComponent {
             return 'assets/img/avatar_64.png';
         }
     }
-    
+
     getAge(): number {
         const datenew = new Date();
-        const dateold = new Date(this.user.birthdate);
-        const ynew = datenew.getFullYear();
-        const mnew = datenew.getMonth();
-        const dnew = datenew.getDate();
-        const yold = dateold.getFullYear();
-        const mold = dateold.getMonth();
-        const dold = dateold.getDate();
-        let diff = ynew - yold;
-        if (mold > mnew) {
-            diff--;
-        } else {
-            if (mold === mnew) {
-                if (dold > dnew) {
-                diff--;
-                }
-            }
+        const dateold = this.user.birthdate != null ? new Date(this.user.birthdate) : null;
+        if (dateold != null) {
+          const ynew = datenew.getFullYear();
+          const mnew = datenew.getMonth();
+          const dnew = datenew.getDate();
+          const yold = dateold.getFullYear();
+          const mold = dateold.getMonth();
+          const dold = dateold.getDate();
+          let diff = ynew - yold;
+          if (mold > mnew) {
+              diff--;
+          } else {
+              if (mold === mnew) {
+                  if (dold > dnew) {
+                  diff--;
+                  }
+              }
+          }
+          return diff;
         }
-        return diff;
     }
-    
+
     getRating(): number {
         let count = 0;
         let sum = 0;

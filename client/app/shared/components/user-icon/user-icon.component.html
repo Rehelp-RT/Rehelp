@@ -7,7 +7,7 @@
     </span>
     <span class="avatar-txt" *ngIf="showName || showAge || showRating">
         <span *ngIf="showName" class="text-dark">{{ getFullname() }}</span>
-        <span *ngIf="showAge" class="text-secondary"><br>({{ getAge() }} anni)</span>
+        <span *ngIf="showAge && getAge() != null" class="text-secondary"><br>({{ getAge() }} anni)</span>
         <span *ngIf="showRating">
             <br><span class="mr-3">{{ getRating() | number:'1.0-1' }}</span>
             <span *ngFor="let rat of [1,2,3,4,5] | slice:0:getRating()">

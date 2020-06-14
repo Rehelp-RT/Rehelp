@@ -18,15 +18,15 @@ export class ChatService {
         this.socket = io(environment.socketioUrl);
     }
 
-    public getAll(idResponse: number) {
-        return this.http.get<Message[]>(`${this.api}/messages?idResponse=${idResponse}`);
+    public getAll(idHelp: number) {
+        return this.http.get<Message[]>(`${this.api}/messages?idHelp=${idHelp}`);
     }
     
-    public sendMessage(messageBody, idResponse, idAuthor) {
+    public sendMessage(messageBody: string, idHelp: number, idAuthor: number) {
         const currentTime = new Date();
         const message = {
             body: messageBody,
-            idResponse,
+            idHelp,
             idAuthor,
             createdAt: currentTime
         };
@@ -35,8 +35,7 @@ export class ChatService {
 
     public getMessages() {
         return new Observable<Message>(subscriber => {
-            this.socket.on('new-message', (message) => {
-                console.log(message);
+            this.socket.on('new-message', message => {
                 subscriber.next(message);
             });
         });

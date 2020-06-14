@@ -3,9 +3,9 @@ const db = require('../models');
 
 module.exports = (sequelize, DataTypes) => {
     const Message = sequelize.define('Message', {
-        idResponse: {
+        idHelp: {
             type: DataTypes.INTEGER,
-            references: { model: db.HelpResponse, key: 'id' }
+            references: { model: db.Help, key: 'id' }
         },
         idAuthor: {
             type: DataTypes.INTEGER,
@@ -17,10 +17,10 @@ module.exports = (sequelize, DataTypes) => {
     }, {});
 
     Message.associate = function(models) {
-        models.Message.belongsTo(models.HelpResponse, {
+        models.Message.belongsTo(models.Help, {
             onDelete: "CASCADE",
-            foreignKey: 'idResponse',
-            as: 'response'
+            foreignKey: 'idHelp',
+            as: 'help'
         });
         models.Message.belongsTo(models.User, {
             onDelete: "CASCADE",

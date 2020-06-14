@@ -1,13 +1,13 @@
-import { HelpResponse, User } from './';
+import { Help, HelpResponse, User } from './';
 
 export class Message {
     id: number;
-    idResponse: number;
+    idHelp: number;
     idAuthor: number;
     body: string;
     createdAt: Date;
     updatedAt: Date;
 
-    response: HelpResponse;
+    help: Help;
     author: User;
 }

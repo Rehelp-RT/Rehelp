@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
             references: { model: db.User, key: 'id' }
         },
         idTradeType: {
-          type: DataTypes.INTEGER,
-          references: { model: db.TradeTypes, key: 'id' }
+            type: DataTypes.INTEGER,
+            references: { model: db.TradeTypes, key: 'id' }
         },
         isTutor: DataTypes.BOOLEAN,
         accepted: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: "CASCADE",
             foreignKey: 'idTradeType',
             as: 'trade'
-      });
+        });
     };
 
     return HelpResponse;

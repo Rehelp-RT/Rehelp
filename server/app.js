@@ -54,8 +54,8 @@ io.on('connection', (socket) => {
         console.log('message received:', message);
 
         // check format
-        if (message.idResponse === undefined) {
-            console.error('idResponse is missing:', message);
+        if (message.idHelp === undefined) {
+            console.error('idHelp is missing:', message);
         } else if (message.idAuthor === undefined) {
             console.error('idAuthor is missing:', message);
         } else if (message.body === undefined) {
@@ -67,7 +67,7 @@ io.on('connection', (socket) => {
 
             // save it
             db.Message.create({
-                idResponse: message.idResponse,
+                idHelp: message.idHelp,
                 idAuthor: message.idAuthor,
                 body: message.body,
                 createdAt: message.createdAt,

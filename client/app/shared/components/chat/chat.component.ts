@@ -28,7 +28,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     ngOnInit() {
         this.currentUser = this.authService.currentUserValue;
 
-        this.chatService.getAll(this.response.id).subscribe(x => {
+        this.chatService.getAll(this.help.id).subscribe(x => {
             // saved message
             this.messages = x;
 
@@ -37,7 +37,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.chatService.getMessages()
                 .pipe(distinctUntilChanged())
                 .subscribe((message) => {
-                    if (message.idResponse === this.response.id) {
+                    if (message.idHelp === this.help.id) {
                         this.messages.push(message);
                         this.scrollToBottom();
                     }
@@ -55,7 +55,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     sendMessage() {
         if (this.messageBody.trim().length > 0) {
-            this.chatService.sendMessage(this.messageBody, this.response.id, this.currentUser.id);
+            this.chatService.sendMessage(this.messageBody, this.help.id, this.currentUser.id);
             this.messageBody = '';
         }
     }

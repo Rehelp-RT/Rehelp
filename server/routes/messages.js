@@ -1,7 +1,7 @@
 var router = require('express').Router();
 const db = require('../models');
 
-// GET /api/messages/5
+// GET /api/messages/5?idHelp=4
 router.get('/', (req, res) =>
     db.Message.findAll({
         attributes: ['body', 'idAuthor', 'createdAt'],
@@ -16,7 +16,7 @@ router.get('/', (req, res) =>
             required: true,
             as: 'author'
         }],
-        where: { idResponse: req.query.idResponse }
+        where: { idHelp: req.query.idHelp }
     })
     .then(x => {
         res.json(x)

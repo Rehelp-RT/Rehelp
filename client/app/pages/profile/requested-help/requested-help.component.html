@@ -9,8 +9,9 @@
             <div class="list-group-item" *ngFor="let help of helps">
                 <div class="row">
                     <div class="col-md">
-                        <img src="{{ help.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + help.image : (help.category.image != null ? 'assets/img/categories/' + help.category.image : 'assets/img/placeholder-help.png')  }}"
-                        alt="{{ help.description }} image" class="help-img" width="100">
+                        <img src="{{ getImage(help) }}" alt="{{ help.description }} image" class="help-img" width="100">
+                        <!-- <img src="{{ help.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + help.image : (help.category.image != null ? 'assets/img/categories/' + help.category.image : 'assets/img/placeholder-help.png')  }}"
+                        alt="{{ help.description }} image" class="help-img" width="100"> -->
                     </div>
                     <div class="col-md">
                         <div *ngIf="help.type">

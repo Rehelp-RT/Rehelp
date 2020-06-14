@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { HelpResponse } from '@app/models';
+import { HelpResponse, Help } from '@app/models';
 import { ActivatedRoute } from '@angular/router';
 import { ResponseService } from '@app/services';
 
@@ -21,6 +21,16 @@ export class OfferedHelpComponent implements OnInit {
             this.isLoading = false;
             this.responses = x;
         });
+    }
+    
+    getImage(help: Help) {
+        if (help.image != null) {
+            return 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + help.image;
+        } else if (help.category.image != null) {
+            return 'assets/img/categories/' + help.category.image;
+        } else {
+            return 'assets/img/placeholder-help.png';
+        }
     }
 
 }

@@ -23,4 +23,14 @@ export class RequestedHelpComponent implements OnInit {
         });
     }
 
+    getImage(help: Help) {
+        if (help.image != null) {
+            return 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + help.image;
+        } else if (help.category.image != null) {
+            return 'assets/img/categories/' + help.category.image;
+        } else {
+            return 'assets/img/placeholder-help.png';
+        }
+    }
+
 }

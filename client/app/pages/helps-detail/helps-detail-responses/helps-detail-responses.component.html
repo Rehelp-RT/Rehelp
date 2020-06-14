@@ -11,32 +11,30 @@
 
         <div *ngFor="let r of help.responses">
 
-            <div *ngIf="r.accepted && !r.completed" class="row">
-                <div class="offset-md-8 col-md-4">
-                    <app-chat [help]="help" [response]="r" [isCreator]="isHelpCreator"></app-chat>
-                </div>
+            <div *ngIf="r.accepted && !r.completed">
+                <app-chat [help]="help" [response]="r" [isCreator]="isHelpCreator"></app-chat>
             </div>
 
-            <div *ngIf="((!isUserAccepted && help.type.code != 'COH')|| r.accepted) || (help.type.code == 'COH')">
+            <div *ngIf="((!isUserAccepted && help.type.code != 'COH') || r.accepted) || (help.type.code == 'COH')">
 
                 <div *ngIf="r.accepted || r.idResponder === currentUser.id || isHelpCreator || help.type.code == 'COH'">
-                    <app-user-icon [user]="r.responder"></app-user-icon>
+                    <app-user-icon [user]="r.responder" [showName]="true"></app-user-icon>
                     <div *ngIf="!help.isOffer && help.type.code != 'MES'" class="speech-bubble-left">
                         {{ r.message }}
                     </div>
                     <div *ngIf="!help.isOffer && help.type.code == 'MES'" class="speech-bubble-left">
-                      <div class="mb-2">
-                        <strong>Tipo scambio:</strong> {{ r.trade.name }}
-                      </div>
-                      <div class="mb-2">
-                        <strong>Messaggio:</strong> {{ r.message }}
-                      </div>
+                        <div class="mb-2">
+                            <strong>Tipo scambio:</strong> {{ r.trade.name }}
+                        </div>
+                        <div class="mb-2">
+                            <strong>Messaggio:</strong> {{ r.message }}
+                        </div>
                   </div>
                 </div>
 
                 <div *ngIf="r.reviewed && r.accepted">
                     <div class="text-right">
-                        <app-user-icon [user]="help.creator"></app-user-icon>
+                        <app-user-icon [user]="help.creator" [showName]="true"></app-user-icon>
                     </div>
                     <div class="speech-bubble-right" *ngIf="r.reviewed">
                         {{ r.messageCreator }}
@@ -84,16 +82,18 @@
                     </a>
 
                     <div *ngIf="r.accepted && !r.reviewed && !r.completed">
+                        <a class="btn btn-block btn-outline-secondary" (click)="cancel(r)">
+                            Cancella
+                        </a>
+                        <hr>
                         <button class="btn btn-block btn-outline-primary mb-2"
                             (click)="openModal('modal-complete-' + r.id)" *ngIf="help.type.code != 'COH'">
                             Il lavoro è finito
                         </button>
-                        <a class="btn btn-block btn-outline-secondary" (click)="cancel(r)">
-                            Cancella
-                        </a>
                     </div>
                 </div>
                 <div *ngIf="help.isOffer && r.accepted && !r.reviewed && !r.completed">
+                    <hr>
                     <button class="btn btn-block btn-outline-primary mb-2"
                         (click)="openModal('modal-complete-' + r.id)">
                         Il lavoro è finito

@@ -11,39 +11,49 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class HelpsDetailComponent implements OnInit {
 
-  help: Help = null;
-  currentUser: User = null;
-  isHelpCompleted: boolean;
+    help: Help = null;
+    currentUser: User = null;
+    isHelpCompleted: boolean;
 
-  constructor(
-    private location: Location,
-    private hs: HelpService,
-    private actRoute: ActivatedRoute,
-    private router: Router,
-    private as: AuthenticationService) { }
+    constructor(
+        private location: Location,
+        private hs: HelpService,
+        private actRoute: ActivatedRoute,
+        private router: Router,
+        private as: AuthenticationService) { }
 
-  ngOnInit() {
-      const id = this.actRoute.snapshot.params.id;
-      this.getHelp(id);
-      this.currentUser = this.as.currentUserValue;
-  }
+    ngOnInit() {
+        const id = this.actRoute.snapshot.params.id;
+        this.getHelp(id);
+        this.currentUser = this.as.currentUserValue;
+    }
 
-  getHelp(id: number): void {
-      this.hs.getById(id)
-          .subscribe(help => {
-              this.help = help;
-      });
-  }
+    getHelp(id: number): void {
+        this.hs.getById(id)
+            .subscribe(help => {
+                this.help = help;
+        });
+    }
 
-  deleteHelp() {
-    this.hs.deleteHelp(this.help)
-      .subscribe(x =>
-        this.router.navigate(['/helps'])
-      );
-  }
+    getImage(help: Help) {
+        if (help.image != null) {
+            return 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + help.image;
+        } else if (help.category.image != null) {
+            return 'assets/img/categories/' + help.category.image;
+        } else {
+            return 'assets/img/placeholder-help.png';
+        }
+    }
 
-  back() {
-    this.location.back();
-  }
+    deleteHelp() {
+      this.hs.deleteHelp(this.help)
+        .subscribe(x =>
+          this.router.navigate(['/helps'])
+        );
+    }
+
+    back() {
+      this.location.back();
+    }
 
 }

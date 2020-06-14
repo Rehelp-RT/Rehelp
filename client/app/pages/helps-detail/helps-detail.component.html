@@ -13,8 +13,7 @@
                         <div class="row">
 
                             <div class="col-lg-6">
-                                <img src="{{ help.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + help.image : (help.category.image != null ? 'assets/img/categories/' + help.category.image : 'assets/img/placeholder-help.png')  }}"
-                                    alt="{{ help.description }} image" class="img-fluid mb-3">
+                                <img src="{{ getImage(help) }}" alt="{{ help.description }} image" class="img-fluid mb-3">
                             </div>
 
                             <div class="col-lg-6">

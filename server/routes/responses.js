@@ -24,46 +24,49 @@ router.get('/', (req, res) => {
         where: {
             [Op.and]: filters
         },
-        include: [
-            {
-                attributes: ['id', 'description', 'image'],
-                model: db.Help,
+        include: [{
+            attributes: ['id', 'description', 'image'],
+            model: db.Help,
+            required: true,
+            as: 'help',
+            include: [{
+                attributes: ['code', 'name'],
+                model: db.HelpType,
                 required: true,
-                as: 'help',
+                as: 'type'
+            }, {
+                attributes: ['id', 'code', 'name', 'image'],
+                model: db.HelpCategory,
+                required: true,
+                as: 'category',
                 include: [{
-                    attributes: ['code', 'name'],
-                    model: db.HelpType,
-                    required: true,
-                    as: 'type'
-                }, {
-                    attributes: ['id', 'code', 'name'],
+                    attributes: ['id', 'code', 'name', 'image'],
                     model: db.HelpCategory,
-                    required: true,
-                    as: 'category',
+                    as: 'parent',
                     include: [{
-                        attributes: ['id', 'code', 'name'],
+                        attributes: ['id', 'code', 'name', 'image'],
                         model: db.HelpCategory,
-                        as: 'parent',
-                        include: [{
-                            attributes: ['id', 'code', 'name'],
-                            model: db.HelpCategory,
-                            as: 'parent'
-                        }]
+                        as: 'parent'
                     }]
                 }]
-            },
-            {
-                attributes: ['id', 'email', 'firstname', 'lastname', 'avatar'],
-                model: db.User,
-                required: true,
-                as: 'responder'
-            },
-            {
-                model: db.TradeType,
-                required: false,
-                as: 'trade'
-            }
-        ]
+            }]
+        },
+        {
+            attributes: [
+                'id', 'avatar', 'birthdate', 'city', 'country',
+                'email', 'firstname', 'lastname', 'latitude', 'longitude',
+                'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
+                'idFacebook', 'idGoogle', 'phoneNumber'
+            ],
+            model: db.User,
+            required: true,
+            as: 'responder'
+        },
+        {
+            model: db.TradeType,
+            required: false,
+            as: 'trade'
+        }]
     })
         .then(x => {
             res.json(x)
@@ -85,7 +88,12 @@ router.get('/:id', (req, res) => {
             as: 'help'
         },
         {
-            attributes: ['email', 'firstname', 'lastname'],
+            attributes: [
+                'id', 'avatar', 'birthdate', 'city', 'country',
+                'email', 'firstname', 'lastname', 'latitude', 'longitude',
+                'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
+                'idFacebook', 'idGoogle', 'phoneNumber'
+            ],
             model: db.User,
             required: true,
             as: 'responder'

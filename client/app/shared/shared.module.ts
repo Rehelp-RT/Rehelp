@@ -33,6 +33,7 @@ import {
     faCircle as farCircle,
     faClipboard as farClipboard,
     faClock as farClock,
+    faComment as farComment,
     faSquare as farSquare,
     faStar as farStar
 } from '@fortawesome/free-regular-svg-icons';
@@ -66,18 +67,18 @@ import { HelpTypeComponent } from './components/help-type/help-type.component';
 
 // social login configurations
 const config = new AuthServiceConfig([
-  {
-    id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider('777650088501-7v0eembic12t9esbnht9lmmhi95tho4j.apps.googleusercontent.com')
-  },
-  {
-    id: FacebookLoginProvider.PROVIDER_ID,
-    // provider prod
-     provider: new FacebookLoginProvider('220996429157029')
+    {
+        id: GoogleLoginProvider.PROVIDER_ID,
+        provider: new GoogleLoginProvider('777650088501-7v0eembic12t9esbnht9lmmhi95tho4j.apps.googleusercontent.com')
+    },
+    {
+        id: FacebookLoginProvider.PROVIDER_ID,
+        // provider prod
+        provider: new FacebookLoginProvider('220996429157029')
 
-    // provider test
-     // provider: new FacebookLoginProvider('688443305245420')
-  }
+        // provider test
+        // provider: new FacebookLoginProvider('688443305245420')
+    }
 ]);
 export function provideConfig() {
   return config;
@@ -138,22 +139,15 @@ export class SharedModule {
 
     constructor(private library: FaIconLibrary) {
         this.library.addIcons(
-            faAngleDoubleRight,
-            faBell,
+            faAngleDoubleRight, faBell,
             faCamera, faCircle, faCheck, faChevronLeft, faClock, faCloudUploadAlt, faCoffee,
-            faEnvelope,
-            faFacebook,
-            faGoogle,
-            faHands, faHandPaper,
-            faImage,
-            faKey,
-            faMapMarkerAlt,
-            faPencilAlt, faFilePdf, faPlus,
+            faEnvelope, faFacebook, faGoogle,
+            faHands, faHandPaper, faImage, faKey,
+            faMapMarkerAlt, faPencilAlt, faFilePdf, faPlus,
             faSave, faSpinner, faSquare, faStar, faStarOfLife, faSync,
-            faTrashAlt,
-            faUsers,
-            farCheckSquare, farCircle, farClipboard, farClock,
-            farSquare,
-            farStar);
+            faTrashAlt, faUsers,
+            
+            farCheckSquare, farCircle, farClipboard, farClock, farComment,
+            farSquare, farStar);
     }
 }

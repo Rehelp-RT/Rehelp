@@ -150,8 +150,12 @@ router.get('/:id', (req, res) => {
                 as: 'category'
             },
             {
-                attributes: ['id', 'email', 'firstname', 'lastname',
-                    'avatar', 'idGoogle', 'idFacebook', 'loginLocal', 'loginGoogle', 'loginFacebook'],
+                attributes: [
+                    'id', 'avatar', 'birthdate', 'city', 'country',
+                    'email', 'firstname', 'lastname', 'latitude', 'longitude',
+                    'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
+                    'idFacebook', 'idGoogle', 'phoneNumber'
+                ],
                 model: db.User,
                 required: true,
                 as: 'creator'
@@ -159,7 +163,12 @@ router.get('/:id', (req, res) => {
             {
                 include: [
                     {
-                        attributes: ['id', 'email', 'firstname', 'lastname', 'avatar'],
+                        attributes: [
+                            'id', 'avatar', 'birthdate', 'city', 'country',
+                            'email', 'firstname', 'lastname', 'latitude', 'longitude',
+                            'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
+                            'idFacebook', 'idGoogle', 'phoneNumber'
+                        ],
                         model: db.User,
                         required: true,
                         as: 'responder'

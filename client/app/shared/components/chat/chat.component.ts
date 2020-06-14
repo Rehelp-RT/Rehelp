@@ -17,7 +17,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Input() isCreator: boolean;
     messageBody = '';
     messages: Message[] = [];
-    otherUser: User = null;
     currentUser: User = null;
     isOpen = false;
     private subscription = null;
@@ -28,7 +27,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     ngOnInit() {
         this.currentUser = this.authService.currentUserValue;
-        this.otherUser = this.isCreator ? this.response.responder : this.help.creator;
 
         this.chatService.getAll(this.response.id).subscribe(x => {
             // saved message

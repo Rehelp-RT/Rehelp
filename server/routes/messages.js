@@ -6,7 +6,12 @@ router.get('/', (req, res) =>
     db.Message.findAll({
         attributes: ['body', 'idAuthor', 'createdAt'],
         include: [{
-            attributes: ['id', 'avatar', 'firstname', 'lastname'],
+            attributes: [
+                'id', 'avatar', 'birthdate', 'city', 'country',
+                'email', 'firstname', 'lastname', 'latitude', 'longitude',
+                'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
+                'idFacebook', 'idGoogle', 'phoneNumber'
+            ],
             model: db.User,
             required: true,
             as: 'author'

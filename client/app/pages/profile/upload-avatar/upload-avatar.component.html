@@ -16,16 +16,19 @@
     </div>
 </form>
 
-<h3 *ngIf="responses.length > 0">Status</h3>
-
-<div class="file" *ngFor="let response of responses; let i = index">
-    <div class="status">
-        Caricamento... {{ response.progress }}%
-        <div class="status-code" *ngIf="response.status == 200">
-            Caricamento completo
+<div *ngIf="responses.length > 0">
+    <h3>Status</h3>
+    <div class="file" *ngFor="let response of responses; let i = index">
+        <div class="status">
+            Caricamento... {{ response.progress }}%
+            <div class="status-code" *ngIf="response.status == 200">
+                Caricamento completo
+            </div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" role="progressbar" [style.width.%]="response.progress"></div>
         </div>
     </div>
-    <div class="progress-bar">
-        <div class="progress" role="progressbar" [style.width.%]="response.progress"></div>
-    </div>
 </div>
+
+<button class="btn btn-outline-secondary" [routerLink]="['/profile', user?.id ]">Annulla</button>

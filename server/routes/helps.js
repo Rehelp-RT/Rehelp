@@ -278,29 +278,32 @@ router.post('/add', (req, res) => {
                             }
                         })
                             .then(x => {
-                                for (var y in x) {
-                                    const currentDate = new Date();
-                                    db.User.findByPk(help.idCreator).then(user => {
+                                db.User.findByPk(help.idCreator).then(user => {
+                                    for (var y in x) {
+                                        const currentDate = new Date();
                                         db.Notification.create({
                                             idUser: x[y].id,
                                             idHelp: help.id,
                                             message: user.firstname + ' ha bisogno di un Aiuto Immediato!',
                                             createdAt: currentDate
                                         })
-                                    })
-                                    .catch(err => console.log('errCreateNotification', err));
-                                    if (x[y].phoneNumber != null) {
-                                        console.log('+39' + x[y].phoneNumber);
-                                        client.messages
-                                            .create({
-                                                body: help.description + ' https://localhost:4200/helps/' + help.id,
-                                                from: '+12513090971',
-                                                to: '+39' + x[y].phoneNumber
-                                            })
-                                            .then(message => console.log('message', message.sid))
-                                            .catch(err => console.log('errSendSMS', err));
+                                            .catch(err => console.log('errCreateNotification', err));
+                                        if (x[y].phoneNumber != null) {
+                                            console.log('substring',x[y].phoneNumber.substring(0, 3));
+                                            var numberToSend = x[y].phoneNumber.substring(0, 3) == '+39' ?
+                                                x[y].phoneNumber : '+39' + x[y].phoneNumber
+                                            console.log('numberToSend', numberToSend);
+                                            client.messages
+                                                .create({
+                                                    body: help.description + ' https://rehelp.app/helps/' + help.id,
+                                                    from: '+12513090971',
+                                                    to: numberToSend
+                                                })
+                                                .then(message => console.log('message', message.sid))
+                                                .catch(err => console.log('errSendSMS', err));
+                                        }
                                     }
-                                }
+                                })
                             })
                             .catch(err => {
                                 console.log(err);

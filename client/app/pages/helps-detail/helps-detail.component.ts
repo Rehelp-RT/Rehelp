@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import { AuthenticationService, HelpService } from '@app/services';
 import { Help, User } from '@app/models';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ModalService } from '@app/shared/components';
 
 @Component({
   selector: 'app-helps-detail',
@@ -20,6 +21,7 @@ export class HelpsDetailComponent implements OnInit {
         private hs: HelpService,
         private actRoute: ActivatedRoute,
         private router: Router,
+        private modalService: ModalService,
         private as: AuthenticationService) { }
 
     ngOnInit() {
@@ -52,6 +54,14 @@ export class HelpsDetailComponent implements OnInit {
                 this.router.navigate(['/helps'])
             );
         }
+    }
+
+    openModal(id: string) {
+      this.modalService.open(id);
+    }
+
+    closeModal(id: string) {
+      this.modalService.close(id);
     }
 
     back() {

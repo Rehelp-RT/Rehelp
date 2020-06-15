@@ -10,10 +10,18 @@ import { HelpCategory } from '@app/models';
 export class CategoriesComponent implements OnInit {
 
     @Input() category: HelpCategory;
+    @Input() isCheckable: boolean = false;
+    @Input() checked: boolean = false;
 
     constructor() { }
 
     ngOnInit() {
+    }
+
+    toggle() {
+        if (this.isCheckable) {
+            this.checked = !this.checked;
+        }
     }
 
 }

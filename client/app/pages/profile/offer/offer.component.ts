@@ -1,9 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { HelpCategory, User } from '@app/models';
-import { ActivatedRoute } from '@angular/router';
-import { AuthenticationService, UserService } from '@app/services';
+import { HelpCategory } from '@app/models';
+import { UserService } from '@app/services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CategoriesEditComponent } from './categories-edit/categories-edit.component';
 import { FormArray, FormControl, FormGroup, ValidatorFn, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -18,7 +16,7 @@ export class OfferComponent implements OnInit {
     @Input() isOwner = false;
     @Input() idUser: number;
     
-    categoriesData = [];
+    categoriesData: HelpCategory[] = [];
     form: FormGroup;
 
     constructor(
@@ -63,7 +61,7 @@ export class OfferComponent implements OnInit {
         this.initModal();
         console.log('-- open module')
         this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
-      }
+    }
 
     private addCheckboxes() {
         const formArray = this.form.controls.categories as FormArray;

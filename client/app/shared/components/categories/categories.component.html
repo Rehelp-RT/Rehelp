@@ -1,4 +1,4 @@
-<span class="badge badge-silver m-1 p-2 font-weight-normal">
+<span class="badge badge-silver m-1 p-2 font-weight-normal" [ngClass]="{'checked': checked }" (click)="toggle()">
     <span *ngIf="category.parent && category.parent.parent">{{ category?.parent?.parent?.name }} /&nbsp;</span> 
     <span *ngIf="category.parent">{{ category?.parent?.name }} /&nbsp;</span>
     <span>{{ category?.name }}</span>

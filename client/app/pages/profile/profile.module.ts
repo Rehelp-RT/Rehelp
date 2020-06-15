@@ -16,7 +16,6 @@ import { RequestedHelpComponent } from './requested-help/requested-help.componen
 import { OfferComponent } from './offer/offer.component';
 import { OfferedHelpComponent } from './offered-help/offered-help.component';
 import { UploadAvatarComponent } from './upload-avatar/upload-avatar.component';
-import { CategoriesEditComponent } from './offer/categories-edit/categories-edit.component';
 
 @NgModule({
     imports: [
@@ -30,7 +29,6 @@ import { CategoriesEditComponent } from './offer/categories-edit/categories-edit
         SharedModule
     ],
     declarations: [
-        CategoriesEditComponent,
         ProfileComponent,
         ProfileDetailComponent,
         ProfileEditComponent,
@@ -40,10 +38,8 @@ import { CategoriesEditComponent } from './offer/categories-edit/categories-edit
         RequestedHelpComponent,
         UploadAvatarComponent
     ],
-    entryComponents: [ CategoriesEditComponent ],
     exports: [
-        ProfileComponent,
-        CategoriesEditComponent
+        ProfileComponent
     ]
 })
 export class ProfileModule { }

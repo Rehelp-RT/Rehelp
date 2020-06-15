@@ -12,10 +12,20 @@
 }
 
 .avatar-img {
-    padding: 8px 8px 0 8px;
+    overflow: hidden;
+    padding: 8px 8px 0 0;
+    display: block;
+    float: left;
 }
 
-.avatar-text {
+.avatar-txt {
     padding: 0 8px 8px 8px;
     font-size: 1rem;
+    display: block;
+    margin-left: 40px;
+}
+
+.avatar-txt .location {
+    display: block;
+    color: #808080;
 }

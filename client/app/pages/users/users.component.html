@@ -54,30 +54,21 @@
 
                         <div *ngFor="let user of users" class="user-detail">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <app-user-icon [user]="user" [showName]="true" [showAge]="true" [showRating]="true"></app-user-icon>
-                                </div>
-                                <div class="col-md-6">
-                                    <span *ngIf="user.city && user.country" class="text-dark">
-                                        <fa-icon [icon]="['fas', 'map-marker-alt']"></fa-icon>
-                                        {{ user.city }} ({{ user.country }})
-                                    </span>
+                                <div class="col-lg-5 mb-1">
+                                    <app-user-icon [user]="user" [showName]="true" [showAge]="true" [showLocation]="true" [showRating]="true"></app-user-icon>
                                     <span *ngIf="user.latitude && user.longitude" class="text-secondary">
-                                        <br>{{ getDistance(user.latitude, user.longitude) }}
+                                        {{ getDistance(user.latitude, user.longitude) }}
                                     </span>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <app-categories *ngFor="let cat of user.categories" [category]="cat"></app-categories>
-                            </div>
-                            <div class="mb-3 row">
-                                <div class="col-md-6 offset-md-6">
                                     <a [routerLink]="['/helps/ask', user.id]"
-                                        class="btn btn-block btn-outline-primary"
+                                        class="btn btn-block btn-outline-primary mt-3"
                                         *ngIf="user.categories.length > 0">
                                         <fa-icon title="Aiuto" [icon]="['fas', 'hand-paper']" class="mr-2"></fa-icon>
                                         Chiedi aiuto
                                     </a>
+                                </div>
+                                <div class="col-lg-7 mb-1">
+                                    <p *ngIf="!user.categories || user.categories.length == 0">Nessun aiuto offerto.</p>
+                                    <app-categories *ngFor="let cat of user.categories" [category]="cat"></app-categories>
                                 </div>
                             </div>
                         </div>
@@ -94,7 +85,7 @@
                                 [latitude]="user.latitude"
                                 [longitude]="user.longitude">
                                 <agm-info-window>
-                                    <app-user-icon [user]="user"></app-user-icon>
+                                    <app-user-icon [user]="user" [showName]="true" [showAge]="true" [showRating]="true"></app-user-icon>
                                     <hr style="clear: both;">
                                     <a [routerLink]="['/helps/ask', user.id]" class="btn btn-block btn-outline-primary" *ngIf="user.categories.length > 0">
                                         <fa-icon title="Aiuto" [icon]="['fas', 'hand-paper']" class="mr-2"></fa-icon>

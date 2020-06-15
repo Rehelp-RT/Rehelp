@@ -2,3 +2,13 @@
     padding-top: 4px;
     padding-bottom: 4px;
 }
+
+.checkbox {
+    cursor: pointer;
+}
+
+.modal-body {
+    max-height: 600px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}

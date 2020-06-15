@@ -289,7 +289,6 @@ router.post('/add', (req, res) => {
                                         })
                                             .catch(err => console.log('errCreateNotification', err));
                                         if (x[y].phoneNumber != null) {
-                                            console.log('substring',x[y].phoneNumber.substring(0, 3));
                                             var numberToSend = x[y].phoneNumber.substring(0, 3) == '+39' ?
                                                 x[y].phoneNumber : '+39' + x[y].phoneNumber
                                             console.log('numberToSend', numberToSend);

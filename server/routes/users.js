@@ -118,36 +118,35 @@ router.get('/:id', (req, res) => {
     console.log('test')
     db.User.findByPk(req.params.id, {
             attributes: [
-                'id', 'avatar', 'birthdate', 'city', 'country',
+                'id', 'avatar', 'birthdate', 'city', 'country', 'description',
                 'email', 'firstname', 'lastname', 'latitude', 'longitude',
                 'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
                 'idFacebook', 'idGoogle', 'phoneNumber'
             ],
             include: [{
-                    required: false,
-                    model: db.Help,
-                    attributes: ['id'],
-                    as: 'helps',
-                    where: { completed: true },
-                    include: [{
-                        model: db.HelpResponse,
-                        attributes: ['ratingResponder'],
-                        as: 'responses',
-                        where: {
-                            [Op.not]: { ratingResponder: null }
-                        }
-                    }]
-                },
-                {
-                    required: false,
+                required: false,
+                model: db.Help,
+                attributes: ['id'],
+                as: 'helps',
+                where: { completed: true },
+                include: [{
                     model: db.HelpResponse,
-                    attributes: ['ratingCreator'],
+                    attributes: ['ratingResponder'],
                     as: 'responses',
                     where: {
-                        [Op.not]: { ratingCreator: null }
+                        [Op.not]: { ratingResponder: null }
                     }
+                }]
+            },
+            {
+                required: false,
+                model: db.HelpResponse,
+                attributes: ['ratingCreator'],
+                as: 'responses',
+                where: {
+                    [Op.not]: { ratingCreator: null }
                 }
-            ]
+            }]
         }).then(user => {
             if (!user) {
                 return res.status(404).send({
@@ -189,6 +188,7 @@ router.get('/:id', (req, res) => {
                 birthdate: user.birthdate,
                 city: user.city,
                 country: user.country,
+                description: user.description,
                 email: user.email,
                 firstname: user.firstname,
                 lastname: user.lastname,

@@ -39,6 +39,7 @@ export class ProfileEditComponent implements OnInit {
             if (id == this.as.currentUserValue.id) {
                 this.us.getById(id).subscribe(x => {
                     // model
+                    console.log('utente', x)
                     this.model = x;
     
                     // maps

@@ -70,11 +70,30 @@
                             <a class="btn btn-outline-secondary mb-3 mr-1" [routerLink]="['/helps/edit/', help.id]">
                                 <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon> Modifica
                             </a>
-                            <a class="btn btn-outline-secondary mb-3" (click)="deleteHelp()">
+                            <a class="btn btn-outline-secondary mb-3" (click)="openModal('modal-delete-' + help.id)">
                                 <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon> Elimina
                             </a>
                         </div>
                     </div>
+
+                    <app-modal id="modal-delete-{{ help.id }}">
+                      <div class="modal-header">
+                        <h4 class="modal-title" id="modal-title">{{ help.type.name }} - {{ help.description }}</h4>
+                        <button type="button" class="close" aria-describedby="modal-title" (click)="closeModal('modal-delete-' + help.id)">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <p><strong>Sei sicuro di volerlo eliminare?</strong></p>
+                        <p>
+                        <span class="text-danger">Questa operazione è irriversibile</span>
+                        </p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" (click)="closeModal('modal-delete-' + help.id)">Annulla</button>
+                        <button type="button" class="btn btn-danger" (click)="deleteHelp()">Elimina</button>
+                      </div>
+                    </app-modal>
 
                 </div>
             </div>

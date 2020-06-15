@@ -28,20 +28,20 @@ export class PasswordEditComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.activeRouter.parent.params.subscribe(params => {
+       // load form
+       this.passwordEditForm = this.formBuilder.group({
+          password: ['', [Validators.required, Validators.minLength(6)]],
+          confirmPassword: ['', Validators.required],
+        }, {
+             validator: MustMatch('password', 'confirmPassword')
+          });
+
+       this.activeRouter.parent.params.subscribe(params => {
             const id = params.id;
             if (id == this.as.currentUserValue.id) {
                 this.us.getById(params.id).subscribe(x => {
                     // model
                     this.model = x;
-
-                    // load form
-                    this.passwordEditForm = this.formBuilder.group({
-                        password: ['', [Validators.required, Validators.minLength(6)]],
-                        confirmPassword: ['', Validators.required],
-                    }, {
-                        validator: MustMatch('password', 'confirmPassword')
-                    });
                 });
             } else {
                 this.router.navigate(['/profile/' + id]);

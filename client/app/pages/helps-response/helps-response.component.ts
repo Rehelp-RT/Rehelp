@@ -58,7 +58,7 @@ export class HelpsResponseComponent implements OnInit {
     this.ts.getAll().subscribe(x => {
       this.tradeTypes = x;
 
-      if (this.response.trade) {
+      if (this.response && this.response.trade) {
         this.idTradeType = this.response.idTradeType;
       }
     });

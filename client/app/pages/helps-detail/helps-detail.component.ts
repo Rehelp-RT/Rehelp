@@ -51,7 +51,7 @@ export class HelpsDetailComponent implements OnInit {
         if (this.help.idCreator == this.as.currentUserValue.id) {
             // can delete
             this.hs.deleteHelp(this.help).subscribe(x =>
-                this.router.navigate(['/helps'])
+              this.router.navigate(['/profile/' + this.help.idCreator])
             );
         }
     }

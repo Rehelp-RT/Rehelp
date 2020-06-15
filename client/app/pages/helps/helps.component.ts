@@ -73,15 +73,12 @@ export class HelpsComponent implements OnInit {
     getRemainingTime(date: Date) {
         const now = moment(Date());
         const then = moment(date);
-        console.log('date', date);
         const timespan = now.diff(then);
-        console.log('timespan', timespan);
         if (timespan < 0) {
             return 'scaduto';
         } else {
             const resultDate = moment.utc(timespan);
             const result = resultDate.format('HH') + ' ore ' + resultDate.format('mm') + ' minuti';
-            console.log('result', result);
             return result;
         }
     }

@@ -119,34 +119,29 @@ export class HelpsEditComponent implements OnInit {
     }
 
     private initCreateHelp(type: string) {
-        this.as.currentUser.subscribe(x => {
-            // help
-            this.model = new Help();
+        // help
+        this.model = new Help();
+        this.model.idCreator = this.as.currentUserValue.id;
+        this.model.description = '';
 
-            // current user
-            this.currentUser = x;
-            this.model.idCreator = this.currentUser.id;
-            this.model.description = '';
+        // get type
+        this.ts.getByCode(type).subscribe(x => {
+            this.type = x;
+            this.model.idType = x.id;
 
-            // get type
-            this.ts.getByCode(type).subscribe(x => {
-              this.type = x;
-              this.model.idType = x.id;
-
-              if (this.type.code == 'IMH') {
+            if (this.type.code == 'IMH') {
                 this.model.halfhourValidity = 1;
-              }
-              // categories
-              this.initCategories(x.id);
+            }
+            // categories
+            this.initCategories(x.id);
 
-            });
-
-            // form validation
-            this.initForm();
-
-            // maps
-            this.initMaps();
         });
+
+        // form validation
+        this.initForm();
+
+        // maps
+        this.initMaps();
     }
 
     private initCategories(idType: number) {

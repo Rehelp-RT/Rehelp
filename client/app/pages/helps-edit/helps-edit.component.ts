@@ -64,28 +64,24 @@ export class HelpsEditComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        // get params
-        if (this.activeRoute.snapshot.params.id) {
-            this.idHelp = this.activeRoute.snapshot.params.id;
-        }
-        const type =
-            this.activeRoute.snapshot.params.type
-            ? this.activeRoute.snapshot.params.type
-            : 'MEH';
-
-        console.log('idHelp', this.idHelp);
-        console.log('type', type);
-
-        if (this.idHelp) {
-            // edit
-            this.initEditHelp();
-        } else {
-            // create
-            this.initCreateHelp(type);
-        }
-
-        // images
-        this.initImages();
+        this.activeRoute.params.subscribe(params => {
+            console.log('params', params);
+            if (params.id) {
+                // edit
+                this.idHelp = params.id
+                this.initEditHelp();
+            } else {
+                // create
+                const type =
+                    this.activeRoute.snapshot.params.type
+                    ? this.activeRoute.snapshot.params.type
+                    : 'MEH';
+                this.initCreateHelp(type);
+            }
+            
+            // images
+            this.initImages();
+        });
     }
 
     // convenience getter for easy access to form fields
@@ -99,21 +95,26 @@ export class HelpsEditComponent implements OnInit {
 
     private initEditHelp() {
         this.hs.getById(this.idHelp).subscribe(x => {
-            // model
-            this.model = x;
-            this.type = x.type;
+            if (x.idCreator == this.as.currentUserValue.id) {
+                // can edit
+                this.model = x;
+                this.type = x.type;
 
-            // form validation
-            this.initForm();
+                // form validation
+                this.initForm();
 
-            // categories
-            this.initCategories(this.model.idType);
+                // categories
+                this.initCategories(this.model.idType);
 
-            // responses
-            this.responses = [];
+                // responses
+                this.responses = [];
 
-            // maps
-            this.initMaps();
+                // maps
+                this.initMaps();
+            } else {
+                // can't edit
+                this.router.navigate(['/helps/' + this.idHelp]);
+            }
         });
     }
 

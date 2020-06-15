@@ -46,10 +46,12 @@ export class HelpsDetailComponent implements OnInit {
     }
 
     deleteHelp() {
-      this.hs.deleteHelp(this.help)
-        .subscribe(x =>
-          this.router.navigate(['/helps'])
-        );
+        if (this.help.idCreator == this.as.currentUserValue.id) {
+            // can delete
+            this.hs.deleteHelp(this.help).subscribe(x =>
+                this.router.navigate(['/helps'])
+            );
+        }
     }
 
     back() {

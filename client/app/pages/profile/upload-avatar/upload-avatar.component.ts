@@ -34,15 +34,18 @@ export class UploadAvatarComponent implements OnInit {
 
 
     ngOnInit(): void {
-
         this.activeRouter.parent.params.subscribe(params => {
             const id = params.id;
-            this.us.getById(id).subscribe(x => {
-                this.user = x;
+            if (id == this.as.currentUserValue.id) {
+                this.us.getById(id).subscribe(x => {
+                    this.user = x;
 
-                this.initUploader();
-            });
-            this.responses = [];
+                    this.initUploader();
+                });
+                this.responses = [];
+            } else {
+                this.router.navigate(['/profile/' + id]);
+            }
         });
     }
 

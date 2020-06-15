@@ -1,10 +1,7 @@
 import { Component, OnInit, Input, HostListener, ElementRef } from '@angular/core';
 import { Notification, User } from '@app/models';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NotificationService } from '@app/services';
-import { interval } from 'rxjs/internal/observable/interval';
-import { startWith, switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-notifications',
@@ -17,6 +14,7 @@ export class NotificationsComponent implements OnInit {
     @Input() showName: boolean;
     notifications: Notification[] = [];
     isOpen = false;
+    lastUrl: string = '';
     //readonly VAPID_PUBLIC_KEY = "BMFfBA24EM7OSESBe6gRHhuKB1u2YHGUnL-wlEzKUh7gJ_Vnd9dKSwuw64TeMvfc5r1KNZc7Mkpk-92O51TmHTU";
 
 
@@ -28,27 +26,31 @@ export class NotificationsComponent implements OnInit {
     }
 
     constructor(
+        private activeRoute: ActivatedRoute,
         private router: Router,
         private notificationService: NotificationService,
         private eRef: ElementRef) { }
 
     ngOnInit() {
-        console.log("check currentUser");
         if (this.currentUser != null) {
-            console.log("cerco le notifiche");
-            setInterval(() => {
-                this.callFuntionAtIntervals();
-            }, 2000);
+            this.router.events.subscribe(val => {
+                if (location.pathname != this.lastUrl) {
+                    this.getNotifications();
+                    setInterval(() => {
+                        this.getNotifications();
+                    }, 20000);
+                    this.lastUrl = location.pathname;
+                }
+            });
         }
     }
 
-    callFuntionAtIntervals() {
-        this.notificationService.getByUser(this.currentUser.id)
-            .subscribe(res => {
-                this.notifications = res;
-            }, (err) => {
-                console.error('errore :', err);
-            });
+    getNotifications() {
+        this.notificationService.getByUser(this.currentUser.id).subscribe(res => {
+            this.notifications = res;
+        }, (err) => {
+            console.error('errore :', err);
+        });
     }
 
     navigate(id: number) {

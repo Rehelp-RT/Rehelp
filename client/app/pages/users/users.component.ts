@@ -43,6 +43,8 @@ export class UsersComponent implements OnInit {
     zoom: number;
     address: string;
     private geoCoder;
+    infoWindowOpened = null;
+    previousInfoWindow = null;
     @ViewChild('search')
     public searchElementRef: ElementRef;
 
@@ -97,7 +99,7 @@ export class UsersComponent implements OnInit {
       var cat = this.idCat1 == null ? null :
                 this.idCat2 != null ? this.idCat2 :
                 this.idCat1;
-      
+
       this.us
         .getAll(
           this.currentUser.id,
@@ -155,4 +157,22 @@ export class UsersComponent implements OnInit {
         );
       }
     }
+
+
+  closeMarkerWindow() {
+  if (this.previousInfoWindow != null ) {
+    this.previousInfoWindow.close();
+    }
+  }
+
+  selectMarker(infoWindow) {
+
+  if (this.previousInfoWindow == null) {
+    this.previousInfoWindow = infoWindow;
+  } else {
+    this.infoWindowOpened = infoWindow;
+    this.previousInfoWindow.close();
+  }
+  this.previousInfoWindow = infoWindow;
+  }
 }

@@ -22,7 +22,7 @@
                             </option>
                         </select>
                     </div>
-                    <div class="form-group col-lg-2 col-md-4 mb-3"> 
+                    <div class="form-group col-lg-2 col-md-4 mb-3">
                         <select *ngIf="idCat1 != null" class="form-control mb-1" [(ngModel)]="idCat2" name="idCat2" (change)="filter()">
                             <option [ngValue]="null"></option>
                             <option *ngFor="let cat of categories | filterCategories : { id: idCat1 }" [value]="cat.id">
@@ -76,15 +76,17 @@
 
                     <div class="col-md-6 p-0" *ngIf="currentUser">
                         <agm-map
+                            (mapClick)="closeMarkerWindow()"
                             class="col-lg-8 p-0"
                             [latitude]="currentUser.latitude"
                             [longitude]="currentUser.longitude"
                             [zoom]=10>
                             <agm-marker
-                                *ngFor="let user of users;"
+                            *ngFor="let user of users;"
+                                (markerClick)="selectMarker(infoWindow);"
                                 [latitude]="user.latitude"
                                 [longitude]="user.longitude">
-                                <agm-info-window>
+                                <agm-info-window #infoWindow>
                                     <app-user-icon [user]="user" [showName]="true" [showAge]="true" [showRating]="true"></app-user-icon>
                                     <hr style="clear: both;">
                                     <a [routerLink]="['/helps/ask', user.id]" class="btn btn-block btn-outline-primary" *ngIf="user.categories.length > 0">

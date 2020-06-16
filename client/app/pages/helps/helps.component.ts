@@ -54,6 +54,7 @@ export class HelpsComponent implements OnInit {
             this.type = type;
             this.hs.getAll(type.code, excludeUserId, accepted, idCreator, distance, this.lat, this.long).subscribe(x => {
                 this.helps = x;
+                console.log(this.helps)
             });
             this.us.getById(excludeUserId).subscribe(x => {
                 this.user = x;
@@ -71,21 +72,34 @@ export class HelpsComponent implements OnInit {
     }
 
     getRemainingTime(date: Date) {
-        const now = moment(Date());
-        const then = moment(date);
-        const timespan = now.diff(then);
+        const now = moment.utc();
+        const then = moment.utc(date);
+        const timespan = then.diff(now);
+        
         if (timespan < 0) {
             return 'scaduto';
         } else {
-            const resultDate = moment.utc(timespan);
-            const result = resultDate.format('HH') + ' ore ' + resultDate.format('mm') + ' minuti';
+            const t = moment.utc(timespan);
+            let result = '';
+            if (t.hours() > 1) {
+                result += t.format('HH') + ' ore ';
+            } else if (t.hours() == 1) {
+                result += t.format('HH') + ' ora ';
+            }
+            
+            if (t.minutes() > 1) {
+                result += t.format('mm') + ' minuti ';
+            } else if (t.minutes() == 1) {
+                result += t.format('mm') + ' minuto ';
+            }
+
             return result;
         }
     }
 
-    getDayFromNow(date: Date) {
+    getDayFromNow(date) {
         moment.locale('it'); 
-        const day = moment(date);
+        const day = moment().utc(date);
         const result = day.startOf('day').fromNow(); 
         return result;
     }

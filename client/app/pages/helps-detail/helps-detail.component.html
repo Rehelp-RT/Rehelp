@@ -43,7 +43,8 @@
                                 <div class="mb-3 row" *ngIf="help.dateEndValidity">
                                     <div class="mb-1 col-md-4"><strong>Scade il</strong></div>
                                     <div class="col-md-8">
-                                        {{ help.dateEndValidity | date: "dd/MM/yyyy HH:mm" }}
+                                        {{ help.dateEndValidity | date: "dd/MM/yyyy HH:mm" }}<br>
+                                        ({{ getRemainingTime(help.dateEndValidity) }})
                                     </div>
                                 </div>
 

@@ -4,6 +4,7 @@ import { AuthenticationService, HelpService } from '@app/services';
 import { Help, User } from '@app/models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ModalService } from '@app/shared/components';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-helps-detail',
@@ -44,6 +45,32 @@ export class HelpsDetailComponent implements OnInit {
             return 'assets/img/categories/' + help.category.image;
         } else {
             return 'assets/img/placeholder-help.png';
+        }
+    }
+
+    getRemainingTime(date: Date) {
+        const now = moment.utc();
+        const then = moment.utc(date);
+        const timespan = then.diff(now);
+        
+        if (timespan < 0) {
+            return 'scaduto';
+        } else {
+            const t = moment.utc(timespan);
+            let result = '';
+            if (t.hours() > 1) {
+                result += t.format('HH') + ' ore ';
+            } else if (t.hours() == 1) {
+                result += t.format('HH') + ' ora ';
+            }
+            
+            if (t.minutes() > 1) {
+                result += t.format('mm') + ' minuti ';
+            } else if (t.minutes() == 1) {
+                result += t.format('mm') + ' minuto ';
+            }
+
+            return result;
         }
     }
 

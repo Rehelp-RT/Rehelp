@@ -71,6 +71,13 @@ export class HelpsComponent implements OnInit {
         });
     }
 
+    isExpired(help: Help): boolean {
+        const now = moment.utc();
+        const then = moment.utc(help.dateEndValidity);
+        const timespan = then.diff(now);
+        return timespan < 0;
+    }
+
     getRemainingTime(date: Date) {
         const now = moment.utc();
         const then = moment.utc(date);

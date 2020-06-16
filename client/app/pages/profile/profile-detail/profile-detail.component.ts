@@ -25,6 +25,7 @@ export class ProfileDetailComponent implements OnInit {
 
     ngOnInit(): void {
         this.route.parent.params.subscribe(params => {
+            console.log('currentUser', this.authService.currentUserValue)
             this.idUser = params.id;
             this.isOwner = this.authService.currentUserValue.id == this.idUser;
             this.loadUser();
@@ -33,9 +34,7 @@ export class ProfileDetailComponent implements OnInit {
 
     private loadUser() {
         if (this.isOwner) {
-            this.authService.getCurrentUser().subscribe(x => {
-                this.user = x;
-            });
+            this.user = this.authService.currentUserValue;
         } else {
             this.userService.getById(this.idUser).subscribe(x => {
                 this.user = x;

@@ -178,31 +178,31 @@ router.put('/accept/:id', (req, res) => {
                 { model: db.Help, required: true, as: 'help' }
             ]
         })
-            .then((response) => {
-                const currentDate = new Date();
-                response.update({
-                    accepted: true,
-                    acceptedAt: currentDate
-                })
-                    .then(() => {
-                        db.HelpType.findByPk(response.help.idType).then(type => {
-                            if (type.code != 'COH') {
-                                response.help.update({
-                                    accepted: true
-                                })
-                            }
-                            db.User.findByPk(response.help.idCreator).then(user => {
-                                db.Notification.create({
-                                    idUser: response.idResponder,
-                                    idHelp: response.help.id,
-                                    message: user.firstname + ' ha accettato la tua risposta!',
-                                    createdAt: currentDate
-                                })
-                            })
-                        })
-                    }),
-                    res.status(200).send(response);
+        .then(response => {
+            const currentDate = new Date();
+            response.update({
+                accepted: true,
+                acceptedAt: currentDate
             })
+            .then(() => {
+                db.HelpType.findByPk(response.help.idType).then(type => {
+                    if (type.code != 'COH') {
+                        response.help.update({
+                            accepted: true
+                        })
+                    }
+                    db.User.findByPk(response.help.idCreator).then(user => {
+                        db.Notification.create({
+                            idUser: response.idResponder,
+                            idHelp: response.help.id,
+                            message: user.firstname + ' ha accettato la tua risposta!',
+                            createdAt: currentDate
+                        })
+                    })
+                })
+            }),
+            res.status(200).send(response);
+        })
     }
 });
 

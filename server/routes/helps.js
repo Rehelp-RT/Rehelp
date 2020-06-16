@@ -16,11 +16,6 @@ router.get('/', (req, res) => {
     const longit = req.query.long !== undefined ? parseFloat(req.query.long) : undefined;
 
     // get parameters
-    console.log('---- query ----');
-    console.log('---------------');
-    console.log('req.query', req.query);
-    console.log('---------------');
-    console.log('---------------');
     const filterType = type === undefined ? {} : { code: type };
     var filters = [];
     if (req.query.excludeUserId !== undefined) {
@@ -31,6 +26,8 @@ router.get('/', (req, res) => {
     if (req.query.accepted !== undefined) {
         filters.push({
             accepted: req.query.accepted
+        });filters.push({
+            reviewed: false
         });
     }
     if (req.query.idCreator !== undefined) {

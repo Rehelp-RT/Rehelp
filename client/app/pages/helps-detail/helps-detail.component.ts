@@ -38,6 +38,13 @@ export class HelpsDetailComponent implements OnInit {
         });
     }
 
+    isExpired(help: Help): boolean {
+        const now = moment.utc();
+        const then = moment.utc(help.dateEndValidity);
+        const timespan = then.diff(now);
+        return timespan < 0;
+    }
+
     getStatus(): string {
         if (this.help.completed) {
             return 'Completato';
@@ -45,6 +52,8 @@ export class HelpsDetailComponent implements OnInit {
             return 'Recensito';
         } else if (this.help.accepted) {
             return 'Accettato';
+        } else if (this.isExpired(this.help)) {
+            return 'Scaduto';
         } else  {
             return 'In accettazione';
         }
@@ -66,10 +75,10 @@ export class HelpsDetailComponent implements OnInit {
         const timespan = then.diff(now);
         
         if (timespan < 0) {
-            return 'scaduto';
+            return '';
         } else {
             const t = moment.utc(timespan);
-            let result = '';
+            let result = '(';
             if (t.hours() > 1) {
                 result += t.format('HH') + ' ore ';
             } else if (t.hours() == 1) {
@@ -82,7 +91,7 @@ export class HelpsDetailComponent implements OnInit {
                 result += t.format('mm') + ' minuto ';
             }
 
-            return result;
+            return result + ')';
         }
     }
 

@@ -101,7 +101,9 @@
                             <a [routerLink]="['/helps/', help.id]" class="btn btn-outline-secondary btn-block">
                                 Visualizza
                             </a>
-                            <a [routerLink]="['/helps/', help.id, 'response']" class="btn btn-outline-primary btn-block">
+                            <a [routerLink]="['/helps/', help.id, 'response']"
+                                class="btn btn-outline-primary btn-block"
+                                *ngIf="!isExpired(help)">
                                 Aiuta
                             </a>
                         </div>

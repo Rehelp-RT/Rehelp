@@ -13,6 +13,10 @@ $theme: mat-light-theme($primary, $accent);
 
 @include angular-material-theme($theme);
 
+.modal {
+    overflow: auto;
+}
+
 .img-avatar {
     width: 32px;
     height: 32px;

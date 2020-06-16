@@ -5,11 +5,12 @@ import { Router } from '@angular/router';
 import { ModalService } from '@app/shared/components';
 import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
 import { Cloudinary } from '@cloudinary/angular-5.x';
+import * as moment from 'moment';
 
 @Component({
-  selector: 'app-helps-detail-responses',
-  templateUrl: './helps-detail-responses.component.html',
-  styleUrls: ['./helps-detail-responses.component.scss']
+    selector: 'app-helps-detail-responses',
+    templateUrl: './helps-detail-responses.component.html',
+    styleUrls: ['./helps-detail-responses.component.scss']
 })
 export class HelpsDetailResponsesComponent implements OnInit {
 
@@ -21,7 +22,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
     isResponderAccepted: boolean;
     isUserResponded: boolean;
     isUserAccepted: boolean;
-    isAnyResponseAccepted: boolean;
+    isAtLeastOneResponseAccepted: boolean;
 
     // feedback
     stars: number[] = [1, 2, 3, 4, 5];
@@ -48,7 +49,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
         this.isUserResponded = this.checkUserResponse(this.help.responses, this.as.currentUserValue.id);
         this.isUserAccepted = this.checkUserAccept(this.help.responses);
         this.isResponderAccepted = this.checkResponderAccepted(this.help.responses, this.as.currentUserValue.id);
-        this.isAnyResponseAccepted = this.checkAnyResponseAccepted(this.help);
+        this.isAtLeastOneResponseAccepted = this.checkAtLeastOneResponseAccepted(this.help);
         this.initImageUploader();
     }
 
@@ -189,7 +190,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
         });
     }
 
-    checkAnyResponseAccepted(help: Help) {
+    checkAtLeastOneResponseAccepted(help: Help) {
         return help.responses.some(response => {
             return response.accepted === true;
         });
@@ -198,16 +199,20 @@ export class HelpsDetailResponsesComponent implements OnInit {
     accept(response: HelpResponse): void {
         this.rs.acceptResponse(response).subscribe(() => {
             response.accepted = true;
+            if (this.help.type.code != 'COH') {
+                this.help.accepted = true;
+            }
             this.isUserAccepted = this.checkUserAccept(this.help.responses);
-            this.isAnyResponseAccepted = this.checkAnyResponseAccepted(this.help);
+            this.isAtLeastOneResponseAccepted = this.checkAtLeastOneResponseAccepted(this.help);
         });
     }
 
     cancel(response: HelpResponse): void {
         this.rs.cancelResponse(response).subscribe(() => {
             response.accepted = false;
+            this.help.accepted = false;
             this.isUserAccepted = this.checkUserAccept(this.help.responses);
-            this.isAnyResponseAccepted = this.checkAnyResponseAccepted(this.help);
+            this.isAtLeastOneResponseAccepted = this.checkAtLeastOneResponseAccepted(this.help);
         });
     }
 
@@ -228,6 +233,9 @@ export class HelpsDetailResponsesComponent implements OnInit {
                           this.help.responses[res].messageCreator = this.message;
                           this.help.responses[res].ratingCreator = this.selectedValue;
                       }
+                      this.help.reviewed = true;
+                      this.help.completed = true;
+                      this.as.currentUserValue.likehelps += 3;
                       this.modalService.close('modal-complete-' + response.id);
                       this.as.refresh(this.as.currentUserValue);
                       this.router.navigate(['/helps/', this.help.id]);
@@ -236,6 +244,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
               else {
                   this.rs.creatorFeedback(response).subscribe(() => {
                       response.reviewed = true;
+                      this.help.reviewed = true;
                       this.modalService.close('modal-complete-' + response.id);
                       this.as.refresh(this.as.currentUserValue);
                       this.router.navigate(['/helps/', this.help.id]);
@@ -254,7 +263,9 @@ export class HelpsDetailResponsesComponent implements OnInit {
 
             this.rs.completeResponse(response).subscribe(() => {
                 response.completed = true;
-                this.as.currentUserValue.likehelps++;
+                if (this.help.type.code != 'COH') {
+                    this.as.currentUserValue.likehelps++;
+                }
                 this.help.completed = true;
                 this.modalService.close('modal-complete-' + response.id);
                 this.router.navigate(['/helps/', this.help.id]);
@@ -305,6 +316,17 @@ export class HelpsDetailResponsesComponent implements OnInit {
             this.isHelpCreator || 
             this.help.type.code == 'COH';
         return responseDisplayed;
+    }
+
+    isExpired(help: Help): boolean {
+        const now = moment.utc();
+        const then = moment.utc(help.dateEndValidity);
+        const timespan = then.diff(now);
+        return timespan < 0;
+    }
+
+    canRespond() {
+        return !this.isExpired(this.help) && !this.isUserResponded && !this.isHelpCreator;
     }
 
 }

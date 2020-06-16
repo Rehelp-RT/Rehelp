@@ -21,17 +21,20 @@
                         {{ help.description }}
                     </div>
                     <div class="col-md">
-                        <div *ngIf="!help.accepted">
-                            In accettazione
-                        </div>
-                        <div *ngIf="help.accepted && !help.reviewed">
-                            <fa-icon title="Accettato" [icon]="['fas', 'check']"></fa-icon>
+                        <div *ngIf="help.completed">
+                            <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon>
+                            Completato
                         </div>
                         <div *ngIf="help.reviewed && !help.completed">
                             <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
+                            Recensito
                         </div>
-                        <div *ngIf="help.completed">
-                            <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon>
+                        <div *ngIf="help.accepted && !help.reviewed">
+                            <fa-icon title="Accettato" [icon]="['fas', 'check']"></fa-icon>
+                            Accettato
+                        </div>
+                        <div *ngIf="!help.accepted && !help.reviewed">
+                            In accettazione
                         </div>
                     </div>
                     <div class="col-md">

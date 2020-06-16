@@ -149,16 +149,14 @@ export class ProfileEditComponent implements OnInit {
     }
 
     onSubmit() {
-      this.submitted = true;
-      this.us.update(this.model).subscribe(
-        () => {
-          this.as.refresh(this.model);
-          this.router.navigate(['/profile/' + this.model.id]);
+        this.submitted = true;
+        this.us.update(this.model).subscribe(() => {
+            this.as.refresh(this.model);
+            this.router.navigate(['/profile/' + this.model.id]);
         },
         err => {
-          console.log(err);
-        }
-      );
+            console.log(err);
+        });
     }
 
 }

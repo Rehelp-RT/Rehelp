@@ -7,7 +7,8 @@
                 <div class="card">
                     <div class="card-body">
 
-                      <h3 class="mb-3">{{ help.description }}</h3>
+                        <h3 class="mb-3">{{ help.description }}</h3>
+                        
                         <hr>
 
                         <div class="row">
@@ -44,7 +45,9 @@
                                     <div class="mb-1 col-md-4"><strong>Scade il</strong></div>
                                     <div class="col-md-8">
                                         {{ help.dateEndValidity | date: "dd/MM/yyyy HH:mm" }}<br>
-                                        ({{ getRemainingTime(help.dateEndValidity) }})
+                                        <span *ngIf="!help.accepted">
+                                            {{ getRemainingTime(help.dateEndValidity) }}
+                                        </span>
                                     </div>
                                 </div>
 

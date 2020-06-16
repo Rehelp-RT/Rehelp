@@ -21,7 +21,13 @@ export class HelpService {
 
     constructor(private http: HttpClient) { }
 
-    getAll(type = null, excludeUserId = null, accepted = null, idCreator = null, distance = null, lat = null, long = null, idCategory = null) {
+    getAll(
+        type = null, 
+        excludeUserId = null, 
+        accepted = null, 
+        idCreator = null, 
+        distance = null, lat = null, long = null, 
+        idCategory = null) {
         let params = '';
         params += type != null ? 'type=' + type + '&' : '';
         params += excludeUserId != null ? 'excludeUserId=' + excludeUserId + '&' : '';

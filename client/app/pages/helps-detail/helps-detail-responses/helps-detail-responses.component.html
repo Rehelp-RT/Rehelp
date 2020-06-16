@@ -226,7 +226,7 @@
 
         </div>
 
-        <div *ngIf="isAnyResponseAccepted && !help.reviewed && !help.completed && help.type.code == 'COH' && isHelpCreator">
+        <div *ngIf="isAtLeastOneResponseAccepted && !help.reviewed && !help.completed && help.type.code == 'COH' && isHelpCreator">
             <button class="btn btn-block btn-outline-primary mb-2"
                 (click)="openModal('modal-complete-' + help.responses[0].id)">
                 Il lavoro è finito
@@ -238,7 +238,7 @@
         </p>
 
     </div>
-    <div class="card-body" *ngIf="!isUserResponded && !isHelpCreator">
+    <div class="card-body" *ngIf="canRespond()">
         <a class="btn btn-lg btn-block btn-outline-primary" [routerLink]="['/helps/' + help?.id + '/response/']">
             Rispondi
         </a>

@@ -60,6 +60,7 @@
                                         {{ getDistance(user.latitude, user.longitude) }}
                                     </span>
                                     <a [routerLink]="['/helps/ask', user.id]"
+                                        [queryParams]="{type: type.code}"
                                         class="btn btn-block btn-outline-primary mt-3"
                                         *ngIf="user.categories.length > 0">
                                         <fa-icon title="Aiuto" [icon]="['fas', 'hand-paper']" class="mr-2"></fa-icon>

@@ -298,6 +298,7 @@ router.get('/:id/categories', (req, res) => {
         });
     }
     console.log('req.query.idType', req.query.idType);
+    console.log('filters',filters)
 
     db.User.findByPk(req.params.id, {
         attributes: ['id'],

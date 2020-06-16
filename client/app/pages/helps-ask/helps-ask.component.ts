@@ -77,7 +77,7 @@ export class HelpsAskComponent implements OnInit {
         const id = this.activeRouter.snapshot.params.id;
         this.userService.getById(id).subscribe(x => {
             this.userToAsk = x;
-            this.userService.getCategories(this.userToAsk.id).subscribe(y => {
+            this.userService.getCategories(this.userToAsk.id, type).subscribe(y => {
                 if (y.categories && y.categories.length > 0) {
                     this.categories = y.categories;
                 }

@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'idType',
             as: 'helps'
         });
+        models.HelpType.hasMany(models.HelpCategory, {
+            foreignKey: 'idHelpType',
+            as: 'types'
+        });
     };
 
     return HelpType;

@@ -31,8 +31,16 @@ export class UserService {
         return this.http.get<User>(`${environment.apiUrl}/users/${id}`);
     }
 
-    getCategories(id: number) {
-        return this.http.get<User>(`${environment.apiUrl}/users/${id}/categories`);
+    getCategories(id: number, idType = null) {
+
+        let params = '';
+        params += idType != null ? 'idType=' + idType : '';
+        if (params !== '') {
+            params = '?' + params;
+        }
+        console.log('params', params);
+        
+        return this.http.get<User>(`${environment.apiUrl}/users/${id}/categories${params}`);
     }
 
     getCategories2(id: number) {

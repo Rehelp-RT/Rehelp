@@ -290,22 +290,31 @@ router.put('/:id/upload-avatar', (req, res) => {
 
 // GET /api/users/5/categories
 router.get('/:id/categories', (req, res) => {
+    
+    var filters = [];
+    if (req.query.idType !== undefined) {
+        filters.push({
+            idHelpType: req.query.idType
+        });
+    }
+    console.log('req.query.idType', req.query.idType);
+
     db.User.findByPk(req.params.id, {
         attributes: ['id'],
         include: [{
             as: 'categories',
             model: db.HelpCategory,
-            attributes: ['id', 'code', 'name'],
             include: [{
-                attributes: ['id', 'code', 'name'],
                 model: db.HelpCategory,
                 as: 'parent',
                 include: [{
-                    attributes: ['id', 'code', 'name'],
                     model: db.HelpCategory,
                     as: 'parent'
                 }]
-            }]
+            }],
+            where: {
+                [Op.and]: filters
+            }
         }]
     })
         .then(user => {

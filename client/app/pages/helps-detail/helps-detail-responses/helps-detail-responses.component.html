@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-body">
         
-        <div *ngIf="hasUserResponded || isHelpCreator">
+        <div *ngIf="hasUserResponded || isHelpCreator || help.accepted || help.reviewed">
             <h4>Risposte</h4>
 
             <hr>
@@ -19,7 +19,8 @@
 
                 <div *ngIf="canSeeResponse(r)">
 
-                    <div *ngIf="canSeeResponse2(r)">
+                    <!-- response message -->
+                    <div *ngIf="canSeeResponseMessage(r)">
                         <app-user-icon [user]="r.responder" [showName]="true"></app-user-icon>
                         <div *ngIf="!help.isOffer && help.type.code != 'MES'" class="speech-bubble-left">
                             {{ r.message }}
@@ -34,7 +35,8 @@
                         </div>
                     </div>
 
-                    <div *ngIf="r.reviewed && r.accepted">
+                    <!-- creator's feedback -->
+                    <div *ngIf="r.reviewed">
                         <div class="text-right">
                             <app-user-icon [user]="help.creator" [showName]="true"></app-user-icon>
                         </div>
@@ -53,6 +55,7 @@
                         </div>
                     </div>
 
+                    <!-- responder's feedback -->
                     <div *ngIf="r.completed">
                         <app-user-icon [user]="r.responder"></app-user-icon>
                         <div class="speech-bubble-left">
@@ -204,7 +207,10 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <ul class="list-inline rating-list">
-                                        <li style="display: inline-block" *ngFor="let star of stars" (click)="countStar(star)" [ngClass]="{'selected': (star <= selectedValue)}">
+                                        <li style="display: inline-block"
+                                            *ngFor="let star of stars"
+                                            (click)="countStar(star)"
+                                            [ngClass]="{'selected': (star <= selectedValue)}">
                                             <fa-icon [icon]="['fas', 'star']"></fa-icon>
                                         </li>
                                     </ul>
@@ -212,6 +218,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="row">
                         <div class="offset-md-4">
                             <a *ngIf="isHelpCreator" class="btn btn-lg btn-outline-primary ml-3" (click)="review(r)">

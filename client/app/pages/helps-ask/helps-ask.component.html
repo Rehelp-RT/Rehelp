@@ -25,29 +25,14 @@
                         <div class="form-row mb-3">
                             <label class="col-lg-4" for="category">Categoria</label>
                             <div class="col-lg-8">
-                                <select class="form-control mb-3" [(ngModel)]="idCat" name="idCat" required>
-                                    <option *ngFor="let cat of categories" [value]="cat.id">
-                                      <span  *ngIf="cat.parent.parent" [ngClass]="{ 'cat-help': cat.parent.parent.code === 'JOB', 'cat-teach': cat.parent.parent.code === 'TEA', 'cat-hobby': cat.parent.parent.code === 'HOB' }">{{ cat?.parent?.parent?.name }} /&nbsp;</span>
-                                      <span  *ngIf="cat.parent" [ngClass]="{ 'cat-help': cat.parent.code === 'JOB', 'cat-teach': cat.parent.code === 'TEA', 'cat-hobby': cat.parent.code === 'HOB' }">{{ cat?.parent?.name }} /&nbsp;</span>
-                                      <span   [ngClass]="{ 'cat-help': cat.code === 'JOB', 'cat-teach': cat.code === 'TEA', 'cat-hobby': cat.code === 'HOB' }">{{ cat?.name }}</span>
-                                    </option>
-                                </select>
-                                <!-- <select *ngIf="idCat1 != null" class="form-control mb-3" [(ngModel)]="idCat2"
-                                    name="idCat2" required>
-                                    <option *ngFor="let cat of categories | filterCategories : { id: idCat1 }"
-                                        [value]="cat.id">
-                                        {{ cat.name }}
-                                    </option>
-                                </select>
                                 <select
-                                    *ngIf="idCat2 != null && (categories | filterCategories : { id: idCat1, idChild: idCat2 }).length > 0"
-                                    class="form-control mb-3" [(ngModel)]="idCat3" name="idCat3">
-                                    <option
-                                        *ngFor="let cat of categories | filterCategories : { id: idCat1, idChild: idCat2 }"
-                                        [value]="cat.id">
-                                        {{ cat.name }}
+                                    class="form-control mb-3"
+                                    [(ngModel)]="idCat"
+                                    [ngModelOptions]="{standalone: true}">
+                                    <option *ngFor="let cat of categories" [value]="cat.id">
+                                        {{ getCategoryFullname(cat) }}
                                     </option>
-                                </select> -->
+                                </select>
                             </div>
                         </div>
 

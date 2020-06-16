@@ -20,7 +20,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
     // responses
     isHelpCreator: boolean;
     isResponderAccepted: boolean;
-    hasUserResponded: boolean;
+    hasUserResponded: boolean = false;
     isUserAccepted: boolean;
     isAtLeastOneResponseAccepted: boolean = false;
 
@@ -178,6 +178,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
         });
     }
 
+    /* to delete */
     checkUserAccept(reponses: HelpResponse[]) {
         return reponses.some(response => {
             return response.accepted === true;
@@ -202,6 +203,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
             if (this.help.type.code != 'COH') {
                 this.help.accepted = true;
             }
+            /* to delete */
             this.isUserAccepted = this.checkUserAccept(this.help.responses);
             this.isAtLeastOneResponseAccepted = this.checkAtLeastOneResponseAccepted(this.help);
         });
@@ -211,6 +213,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
         this.rs.cancelResponse(response).subscribe(() => {
             response.accepted = false;
             this.help.accepted = false;
+            /* to delete */
             this.isUserAccepted = this.checkUserAccept(this.help.responses);
             this.isAtLeastOneResponseAccepted = this.checkAtLeastOneResponseAccepted(this.help);
         });
@@ -222,7 +225,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
             const image = this.responses[i];
             response.imageReviewCreator = image === undefined ? null : image.data.public_id;
             response.messageCreator = this.message;
-            response.ratingCreator = this.selectedValue;
+            response.ratingCreator = this.selectedValue ? this.selectedValue : 1;
 
             // if is a collective help, set all accepted responses as reviewed
             if (this.help.type.code == 'COH') {
@@ -231,7 +234,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
                           this.help.responses[res].reviewed = true;
                           this.help.responses[res].imageReviewCreator = image === undefined ? null : image.data.public_id;
                           this.help.responses[res].messageCreator = this.message;
-                          this.help.responses[res].ratingCreator = this.selectedValue;
+                          this.help.responses[res].ratingCreator = this.selectedValue ? this.selectedValue : 1;
                       }
                       this.help.reviewed = true;
                       this.help.completed = true;
@@ -259,7 +262,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
             const image = this.responses[i];
             response.imageReviewResponder = image === undefined ? null : image.data.public_id;
             response.messageResponder = this.message;
-            response.ratingResponder = this.selectedValue;
+            response.ratingResponder = this.selectedValue ? this.selectedValue : 1;
 
             this.rs.completeResponse(response).subscribe(() => {
                 response.completed = true;
@@ -288,7 +291,18 @@ export class HelpsDetailResponsesComponent implements OnInit {
     }
 
     countStar(stars: number) {
-        this.selectedValue = stars;
+        this.selectedValue = stars ? stars : 1;
+    }
+
+
+
+
+    canRespond() {
+        return !this.help.accepted && 
+            !this.help.reviewed && 
+            !this.isExpired(this.help) && 
+            !this.hasUserResponded && 
+            !this.isHelpCreator;
     }
 
     canChat(r: HelpResponse): boolean {
@@ -313,26 +327,30 @@ export class HelpsDetailResponsesComponent implements OnInit {
             r.idResponder == this.as.currentUserValue.id;
         return reviewEnabled;
     }
-
-
+    
     canSeeResponse(r: HelpResponse) {
         const responseDisplayed =
-            (
-                (
-                    !this.isUserAccepted && this.help.type.code != 'COH'
-                ) ||
-                r.accepted
-            ) ||
+            r.accepted ||
+            !this.help.accepted ||
             this.help.type.code == 'COH';
+        // console.log('----')
+        // console.log('!this.help.accepted',!this.help.accepted)
+        // console.log('responseDisplayed',responseDisplayed)
+        // console.log('----')
         return responseDisplayed;
     }
 
-    canSeeResponse2(r: HelpResponse): boolean {
+    canSeeResponseMessage(r: HelpResponse): boolean {
         const responseDisplayed =
-            r.accepted || 
-            r.idResponder === this.as.currentUserValue.id || 
-            this.isHelpCreator || 
-            (this.help.type.code == 'COH');
+            r.accepted ||
+            this.isHelpCreator ||
+            !this.help.accepted && this.help.type.code != 'COH' ||
+            r.idResponder === this.as.currentUserValue.id && !this.help.reviewed && this.help.type.code == 'COH';
+        // console.log('----')
+        // console.log('r.accepted',r.accepted)
+        // console.log('this.isHelpCreator',this.isHelpCreator)
+        // console.log('responseDisplayed Message',responseDisplayed)
+        // console.log('----')
         return responseDisplayed;
     }
 
@@ -343,8 +361,5 @@ export class HelpsDetailResponsesComponent implements OnInit {
         return timespan < 0;
     }
 
-    canRespond() {
-        return !this.isExpired(this.help) && !this.hasUserResponded && !this.isHelpCreator;
-    }
 
 }

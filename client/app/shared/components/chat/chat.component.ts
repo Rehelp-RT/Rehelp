@@ -45,6 +45,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         });
     }
 
+    openChat() {
+        this.isOpen = true
+        this.scrollToBottom();
+    }
+
     ngAfterViewChecked() {
         this.scrollToBottom();
     }

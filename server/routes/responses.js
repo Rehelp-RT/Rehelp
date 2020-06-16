@@ -313,66 +313,69 @@ router.put('/cohFeedback/:id', (req, res) => {
             .then(response => {
                 const currentDate = new Date();
                 db.Help.findByPk(response.idHelp, {
-                    include: [
-                        {
-                            model: db.HelpResponse,
-                            where: { accepted: true },
-                            required: true,
-                            as: 'responses'
-                        },
-                        { model: db.User, require: true, as: 'creator' }
-                    ]
+                    include: [{
+                        model: db.HelpResponse,
+                        where: { accepted: true },
+                        required: true,
+                        as: 'responses'
+                    },
+                    {
+                        model: db.User,
+                        require: true,
+                        as: 'creator'
+                    }]
                 })
-                    .then(help => {
-                        const creatorLh = help.creator.likehelps;
-                        // update creator
-                        help.creator.update({
-                            likehelps: creatorLh + 3
-                        })
-                        db.Notification.create({
-                            idUser: help.creator.id,
-                            idHelp: help.id,
-                            message: 'hai guadagnato 3 likehelp!',
-                            createdAt: currentDate
-                        })
-                        help.update({
-                            reviewed: true
-                        })
-                            .then((help) => {
-                                for (var resp in help.responses) {
-                                    help.responses[resp].update({
-                                        reviewed: true,
-                                        creatorReviewedAt: currentDate,
-                                        messageCreator: body.messageCreator,
-                                        imageReviewCreator: body.imageReviewCreator,
-                                        ratingCreator: body.ratingCreator
-                                    })
-                                    db.User.findByPk(help.responses[resp].idResponder)
-                                        .then(responder => {
-                                            const responderLh = responder.likehelps;
-                                            db.Notification.create({
-                                                idUser: responder.id,
-                                                idHelp: help.id,
-                                                message: help.creator.firstname + ' ti ha dato una nuova recensione!',
-                                                createdAt: currentDate
-                                            }),
-                                                // update responder
-                                                responder.update({
-                                                    likehelps: responderLh + 1
-                                                }),
-                                                db.Notification.create({
-                                                    idUser: responder.id,
-                                                    idHelp: help.id,
-                                                    message: 'hai guadagnato un likehelp!',
-                                                    createdAt: currentDate
-                                                })
-                                        })
-                                }
-                            })
+                .then(help => {    
+                    const creatorLh = help.creator.likehelps;
+                    // update creator
+                    help.creator.update({
+                        likehelps: creatorLh + 3
                     })
-                    .catch(err => {
-                        res.status(500).send(err)
+                    db.Notification.create({
+                        idUser: help.creator.id,
+                        idHelp: help.id,
+                        message: 'hai guadagnato 3 likehelp!',
+                        createdAt: currentDate
                     });
+                    help.update({
+                        reviewed: true,
+                        completed: true
+                    })
+                    .then(help => {
+                        for (var resp in help.responses) {
+                            help.responses[resp].update({
+                            reviewed: true,
+                            creatorReviewedAt: currentDate,
+                            messageCreator: body.messageCreator,
+                            imageReviewCreator: body.imageReviewCreator,
+                            ratingCreator: body.ratingCreator
+                        })
+                        db.User.findByPk(help.responses[resp].idResponder)
+                            .then(responder => {
+                                const responderLh = responder.likehelps;
+                                db.Notification.create({
+                                    idUser: responder.id,
+                                    idHelp: help.id,
+                                    message: help.creator.firstname + ' ti ha dato una nuova recensione!',
+                                    createdAt: currentDate
+                                }),
+                                // update responder
+                                responder.update({
+                                    likehelps: responderLh + 1
+                                }),
+                                db.Notification.create({
+                                    idUser: responder.id,
+                                    idHelp: help.id,
+                                    message: 'hai guadagnato un likehelp!',
+                                    createdAt: currentDate
+                                })
+                            })
+                        }
+                    })
+                })
+                .catch(err => {
+                    res.status(500).send(err)
+                });
                 res.status(201).send(response)
             })
             .catch(err => {

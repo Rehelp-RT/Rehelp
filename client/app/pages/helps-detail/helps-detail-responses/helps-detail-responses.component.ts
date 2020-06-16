@@ -22,7 +22,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
     isResponderAccepted: boolean;
     isUserResponded: boolean;
     isUserAccepted: boolean;
-    isAtLeastOneResponseAccepted: boolean;
+    isAtLeastOneResponseAccepted: boolean = false;
 
     // feedback
     stars: number[] = [1, 2, 3, 4, 5];
@@ -292,7 +292,12 @@ export class HelpsDetailResponsesComponent implements OnInit {
     }
 
     canChat(r: HelpResponse): boolean {
-        const chatEnabled = this.help.accepted && !this.help.completed &&
+        const chatEnabled = 
+            !this.help.completed &&
+            (
+                this.help.accepted ||
+                (this.help.type.code == 'COH' && this.isAtLeastOneResponseAccepted)
+            ) && 
             (
                 this.as.currentUserValue.id == this.help.idCreator || 
                 (this.as.currentUserValue.id == r.idResponder && r.accepted)
@@ -314,7 +319,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
             r.accepted || 
             r.idResponder === this.as.currentUserValue.id || 
             this.isHelpCreator || 
-            this.help.type.code == 'COH';
+            (this.help.type.code == 'COH');
         return responseDisplayed;
     }
 

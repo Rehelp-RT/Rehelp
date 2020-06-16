@@ -39,7 +39,7 @@
         </div>
     </div>
     <div class="chat-collapsed" *ngIf="!isOpen">
-        <button class="btn btn-lg btn-circle" (click)="isOpen = true">
+        <button class="btn btn-lg btn-circle" (click)="openChat()">
             <fa-layers [fixedWidth]="true" size="2x" class="header-icon">
                 <fa-icon [icon]="['far', 'comment']"></fa-icon>
                 <!-- <fa-layers-counter content="5" size="2x" class="fa-icon-counter"></fa-layers-counter> -->

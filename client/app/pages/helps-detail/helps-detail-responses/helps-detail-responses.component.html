@@ -121,6 +121,7 @@
                 </button>
             </div>
 
+            <!-- Modal Feedback -->
             <app-modal id="modal-complete-{{ r.id }}">
                 <h3>Lascia un feedback e completa la richiesta</h3>
                 <hr>
@@ -200,10 +201,8 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-sm-12">
-                                <ul class="list-inline rating-list" *ngFor="let star of stars"
-                                    style="display: inline-block">
-                                    <li (click)="countStar(star)" [ngClass]="{'selected': (star <= selectedValue)}">
-
+                                <ul class="list-inline rating-list">
+                                    <li style="display: inline-block" *ngFor="let star of stars" (click)="countStar(star)" [ngClass]="{'selected': (star <= selectedValue)}">
                                         <fa-icon [icon]="['fas', 'star']"></fa-icon>
                                     </li>
                                 </ul>

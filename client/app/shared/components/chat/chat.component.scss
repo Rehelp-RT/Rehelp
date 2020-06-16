@@ -5,8 +5,12 @@
     z-index: 99;
 }
 
+.chat-collapsed {
+    margin-bottom: 8px;
+}
+
 .chat-expanded {
-    width: 420px;
+    width: 360px;
     -webkit-box-shadow: -8px -5px 60px -40px rgba(0, 0, 0, 1);
     -moz-box-shadow: -8px -5px 60px -40px rgba(0, 0, 0, 1);
     box-shadow: -8px -5px 60px -40px rgba(0, 0, 0, 1);
@@ -16,9 +20,32 @@
     height: 400px;
     overflow-y: scroll;
 }
+.message {
+    width: 100%;
+    padding: 4px;
+    clear: both;
+    
+    .card-body {
+        padding: 4px 8px 16px 8px;
+    }
+}    
 
-.chat-collapsed {
-    margin-bottom: 8px;
+.mine {
+    .user {
+        float: left;
+    }
+    .card {
+        margin-left: 50px;
+    }
+}
+
+.other {
+    .user {
+        float: right;
+    }
+    .card {
+        margin-right: 50px;
+    }
 }
 
 .card-header strong {

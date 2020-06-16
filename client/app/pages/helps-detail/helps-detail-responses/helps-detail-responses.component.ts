@@ -20,7 +20,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
     // responses
     isHelpCreator: boolean;
     isResponderAccepted: boolean;
-    isUserResponded: boolean;
+    hasUserResponded: boolean;
     isUserAccepted: boolean;
     isAtLeastOneResponseAccepted: boolean = false;
 
@@ -46,7 +46,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
 
     ngOnInit() {
         this.checkHelpCreator();
-        this.isUserResponded = this.checkUserResponse(this.help.responses, this.as.currentUserValue.id);
+        this.hasUserResponded = this.checkUserResponse(this.help.responses, this.as.currentUserValue.id);
         this.isUserAccepted = this.checkUserAccept(this.help.responses);
         this.isResponderAccepted = this.checkResponderAccepted(this.help.responses, this.as.currentUserValue.id);
         this.isAtLeastOneResponseAccepted = this.checkAtLeastOneResponseAccepted(this.help);
@@ -314,7 +314,20 @@ export class HelpsDetailResponsesComponent implements OnInit {
         return reviewEnabled;
     }
 
-    canSeeResponse(r: HelpResponse): boolean {
+
+    canSeeResponse(r: HelpResponse) {
+        const responseDisplayed =
+            (
+                (
+                    !this.isUserAccepted && this.help.type.code != 'COH'
+                ) ||
+                r.accepted
+            ) ||
+            this.help.type.code == 'COH';
+        return responseDisplayed;
+    }
+
+    canSeeResponse2(r: HelpResponse): boolean {
         const responseDisplayed =
             r.accepted || 
             r.idResponder === this.as.currentUserValue.id || 
@@ -331,7 +344,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
     }
 
     canRespond() {
-        return !this.isExpired(this.help) && !this.isUserResponded && !this.isHelpCreator;
+        return !this.isExpired(this.help) && !this.hasUserResponded && !this.isHelpCreator;
     }
 
 }

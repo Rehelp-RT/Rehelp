@@ -1,82 +1,110 @@
 <div class="card">
-    <div class="card-body" *ngIf="isUserResponded || isHelpCreator">
+    <div class="card-body">
+        
+        <div *ngIf="hasUserResponded || isHelpCreator">
+            <h4>Risposte</h4>
 
-        <h4>Risposte</h4>
+            <hr>
 
-        <hr>
+            <p *ngIf="help.responses.length == 0">
+                Non hai ancora ricevuto risposta da nessuno.
+            </p>
 
-        <p *ngIf="help.responses.length == 0">
-            Non hai ancora ricevuto risposta da nessuno.
-        </p>
+            <!-- list of responses -->
+            <div *ngFor="let r of help.responses">
 
-        <div *ngFor="let r of help.responses">
-
-            <div *ngIf="canChat(r)">
-                <app-chat [help]="help" [response]="r" [isCreator]="isHelpCreator"></app-chat>
-            </div>
-
-            <div *ngIf="((!isUserAccepted && help.type.code != 'COH') || r.accepted) || (help.type.code == 'COH')">
+                <div *ngIf="canChat(r)">
+                    <app-chat [help]="help" [response]="r" [isCreator]="isHelpCreator"></app-chat>
+                </div>
 
                 <div *ngIf="canSeeResponse(r)">
-                    <app-user-icon [user]="r.responder" [showName]="true"></app-user-icon>
-                    <div *ngIf="!help.isOffer && help.type.code != 'MES'" class="speech-bubble-left">
-                        {{ r.message }}
-                    </div>
-                    <div *ngIf="!help.isOffer && help.type.code == 'MES'" class="speech-bubble-left">
-                        <div class="mb-2">
-                            <strong>Tipo scambio:</strong> {{ r.trade.name }}
-                        </div>
-                        <div class="mb-2">
-                            <strong>Messaggio:</strong> {{ r.message }}
-                        </div>
-                    </div>
-                </div>
 
-                <div *ngIf="r.reviewed && r.accepted">
-                    <div class="text-right">
-                        <app-user-icon [user]="help.creator" [showName]="true"></app-user-icon>
+                    <div *ngIf="canSeeResponse2(r)">
+                        <app-user-icon [user]="r.responder" [showName]="true"></app-user-icon>
+                        <div *ngIf="!help.isOffer && help.type.code != 'MES'" class="speech-bubble-left">
+                            {{ r.message }}
+                        </div>
+                        <div *ngIf="!help.isOffer && help.type.code == 'MES'" class="speech-bubble-left">
+                            <div class="mb-2">
+                                <strong>Tipo scambio:</strong> {{ r.trade.name }}
+                            </div>
+                            <div class="mb-2">
+                                <strong>Messaggio:</strong> {{ r.message }}
+                            </div>
+                        </div>
                     </div>
-                    <div class="speech-bubble-right" *ngIf="r.reviewed">
-                        {{ r.messageCreator }}
-                        <hr>
-                        <div *ngIf="r.imageReviewCreator != null">
-                            <img class="img-fluid"
-                                src="{{ 'https://res.cloudinary.com/hwbyvepex/image/upload/v1587315343/' + r.imageReviewCreator }}"
-                                alt="immagine">
+
+                    <div *ngIf="r.reviewed && r.accepted">
+                        <div class="text-right">
+                            <app-user-icon [user]="help.creator" [showName]="true"></app-user-icon>
+                        </div>
+                        <div class="speech-bubble-right" *ngIf="r.reviewed">
+                            {{ r.messageCreator }}
                             <hr>
+                            <div *ngIf="r.imageReviewCreator != null">
+                                <img class="img-fluid"
+                                    src="{{ 'https://res.cloudinary.com/hwbyvepex/image/upload/v1587315343/' + r.imageReviewCreator }}"
+                                    alt="immagine">
+                                <hr>
+                            </div>
+                            <span *ngFor="let rat of [1,2,3,4,5] | slice:0:r.ratingCreator">
+                                <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
+                            </span>
                         </div>
-                        <span *ngFor="let rat of [1,2,3,4,5] | slice:0:r.ratingCreator">
-                            <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
-                        </span>
                     </div>
-                </div>
 
-                <div *ngIf="r.completed">
-                    <app-user-icon [user]="r.responder"></app-user-icon>
-                    <div class="speech-bubble-left">
-                        {{ r.messageResponder }}
-                        <hr>
-                        <div *ngIf="r.imageReviewResponder != null">
-                            <img class="img-fluid"
-                                src="{{ 'https://res.cloudinary.com/hwbyvepex/image/upload/v1587315343/' + r.imageReviewResponder }}"
-                                alt="immagine">
+                    <div *ngIf="r.completed">
+                        <app-user-icon [user]="r.responder"></app-user-icon>
+                        <div class="speech-bubble-left">
+                            {{ r.messageResponder }}
                             <hr>
+                            <div *ngIf="r.imageReviewResponder != null">
+                                <img class="img-fluid"
+                                    src="{{ 'https://res.cloudinary.com/hwbyvepex/image/upload/v1587315343/' + r.imageReviewResponder }}"
+                                    alt="immagine">
+                                <hr>
+                            </div>
+                            <span *ngFor="let rat of [1,2,3,4,5] | slice:0:r.ratingResponder">
+                                <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
+                            </span>
                         </div>
-                        <span *ngFor="let rat of [1,2,3,4,5] | slice:0:r.ratingResponder">
-                            <fa-icon title="Recensito" [icon]="['fas', 'star']" class="text-warning mr-2"></fa-icon>
-                        </span>
+                        <hr>
+                        <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon> Completato
                     </div>
-                    <hr>
-                    <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon> Completato
+
                 </div>
 
-            </div>
+                <div *ngIf="isHelpCreator" class="mb-3">
+                    <div *ngIf="!help.isOffer">
+                        <a class="btn btn-block btn-outline-success" (click)="accept(r)"
+                            *ngIf="(!isUserAccepted && help.type.code != 'COH' && !r.accepted) ||
+                            help.type.code == 'COH' && !r.accepted && !help.reviewed">
+                            <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                            Accetta
+                        </a>
 
-            <div *ngIf="isHelpCreator" class="mb-3">
-                <div *ngIf="!help.isOffer">
-                    <a class="btn btn-block btn-outline-success" (click)="accept(r)"
-                        *ngIf="(!isUserAccepted && help.type.code != 'COH' && !r.accepted) ||
-                        help.type.code == 'COH' && !r.accepted && !help.reviewed">
+                        <div *ngIf="r.accepted && !r.reviewed && !r.completed">
+                            <a class="btn btn-block btn-outline-secondary" (click)="cancel(r)">
+                                Cancella
+                            </a>
+                            <hr>
+                            <button class="btn btn-block btn-outline-primary mb-2"
+                                (click)="openModal('modal-complete-' + r.id)" *ngIf="help.type.code != 'COH'">
+                                Il lavoro è finito
+                            </button>
+                        </div>
+                    </div>
+                    <div *ngIf="help.isOffer && r.accepted && !r.reviewed && !r.completed">
+                        <hr>
+                        <button class="btn btn-block btn-outline-primary mb-2"
+                            (click)="openModal('modal-complete-' + r.id)">
+                            Il lavoro è finito
+                        </button>
+                    </div>
+                </div>
+
+                <div *ngIf="!isHelpCreator && help.isOffer" class="mb-3">
+                    <a class="btn btn-block btn-outline-success" (click)="accept(r)" *ngIf="!isUserAccepted && !r.accepted">
                         <fa-icon [icon]="['fas', 'check']"></fa-icon>
                         Accetta
                     </a>
@@ -85,161 +113,137 @@
                         <a class="btn btn-block btn-outline-secondary" (click)="cancel(r)">
                             Cancella
                         </a>
-                        <hr>
-                        <button class="btn btn-block btn-outline-primary mb-2"
-                            (click)="openModal('modal-complete-' + r.id)" *ngIf="help.type.code != 'COH'">
-                            Il lavoro è finito
-                        </button>
                     </div>
                 </div>
-                <div *ngIf="help.isOffer && r.accepted && !r.reviewed && !r.completed">
-                    <hr>
+
+                <div *ngIf="canReview(r)" class="mt-3">
                     <button class="btn btn-block btn-outline-primary mb-2"
                         (click)="openModal('modal-complete-' + r.id)">
-                        Il lavoro è finito
+                        Recensisci
                     </button>
                 </div>
+
+                <!-- Modal Feedback -->
+                <app-modal id="modal-complete-{{ r.id }}">
+                    <h3>Lascia un feedback e completa la richiesta</h3>
+                    <hr>
+
+                    <!-- message creator -->
+                    <div class="form-row mb-3">
+                        <label class="col-md-4" for="message">Messaggio</label>
+                        <textarea class="col-md-8 form-control" rows="4" [(ngModel)]="message" name="message"></textarea>
+                    </div>
+
+                    <!-- image review creator -->
+                    <div class="form-row mb-3">
+                        <label class="col-lg-4" for="image">Carica immagine
+                            <sub style="color:grey;">
+                                <p>Trascina sul riquadro la foto da caricare</p>
+                            </sub>
+                        </label>
+                        <div class="col-lg-8">
+                            <div [hidden]="imageUploaded">
+                                <form ng2FileDrop [uploader]="uploader" (fileOver)="fileOverBase($event)"
+                                    [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }">
+                                    <div class="py-3">
+                                        <div class="form_controls">
+                                            <div class="upload_button_holder">
+                                                <label class="btn btn-outline-secondary" for="fileupload_{{r.id}}">
+                                                    <fa-icon [icon]="['fas', 'image']"></fa-icon> Foto
+                                                </label>
+                                                <!-- onChange hanlder resets the input value to get the change event when uploading the same file consecutively -->
+                                                <input type="file" id="fileupload_{{r.id}}"
+                                                    accept=".png, .jpg, image/jpg, image/png" #fileInput ng2FileSelect
+                                                    [style.display]="'none'" [uploader]="uploader"
+                                                    (change)="fileInput.value = ''" multiple />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="file" *ngFor="let response of responses; let i = index; last as isLast">
+                                <div *ngIf="imageUploaded && isLast">
+                                    <div class="status">
+                                        <div *ngIf="!response.status">
+                                            In corso
+                                        </div>
+                                        <div *ngIf="response.status!=200">
+                                            Caricamento... {{ response.progress }}%
+                                            <div class="progress-bar">
+                                                <div class="progress" role="progressbar"
+                                                    [style.width.%]="response.progress"></div>
+                                            </div>
+                                        </div>
+                                        <div class="status-code"
+                                            *ngIf="response.status && response.status==200 && imageUploaded">
+                                            Caricamento completo
+                                        </div>
+                                        <div class="status-code" *ngIf="response.status && response.status > 300">
+                                            Errore: {{ response.message }}
+                                        </div>
+                                        <input type="hidden" [(ngModel)]="uploadedImage" [value]="response.data.public_id "
+                                            name="image" />
+                                    </div>
+
+                                    <a target="_blank" href="{{ response.data.url}}">
+                                        <img class="img-fluid" src="{{ response.data.url}}"
+                                            alt="{{ response.data.public_id }}">
+                                    </a>
+                                    <a (click)="toggleImgUploader()" class="btn btn-danger btn-block col-md-1 mt-2">
+                                        <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- rating creator -->
+                    <div class="form-row mb-3">
+                        <label class="col-md-4" for="star-rating">Valutazione</label>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <ul class="list-inline rating-list">
+                                        <li style="display: inline-block" *ngFor="let star of stars" (click)="countStar(star)" [ngClass]="{'selected': (star <= selectedValue)}">
+                                            <fa-icon [icon]="['fas', 'star']"></fa-icon>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="offset-md-4">
+                            <a *ngIf="isHelpCreator" class="btn btn-lg btn-outline-primary ml-3" (click)="review(r)">
+                                Recensisci
+                            </a>
+                            <a *ngIf="!isHelpCreator" class="btn btn-lg btn-outline-primary ml-3" (click)="complete(r)">
+                                Recensisci
+                            </a>
+                        </div>
+                    </div>
+
+                </app-modal>
+
             </div>
 
-            <div *ngIf="!isHelpCreator && help.isOffer" class="mb-3">
-                <a class="btn btn-block btn-outline-success" (click)="accept(r)" *ngIf="!isUserAccepted && !r.accepted">
-                    <fa-icon [icon]="['fas', 'check']"></fa-icon>
-                    Accetta
-                </a>
-
-                <div *ngIf="r.accepted && !r.reviewed && !r.completed">
-                    <a class="btn btn-block btn-outline-secondary" (click)="cancel(r)">
-                        Cancella
-                    </a>
-                </div>
-            </div>
-
-            <div *ngIf="canReview(r)" class="mt-3">
+            <div *ngIf="isAtLeastOneResponseAccepted && !help.reviewed && !help.completed && help.type.code == 'COH' && isHelpCreator">
                 <button class="btn btn-block btn-outline-primary mb-2"
-                    (click)="openModal('modal-complete-' + r.id)">
-                    Recensisci
+                    (click)="openModal('modal-complete-' + help.responses[0].id)">
+                    Il lavoro è finito
                 </button>
             </div>
 
-            <!-- Modal Feedback -->
-            <app-modal id="modal-complete-{{ r.id }}">
-                <h3>Lascia un feedback e completa la richiesta</h3>
-                <hr>
-
-                <!-- message creator -->
-                <div class="form-row mb-3">
-                    <label class="col-md-4" for="message">Messaggio</label>
-                    <textarea class="col-md-8 form-control" rows="4" [(ngModel)]="message" name="message"></textarea>
-                </div>
-
-                <!-- image review creator -->
-                <div class="form-row mb-3">
-                    <label class="col-lg-4" for="image">Carica immagine
-                        <sub style="color:grey;">
-                            <p>Trascina sul riquadro la foto da caricare</p>
-                        </sub>
-                    </label>
-                    <div class="col-lg-8">
-                        <div [hidden]="imageUploaded">
-                            <form ng2FileDrop [uploader]="uploader" (fileOver)="fileOverBase($event)"
-                                [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }">
-                                <div class="py-3">
-                                    <div class="form_controls">
-                                        <div class="upload_button_holder">
-                                            <label class="btn btn-outline-secondary" for="fileupload_{{r.id}}">
-                                                <fa-icon [icon]="['fas', 'image']"></fa-icon> Foto
-                                            </label>
-                                            <!-- onChange hanlder resets the input value to get the change event when uploading the same file consecutively -->
-                                            <input type="file" id="fileupload_{{r.id}}"
-                                                accept=".png, .jpg, image/jpg, image/png" #fileInput ng2FileSelect
-                                                [style.display]="'none'" [uploader]="uploader"
-                                                (change)="fileInput.value = ''" multiple />
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="file" *ngFor="let response of responses; let i = index; last as isLast">
-                            <div *ngIf="imageUploaded && isLast">
-                                <div class="status">
-                                    <div *ngIf="!response.status">
-                                        In corso
-                                    </div>
-                                    <div *ngIf="response.status!=200">
-                                        Caricamento... {{ response.progress }}%
-                                        <div class="progress-bar">
-                                            <div class="progress" role="progressbar"
-                                                [style.width.%]="response.progress"></div>
-                                        </div>
-                                    </div>
-                                    <div class="status-code"
-                                        *ngIf="response.status && response.status==200 && imageUploaded">
-                                        Caricamento completo
-                                    </div>
-                                    <div class="status-code" *ngIf="response.status && response.status > 300">
-                                        Errore: {{ response.message }}
-                                    </div>
-                                    <input type="hidden" [(ngModel)]="uploadedImage" [value]="response.data.public_id "
-                                        name="image" />
-                                </div>
-
-                                <a target="_blank" href="{{ response.data.url}}">
-                                    <img class="img-fluid" src="{{ response.data.url}}"
-                                        alt="{{ response.data.public_id }}">
-                                </a>
-                                <a (click)="toggleImgUploader()" class="btn btn-danger btn-block col-md-1 mt-2">
-                                    <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- rating creator -->
-                <div class="form-row mb-3">
-                    <label class="col-md-4" for="star-rating">Valutazione</label>
-                    <div class="col-md-8">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <ul class="list-inline rating-list">
-                                    <li style="display: inline-block" *ngFor="let star of stars" (click)="countStar(star)" [ngClass]="{'selected': (star <= selectedValue)}">
-                                        <fa-icon [icon]="['fas', 'star']"></fa-icon>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="offset-md-4">
-                        <a *ngIf="isHelpCreator" class="btn btn-lg btn-outline-primary ml-3" (click)="review(r)">
-                            Recensisci
-                        </a>
-                        <a *ngIf="!isHelpCreator" class="btn btn-lg btn-outline-primary ml-3" (click)="complete(r)">
-                            Recensisci
-                        </a>
-                    </div>
-                </div>
-
-            </app-modal>
+            <p *ngIf="!isUserAccepted && help.responses.length > 0 && help.type.code != 'COH'">
+                In attesa di accettazione.
+            </p>
 
         </div>
-
-        <div *ngIf="isAtLeastOneResponseAccepted && !help.reviewed && !help.completed && help.type.code == 'COH' && isHelpCreator">
-            <button class="btn btn-block btn-outline-primary mb-2"
-                (click)="openModal('modal-complete-' + help.responses[0].id)">
-                Il lavoro è finito
-            </button>
+        <div *ngIf="canRespond()">
+            <a class="btn btn-lg btn-block btn-outline-primary" [routerLink]="['/helps/' + help?.id + '/response/']">
+                Rispondi
+            </a>
         </div>
 
-        <p *ngIf="!isUserAccepted && help.responses.length > 0 && help.type.code != 'COH'">
-            In attesa di accettazione.
-        </p>
-
-    </div>
-    <div class="card-body" *ngIf="canRespond()">
-        <a class="btn btn-lg btn-block btn-outline-primary" [routerLink]="['/helps/' + help?.id + '/response/']">
-            Rispondi
-        </a>
     </div>
 </div>

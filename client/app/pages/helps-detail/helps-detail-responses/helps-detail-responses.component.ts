@@ -14,7 +14,7 @@ import { Cloudinary } from '@cloudinary/angular-5.x';
 export class HelpsDetailResponsesComponent implements OnInit {
 
     @Input() help: Help;
-    @Input() currentUser: User;
+    // @Input() currentUser: User;
 
     // responses
     isHelpCreator: boolean;
@@ -39,15 +39,15 @@ export class HelpsDetailResponsesComponent implements OnInit {
         private rs: ResponseService,
         private router: Router,
         private modalService: ModalService,
-        private authenticationService: AuthenticationService,
+        private as: AuthenticationService,
         private cloudinary: Cloudinary,
         private ngZone: NgZone) { }
 
     ngOnInit() {
         this.checkHelpCreator();
-        this.isUserResponded = this.checkUserResponse(this.help.responses, this.currentUser.id);
+        this.isUserResponded = this.checkUserResponse(this.help.responses, this.as.currentUserValue.id);
         this.isUserAccepted = this.checkUserAccept(this.help.responses);
-        this.isResponderAccepted = this.checkResponderAccepted(this.help.responses, this.currentUser.id);
+        this.isResponderAccepted = this.checkResponderAccepted(this.help.responses, this.as.currentUserValue.id);
         this.isAnyResponseAccepted = this.checkAnyResponseAccepted(this.help);
         this.initImageUploader();
     }
@@ -168,7 +168,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
     }
 
     checkHelpCreator(): void {
-      this.isHelpCreator = this.currentUser.id === this.help.creator.id;
+      this.isHelpCreator = this.as.currentUserValue.id === this.help.creator.id;
     }
 
     checkUserResponse(reponses: HelpResponse[], userId: number) {
@@ -229,7 +229,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
                           this.help.responses[res].ratingCreator = this.selectedValue;
                       }
                       this.modalService.close('modal-complete-' + response.id);
-                      this.authenticationService.refresh(this.currentUser);
+                      this.as.refresh(this.as.currentUserValue);
                       this.router.navigate(['/helps/', this.help.id]);
                   })
               }
@@ -237,7 +237,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
                   this.rs.creatorFeedback(response).subscribe(() => {
                       response.reviewed = true;
                       this.modalService.close('modal-complete-' + response.id);
-                      this.authenticationService.refresh(this.currentUser);
+                      this.as.refresh(this.as.currentUserValue);
                       this.router.navigate(['/helps/', this.help.id]);
                   });
             }
@@ -254,6 +254,8 @@ export class HelpsDetailResponsesComponent implements OnInit {
 
             this.rs.completeResponse(response).subscribe(() => {
                 response.completed = true;
+                this.as.currentUserValue.likehelps++;
+                this.help.completed = true;
                 this.modalService.close('modal-complete-' + response.id);
                 this.router.navigate(['/helps/', this.help.id]);
             });
@@ -276,6 +278,33 @@ export class HelpsDetailResponsesComponent implements OnInit {
 
     countStar(stars: number) {
         this.selectedValue = stars;
+    }
+
+    canChat(r: HelpResponse): boolean {
+        const chatEnabled = this.help.accepted && !this.help.completed &&
+            (
+                this.as.currentUserValue.id == this.help.idCreator || 
+                (this.as.currentUserValue.id == r.idResponder && r.accepted)
+            );
+        return chatEnabled;
+    }
+
+    canReview(r: HelpResponse): boolean {
+        const reviewEnabled = 
+            this.isResponderAccepted &&
+            r.reviewed && 
+            !r.completed && 
+            r.idResponder == this.as.currentUserValue.id;
+        return reviewEnabled;
+    }
+
+    canSeeResponse(r: HelpResponse): boolean {
+        const responseDisplayed =
+            r.accepted || 
+            r.idResponder === this.as.currentUserValue.id || 
+            this.isHelpCreator || 
+            this.help.type.code == 'COH';
+        return responseDisplayed;
     }
 
 }

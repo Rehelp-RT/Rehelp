@@ -48,6 +48,13 @@
                                     </div>
                                 </div>
 
+                                <div class="mb-3 row">
+                                    <div class="mb-1 col-md-4"><strong>Stato</strong></div>
+                                    <div class="col-md-8">
+                                        {{ getStatus() }}
+                                    </div>
+                                </div>
+
                             </div>
 
                         </div>
@@ -100,7 +107,7 @@
             </div>
 
             <div class="col-lg-4 col-md-6" *ngIf="help && currentUser">
-                <app-helps-detail-responses [help]="help" [currentUser]="currentUser"></app-helps-detail-responses>
+                <app-helps-detail-responses [help]="help"></app-helps-detail-responses>
             </div>
 
         </div>

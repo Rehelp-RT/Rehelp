@@ -38,6 +38,18 @@ export class HelpsDetailComponent implements OnInit {
         });
     }
 
+    getStatus(): string {
+        if (this.help.completed) {
+            return 'Completato';
+        } else if (this.help.reviewed) {
+            return 'Recensito';
+        } else if (this.help.accepted) {
+            return 'Accettato';
+        } else  {
+            return 'In accettazione';
+        }
+    }
+
     getImage(help: Help) {
         if (help.image != null) {
             return 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + help.image;

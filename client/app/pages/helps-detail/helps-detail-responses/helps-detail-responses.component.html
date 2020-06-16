@@ -11,13 +11,13 @@
 
         <div *ngFor="let r of help.responses">
 
-            <div *ngIf="r.accepted && !r.completed">
+            <div *ngIf="canChat(r)">
                 <app-chat [help]="help" [response]="r" [isCreator]="isHelpCreator"></app-chat>
             </div>
 
             <div *ngIf="((!isUserAccepted && help.type.code != 'COH') || r.accepted) || (help.type.code == 'COH')">
 
-                <div *ngIf="r.accepted || r.idResponder === currentUser.id || isHelpCreator || help.type.code == 'COH'">
+                <div *ngIf="canSeeResponse(r)">
                     <app-user-icon [user]="r.responder" [showName]="true"></app-user-icon>
                     <div *ngIf="!help.isOffer && help.type.code != 'MES'" class="speech-bubble-left">
                         {{ r.message }}
@@ -29,7 +29,7 @@
                         <div class="mb-2">
                             <strong>Messaggio:</strong> {{ r.message }}
                         </div>
-                  </div>
+                    </div>
                 </div>
 
                 <div *ngIf="r.reviewed && r.accepted">
@@ -101,7 +101,6 @@
                 </div>
             </div>
 
-
             <div *ngIf="!isHelpCreator && help.isOffer" class="mb-3">
                 <a class="btn btn-block btn-outline-success" (click)="accept(r)" *ngIf="!isUserAccepted && !r.accepted">
                     <fa-icon [icon]="['fas', 'check']"></fa-icon>
@@ -115,14 +114,13 @@
                 </div>
             </div>
 
-            <div *ngIf="isResponderAccepted" class="mt-3">
-                <div *ngIf="r.accepted && r.reviewed && !r.completed && r.idResponder == currentUser.id">
-                    <button class="btn btn-block btn-outline-primary mb-2"
-                        (click)="openModal('modal-complete-' + r.id)">
-                        Recensisci
-                    </button>
-                </div>
+            <div *ngIf="canReview(r)" class="mt-3">
+                <button class="btn btn-block btn-outline-primary mb-2"
+                    (click)="openModal('modal-complete-' + r.id)">
+                    Recensisci
+                </button>
             </div>
+
             <app-modal id="modal-complete-{{ r.id }}">
                 <h3>Lascia un feedback e completa la richiesta</h3>
                 <hr>

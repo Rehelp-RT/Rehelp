@@ -21,7 +21,7 @@ export class PasswordEditComponent implements OnInit {
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
-        private activeRouter: ActivatedRoute,
+        private activeRoute: ActivatedRoute,
         private as: AuthenticationService,
         private us: UserService,
         private alertService: AlertService
@@ -36,7 +36,7 @@ export class PasswordEditComponent implements OnInit {
              validator: MustMatch('password', 'confirmPassword')
           });
 
-       this.activeRouter.parent.params.subscribe(params => {
+       this.activeRoute.parent.params.subscribe(params => {
             const id = params.id;
             if (id == this.as.currentUserValue.id) {
                 this.us.getById(params.id).subscribe(x => {

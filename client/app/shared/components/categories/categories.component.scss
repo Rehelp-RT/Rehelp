@@ -1,7 +1,14 @@
-.badge-silver {
-    background-color: #DBE4EB;
-}
+.cat { background-color: #DBE4EB; }
+.cat.checked  { background-color: #a6b1b9; }
 
-.badge-silver.checked  {
-    background-color: #a6b1b9;
-}
+.cat.cat-meh { background-color: #d8efe6; }
+.cat.cat-meh.checked  { background-color: #4CC194; }
+
+.cat.cat-imh { background-color: #eacdcc; }
+.cat.cat-imh.checked  { background-color: #f28076; }
+
+.cat.cat-coh { background-color: #e2ddbc; }
+.cat.cat-coh.checked  { background-color: #bdb76b; }
+
+.cat.cat-mes { background-color: #dfecef; }
+.cat.cat-mes.checked  { background-color: #aacad7; }

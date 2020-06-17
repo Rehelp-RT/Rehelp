@@ -307,14 +307,19 @@ router.get('/:id/categories', (req, res) => {
             idHelpType: req.query.idType
         });
     }
+    console.log('req.params.id', req.params.id)
     console.log('req.query.idType', req.query.idType);
-    console.log('filters',filters)
+    console.log('filters', filters)
 
     db.User.findByPk(req.params.id, {
         attributes: ['id'],
         include: [{
+            required: false,
             as: 'categories',
             model: db.HelpCategory,
+            where: {
+                [Op.and]: filters
+            },
             include: [{
                 model: db.HelpCategory,
                 as: 'parent',
@@ -322,82 +327,79 @@ router.get('/:id/categories', (req, res) => {
                     model: db.HelpCategory,
                     as: 'parent'
                 }]
-            }],
-            where: {
-                [Op.and]: filters
-            }
+            }]
         }]
     })
-        .then(user => {
-            if (!user) {
-                return res.status(404).send({
-                    message: "User not found with id " + req.params.id
-                });
-            } else {
-                res.json(user)
-            }
-        }).catch(err => {
-            if (err.kind === 'ObjectId') {
-                return res.status(404).send({
-                    message: "User not found with id " + req.params.id
-                });
-            }
-            return res.status(500).send({
-                message: "Error retrieving user with id " + req.params.id,
-                error: err
+    .then(user => {
+        if (!user) {
+            return res.status(404).send({
+                message: "User not found with id " + req.params.id
             });
+        } else {
+            res.json(user)
+        }
+    }).catch(err => {
+        if (err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "User not found with id " + req.params.id
+            });
+        }
+        return res.status(500).send({
+            message: "Error retrieving user with id " + req.params.id,
+            error: err
         });
+    });
 });
 
 // GET /api/users/5/categories2
 router.get('/:id/categories2', (req, res) => {
     db.Categories_Users.findAll({
-            attributes: ['idCategory'],
-            where: { idUser: req.params.id }
-        })
-        .then(cu => {
-            if (!cu) {
-                return res.status(404).send({
-                    message: "User not found with id " + req.params.id
-                });
-            } else {
-                db.HelpCategory.findAll({
+        attributes: ['idCategory'],
+        where: { idUser: req.params.id }
+    })
+    .then(cu => {
+        if (!cu) {
+            return res.status(404).send({
+                message: "User not found with id " + req.params.id
+            });
+        } else {
+            db.HelpCategory.findAll({
+                attributes: ['id', 'code', 'name'],
+                include: [{
                     attributes: ['id', 'code', 'name'],
-                    include: [{
-                        attributes: ['id', 'code', 'name'],
                         model: db.HelpCategory,
                         as: 'parent',
                         include: [{
-                            attributes: ['id', 'code', 'name'],
-                            model: db.HelpCategory,
-                            as: 'parent'
-                        }]
+                        attributes: ['id', 'code', 'name'],
+                        model: db.HelpCategory,
+                        as: 'parent'
                     }]
-                })
-                .then(cats => {
-                    const idUserCategories = cu.map(x => x.idCategory);
-                    res.json(cats.map(x => {
-                        return {
-                            id: x.id,
-                            code: x.code,
-                            name: x.name,
-                            parent: x.parent,
-                            checked: idUserCategories.includes(x.id)
-                        }
-                    }))
-                })
-            }
-        }).catch(err => {
-            if (err.kind === 'ObjectId') {
-                return res.status(404).send({
-                    message: "User not found with id " + req.params.id
-                });
-            }
-            return res.status(500).send({
-                message: "Error retrieving user with id " + req.params.id,
-                error: err
+                }]
+            })
+            .then(cats => {
+                const idUserCategories = cu.map(x => x.idCategory);
+                res.json(cats.map(x => {
+                    return {
+                        id: x.id,
+                        code: x.code,
+                        name: x.name,
+                        parent: x.parent,
+                        checked: idUserCategories.includes(x.id)
+                    }
+                }))
+            })
+        }
+    }).catch(err => {
+        if (err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "User not found with id " + req.params.id
             });
+        }
+        return res.status(500).send({
+            message: "Error retrieving user with id " + req.params.id,
+            error: err
         });
+    });
 });
 
 // PUT /api/user/5/categories

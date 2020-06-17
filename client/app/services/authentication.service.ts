@@ -67,6 +67,7 @@ export class AuthenticationService {
     }
 
     public refresh(user: User) {
+        localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
     }
 

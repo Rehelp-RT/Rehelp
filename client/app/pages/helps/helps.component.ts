@@ -54,7 +54,7 @@ export class HelpsComponent implements OnInit {
             this.type = type;
             this.hs.getAll(type.code, excludeUserId, accepted, idCreator, distance, this.lat, this.long).subscribe(x => {
                 this.helps = x;
-                console.log(this.helps)
+                // console.log(this.helps)
             });
             this.us.getById(excludeUserId).subscribe(x => {
                 this.user = x;

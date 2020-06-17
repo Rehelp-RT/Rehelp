@@ -72,6 +72,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     ngOnDestroy(): void {
-        this.subscription.unsubscribe();
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 }

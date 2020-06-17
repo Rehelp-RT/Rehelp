@@ -14,6 +14,8 @@ router.get('/', (req, res) => {
     var longit = req.query.long !== undefined ? parseFloat(req.query.long) : undefined;
 
     var filters = [];
+    var categoryFilters = [];
+
     if (distance !== undefined && longit !== undefined && latit !== undefined) {
         filters.push({
             [Op.and]: [
@@ -34,9 +36,16 @@ router.get('/', (req, res) => {
             [Op.not]: { id: req.query.excludeUserId }
         });
     }
+    if (req.query.type) {
+        categoryFilters.push({ code: req.query.type });
+    }
+    if (req.query.category) {
+        categoryFilters.push({ id: req.query.category});
+    }
 
     console.log('req.query.category', req.query.category);
     console.log('filters', filters);
+    console.log('categoryFilters', categoryFilters);
     
 
     db.User.findAll({
@@ -86,8 +95,12 @@ router.get('/', (req, res) => {
                     }
                 },
                 {
-                    required: req.query.category !== undefined ? true : false,
+                    required: true,
                     model: db.HelpCategory,
+                    where: {
+                        [Op.and]: categoryFilters
+                    },
+                    as: 'categories',
                     include: [{
                         attributes: ['id', 'code', 'name', 'image'],
                         model: db.HelpCategory,
@@ -97,10 +110,7 @@ router.get('/', (req, res) => {
                             as: 'parent'
                         }],
                         as: 'parent'
-                    }],
-                    where: req.query.category !== undefined ? {[Op.and]: { id: req.query.category}}
-                    : {[Op.not]: {id : null}},
-                    as: 'categories'
+                    }]
                 }
             ]
         })
@@ -352,31 +362,30 @@ router.get('/:id/categories2', (req, res) => {
                 });
             } else {
                 db.HelpCategory.findAll({
+                    attributes: ['id', 'code', 'name'],
+                    include: [{
                         attributes: ['id', 'code', 'name'],
-                        where: { code: null },
+                        model: db.HelpCategory,
+                        as: 'parent',
                         include: [{
                             attributes: ['id', 'code', 'name'],
                             model: db.HelpCategory,
-                            as: 'parent',
-                            include: [{
-                                attributes: ['id', 'code', 'name'],
-                                model: db.HelpCategory,
-                                as: 'parent'
-                            }]
+                            as: 'parent'
                         }]
-                    })
-                    .then(cats => {
-                        const idUserCategories = cu.map(x => x.idCategory);
-                        res.json(cats.map(x => {
-                            return {
-                                id: x.id,
-                                code: x.code,
-                                name: x.name,
-                                parent: x.parent,
-                                checked: idUserCategories.includes(x.id)
-                            }
-                        }))
-                    })
+                    }]
+                })
+                .then(cats => {
+                    const idUserCategories = cu.map(x => x.idCategory);
+                    res.json(cats.map(x => {
+                        return {
+                            id: x.id,
+                            code: x.code,
+                            name: x.name,
+                            parent: x.parent,
+                            checked: idUserCategories.includes(x.id)
+                        }
+                    }))
+                })
             }
         }).catch(err => {
             if (err.kind === 'ObjectId') {

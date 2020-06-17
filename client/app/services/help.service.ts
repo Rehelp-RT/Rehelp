@@ -40,7 +40,7 @@ export class HelpService {
         if (params !== '') {
           params = '?' + params;
         }
-        console.log('params', params);
+        // console.log('params', params);
 
         return this.http.get<Help[]>(`${this.api}/helps${params}`);
     }

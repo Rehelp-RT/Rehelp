@@ -15,6 +15,7 @@
 
 <fa-icon [icon]="['fas', 'sync']" [spin]="isLoading" *ngIf="isLoading"></fa-icon>
 
+<!-- user's categories -->
 <div *ngIf="!isLoading">
     <p *ngIf="categories.length == 0">Nessun risultato trovato.</p>
     
@@ -23,6 +24,7 @@
     </span>
 </div>
 
+<!-- modal category selection -->
 <ng-template #mymodal let-modal>
     <form [formGroup]="form" (ngSubmit)="submit()">
         <div class="modal-header">
@@ -32,14 +34,14 @@
             </button>
         </div>
         <div class="modal-body">
-                <label class="checkbox m-0 p-0" formArrayName="categories" *ngFor="let category of getFormCategories(); let i = index">
-                    <input class="d-none" type="checkbox" [formControlName]="i" [checked]="categoriesData[i].checked">
-                    <app-categories [category]="categoriesData[i]" [checked]="categoriesData[i].checked" [isCheckable]="true"></app-categories>
-                </label>
+            <label class="checkbox m-0 p-0" formArrayName="categories" *ngFor="let category of getFormCategories(); let i = index">
+                <input class="d-none" type="checkbox" [formControlName]="i" [checked]="categoriesData[i].checked">
+                <app-categories [category]="categoriesData[i]" [checked]="categoriesData[i].checked" [isCheckable]="true"></app-categories>
+            </label>
         
-                <p class="alert alert-warning" role="alert" *ngIf="!form.valid">
-                    Seleziona almeno una categoria.
-                </p>
+            <p class="alert alert-warning" role="alert" *ngIf="!form.valid">
+                Seleziona almeno una categoria.
+            </p>
         </div>
         <div class="modal-footer">
             <button class="btn btn-lg btn-outline-primary" [disabled]="!form.valid">Salva</button>

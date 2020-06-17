@@ -47,19 +47,20 @@ export class OfferComponent implements OnInit {
     initModal() {
         this.form = this.formBuilder.group({
             categories: new FormArray([], minSelectedCheckboxes(1))
-          });
-  
-          // async categories
-          this.userService.getCategories2(this.idUser).subscribe(x => {
-              this.categoriesData = x;
-              this.addCheckboxes();
-          });
+        });
+        
+        // async categories
+        this.userService.getCategories2(this.idUser).subscribe(x => {
+            this.categoriesData = x;
+            // console.log('categoriesData', this.categoriesData)
+            this.addCheckboxes();
+        });
     }
 
     openModal(content) {
-        console.log('-- load module')
+        // console.log('-- load module')
         this.initModal();
-        console.log('-- open module')
+        // console.log('-- open module')
         this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
     }
 
@@ -80,9 +81,9 @@ export class OfferComponent implements OnInit {
         const selectedCategoryIds = this.form.value.categories
             .map((v, i) => v ? this.categoriesData[i].id : null)
             .filter(v => v !== null);
-        console.log(selectedCategoryIds);
+        // console.log(selectedCategoryIds);
         this.userService.putCategories(this.idUser, selectedCategoryIds).subscribe(x => {
-            console.log('success');
+            // console.log('success');
             this.loadCategories();
             this.modalService.dismissAll();
         });

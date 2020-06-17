@@ -15,9 +15,7 @@
                     <div class="form-row mb-3" *ngIf="userToAsk">
                         <div class="col-lg-4">Stai chiedendo aiuto a:</div>
                         <div class="col-lg-8">
-                            <!-- <a [routerLink]="['/profile/', userToAsk?.id]"> -->
-                                {{ userToAsk.firstname }} {{ userToAsk.lastname }}
-                            <!-- </a> -->
+                            <app-user-icon [user]="userToAsk" [showName]="true"></app-user-icon>
                         </div>
                     </div>
                     <form #helpForm="ngForm" (ngSubmit)="onSubmit()">

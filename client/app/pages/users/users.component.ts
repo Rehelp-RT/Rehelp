@@ -70,16 +70,19 @@ export class UsersComponent implements OnInit {
         const codeType = this.activeRoute.snapshot.queryParamMap.get('type')
             ? this.activeRoute.snapshot.queryParamMap.get('type')
             : 'MEH';
-        this.ts.getByCode(codeType).subscribe((type) => {
+        this.ts.getByCode(codeType).subscribe(type => {
             this.type = type;
-            this.cs.getAll(type.id).subscribe((cats) => {
+
+            // load type's categories
+            this.cs.getAll(type.id).subscribe(cats => {
                 this.categories = cats;
             });
-        });
+            
+            // load type's users
+            this.us.getAll(this.currentUser.id, this.type.code).subscribe(users => {
+                this.users = users;
+            });
 
-
-        this.us.getAll(this.currentUser.id).subscribe(users => {
-            this.users = users;
         });
 
         // maps
@@ -103,6 +106,7 @@ export class UsersComponent implements OnInit {
       this.us
         .getAll(
           this.currentUser.id,
+          this.type.code,
           cat,
           this.selectedDistance,
           this.lat,

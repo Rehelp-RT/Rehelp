@@ -8,21 +8,19 @@ import { User, HelpCategory } from '@app/models';
 export class UserService {
     constructor(private http: HttpClient) { }
 
-    getAll(excludeUserId = null, category = null, distance = null, lat = null, long = null) {
+    getAll(excludeUserId = null, type = null, category = null, distance = null, lat = null, long = null) {
 
         let params = '';
-        params += excludeUserId != null ? 'excludeUserId=' + excludeUserId : '';
-        if (category != null || distance != null || lat != null || long != null) {
-            params += '&';
-        }
-        params += category != null ? 'category=' + category + '&' : '';
-        params += distance != null ? 'distance=' + distance + '&' : '';
-        params += lat != null ? 'lat=' + lat + '&' : '';
-        params += long != null ? 'long=' + long : '';
+        params += excludeUserId ? 'excludeUserId=' + excludeUserId + '&' : '';
+        params += type ? 'type=' + type + '&' : '';
+        params += category ? 'category=' + category + '&' : '';
+        params += distance ? 'distance=' + distance + '&' : '';
+        params += lat ? 'lat=' + lat + '&' : '';
+        params += long ? 'long=' + long : '';
         if (params !== '') {
             params = '?' + params;
         }
-        console.log('params', params);
+        // console.log('get users params', params);
 
         return this.http.get<User[]>(`${environment.apiUrl}/users${params}`);
     }
@@ -32,13 +30,13 @@ export class UserService {
     }
 
     getCategories(id: number, idType = null) {
-
         let params = '';
         params += idType != null ? 'idType=' + idType : '';
         if (params !== '') {
             params = '?' + params;
         }
-        console.log('params', params);
+        // console.log('id', id);
+        // console.log('params', params);
         
         return this.http.get<User>(`${environment.apiUrl}/users/${id}/categories${params}`);
     }

@@ -25,7 +25,7 @@ export class ProfileDetailComponent implements OnInit {
 
     ngOnInit(): void {
         this.route.parent.params.subscribe(params => {
-            console.log('currentUser', this.authService.currentUserValue)
+            // console.log('currentUser', this.authService.currentUserValue)
             this.idUser = params.id;
             this.isOwner = this.authService.currentUserValue.id == this.idUser;
             this.loadUser();

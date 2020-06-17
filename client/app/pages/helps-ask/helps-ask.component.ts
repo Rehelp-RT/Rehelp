@@ -56,26 +56,25 @@ export class HelpsAskComponent implements OnInit {
         private location: Location,
         private mapsAPILoader: MapsAPILoader,
         private userService: UserService,
-        private activeRouter: ActivatedRoute,
+        private activeRoute: ActivatedRoute,
         private responseService: ResponseService
     ) { }
 
     ngOnInit() {
-        const type =
-            this.activeRouter.snapshot.params.type
-                ? this.activeRouter.snapshot.params.type
-                : 'MEH';
+        const codeType = 
+            this.activeRoute.snapshot.queryParamMap.get('type')
+            ? this.activeRoute.snapshot.queryParamMap.get('type')
+            : 'MEH';
+        console.log('codeType', codeType);
 
-        this.as.currentUser.subscribe(x => {
-            this.currentUser = x;
-            this.model = new Help();
-            this.model.idCreator = this.currentUser.id;
-            this.model.idType = 1;
-            this.model.isOffer = true;
-        });
+        this.currentUser = this.as.currentUserValue;
+        this.model = new Help();
+        this.model.idCreator = this.currentUser.id;
+        this.model.idType = 1;
+        this.model.isOffer = true;
 
         // get type
-        this.initTypes(type);
+        this.initTypes(codeType);
 
         // init map
         this.initMaps();
@@ -172,12 +171,13 @@ export class HelpsAskComponent implements OnInit {
     initTypes(type) {
         this.ts.getByCode(type).subscribe(x => {
             this.type = x;
+            console.log('type', this.type)
             this.model.idType = x.id;
 
             if (this.type.code == 'IMH') {
                 this.model.halfhourValidity = 1;
             }
-            const id = this.activeRouter.snapshot.params.id;
+            const id = this.activeRoute.snapshot.params.id;
             this.userService.getById(id).subscribe(y => {
                 this.userToAsk = y;
                 console.log('this.type.code',this.type.code)

@@ -21,7 +21,7 @@ export class ResponseService {
         if (params !== '') {
           params = '?' + params;
         }
-        console.log('params', params);
+        // console.log('params', params);
 
         return this.http.get<HelpResponse[]>(`${this.api}/responses${params}`);
     }

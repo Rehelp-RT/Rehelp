@@ -37,7 +37,6 @@ export class UserService {
         }
         // console.log('id', id);
         // console.log('params', params);
-        
         return this.http.get<User>(`${environment.apiUrl}/users/${id}/categories${params}`);
     }
 

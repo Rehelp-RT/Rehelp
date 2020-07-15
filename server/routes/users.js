@@ -46,7 +46,7 @@ router.get('/', (req, res) => {
     console.log('req.query.category', req.query.category);
     console.log('filters', filters);
     console.log('categoryFilters', categoryFilters);
-    
+
 
     db.User.findAll({
             attributes: [
@@ -125,7 +125,6 @@ router.get('/', (req, res) => {
 
 // GET /api/users/5
 router.get('/:id', (req, res) => {
-    console.log('test')
     db.User.findByPk(req.params.id, {
             attributes: [
                 'id', 'avatar', 'birthdate', 'city', 'country', 'description',
@@ -249,7 +248,7 @@ router.put('/:id/update', function(req, res) {
                             firstname: body.firstname,
                             lastname: body.lastname,
                             latitude: body.latitude,
-                            longitude: body.longitude                            
+                            longitude: body.longitude
                         })
                         .then(x => {
                             res.status(200).send(user)
@@ -300,7 +299,7 @@ router.put('/:id/upload-avatar', (req, res) => {
 
 // GET /api/users/5/categories
 router.get('/:id/categories', (req, res) => {
-    
+
     var filters = [];
     if (req.query.idType !== undefined) {
         filters.push({

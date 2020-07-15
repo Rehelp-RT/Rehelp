@@ -61,6 +61,10 @@ export class AuthenticationService {
         }));
     }
 
+    public resetPassword(email: string) {
+      return this.http.post<any>(`${environment.apiUrl}/resetPassword`, { email });
+    }
+
     public sendRecaptchaToken(token) {
       console.log(token, 'token');
       return this.http.post<any>(`${environment.apiUrl}/recaptcha_token_validate`, {recaptcha: token});

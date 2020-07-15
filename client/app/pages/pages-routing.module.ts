@@ -17,6 +17,7 @@ import { HomeComponent } from './home/home.component';
 import { HowItWorksComponent } from './how-it-works/how-it-works.component';
 import { LoginComponent } from './login/login.component';
 import { PrivacyComponent } from './privacy/privacy.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import { UsersComponent } from './users/users.component';
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'helps/:id/response', component: HelpsResponseComponent,  data: {title: 'Offri Aiuto'}, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   // { path: 'meet-and-help', component: MeetAndHelpComponent, canActivate: [AuthGuard] },
+  { path: 'password-reset', component: PasswordResetComponent },
   { path: 'privacy', component: PrivacyComponent },
   { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'register', component: RegisterComponent },

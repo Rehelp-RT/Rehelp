@@ -5,6 +5,7 @@ const db = require('../models');
 const { Op } = require('sequelize');
 const bodyParser = require('body-parser');
 const request = require('request');
+const nodemailer = require("nodemailer");
 
 // GET /api/version
 router.get('/version', function(req, res) {
@@ -260,6 +261,7 @@ router.post('/socialLogin', function(req, res) {
     }
 });
 
+// POST /api/recaptcha_token_validate
 router.post('/recaptcha_token_validate', function(req, res) {
 
   let token = req.body.recaptcha;
@@ -291,7 +293,61 @@ router.post('/recaptcha_token_validate', function(req, res) {
     // if passed response success message to client
      res.send({"success": true, 'message': "recaptcha passed"});
   })
-})
+});
+
+// POST /api/resetPassword
+router.post('/resetPassword', function(req, res) {
+  if (req.body == null || req.body == undefined) {
+    res.status(400).send({ msg: 'Something goes wrong.' })
+  } else {
+    // create reusable transporter object using the default SMTP transport
+    let transporter = nodemailer.createTransport({
+      service: "gmail",
+      host: "smtp.gmail.com",
+      // port: 587,
+      secure: true, // true for 465, false for other ports
+      auth: {
+        user: "monitor.rehelp@gmail.com",
+        pass: "***REMOVED-GMAIL-PASSWORD***",
+      },
+    });
+    User.findOne({
+            where: { email: req.body.email },
+        })
+        .then(user => {
+          if (!user) {
+            return res.status(401).send({
+              message: 'User not found.',
+          });
+          } else {
+              console.log(user, 'user')
+              // registered user
+              let token = Math.floor((Math.random() * 100) + 54);
+              let tokenExpire = Date.now() + 3600000; // + 1 ora.
+              user.update({
+                resetPasswordToken: token,
+                resetPasswordExpire: tokenExpire
+              }).then(() => {
+                let encodedMail = Buffer.from((req.body.email).toString('base64'));
+                let link = "https://"+req.get('host')+"/reset?mail="+encodedMail+"&id="+token;
+                let mailOptions = {
+                  from : 'ReHelp',
+                  to : req.body.email,
+                  subject : "Reset Password",
+                  html : "Ciao " + user.firstname + " " + user.lastname + ",<br> Hai ricevuto questa mail perchè tu o qualcun altro ha effettuato la richiesta di resettare la password del tuo account.<br> Per favore clicca sul seguente link per completare la richiesta.<br><a href="+link+">Clicca qui per resettare la password</a>"
+                }
+                transporter.sendMail(mailOptions, function(err, res) {
+                  if(err) {
+                    console.log(err);
+                  }
+                })
+            });
+          }
+      }).catch((error) => {
+          console.log(error)
+          res.status(400).send(error)
+      });
+}});
 
 
 

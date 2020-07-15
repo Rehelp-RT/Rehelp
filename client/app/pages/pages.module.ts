@@ -27,6 +27,7 @@ import { HelpsResponseComponent } from './helps-response/helps-response.componen
 import { HomeComponent } from './home/home.component';
 import { HowItWorksComponent } from './how-it-works/how-it-works.component';
 import { LoginComponent } from './login/login.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { RegisterComponent } from './register/register.component';
 
@@ -58,6 +59,7 @@ import { RegisterComponent } from './register/register.component';
         HomeComponent,
         HowItWorksComponent,
         LoginComponent,
+        PasswordResetComponent,
         PrivacyComponent,
         RegisterComponent
     ],

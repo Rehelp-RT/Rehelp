@@ -32,6 +32,8 @@ export class User {
     loginGoogle: boolean;
     idFacebook: string;
     idGoogle: string;
+    resetPasswordToken: string;
+    resetPasswordExpire: Date;
 
     // virtual
     helps: Help[];

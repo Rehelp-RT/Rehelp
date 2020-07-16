@@ -330,7 +330,6 @@ router.post('/resetPassword', function(req, res) {
                 resetPasswordToken: token,
                 resetPasswordExpire: tokenExpire
               }).then(x => {
-                res.status(200).send(user)
                 let encodedMail = Buffer.from((req.body.email).toString('base64'));
                 let link = "https://"+req.get('host')+"/reset?mail="+encodedMail+"&id="+token;
                 let mailOptions = {
@@ -346,6 +345,7 @@ router.post('/resetPassword', function(req, res) {
                     });
                   }
                 });
+                res.status(200).send(user);
           })}
       }).catch((error) => {
           console.log(error)

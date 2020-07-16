@@ -52,7 +52,6 @@ export class PasswordResetComponent implements OnInit {
           this.router.navigate([this.returnUrl]);
         },
         error => {
-          console.log(error, 'error')
           this.alertService.error(error);
           this.loading = false;
           this.submitted = false;

@@ -324,10 +324,13 @@ router.post('/resetPassword', function(req, res) {
               // registered user
               let token = Math.floor((Math.random() * 100) + 54);
               let tokenExpire = Date.now() + 3600000; // + 1 ora.
+              console.log(token, 'token'),
+              console.log(tokenExpire, 'tokenExpire')
               user.update({
                 resetPasswordToken: token,
                 resetPasswordExpire: tokenExpire
-              }).then(() => {
+              }).then(x => {
+                res.status(200).send(user)
                 let encodedMail = Buffer.from((req.body.email).toString('base64'));
                 let link = "https://"+req.get('host')+"/reset?mail="+encodedMail+"&id="+token;
                 let mailOptions = {
@@ -338,11 +341,12 @@ router.post('/resetPassword', function(req, res) {
                 }
                 transporter.sendMail(mailOptions, function(err, res) {
                   if(err) {
-                    console.log(err);
+                    return res.status(500).send({
+                      message: "Error " + err
+                    });
                   }
-                })
-            });
-          }
+                });
+          })}
       }).catch((error) => {
           console.log(error)
           res.status(400).send(error)

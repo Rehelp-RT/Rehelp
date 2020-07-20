@@ -61,8 +61,12 @@ export class AuthenticationService {
         }));
     }
 
-    public resetPassword(email: string) {
-      return this.http.post<any>(`${environment.apiUrl}/resetPassword`, { email });
+    public recoveryPassword(email: string) {
+      return this.http.post<any>(`${environment.apiUrl}/recoveryPassword`, { email });
+    }
+
+    public validPasswordToken(token: string) {
+      return this.http.post<any>(`${environment.apiUrl}/passwordReset/${token}`, token);
     }
 
     public sendRecaptchaToken(token) {
@@ -80,5 +84,4 @@ export class AuthenticationService {
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
     }
-
 }

@@ -6,6 +6,7 @@ const { Op } = require('sequelize');
 const bodyParser = require('body-parser');
 const request = require('request');
 const nodemailer = require("nodemailer");
+const crypto = require("crypto")
 
 // GET /api/version
 router.get('/version', function(req, res) {
@@ -295,8 +296,8 @@ router.post('/recaptcha_token_validate', function(req, res) {
   })
 });
 
-// POST /api/resetPassword
-router.post('/resetPassword', function(req, res) {
+// POST /api/recoveryPassword
+router.post('/recoveryPassword', function(req, res) {
   if (req.body == null || req.body == undefined) {
     res.status(400).send({ msg: 'Something goes wrong.' })
   } else {
@@ -320,18 +321,17 @@ router.post('/resetPassword', function(req, res) {
               message: 'User not found.',
           });
           } else {
-              console.log(user, 'user')
               // registered user
-              let token = Math.floor((Math.random() * 100) + 54);
+
+              let token = crypto.randomBytes(16).toString('hex');
+
               let tokenExpire = Date.now() + 3600000; // + 1 ora.
-              console.log(token, 'token'),
-              console.log(tokenExpire, 'tokenExpire')
               user.update({
                 resetPasswordToken: token,
                 resetPasswordExpire: tokenExpire
               }).then(x => {
-                let encodedMail = Buffer.from((req.body.email).toString('base64'));
-                let link = "https://"+req.get('host')+"/reset?mail="+encodedMail+"&id="+token;
+                let link = 'https://' + req.headers.host + '/password-reset/' + token;
+                // let link = "https://"+req.get('host')+"/profile/"+user.id+"/password-edit";
                 let mailOptions = {
                   from : 'ReHelp',
                   to : req.body.email,
@@ -345,13 +345,71 @@ router.post('/resetPassword', function(req, res) {
                     });
                   }
                 });
-                res.status(200).send(user);
+                res.status(200).send({
+                  user,
+                  message: 'E-mail inviata a ' + user.email + ' con le istruzioni per il recupero della password.'
+                });
+                // req.flash('info', 'E-mail inviata a ' + user.email + ' con le istruzioni per il recupero della password.');
           })}
       }).catch((error) => {
           console.log(error)
           res.status(400).send(error)
       });
 }});
+
+// GET /api/passwordReset
+router.post('/passwordReset/:token', function(req, res) {
+  User.findOne({
+    where: {
+        resetPasswordToken: req.params.token
+    }
+})
+.then((user) => {
+    var expired = false;
+    if (!user) {
+        console.log('not user')
+        return res.status(401).send({
+          message: 'User not found.'
+        })
+    } else if (user.resetPasswordExpire < Date.now()) {
+      expired = true;
+      console.log('expired')
+      res.send(expired)
+      // return res.status(401).send({
+      //   message: 'Token expired'
+      // })
+    }
+
+    else {
+        return res.send(user);
+    }
+})
+});
+
+
+// RESET PASSWORD TODO
+// PUT /api/users/5/updatePassword
+// router.put('/:id/updatePassword', function(req, res) {
+//   const body = req.body;
+//   if (body == undefined) {
+//       res.sendStatus(400)
+//   } else {
+//       db.User.findByPk(req.params.id)
+//           .then(function (user) {
+//               // Check if record exists in db
+//               if (user) {
+//                   console.log(body.password, 'body.password')
+//                   user.update({
+//                           password: body.password
+//                       })
+//                       .then(x => {
+//                           res.status(200).send(user)
+//                       })
+//               }
+//           })
+//   }
+// });
+
 
 
 

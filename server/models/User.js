@@ -23,7 +23,10 @@ module.exports = (sequelize, DataTypes) => {
         loginGoogle: DataTypes.BOOLEAN,
 
         idFacebook: DataTypes.STRING,
-        idGoogle: DataTypes.STRING
+        idGoogle: DataTypes.STRING,
+
+        resetPasswordToken: DataTypes.STRING,
+        resetPasswordExpire: DataTypes.DATE
     }, {});
 
     User.beforeSave((user, options) => {

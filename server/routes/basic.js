@@ -381,33 +381,6 @@ router.post('/passwordReset/:token', function(req, res) {
 })
 });
 
-
-// RESET PASSWORD TODO
-// PUT /api/users/5/updatePassword
-// router.put('/:id/updatePassword', function(req, res) {
-//   const body = req.body;
-//   if (body == undefined) {
-//       res.sendStatus(400)
-//   } else {
-//       db.User.findByPk(req.params.id)
-//           .then(function (user) {
-//               // Check if record exists in db
-//               if (user) {
-//                   console.log(body.password, 'body.password')
-//                   user.update({
-//                           password: body.password
-//                       })
-//                       .then(x => {
-//                           res.status(200).send(user)
-//                       })
-//               }
-//           })
-//   }
-// });
-
-
-
-
 getLoggedUser = function(user, token, expiresIn) {
     return {
         id: user.id,

@@ -50,6 +50,7 @@ export class PasswordRecoveryComponent implements OnInit {
       .subscribe(
         () => {
           this.router.navigate([this.returnUrl]);
+          this.alertService.success('Email inviata con successo a ' + this.f.email.value, true);
         },
         error => {
           this.alertService.error(error);

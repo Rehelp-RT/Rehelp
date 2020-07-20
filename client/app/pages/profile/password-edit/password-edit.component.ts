@@ -60,8 +60,8 @@ export class PasswordEditComponent implements OnInit {
             // get forms value
             this.model.password = this.f.password.value;
             this.us.updatePassword(this.model).subscribe(() => {
-                this.alertService.success('Password cambiata con successo', true);
-                this.router.navigate(['/profile/' + this.model.id]);
+              this.router.navigate(['/profile/' + this.model.id]);
+              this.alertService.success('Password cambiata con successo', true);
             },
             err => {
                 this.alertService.error(err);

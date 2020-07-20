@@ -373,13 +373,8 @@ router.post('/passwordReset/:token', function(req, res) {
         })
     } else if (user.resetPasswordExpire < Date.now()) {
       expired = true;
-      console.log('expired')
-      res.send(expired)
-      // return res.status(401).send({
-      //   message: 'Token expired'
-      // })
+      res.send(expired);
     }
-
     else {
         return res.send(user);
     }

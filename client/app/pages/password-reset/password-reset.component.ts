@@ -42,11 +42,20 @@ export class PasswordResetComponent implements OnInit {
 
     verifyToken(token) {
       this.as.validPasswordToken(token).subscribe(
-        x => {
-          console.log(x, 'x');
+        userExpired => {
+          if (userExpired != null && userExpired === true ) {
+            this.router.navigate(['/password-recovery']);
+            this.alertService.error('Il token è scaduto. Rieffettua la richiesta', true);
+          } else {
+            this.us.getById(userExpired.id).subscribe(x => {
+              // model
+              this.model = x;
+            });
+          }
         },
         err => {
-          console.log(err, 'err');
+          this.router.navigate(['/']);
+          this.alertService.error(err, true);
         }
       );
     }
@@ -63,8 +72,8 @@ export class PasswordResetComponent implements OnInit {
             // get forms value
             this.model.password = this.f.password.value;
             this.us.updatePassword(this.model).subscribe(() => {
-                this.alertService.success('Password cambiata con successo', true);
-                this.router.navigate(['/']);
+              this.router.navigate(['/']);
+              this.alertService.success('Password cambiata con successo', true);
             },
             err => {
                 this.alertService.error(err);

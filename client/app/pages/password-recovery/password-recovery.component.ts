@@ -28,7 +28,7 @@ export class PasswordRecoveryComponent implements OnInit {
 
   ngOnInit() {
     this.passwordRecoveryForm = this.formBuilder.group({
-      email: ['', Validators.required]
+      email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]]
     });
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams[this.returnParam] || '/';

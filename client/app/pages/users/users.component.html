@@ -59,7 +59,7 @@
                                 <div class="col-lg-5 mb-1">
                                     <app-user-icon [user]="user" [showName]="true" [showAge]="true" [showLocation]="true" [showRating]="true"></app-user-icon>
                                     <span *ngIf="user.latitude && user.longitude" class="text-secondary">
-                                        {{ getDistance(user.latitude, user.longitude) }}
+                                        A {{ getDistance(user.latitude, user.longitude) }} da te.
                                     </span>
                                     <a [routerLink]="['/helps/ask', user.id]"
                                         [queryParams]="{type: type.code}"

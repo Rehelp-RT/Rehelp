@@ -57,6 +57,8 @@ router.get('/', (req, res) => {
             'id',
             'description',
             'address',
+            'latitude',
+            'longitude',
             'createdAt',
             'dateEndValidity',
             'image',

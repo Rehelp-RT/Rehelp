@@ -80,14 +80,16 @@ export class UserIconComponent implements OnInit {
     getRating(): number {
         let count = 0;
         let sum = 0;
-        this.user.helps.forEach(h => {
+        if (this.user.helps != null && this.user.responses != null) {
+          this.user.helps.forEach(h => {
             count++;
             sum += h.responses[0].ratingResponder;
-        });
-        this.user.responses.forEach(r => {
-            count++;
-            sum += r.ratingCreator;
-        });
+          });
+          this.user.responses.forEach(r => {
+              count++;
+              sum += r.ratingCreator;
+          });
+        }
         if (count == 0) {
             return null;
         } else {

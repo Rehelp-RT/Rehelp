@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService, HelpService, UserService, TypeService, CategoryService } from '@app/services';
+import { AuthenticationService, DistanceService, HelpService, UserService, TypeService, CategoryService } from '@app/services';
 import { Help, User, HelpType, HelpCategory, HelpResponse } from '@app/models';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
@@ -31,6 +31,7 @@ export class HelpsComponent implements OnInit {
         private hs: HelpService,
         private as: AuthenticationService,
         private cs: CategoryService,
+        private ds: DistanceService,
         private ts: TypeService,
         private us: UserService) {
         this.getCurrentUser();
@@ -82,7 +83,7 @@ export class HelpsComponent implements OnInit {
         const now = moment.utc();
         const then = moment.utc(date);
         const timespan = then.diff(now);
-        
+
         if (timespan < 0) {
             return 'scaduto';
         } else {
@@ -93,7 +94,7 @@ export class HelpsComponent implements OnInit {
             } else if (t.hours() == 1) {
                 result += t.format('HH') + ' ora ';
             }
-            
+
             if (t.minutes() > 1) {
                 result += t.format('mm') + ' minuti ';
             } else if (t.minutes() == 1) {
@@ -105,9 +106,9 @@ export class HelpsComponent implements OnInit {
     }
 
     getDayFromNow(date) {
-        moment.locale('it'); 
+        moment.locale('it');
         const day = moment().utc(date);
-        const result = day.startOf('day').fromNow(); 
+        const result = day.startOf('day').fromNow();
         return result;
     }
 
@@ -116,6 +117,15 @@ export class HelpsComponent implements OnInit {
             return response.accepted !== true;
         });
     }
+
+    getDistance(latitude: number, longitude: number) {
+      const distance = this.ds.calcCrow(latitude, longitude, this.currentUser.latitude, this.currentUser.longitude);
+      if (distance < 1) {
+          return (distance * 1000).toFixed(0) + ' metri';
+      } else {
+          return distance.toFixed(1).replace('.', ',') + ' km';
+      }
+  }
 
     likeHelpController() {
         return this.currentUser?.likehelps > 0;

@@ -20,6 +20,7 @@ import {
     faEnvelope,
     faHands,
     faHandPaper,
+    faHeart,
     faImage,
     faKey,
     faMapMarkerAlt,
@@ -142,11 +143,11 @@ export class SharedModule {
             faAngleDoubleRight, faBell,
             faCamera, faCircle, faCheck, faChevronLeft, faClock, faCloudUploadAlt, faCoffee,
             faEnvelope, faFacebook, faGoogle,
-            faHands, faHandPaper, faImage, faKey,
+            faHands, faHandPaper, faHeart, faImage, faKey,
             faMapMarkerAlt, faPencilAlt, faFilePdf, faPlus,
             faSave, faSpinner, faSquare, faStar, faStarOfLife, faSync,
             faTrashAlt, faUsers,
-            
+
             farCheckSquare, farCircle, farClipboard, farClock, farComment,
             farSquare, farStar);
     }

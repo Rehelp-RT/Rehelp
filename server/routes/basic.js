@@ -90,7 +90,7 @@ router.post('/signin', function(req, res) {
         .then(user => {
             if (!user) {
                 return res.status(401).send({
-                    message: 'Authentication failed. User not found.',
+                    message: 'Autenticazione fallita. Utente non trovato.',
                 });
             }
             user.comparePassword(req.body.password, (err, isMatch) => {
@@ -136,7 +136,7 @@ router.post('/signin', function(req, res) {
                 } else {
                     res.status(401).send({
                         success: false,
-                        msg: 'Authentication failed. Wrong password.'
+                        message: 'Autenticazione fallita, password non corretta.'
                     });
                 }
             })

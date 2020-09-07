@@ -4,7 +4,7 @@
         <div class="container">
             <form class="row">
                 <div class="form-group col-lg-2 col-md-4 mb-3">
-                        <label>Distanza (km):</label>
+                        <label>A quale distanza (km) puoi offrire aiuto?</label>
                         <div>
                             <select class="form-control" [(ngModel)]="selectedDistance" name="selectedDistance" (change)="filter()">
                                 <option [ngValue]="null">--TUTTI--</option>
@@ -13,7 +13,7 @@
                         </div>
                     </div>
                     <div class="form-group col-lg-2 col-md-4 mb-3">
-                        <label>Categoria:</label>
+                        <label>Quale aiuto puoi offrire?</label>
                         <div>
                           <select class="form-control mb-1" [(ngModel)]="idCat1" name="idCat1" (change)="filter()">
                               <option [ngValue]="null">--TUTTE--</option>
@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <div class="form-group col-lg-2 col-md-4 mb-3" *ngIf="idCat1 != null"   >
-                      <label>Sottocategoria:</label>
+                      <label>Quale aiuto puoi offrire?</label>
                       <div>
                         <select class="form-control mb-2" [(ngModel)]="idCat2" name="idCat2" (change)="filter()">
                             <option [ngValue]="null"></option>
@@ -56,20 +56,13 @@
                 <h3>{{ type?.name }}</h3>
                 <h4 class="display-4" *ngIf="type?.code == 'MES'">Domande</h4>
             </div>
-            <div class="col-md-4 text-right">
-                <a *ngIf="likeHelpController()"
-                    [routerLink]="['/helps/add/', type ? type.code : '' ]"
-                    class="btn btn-outline-primary mb-3">
-                    <fa-icon [icon]="['fas', 'plus']"></fa-icon> Nuova richiesta di aiuto
-                </a>
-            </div>
         </div>
 
         <p *ngIf="helps.length == 0">Non ci sono richieste di aiuto.</p>
             <div class="list-group list-group-flush">
                 <div class="list-group-item" *ngFor="let help of helps">
                     <div class="row">
-                        
+
                         <div class="col-md">
                             <a class="help-img" [routerLink]="['/helps/', help.id]">
                                 <img src="{{ help.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + help.image : (help.category.image != null ? 'assets/img/categories/' + help.category.image : 'assets/img/placeholder-help.png')  }}"
@@ -87,6 +80,10 @@
                         <div class="col-md col-location">
                             <fa-icon [icon]="['fas', 'map-marker-alt']" *ngIf="help.address"></fa-icon>
                             {{ help.address }}
+                            <br>
+                            <span class="text-secondary">
+                              A {{ getDistance(help.latitude, help.longitude) }} da te.
+                            </span>
                         </div>
                         <div class="col-lg-1" *ngIf="type?.code != 'IMH'">
                             {{ getDayFromNow(help.createdAt) }}
@@ -94,17 +91,18 @@
                         <div class="col-lg-1" *ngIf="type?.code == 'IMH'">
                             {{ getRemainingTime(help.dateEndValidity) }}
                         </div>
-                        <div class="col-lg-1">
-                            <app-user-icon [user]="help.creator"></app-user-icon>
+                        <div class="col-lg-2">
+                            <app-user-icon [user]="help.creator" [showName]="true" [showAge]="true" [showRating]="true"></app-user-icon>
                         </div>
                         <div class="col-lg-2">
                             <a [routerLink]="['/helps/', help.id]" class="btn btn-outline-secondary btn-block">
-                                Visualizza
+                                Conosci. Ha bisogno di aiuto
                             </a>
                             <a [routerLink]="['/helps/', help.id, 'response']"
                                 class="btn btn-outline-primary btn-block"
                                 *ngIf="!isExpired(help)">
-                                Aiuta
+                                Offri il tuo aiuto
+                                <fa-icon title="Cuore" [icon]="['fas', 'heart']" class="mr-2"></fa-icon>
                             </a>
                         </div>
                     </div>

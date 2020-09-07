@@ -8,7 +8,7 @@
                     <div class="card-body">
 
                         <h3 class="mb-3">{{ help.description }}</h3>
-                        
+
                         <hr>
 
                         <div class="row">
@@ -28,22 +28,22 @@
                                 </div>
 
                                 <div class="mb-3 row">
-                                    <div class="mb-1 col-md-4"><strong>Creatore</strong></div>
-                                    <div class="col-md-8">
+                                    <div class="mb-1 col-md-5"><strong>Conosciamoci, ecco il mio profilo</strong></div>
+                                    <div class="col-md-7">
                                         <app-user-icon [user]="help.creator"></app-user-icon>
                                     </div>
                                 </div>
 
-                                <div class="mb-3 row">
+                                <!-- <div class="mb-3 row">
                                     <div class="mb-1 col-md-4"><strong>Creato il</strong></div>
                                     <div class="col-md-8">
                                         {{ help.createdAt | date: "dd/MM/yyyy" }}
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <div class="mb-3 row" *ngIf="help.dateEndValidity">
-                                    <div class="mb-1 col-md-4"><strong>Scade il</strong></div>
-                                    <div class="col-md-8">
+                                    <div class="mb-1 col-md-5"><strong>Scade il</strong></div>
+                                    <div class="col-md-7">
                                         {{ help.dateEndValidity | date: "dd/MM/yyyy HH:mm" }}<br>
                                         <span *ngIf="!help.accepted">
                                             {{ getRemainingTime(help.dateEndValidity) }}
@@ -52,8 +52,8 @@
                                 </div>
 
                                 <div class="mb-3 row">
-                                    <div class="mb-1 col-md-4"><strong>Stato</strong></div>
-                                    <div class="col-md-8">
+                                    <div class="mb-1 col-md-5"><strong>Stato della richiesta di aiuto</strong></div>
+                                    <div class="col-md-7">
                                         {{ getStatus() }}
                                     </div>
                                 </div>

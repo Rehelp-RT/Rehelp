@@ -322,6 +322,7 @@ router.post('/recoveryPassword', function(req, res) {
           });
           } else {
               // registered user
+              const appUrl = (process.env.MODE === 'production') ? 'rehelp.app' : `localhost:4200`;
 
               let token = crypto.randomBytes(16).toString('hex');
 
@@ -330,8 +331,7 @@ router.post('/recoveryPassword', function(req, res) {
                 resetPasswordToken: token,
                 resetPasswordExpire: tokenExpire
               }).then(x => {
-                let link = 'https://' + req.headers.host + '/password-reset/' + token;
-                // let link = "https://"+req.get('host')+"/profile/"+user.id+"/password-edit";
+                let link = `https://${appUrl}/password-reset/` + token;
                 let mailOptions = {
                   from : 'ReHelp',
                   to : req.body.email,
@@ -349,7 +349,6 @@ router.post('/recoveryPassword', function(req, res) {
                   user,
                   message: 'E-mail inviata a ' + user.email + ' con le istruzioni per il recupero della password.'
                 });
-                // req.flash('info', 'E-mail inviata a ' + user.email + ' con le istruzioni per il recupero della password.');
           })}
       }).catch((error) => {
           console.log(error)

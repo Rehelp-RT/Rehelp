@@ -1,7 +1,7 @@
 var router = require('express').Router();
 const db = require('../models');
 
-// GET /api/messages/5?idHelp=4
+// GET /api/messages?idHelp=4
 router.get('/', (req, res) =>
     db.Message.findAll({
         attributes: ['body', 'idAuthor', 'createdAt'],

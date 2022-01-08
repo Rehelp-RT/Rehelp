@@ -7,3 +7,5 @@ export * from './user.service';
 export * from './response.service';
 export * from './trade.service';
 export * from './type.service';
+export * from './forum-post.service';
+export * from './comment.service';

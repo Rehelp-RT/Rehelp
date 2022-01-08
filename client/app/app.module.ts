@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { PagesModule } from './pages';
 import { SharedModule } from './shared';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BachecaComponent } from './bacheca/bacheca.component';
+
 
 @NgModule({
     imports: [
@@ -20,7 +20,6 @@ import { BachecaComponent } from './bacheca/bacheca.component';
     ],
     declarations: [
         AppComponent,
-        BachecaComponent
     ],
     bootstrap: [ AppComponent ]
 })

@@ -31,6 +31,7 @@ import { PasswordRecoveryComponent } from './password-recovery/password-recovery
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { RegisterComponent } from './register/register.component';
+import { BachecaComponent } from './bacheca/bacheca.component';
 
 @NgModule({
     imports: [
@@ -63,7 +64,8 @@ import { RegisterComponent } from './register/register.component';
         PasswordRecoveryComponent,
         PasswordResetComponent,
         PrivacyComponent,
-        RegisterComponent
+        RegisterComponent,
+        BachecaComponent
     ],
     exports: []
 })

@@ -22,6 +22,11 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import { UsersComponent } from './users/users.component';
+import { ForumComponent } from './forum/forum.component';
+import { BachecaComponent } from './bacheca/bacheca.component';
+import { ForumPostComponent } from './forum-post/forum-post.component';
+import { ForumDetailComponent } from './forum-detail/forum-detail.component';
+import { WalletComponent } from './wallet/wallet.component';
 
 
 const routes: Routes = [
@@ -29,6 +34,11 @@ const routes: Routes = [
   { path: 'contact', component: ContactComponent, data: {title: 'Contattaci'} },
   { path: 'faq', component: FaqComponent, data: {title: 'Domande frequenti'} },
   { path: 'how-it-works', component: HowItWorksComponent, data: {title: 'Come funziona'} },
+  { path: 'wallet', component: WalletComponent, data: {title: 'wallet'} },
+  { path: 'forum', component: ForumComponent, data: {title: 'forum'} },
+  { path: 'forum/post', component: ForumPostComponent, data: {title: 'forum post'} },
+  { path: 'forum/detail', component: ForumDetailComponent, data: {title: 'forum detail'} },
+  { path: 'bacheca', component: BachecaComponent, data: {title: 'bacheca'} },
   { path: 'helps', component: HelpsComponent, data: {title: 'Lista aiuti'}, canActivate: [AuthGuard] },
   { path: 'helps/add/:type', component: HelpsEditComponent, data: {title: 'Nuovo aiuto'}, canActivate: [AuthGuard] },
   { path: 'helps/add', component: HelpsEditComponent, data: {title: 'Nuovo aiuto'}, canActivate: [AuthGuard], pathMatch: 'full' },

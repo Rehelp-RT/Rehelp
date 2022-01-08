@@ -8,7 +8,8 @@ import { AppComponent } from './app.component';
 import { PagesModule } from './pages';
 import { SharedModule } from './shared';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     imports: [
@@ -16,7 +17,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         CommonModule,
         PagesModule,
         SharedModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        NgbModule,
+        HttpClientModule
     ],
     declarations: [
         AppComponent,

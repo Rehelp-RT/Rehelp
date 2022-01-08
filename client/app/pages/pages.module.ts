@@ -31,7 +31,6 @@ import { PasswordRecoveryComponent } from './password-recovery/password-recovery
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { RegisterComponent } from './register/register.component';
-import { ForumComponent } from './forum/forum.component';
 
 @NgModule({
     imports: [
@@ -64,8 +63,7 @@ import { ForumComponent } from './forum/forum.component';
         PasswordRecoveryComponent,
         PasswordResetComponent,
         PrivacyComponent,
-        RegisterComponent,
-        ForumComponent
+        RegisterComponent
     ],
     exports: []
 })

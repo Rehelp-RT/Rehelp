@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { PagesModule } from './pages';
 import { SharedModule } from './shared';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BachecaComponent } from './bacheca/bacheca.component';
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         BrowserAnimationsModule
     ],
     declarations: [
-        AppComponent
+        AppComponent,
+        BachecaComponent
     ],
     bootstrap: [ AppComponent ]
 })

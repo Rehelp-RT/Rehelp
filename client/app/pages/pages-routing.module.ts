@@ -22,7 +22,7 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import { UsersComponent } from './users/users.component';
-import { ForumComponent } from './forum/forum.component';
+
 
 const routes: Routes = [
   { path: 'about', component: AboutComponent, data: {title: 'Chi siamo'} },
@@ -44,8 +44,7 @@ const routes: Routes = [
   { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'register', component: RegisterComponent },
   { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
-  { path: '', component: HomeComponent, pathMatch: 'full' },
-  { path: 'forumPosts', component: ForumComponent },
+  { path: '', component: HomeComponent, pathMatch: 'full' }
 ];
 
 @NgModule({

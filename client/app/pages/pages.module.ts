@@ -32,6 +32,9 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
 import { PrivacyComponent } from './privacy/privacy.component';
 import { RegisterComponent } from './register/register.component';
 import { BachecaComponent } from './bacheca/bacheca.component';
+import { ForumComponent } from './forum/forum.component';
+import { ForumDetailComponent } from './forum-detail/forum-detail.component';
+import { ForumPostComponent } from './forum-post/forum-post.component';
 
 @NgModule({
     imports: [
@@ -65,7 +68,10 @@ import { BachecaComponent } from './bacheca/bacheca.component';
         PasswordResetComponent,
         PrivacyComponent,
         RegisterComponent,
-        BachecaComponent
+        BachecaComponent,
+        ForumComponent,
+        ForumDetailComponent,
+        ForumPostComponent
     ],
     exports: []
 })

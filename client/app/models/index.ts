@@ -7,4 +7,4 @@ export * from './trade';
 export * from './type';
 export * from './user';
 export * from './comment';
-export * from './post';
+export * from './forumPost';

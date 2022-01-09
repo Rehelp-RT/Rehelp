@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
-import { Post } from "@app/models";
+import { ForumPost } from "@app/models";
 import { environment } from "@environments/environment";
 @Injectable({
   providedIn: "root",
@@ -21,11 +21,11 @@ export class ForumPostService {
     }
     // console.log('get users params', params);
 
-    return this.http.get<Post[]>(`${environment.apiUrl}/forumPosts${params}`);
+    return this.http.get<ForumPost[]>(`${environment.apiUrl}/forumPosts${params}`);
   }
 
   getById(id: number) {
-    return this.http.get<Post>(`${environment.apiUrl}/forumPosts/${id}`);
+    return this.http.get<ForumPost>(`${environment.apiUrl}/forumPosts/${id}`);
   }
 
 

@@ -1,9 +1,9 @@
 
-import { User } from "./";
+import { User } from ".";
 import { HelpCategory } from "./category";
 
 
-export class Post {
+export class ForumPost {
     id: number;
     idCategory: number;
     idCreator: number;

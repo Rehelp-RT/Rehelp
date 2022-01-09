@@ -14,10 +14,10 @@ import {
   HelpCategory,
   HelpResponse,
   Comment,
-  Post,
+  ForumPost,
 } from "@app/models";
 import { ActivatedRoute } from "@angular/router";
-import { ForumPostService } from "@app/services/forum-post.service";
+import { ForumPostService } from "@app/services/forum.service";
 
 @Component({
   selector: 'app-bacheca',
@@ -27,7 +27,7 @@ import { ForumPostService } from "@app/services/forum-post.service";
 export class BachecaComponent implements OnInit {
 
   currentUser: User = null;
-  posts: Post[] = [];
+  posts: ForumPost[] = [];
 
   constructor(
     private fps: ForumPostService,

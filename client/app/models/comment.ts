@@ -1,6 +1,6 @@
 import { User } from './';
 import { Help } from './help';
-import { Post } from './post';
+import { Post } from './forumPost';
 
 export class Comment {
     id: number;

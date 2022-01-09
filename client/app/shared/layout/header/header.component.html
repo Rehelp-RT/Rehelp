@@ -18,16 +18,39 @@
 
                 <ul class="nav navbar-nav">
                     <li class="nav-item" *ngIf="currentUser" routerLinkActive="active">
-                        <a class="nav-link" routerLink="/helps">Richieste</a>
+                        <a class="nav-link" routerLink="/#">Bacheca</a>
                     </li>
                     <li class="nav-item" *ngIf="currentUser" routerLinkActive="active">
-                        <a class="nav-link" routerLink="/users">Offerte</a>
+                        <a class="nav-link" routerLink="/#">Forum</a>
+                    </li>
+                    <li class="nav-item" *ngIf="currentUser" routerLinkActive="active">
+                        <a class="nav-link" routerLink="/#">Wallet</a>
                     </li>
                 </ul>
 
                 <ul class="nav navbar-nav ml-auto">
 
                     <li class="nav-item p-1" *ngIf="currentUser" routerLinkActive="active">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary">Richieste</button>
+                            <div class="dropdown-content">
+                            <a href="/helps?type=MEH">Incontra e aiuta - Richieste</a>
+                            <a href="/helps?type=IMH">Aiuto immediato - Richieste</a>
+                            <a href="/helps?type=MES">Incontra e condividi - Richieste</a>
+                            <a href="/helps?type=COH">Aiuto collettivo - Richieste</a>
+                            </div>
+                          </div>
+                    </li>
+                    <li class="nav-item p-1" *ngIf="currentUser" routerLinkActive="active">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary">Offerte</button>
+                            <div class="dropdown-content">
+                            <a href="/users">Incontra e aiuta - Offerte</a>
+                            <a href="/users?type=MES">Incontra e condividi - Offerte</a>
+                            </div>
+                          </div>
+                    </li>
+                    <!-- <li class="nav-item p-1" *ngIf="currentUser" routerLinkActive="active">
                         <a class="btn btn-outline-secondary" routerLink="/helps/add">
                             <fa-icon [icon]="['fas', 'plus']"></fa-icon>
                             Richiesta di aiuto
@@ -38,6 +61,19 @@
                             <fa-icon [icon]="['fas', 'plus']"></fa-icon>
                             Richiesta immediata
                         </a>
+                    </li> -->
+                    <li class="nav-item p-1" *ngIf="currentUser" routerLinkActive="active">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary">
+                                <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+                            </button>
+                            <div class="dropdown-content">
+                            <a href="/helps/add/MEH">Incontra e aiuta - Crea</a>
+                            <a href="/helps/add/IMH">Aiuto immediato - Crea</a>
+                            <a href="/helps/add/MES">Incontra e condividi - Crea</a>
+                            <a href="/helps/add/COH">Aiuto collettivo - Crea</a>
+                            </div>
+                        </div>
                     </li>
                     <li class="nav-item" *ngIf="currentUser">
                         <app-notifications [currentUser]="currentUser" [showName]="navbarOpen"></app-notifications>
@@ -54,20 +90,6 @@
 
                 </ul>
             </div>
-        </div>
-    </nav>
-</header>
-<header>
-    <nav class="navbar navbar-expand-xl navbar-light bg-light">
-        <div class="subNav">
-            <ul class="nav navbar-nav">
-                <li class="nav-item" *ngIf="currentUser" routerLinkActive="active">
-                    <a class="nav-link" routerLink="/bacheca">Bacheca</a>
-                </li>
-                <li class="nav-item" *ngIf="currentUser" routerLinkActive="active">
-                    <a class="nav-link" routerLink="/forum">Forum</a>
-                </li>
-            </ul>
         </div>
     </nav>
 </header>

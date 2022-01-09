@@ -1,6 +1,6 @@
 import { User } from './';
 import { Help } from './help';
-import { Post } from './forumPost';
+import { ForumPost } from './forumPost';
 
 export class Comment {
     id: number;
@@ -11,7 +11,7 @@ export class Comment {
     createdAt: Date;
     updatedAt: Date;
 
-    post: Post;
+    post: ForumPost;
     creator: User;
     help: Help;
 }

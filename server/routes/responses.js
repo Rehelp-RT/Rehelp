@@ -16,6 +16,10 @@ router.get('/', (req, res) => {
         filters.push({
             accepted: req.query.accepted
         });
+    } else if (req.query.completed !== undefined) {
+        filters.push({
+            completed: req.query.completed
+        });
     }
     console.log('filters', filters);
 

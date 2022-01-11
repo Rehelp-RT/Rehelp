@@ -7,6 +7,7 @@ module.exports = {
       idCategory: { allowNull: false, type: Sequelize.INTEGER },
       idCreator: { allowNull: false, type: Sequelize.INTEGER },
       image: { type: Sequelize.STRING },
+      title: { allowNull: false, type: Sequelize.STRING },
       description: { allowNull: false, type: Sequelize.STRING },
       createdAt: { allowNull: false, type: Sequelize.DATE },
       updatedAt: { type: Sequelize.DATE }

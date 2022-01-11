@@ -5,8 +5,8 @@ module.exports = {
         return Promise.all([
             queryInterface.bulkDelete('ForumPosts', null, {}),
             queryInterface.bulkInsert('ForumPosts', [
-              { id: 2, idCategory: 2, idCreator: 1, image: null, description: 'questo e il mio primo post', createdAt: '2021-12-17 03:18:45.429+01', updatedAt: '2021-12-17 03:23:19.708+01' },
-              { id: 3, idCategory: 1, idCreator: 1, image: null, description: 'questo e il mio primo post', createdAt: '2021-12-17 03:18:46.599+01', updatedAt: '2021-12-17 03:18:46.599+01' }
+              { id: 2, idCategory: 2, idCreator: 1, image: null, title: 'primo post', description: 'questo e il mio primo post', createdAt: '2021-12-17 03:18:45.429+01', updatedAt: '2021-12-17 03:23:19.708+01' },
+              { id: 3, idCategory: 1, idCreator: 1, image: null, title: 'secondo post', description: 'questo e il mio primo post', createdAt: '2021-12-17 03:18:46.599+01', updatedAt: '2021-12-17 03:18:46.599+01' }
             ], {})
         ]);
     },

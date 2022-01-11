@@ -4,7 +4,7 @@ const db = require('../models');
 // GET /api/forumPosts
 router.get('/', (req, res) =>
     db.ForumPosts.findAll({
-        attributes: ['image', 'description', 'idCreator', 'idCategory', 'createdAt'],
+        attributes: ['image', 'description', 'idCreator', 'title', 'idCategory', 'createdAt'],
         include: [{
             attributes: [
                 'id', 'avatar', 'birthdate', 'city', 'country',

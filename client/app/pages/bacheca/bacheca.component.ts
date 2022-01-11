@@ -21,6 +21,7 @@ import { ActivatedRoute } from "@angular/router";
 import { ForumPostService } from "@app/services/forum.service";
 import { BachecaPost } from "@app/models/bachecaPost";
 
+
 @Component({
   selector: "app-bacheca",
   templateUrl: "./bacheca.component.html",
@@ -28,6 +29,14 @@ import { BachecaPost } from "@app/models/bachecaPost";
 })
 export class BachecaComponent implements OnInit {
   posts: BachecaPost[] = [];
+
+  comment = "";
+  postComment = [];
+
+  post() {
+    this.postComment.push(this.comment);
+    this.comment = "";
+  }
 
   constructor(private bs: BachecaService) {}
 

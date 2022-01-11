@@ -6,6 +6,13 @@
                 <h3> Titolo Post</h3>
                 <h4>escrizione lavoro</h4>
                 <p>{{i.id}} </p>
+                <textarea [(ngModel)]="comment" name="" id="" cols="20" rows="2"></textarea>
+                <br>
+                <button (click)="post()">Comment</button>
+                <p *ngFor="let comment of postComment">{{comment}}</p>
+            </div>
+            <div *ngFor="let comment of postComment">
+                <p>{{comment}}</p>
             </div>
         </div>
     </section>

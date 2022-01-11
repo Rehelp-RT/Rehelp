@@ -10,6 +10,7 @@ import { SharedModule } from './shared';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
@@ -19,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
         SharedModule,
         BrowserAnimationsModule,
         NgbModule,
-        HttpClientModule
+        HttpClientModule,
+        FormsModule
     ],
     declarations: [
         AppComponent,

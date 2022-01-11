@@ -1,11 +1,11 @@
-<div class="banner-bordi">
+<div class="banner-bordi" *ngFor="let i of posts">
     <section class="banner clearfix">
         <div class="banner__image"></div>
         <div class="banner__copy">
             <div class="banner__copy__text">
                 <h3> Titolo Post</h3>
                 <h4>escrizione lavoro</h4>
-                <p>Descrizione </p>
+                <p>{{i.id}} </p>
             </div>
         </div>
     </section>

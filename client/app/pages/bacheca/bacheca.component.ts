@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 import {
   AuthenticationService,
   DistanceService,
@@ -6,6 +6,7 @@ import {
   UserService,
   TypeService,
   CategoryService,
+  BachecaService,
 } from "@app/services";
 import {
   Help,
@@ -18,25 +19,17 @@ import {
 } from "@app/models";
 import { ActivatedRoute } from "@angular/router";
 import { ForumPostService } from "@app/services/forum.service";
+import { BachecaPost } from "@app/models/bachecaPost";
 
 @Component({
-  selector: 'app-bacheca',
-  templateUrl: './bacheca.component.html',
-  styleUrls: ['./bacheca.component.css']
+  selector: "app-bacheca",
+  templateUrl: "./bacheca.component.html",
+  styleUrls: ["./bacheca.component.css"],
 })
 export class BachecaComponent implements OnInit {
+  posts: BachecaPost[] = [];
 
-  currentUser: User = null;
-  posts: ForumPost[] = [];
-
-  constructor(
-    private fps: ForumPostService,
-    private as: AuthenticationService,
-
-    private actRoute: ActivatedRoute
-  ) {
-    this.getCurrentUser();
-  }
+  constructor(private bs: BachecaService) {}
 
   ngOnInit(): void {
     /* const idPost = this.actRoute.snapshot.params.id;
@@ -45,21 +38,9 @@ export class BachecaComponent implements OnInit {
      console.log(this.comments)
   });*/
 
-    this.fps.getAll(null, null).subscribe((res) => {
+    this.bs.getAll().subscribe((res) => {
       this.posts = res;
       console.log(this.posts);
     });
   }
-
-  post(): void {
-    this.fps.getAll;
-  }
-
-  getCurrentUser(): void {
-    this.as.getCurrentUser().subscribe((x) => {
-      this.currentUser = x;
-    });
-  }
-
 }
-

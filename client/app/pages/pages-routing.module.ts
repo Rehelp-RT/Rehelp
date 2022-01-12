@@ -27,6 +27,7 @@ import { BachecaComponent } from './bacheca/bacheca.component';
 import { ForumPostComponent } from './forum-post/forum-post.component';
 import { ForumDetailComponent } from './forum-detail/forum-detail.component';
 import { WalletComponent } from './wallet/wallet.component';
+import { ForumFormComponent } from './forum-form/forum-form.component';
 
 
 const routes: Routes = [
@@ -36,6 +37,7 @@ const routes: Routes = [
   { path: 'how-it-works', component: HowItWorksComponent, data: {title: 'Come funziona'} },
   { path: 'wallet', component: WalletComponent, data: {title: 'wallet'} },
   { path: 'forum', component: ForumComponent, data: {title: 'forum'} },
+  { path: 'forum/form', component: ForumFormComponent, data: {title: 'forum form'} },
   { path: 'forum/post', component: ForumPostComponent, data: {title: 'forum post'} },
   { path: 'forum/detail', component: ForumDetailComponent, data: {title: 'forum detail'} },
   { path: 'bacheca', component: BachecaComponent, data: {title: 'bacheca'} },

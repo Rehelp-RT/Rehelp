@@ -1,0 +1,9 @@
+<p>forum-form works!</p>
+
+<form #userPost="ngForm" (ngSubmit)="onSubmit(userPost.value)">
+    <input type="text" name="info 1" ngModel placeholder="info 1"> <br><br>
+    <input type="text" name="info 2" ngModel placeholder="info 2"> <br><br>
+    <input type="text" name="info 3" ngModel placeholder="info 3"> <br><br>
+    <input type="text" name="info 4" ngModel placeholder="info 4"> <br><br>
+    <button type="submit">Submit data</button>
+</form>

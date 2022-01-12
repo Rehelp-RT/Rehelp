@@ -36,6 +36,7 @@ import { ForumComponent } from './forum/forum.component';
 import { ForumDetailComponent } from './forum-detail/forum-detail.component';
 import { ForumPostComponent } from './forum-post/forum-post.component';
 import { WalletComponent } from './wallet/wallet.component';
+import { ForumFormComponent } from './forum-form/forum-form.component';
 
 @NgModule({
     imports: [
@@ -73,7 +74,8 @@ import { WalletComponent } from './wallet/wallet.component';
         ForumComponent,
         ForumDetailComponent,
         ForumPostComponent,
-        WalletComponent
+        WalletComponent,
+        ForumFormComponent
     ],
     exports: []
 })

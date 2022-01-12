@@ -6,39 +6,18 @@ const { Op } = require('sequelize');
 // GET /api/comments?idHelp=4
 router.get('/', (req, res) => {
     var filters = [];
-    // if (req.query.idPost !== undefined) {
-    //     filters.push({
-    //         [Op.not]: { idCreator: req.query.excludeUserId }
-    //     });
-    // }
-    if (req.query.idPost !== undefined) {
-        filters.push({
-            idPost: req.query.idPost
-        });
-    }
-    if (req.query.idCreator !== undefined) {
-        filters.push({
-            idCreator: req.query.idCreator
-        });
-    }
     if (req.query.idHelp !== undefined) {
         filters.push({
             idHelp: req.query.idHelp
         });
     }
-    if (req.query.message !== undefined) {
+    else if (req.query.idPost !== undefined) {
         filters.push({
-            message: req.query.message
+            idPost: req.query.idPost
         });
     }
-    // var attribute = "idHelp";
-    // var value = req.query.idHelp;
-    // if(req.query.idPost && !req.query.idHelp) {
-    //   attribute = "idPost";
-    //   value = req.query.idPost;
-    // }
     db.Comments.findAll({
-        attributes: ['message', 'idCreator', 'createdAt'],
+        attributes: ['message', 'idCreator', 'createdAt', 'idHelp', 'idPost'],
         
         include: [{
             attributes: [
@@ -70,7 +49,7 @@ router.get('/', (req, res) => {
 // GET /api/comments/5
 router.get('/:id', (req, res) =>
     db.Comments.findByPk(req.params.id, {
-      attributes: ['message', 'idCreator', 'createdAt'],
+      attributes: ['message', 'idCreator', 'createdAt', 'idHelp', 'idPost'],
       include: [{
           attributes: [
               'id', 'avatar', 'birthdate', 'city', 'country',
@@ -105,7 +84,7 @@ router.post('/add', (req, res) => {
   if (body == undefined) {
       res.sendStatus(400)
   } else if (body.idHelp === undefined && body.idPost === undefined) {
-      res.status(400).send({ message: 'idCreator or idPost is missing' });
+      res.status(400).send({ message: 'idHelp or idPost is missing' });
   } else if (body.idCreator === undefined) {
       res.status(400).send({ message: 'idCreator is missing' });
   } else if (body.message === undefined) {
@@ -157,14 +136,14 @@ router.put('/update/:id', (req, res) => {
       res.sendStatus(400)
   } else {
       db.Comments.findByPk(req.params.id)
-          .then(function (comments) {
+          .then(function (comment) {
               // Check if record exists in db
-              if (comments) {
-                comments.update({
+              if (comment) {
+                comment.update({
                       message: body.message
                   })
                       .then(x => {
-                          res.status(200).send(comments)
+                          res.status(200).send(comment)
                       })
               }
           })

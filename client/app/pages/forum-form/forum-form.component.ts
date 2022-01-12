@@ -11,7 +11,7 @@ export class ForumFormComponent implements OnInit {
   constructor(private http:HttpClient) { }
 
   onSubmit(data) {
-    this.http.post('http://localhost:3000/buratti'.data).subscribe((result)=>{
+    this.http.post('http://localhost:3000/buratti',data).subscribe((result)=>{
       console.warn("result",result)
     })
     console.warn(data);

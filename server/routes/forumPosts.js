@@ -1,8 +1,30 @@
 var router = require('express').Router();
 const db = require('../models');
+const { Op } = require('sequelize');
 
 // GET /api/forumPosts
-router.get('/', (req, res) =>
+router.get('/', (req, res) =>{
+    var filters = [];
+    if (req.query.idCategory !== undefined) {
+        filters.push({
+            idCategory: req.query.idCategory
+        });
+    }
+    if (req.query.idCreator !== undefined) {
+        filters.push({
+            idCreator: req.query.idCreator
+        });
+    }
+    if (req.query.title !== undefined) {
+        filters.push({
+            title: req.query.title
+        });
+    }
+    if (req.query.description !== undefined) {
+        filters.push({
+            description: req.query.description
+        });
+    }
     db.ForumPosts.findAll({
         attributes: ['image', 'description', 'idCreator', 'title', 'idCategory', 'createdAt'],
         include: [{
@@ -24,7 +46,10 @@ router.get('/', (req, res) =>
             required: true,
             as: 'category'
           }
-        ]
+        ],
+        where: {
+            [Op.and]: filters
+        }
         // where: { idHelp: req.query.idHelp }
     })
     .then(x => {
@@ -34,12 +59,12 @@ router.get('/', (req, res) =>
         console.error(err);
         res.sendStatus(500)
     })
-);
+});
 
 // GET /api/forumPosts/5
 router.get('/:id', (req, res) =>
     db.ForumPosts.findByPk(req.params.id, {
-        attributes: ['image', 'description', 'idCreator', 'idCategory', 'createdAt'],
+        attributes: ['image', 'description', 'idCreator', 'title', 'idCategory', 'createdAt'],
         include: [{
             attributes: [
                 'id', 'avatar', 'birthdate', 'city', 'country',
@@ -84,12 +109,15 @@ router.post('/add', (req, res) => {
       res.status(400).send({ message: 'idCategory is missing' });
   } else if (body.idCreator === undefined) {
       res.status(400).send({ message: 'idCreator is missing' });
+  } else if (body.title === undefined) {
+      res.status(400).send({ message: 'title is missing' });
   } else if (body.description === undefined) {
       res.status(400).send({ message: 'description is missing' });
   } else {
       db.ForumPosts.create({
           idCategory: body.idCategory,
           idCreator: body.idCreator,
+          title: body.title,
           description: body.description,
           image: body.image
       })

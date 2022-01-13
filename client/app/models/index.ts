@@ -8,3 +8,4 @@ export * from './type';
 export * from './user';
 export * from './comment';
 export * from './forumPost';
+export * from './transaction';

@@ -8,6 +8,7 @@ export class ForumPost {
     idCategory: number;
     idCreator: number;
     image: string;
+    title: string;
     description: string;
     createdAt: Date;
     updatedAt: Date;

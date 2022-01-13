@@ -13,14 +13,17 @@ export class ForumPostService {
   getAll(
     idCAtegory = null,
     idCreator = null,
+    title = null,
+    description = null
   ) {
     let params = "";
     params += idCAtegory ? "idCAtegory=" + idCAtegory + "&" : "";
     params += idCreator ? "idCreator=" + idCreator + "&" : "";
+    params += title ? "title=" + title + "&" : "";
+    params += description ? "description=" + description + "&" : "";
     if (params !== "") {
       params = "?" + params;
     }
-    // console.log('get users params', params);
 
     return this.http.get<ForumPost[]>(`${environment.apiUrl}/forumPosts${params}`);
   }

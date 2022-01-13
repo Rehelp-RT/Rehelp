@@ -39,7 +39,7 @@ const routes: Routes = [
   { path: 'forum', component: ForumComponent, data: {title: 'forum'} },
   { path: 'forum/form', component: ForumFormComponent, data: {title: 'forum form'} },
   { path: 'forum/post', component: ForumPostComponent, data: {title: 'forum post'} },
-  { path: 'forum/detail', component: ForumDetailComponent, data: {title: 'forum detail'} },
+  { path: 'forum/detail/:id', component: ForumDetailComponent, data: {title: 'forum detail'} },
   { path: 'bacheca', component: BachecaComponent, data: {title: 'bacheca'} },
   { path: 'helps', component: HelpsComponent, data: {title: 'Lista aiuti'}, canActivate: [AuthGuard] },
   { path: 'helps/add/:type', component: HelpsEditComponent, data: {title: 'Nuovo aiuto'}, canActivate: [AuthGuard] },

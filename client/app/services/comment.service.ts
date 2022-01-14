@@ -1,21 +1,13 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpErrorResponse
-} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import { environment } from '@environments/environment';
 import { Comment } from '@app/models';
+import { catchError, tap, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommentService {
-
-  private api = environment.apiUrl;
-    private httpOptions = {
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    };
 
   constructor(private http: HttpClient) { }
 
@@ -34,8 +26,31 @@ export class CommentService {
     }
     // console.log('params', params);
 
-    return this.http.get<Comment[]>(`${this.api}/comments${params}`);
+    return this.http.get<Comment[]>(`${environment.apiUrl}/comments${params}`);
 }
+
+getById(id: number) {
+  return this.http.get<Comment>(`${environment.apiUrl}/comments/${id}`);
+}
+
+deleteForumPost(id: number) {
+  return this.http.delete<Comment>(`${environment.apiUrl}/comments/delete/${id}`);
+}
+
+addForumPost(comment: Comment) {
+  return this.http.post<any>(`${environment.apiUrl}/comments/add`, comment)
+    .pipe(map(x => {
+      return x;
+    }));
+}
+
+updateHelp(comment: Comment) {
+return this.http.put<any>(`${environment.apiUrl}/comments/update/` + comment.id, comment)
+    .pipe(map(x => {
+        return x;
+    }));
+}
+
 
 
 }

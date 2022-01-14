@@ -10,3 +10,4 @@ export * from './type.service';
 export * from './forum.service';
 export * from './comment.service';
 export * from './bacheca.service';
+export * from './trade.service';

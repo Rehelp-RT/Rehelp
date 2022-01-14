@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { environment } from '@environments/environment';
-import { Transaction } from '@app/models';
+import { HelpResponse, Help } from '@app/models';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class TransactionService {
       params += '&idResponder=' + idUser;
     }
 
-    return this.http.get<Transaction[]>(`${environment.apiUrl}/responses${params}`);
+    return this.http.get<HelpResponse[]>(`${environment.apiUrl}/responses${params}`);
 }
 
 getNegativeTransaction( idUser = null ) {
@@ -29,7 +29,7 @@ getNegativeTransaction( idUser = null ) {
     params += '&idCreator=' + idUser;
   }
 
-  return this.http.get<Transaction[]>(`${environment.apiUrl}/help${params}`);
+  return this.http.get<Help[]>(`${environment.apiUrl}/helps${params}`);
 }
 
 

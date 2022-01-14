@@ -16,7 +16,8 @@ router.get('/', (req, res) => {
         filters.push({
             accepted: req.query.accepted
         });
-    } else if (req.query.completed !== undefined) {
+    }
+    if (req.query.completed !== undefined) {
         filters.push({
             completed: req.query.completed
         });
@@ -29,7 +30,7 @@ router.get('/', (req, res) => {
             [Op.and]: filters
         },
         include: [{
-            attributes: ['id', 'description', 'image', 'accepted', 'reviewed', 'completed'],
+            attributes: ['id', 'description', 'image', 'accepted', 'reviewed', 'completed', 'updatedAt', 'idCreator'],
             model: db.Help,
             required: true,
             as: 'help',
@@ -38,6 +39,11 @@ router.get('/', (req, res) => {
                 model: db.HelpType,
                 required: true,
                 as: 'type'
+            },{
+                attributes: ['id', 'firstname', 'lastname', 'birthdate', 'avatar', 'likehelps'],
+                model: db.User,
+                required: true,
+                as: 'creator'
             }, {
                 attributes: ['id', 'code', 'name', 'image'],
                 model: db.HelpCategory,

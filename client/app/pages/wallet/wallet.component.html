@@ -8,10 +8,13 @@
     </h3>
 </div>
 
-<div class="transaction">
+<div class="transaction" *ngFor="let i of negativeTransactions">
     <div class="all_transaction">
-        <p>transaction</p>
-        <p>-/+ number </p>
+        <h4>TRANSAZIONE</h4>
+        <p>{{i.description}}</p>
+        <p>{{i.date}}</p>
+        <p>{{i.likeHelp}}</p>
+        <p>{{i.isPositive}}</p>
     </div>
 </div>
 

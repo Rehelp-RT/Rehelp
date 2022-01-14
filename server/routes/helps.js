@@ -35,6 +35,11 @@ router.get('/', (req, res) => {
             idCreator: req.query.idCreator
         });
     }
+    if (req.query.completed !== undefined) {
+        filters.push({
+            completed: req.query.completed
+        });
+    }
     if (distance !== undefined && longit !== undefined && latit !== undefined) {
         filters.push({
             [Op.and]: [
@@ -64,7 +69,8 @@ router.get('/', (req, res) => {
             'image',
             'accepted',
             'reviewed',
-            'completed'
+            'completed',
+            'updatedAt'
         ],
         where: {
             [Op.and]: filters

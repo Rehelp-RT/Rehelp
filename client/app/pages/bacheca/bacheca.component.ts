@@ -33,6 +33,18 @@ export class BachecaComponent implements OnInit {
   comment = "";
   postComment = [];
 
+  check = false;
+ 
+
+  open() {
+      if(this.check==false){
+        this.check=true;
+      }else{
+        this.check=false;
+      }
+  }
+  
+
   post() {
     this.postComment.push(this.comment);
     this.comment = "";
@@ -41,6 +53,7 @@ export class BachecaComponent implements OnInit {
   constructor(private bs: BachecaService) {}
 
   ngOnInit(): void {
+    
     /* const idPost = this.actRoute.snapshot.params.id;
     this.cs.getAll<Comment[]>( idPost, null, null, null).subscribe(res => {
       this.comments = res;

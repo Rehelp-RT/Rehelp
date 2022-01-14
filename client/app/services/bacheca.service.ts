@@ -12,7 +12,7 @@ export class BachecaService {
   constructor(private http: HttpClient) { }
 
   getAll() {
-    let params = "?completed=true";
+    let params = "";
     return this.http.get<BachecaPost[]>(`${environment.apiUrl}/responses${params}`);
   }
 

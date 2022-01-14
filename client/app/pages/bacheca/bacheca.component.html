@@ -1,4 +1,4 @@
-<div class="banner-bordi" *ngFor="let i of posts">
+<div class="" *ngFor="let i of posts">
     <section class="banner clearfix">
         <div class="banner__image"></div>
         <div class="banner__copy">
@@ -6,15 +6,13 @@
                 <h3> {{i.title}}</h3>
                 <h4>{{i.description}}</h4>
                 <p>{{i.id}} </p>
-                <textarea [(ngModel)]="comment" name="" id="" cols="20" rows="2"></textarea>
-                <br>
-                <button (click)="post()">Comment</button>
-                <p *ngFor="let comment of postComment">{{comment}}</p>
+                
+               <!-- <p *ngFor="let comment of postComment">{{comment}}</p>-->
             </div>
-            <div *ngFor="let comment of postComment">
+           <!-- <div *ngFor="let comment of postComment">
                 <p>{{comment}}</p>
-            </div>
-            <div class="accordion">
+            </div>-->
+           <!-- <div class="accordion">
               <div class="contentBx" [class.active]="check" (click)="open()">
                 <div class="label">comment</div>
                 <div class="content">
@@ -23,11 +21,10 @@
                   </p>
                 </div>
               </div>
-            </div>
+            </div> -->
         </div>
-        <app-comment></app-comment>
     </section>
-    
+    <app-comment></app-comment>
     </div>
 
  

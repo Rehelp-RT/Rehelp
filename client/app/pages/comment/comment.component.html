@@ -1,12 +1,30 @@
-<button >Comment</button>
-
 <div class="accordion">
-    <div class="contentBx" [class.active]="check" (click)="open()">
-        <div class="label">comment</div>
+    <div class="contentBx" [class.active]="check">
+        <div class="label" (click)="open()">comment</div>
         <div class="content">
-            <p>
-                welaaa deve funzionare
-            </p>
+
+            <div class="chatbox">
+
+                <div class="msg-row">
+                    <div class="msg-text" *ngFor="let comment of postComment">
+                        <h2>Pinco Pallino</h2>
+                        <p>{{comment}}</p>
+                    </div>
+                    <img src="foto1.jpg" alt="IMG" class="msg-img">
+                </div>
+            </div>
+            <textarea [(ngModel)]="comment" name="" id="" cols="20" rows="2"></textarea>
+            <br>
+            <button (click)="post()">Comment</button> -->
+            <!--  <input [(ngModel)]="comment" type="text" name="" value="" (click)="post()" placeholder="Type your messages here..."> -->
+
+
+
+            <!-- <p>vecchi commenti</p>
+            <p *ngFor="let comment of postComment">{{comment}}</p>
+            <textarea [(ngModel)]="comment" name="" id="" cols="20" rows="2"></textarea>
+            <br>
+            <button (click)="post()">Comment</button> -->
         </div>
     </div>
 </div>

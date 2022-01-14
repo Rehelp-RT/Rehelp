@@ -9,6 +9,9 @@ export class CommentComponent implements OnInit {
 
   constructor() { }
 
+
+  comment = "";
+  postComment = [];
   check = false;
 
   open() {
@@ -18,6 +21,12 @@ export class CommentComponent implements OnInit {
       this.check=false;
     }
 }
+
+post() {
+  this.postComment.push(this.comment);
+  this.comment = "";
+}
+
 
   ngOnInit(): void {
   }

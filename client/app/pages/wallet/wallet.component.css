@@ -2,12 +2,12 @@
 .container{
     min-height: 100vh;
     width: 100%;
-    background: #000;
+  
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.card{
+.card-credit{
     width: 500px;
     height: 300px;
     color: #fff;
@@ -93,7 +93,7 @@
 .back{
     transform: rotateY(180deg);
 }
-.card:hover .card-inner{
+.card-credit:hover .card-inner{
     transform: rotateY(-180deg);
 }
 

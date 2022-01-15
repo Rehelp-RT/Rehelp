@@ -2,6 +2,37 @@
     <div class="contentBx" [class.active]="check">
         <div class="label" (click)="open()">comment</div>
         <div class="content">
+            <div class="container">
+                <div class="body">
+                    <div class="message">
+                        <p>USer</p>
+                        <p >Hello</p>
+                    </div>
+                    <div class="message user_message" *ngFor="let comment of postComment">
+                        <p>io</p>
+                        <p >{{comment}}</p>
+                    </div>
+                    
+                </div>
+                <div class="footer">
+                    <form action="">
+                        <input [(ngModel)]="comment" type="text" placeholder="Type your messages here...">
+                        <button (click)="post()">SEND</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 
+    questa è la parte vecchia 
+ -->
+
+<!--<div class="accordion">
+    <div class="contentBx" [class.active]="check">
+        <div class="label" (click)="open()">comment</div>
+        <div class="content">
 
             <div class="chatbox">
 
@@ -16,15 +47,15 @@
             <textarea [(ngModel)]="comment" name="" id="" cols="20" rows="2"></textarea>
             <br>
             <button (click)="post()">Comment</button> -->
-            <!--  <input [(ngModel)]="comment" type="text" name="" value="" (click)="post()" placeholder="Type your messages here..."> -->
+<!--  <input [(ngModel)]="comment" type="text" name="" value="" (click)="post()" placeholder="Type your messages here..."> -->
 
 
 
-            <!-- <p>vecchi commenti</p>
+<!-- <p>vecchi commenti</p>
             <p *ngFor="let comment of postComment">{{comment}}</p>
             <textarea [(ngModel)]="comment" name="" id="" cols="20" rows="2"></textarea>
             <br>
             <button (click)="post()">Comment</button> -->
-        </div>
+<!-- </div>
     </div>
-</div>
+</div>-->

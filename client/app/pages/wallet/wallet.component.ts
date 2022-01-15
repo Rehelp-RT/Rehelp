@@ -16,11 +16,20 @@ export class WalletComponent implements OnInit {
   positiveTransactions: Transaction[] = [];
   negativeTransactions: Transaction[] = [];
   currentUser: User = null;
+  num1: number = 0;
+  num2: number = 0;
+  num3: number = 0;
+  num4: number = 0;
+  num5: number = 0;
+  
 
   constructor(
     private ts: TransactionService,
     private as: AuthenticationService,
-    ) { this.getCurrentUser(); }
+    ) { 
+      this.getNumbers();
+      this.getCurrentUser(); 
+    }
 
   ngOnInit(): void {
     this.ts.getPositiveTransaction(this.currentUser.id).subscribe((res) => {
@@ -62,6 +71,25 @@ export class WalletComponent implements OnInit {
       
     });
     
+  }
+
+  getNumbers(): void {
+    this.num1 = Math.floor(
+      Math.random() * (10000 - 1000) + 1000
+    );
+    this.num2 = Math.floor(
+      Math.random() * (10000 - 1000) + 1000
+    );
+    this.num3 = Math.floor(
+      Math.random() * (10000 - 1000) + 1000
+    );
+    this.num4 = Math.floor(
+      Math.random() * (10000 - 1000) + 1000
+    );
+    this.num5 = Math.floor(
+      Math.random() * (1000 - 100) + 100
+    );
+
   }
 
   getCurrentUser(): void {

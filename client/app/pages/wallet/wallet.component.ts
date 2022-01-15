@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Help, HelpResponse, Transaction, User } from '@app/models';
 import { AuthenticationService } from '@app/services';
 import { TransactionService } from '@app/services/transaction.service';
+import { ThisMonthInstance } from 'twilio/lib/rest/api/v2010/account/usage/record/thisMonth';
 
 @Component({
   selector: 'app-wallet',
@@ -29,7 +30,7 @@ export class WalletComponent implements OnInit {
           idCreator: el.help.idCreator,
           idResponder: el.responder.id,
           description: el.help.description,
-          date: el.help.updatedAt,
+          date: new Date(el.help.updatedAt),
           likeHelp: 1,
           isPositive: true,
           help: el.help,
@@ -55,12 +56,11 @@ export class WalletComponent implements OnInit {
           return t;
         });
         
-
         this.getAllTransactions();
+
       })
       
     });
-    
     
   }
 
@@ -71,10 +71,8 @@ export class WalletComponent implements OnInit {
   }
 
   getAllTransactions() {
-    this.transactions.push.apply(this.positiveTransactions, this.negativeTransactions);
-    
-    // this.transactions.sort((a, b) => a.date.getTime() - b.date.getTime());
-    console.log(this.transactions)
+    this.transactions = this.negativeTransactions.concat(this.positiveTransactions);
+    this.transactions.sort((a, b) => {return a.date.getTime() - b.date.getTime();});
   }
 
 }

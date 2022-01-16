@@ -33,18 +33,18 @@ getById(id: number) {
   return this.http.get<Comment>(`${environment.apiUrl}/comments/${id}`);
 }
 
-deleteForumPost(id: number) {
+deleteComment(id: number) {
   return this.http.delete<Comment>(`${environment.apiUrl}/comments/delete/${id}`);
 }
 
-addForumPost(comment: Comment) {
+addComment(comment: Comment) {
   return this.http.post<any>(`${environment.apiUrl}/comments/add`, comment)
     .pipe(map(x => {
       return x;
     }));
 }
 
-updateHelp(comment: Comment) {
+updateComment(comment: Comment) {
 return this.http.put<any>(`${environment.apiUrl}/comments/update/` + comment.id, comment)
     .pipe(map(x => {
         return x;

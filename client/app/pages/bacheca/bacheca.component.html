@@ -64,12 +64,15 @@
 
 <div class="" *ngFor="let i of posts">
     <section class="banner clearfix">
-        <div class="banner__image"></div>
+        <div class="banner__image">
+            <img src="{{ i.help.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + i.help.image : (i.help.category.image != null ? 'assets/img/categories/' + i.help.category.image : 'assets/img/placeholder-help.png')  }}"
+                                alt="{{ i.help.description}} image" class="banner_image_size">
+        </div>
         <div class="banner__copy">
             <div class="banner__copy__text">
-                <h3> {{i.title}}</h3>
-                <h4>{{i.description}}</h4>
-                <p>{{i.id}} </p>
+                <h3> {{i.help.title}}</h3>
+                <h4>{{i.help.description}}</h4>
+                <p>{{i.help.id}} </p>
                 
                <!-- <p *ngFor="let comment of postComment">{{comment}}</p>-->
             </div>

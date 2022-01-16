@@ -62,10 +62,10 @@
 <div class="transaction" *ngFor="let i of transactions">
     <div class="all_transaction">
         <h4>TRANSAZIONE</h4>
-        <p>{{i.description}}</p>
-        <p>{{i.date}}</p>
-        <p>{{i.likeHelp}}</p>
-        <p>{{i.isPositive}}</p>
+        <p>{{i.help.description}}</p>
+        <p>{{i.help.date}}</p>
+        <p>{{i.help.likeHelp}}</p>
+        <p>{{i.help.isPositive}}</p>
     </div>
 </div>
 

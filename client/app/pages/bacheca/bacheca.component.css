@@ -71,10 +71,15 @@ Banner
 }
 .banner__image
 {
-    width: 20vw; 
+    
     float: left; 
+    
+
+    
+}
+.banner_image_size{
+    width: 20vw; 
     height: 25vh;
-    background-image: url("https://source.unsplash.com/category/nature/400x400");
     background-size: cover;
     -o-background-size: cover;
     -moz-background-size: cover;

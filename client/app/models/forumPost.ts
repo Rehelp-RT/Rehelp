@@ -13,6 +13,6 @@ export class ForumPost {
     createdAt: Date;
     updatedAt: Date;
 
-    creator: User;
+    author: User;
     category: HelpCategory;
 }

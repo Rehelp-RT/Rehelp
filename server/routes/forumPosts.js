@@ -26,7 +26,7 @@ router.get('/', (req, res) =>{
         });
     }
     db.ForumPosts.findAll({
-        attributes: ['image', 'description', 'idCreator', 'title', 'idCategory', 'createdAt'],
+        attributes: ['id', 'image', 'description', 'idCreator', 'title', 'idCategory', 'createdAt', 'updatedAt'],
         include: [{
             attributes: [
                 'id', 'avatar', 'birthdate', 'city', 'country',

@@ -57,195 +57,30 @@
         </div>
     </div>
 </header>
+
 <div class="container">
-    <div class="subforum">
+    <div class="subforum" *ngFor="let i of posts" >
         <div class="subforum-title">
             <h1>General Information</h1>
         </div>
         <div class="subforum-row">
             <div class="subforum-icon subforum-column center">
-                <i class="fa fa-car center">img</i>
+                <i class="fa fa-car center">{{i.image}}</i>
             </div>
             <div class="subforum-description subforum-column">
-                <h4><a href="#">Title</a></h4>
-                <p>Description Content</p>
+                <h4><a href="#">{{i.category.name}}</a></h4>
+                <p>{{i.description}}</p>
             </div>
             <div class="subforum-stats subforum-column center">
                 <span>24 Posts | 12 Topics</span>
             </div>
             <div class="subforum-info subforum-column">
-                <b><a href="">Last post</a></b> by <a href="">Pietro</a>
-                <br>on <small>17/12/2021</small>
-            </div>
-        </div>
-    </div>
-    <!--More-->
-
-    <div class="subforum">
-        <div class="subforum-title">
-            <h1>General Information</h1>
-        </div>
-        <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-                <i class="fa fa-car center">img</i>
-            </div>
-            <div class="subforum-description subforum-column">
-                <h4><a href="#">Title</a></h4>
-                <p>Description Content: </p>
-            </div>
-            <div class="subforum-stats subforum-column center">
-                <span>24 Posts | 12 Topics</span>
-            </div>
-            <div class="subforum-info subforum-column">
-                <b><a href="">Last post</a></b> by <a href="">Pietro</a>
-                <br>on <small>17/12/2021</small>
-            </div>
-        </div>
-        <hr class="subforum-devider">
-        <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-                <i class="fa fa-car center">img</i>
-            </div>
-            <div class="subforum-description subforum-column">
-                <h4><a href="#">Title</a></h4>
-                <p>Description Content:</p>
-            </div>
-            <div class="subforum-stats subforum-column center">
-                <span>24 Posts | 12 Topics</span>
-            </div>
-            <div class="subforum-info subforum-column">
-                <b><a href="">Last post</a></b> by <a href="">Pietro</a>
-                <br>on <small>17/12/2021</small>
-            </div>
-        </div>
-        <hr class="subforum-devider">
-        <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-                <i class="fa fa-car center">img</i>
-            </div>
-            <div class="subforum-description subforum-column">
-                <h4><a href="#">Title</a></h4>
-                <p>Description Content</p>
-            </div>
-            <div class="subforum-stats subforum-column center">
-                <span>24 Posts | 12 Topics</span>
-            </div>
-            <div class="subforum-info subforum-column">
-                <b><a href="">Last post</a></b> by <a href="">Pietro</a>
-                <br>on <small>17/12/2021</small>
-            </div>
-        </div>
-        <hr class="subforum-devider">
-        <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-                <i class="fa fa-car center">img</i>
-            </div>
-            <div class="subforum-description subforum-column">
-                <h4><a href="#">Title</a></h4>
-                <p>Description Content:</p>
-            </div>
-            <div class="subforum-stats subforum-column center">
-                <span>24 Posts | 12 Topics</span>
-            </div>
-            <div class="subforum-info subforum-column">
-                <b><a href="">Last post</a></b> by <a href="">Pietro</a>
-                <br>on <small>17/12/2021</small>
-            </div>
-        </div>
-        <hr class="subforum-devider">
-        <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-                <i class="fa fa-car center">img</i>
-            </div>
-            <div class="subforum-description subforum-column">
-                <h4><a href="#">Title</a></h4>
-                <p>Description Content: </p>
-            </div>
-            <div class="subforum-stats subforum-column center">
-                <span>24 Posts | 12 Topics</span>
-            </div>
-            <div class="subforum-info subforum-column">
-                <b><a href="">Last post</a></b> by <a href="">Pietro</a>
-                <br>on <small>17/12/2021</small>
+                <b><a href="">Last post</a></b> by <a href="">{{i.author.firstname}}</a>
+                <br>on <small>{{getDate(i.createdAt)}}</small>
             </div>
         </div>
     </div>
 
-    <div class="subforum">
-        <div class="subforum-title">
-            <h1>General Information</h1>
-        </div>
-        <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-                <i class="fa fa-car center">img</i>
-            </div>
-            <div class="subforum-description subforum-column">
-                <h4><a href="#">Title</a></h4>
-                <p>Description Content:</p>
-            </div>
-            <div class="subforum-stats subforum-column center">
-                <span>24 Posts | 12 Topics</span>
-            </div>
-            <div class="subforum-info subforum-column">
-                <b><a href="">Last post</a></b> by <a href="">Pietro</a>
-                <br>on <small>17/12/2021</small>
-            </div>
-        </div>
-        <hr class="subforum-devider">
-        <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-                <i class="fa fa-car center">img</i>
-            </div>
-            <div class="subforum-description subforum-column">
-                <h4><a href="#">Title</a></h4>
-                <p>Description Content:</p>
-            </div>
-            <div class="subforum-stats subforum-column center">
-                <span>24 Posts | 12 Topics</span>
-            </div>
-            <div class="subforum-info subforum-column">
-                <b><a href="">Last post</a></b> by <a href="">Pietro</a>
-                <br>on <small>17/12/2021</small>
-            </div>
-        </div>
-        <hr class="subforum-devider">
-        <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-                <i class="fa fa-car center">img</i>
-            </div>
-            <div class="subforum-description subforum-column">
-                <h4><a href="#">Title</a></h4>
-                <p>Description Content:</p>
-            </div>
-            <div class="subforum-stats subforum-column center">
-                <span>24 Posts | 12 Topics</span>
-            </div>
-            <div class="subforum-info subforum-column">
-                <b><a href="">Last post</a></b> by <a href="">Pietro</a>
-                <br>on <small>17/12/2021</small>
-            </div>
-        </div>
-        <hr class="subforum-devider">
-        <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-                <i class="fa fa-car center">img</i>
-            </div>
-            <div class="subforum-description subforum-column">
-                <h4><a href="#">Title</a></h4>
-                <p>Description Content: </p>
-            </div>
-            <div class="subforum-stats subforum-column center">
-                <span>24 Posts | 12 Topics</span>
-            </div>
-            <div class="subforum-info subforum-column">
-                <b><a href="">Last post</a></b> by <a href="">Pietro</a>
-                <br>on <small>17/12/2021</small>
-            </div>
-        </div>
-
-
-    </div>
-    <!---->
 </div>
 
 <!-- Forum Info -->

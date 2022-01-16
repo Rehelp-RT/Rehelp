@@ -31,25 +31,25 @@ import { createUnionOrIntersectionTypeNode } from "typescript";
 export class BachecaComponent implements OnInit {
   posts: BachecaPost[] = [];
 
-  comment = "";
-  postComment = [];
+  // comment = "";
+  // postComment = [];
 
-  check = false;
+  // check = false;
  
 
-  open() {
-      if(this.check==false){
-        this.check=true;
-      }else{
-        this.check=false;
-      }
-  }
+  // open() {
+  //     if(this.check==false){
+  //       this.check=true;
+  //     }else{
+  //       this.check=false;
+  //     }
+  // }
   
 
-  post() {
-    this.postComment.push(this.comment);
-    this.comment = "";
-  }
+  // post() {
+  //   this.postComment.push(this.comment);
+  //   this.comment = "";
+  // }
 
   constructor(private bs: BachecaService) {}
 

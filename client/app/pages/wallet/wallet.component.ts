@@ -103,4 +103,8 @@ export class WalletComponent implements OnInit {
     this.transactions.sort((a, b) => {return a.date.getTime() - b.date.getTime();});
   }
 
+  getDate( date: Date) {
+    return date.toDateString();
+  }
+
 }

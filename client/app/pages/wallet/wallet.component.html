@@ -63,7 +63,7 @@
     <div class="all_transaction">
         <h4>TRANSAZIONE</h4>
         <p>Descrizione: {{i.description}}</p>
-        <p>Data: {{i.date}}</p>
+        <p>Data: {{getDate(i.date)}}</p>
         <p>Likehelp: {{i.likeHelp}}</p>
         <p>{{i.isPositive === true ? '+' : '-'}}</p>
     </div>

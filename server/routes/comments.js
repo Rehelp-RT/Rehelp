@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
         });
     }
     db.Comments.findAll({
-        attributes: ['message', 'idCreator', 'createdAt', 'idHelp', 'idPost'],
+        attributes: ['id', 'message', 'idCreator', 'createdAt','updatedAt', 'idHelp', 'idPost'],
         
         include: [{
             attributes: [

@@ -4,20 +4,22 @@
         <div class="content">
             <div class="container">
                 <div class="body">
-                    <div class="message">
-                        <p>USer</p>
-                        <p >Hello</p>
-                    </div>
-                    <div class="message user_message" *ngFor="let comment of postComment">
-                        <p>io</p>
-                        <p >{{comment}}</p>
+                    <div *ngFor="let comment of postComments"> 
+                        <div class="message" *ngIf="currentUser.id !== comment.idCreator">
+                            <p>{{comment.author.firstname}}</p>
+                            <p>{{comment.message}}</p>
+                        </div>
+                        <div class="message user_message" *ngIf="currentUser.id === comment.idCreator">
+                            <p>{{comment.author.firstname}}</p>
+                            <p >{{comment.message}}</p>
+                        </div>
                     </div>
                     
                 </div>
                 <div class="footer">
-                    <form action="">
-                        <input [(ngModel)]="comment" type="text" placeholder="Type your messages here...">
-                        <button (click)="post()">SEND</button>
+                    <form action="" [formGroup]="commentForm">
+                        <input [(ngModel)]="message" type="text" placeholder="Type your messages here...">
+                        <button (click)="addComment()">SEND</button>
                     </form>
                 </div>
             </div>

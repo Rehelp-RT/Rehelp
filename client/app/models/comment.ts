@@ -11,7 +11,5 @@ export class Comment {
     createdAt: Date;
     updatedAt: Date;
 
-    post: ForumPost;
-    creator: User;
-    help: Help;
+    author: User;
 }

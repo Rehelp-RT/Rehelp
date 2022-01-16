@@ -28,6 +28,7 @@ import { ForumPostComponent } from './forum-post/forum-post.component';
 import { ForumDetailComponent } from './forum-detail/forum-detail.component';
 import { WalletComponent } from './wallet/wallet.component';
 import { ForumFormComponent } from './forum-form/forum-form.component';
+import { BachecaFormComponent } from './bacheca-form/bacheca-form.component';
 
 
 const routes: Routes = [
@@ -41,6 +42,7 @@ const routes: Routes = [
   { path: 'forum/post', component: ForumPostComponent, data: {title: 'forum post'} },
   { path: 'forum/detail/:id', component: ForumDetailComponent, data: {title: 'forum detail'} },
   { path: 'bacheca', component: BachecaComponent, data: {title: 'bacheca'} },
+  { path: 'bacheca/form', component: BachecaFormComponent, data: {title: 'bacheca form'} },
   { path: 'helps', component: HelpsComponent, data: {title: 'Lista aiuti'}, canActivate: [AuthGuard] },
   { path: 'helps/add/:type', component: HelpsEditComponent, data: {title: 'Nuovo aiuto'}, canActivate: [AuthGuard] },
   { path: 'helps/add', component: HelpsEditComponent, data: {title: 'Nuovo aiuto'}, canActivate: [AuthGuard], pathMatch: 'full' },

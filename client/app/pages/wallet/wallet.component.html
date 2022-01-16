@@ -1,42 +1,47 @@
+<div class="title-wallet">
+    <h1 class="title-wallet_h1">ReHelp Wallet</h1>
+</div>
+
+
 <div class="container">
     <div class="card-credit">
         <div class="card-inner">
             <div class="front">
-                <img src="map.png" alt="" class="map-img">
-                <div class="row">
-                    <img src="chip.png" alt="" width="60px">
-                    <img src="visa.png" alt="" width="80px">
+                <img src="..\assets\img\map.png" alt="" class="map-img">
+                <div class="row-card-credit">
+                    <img src="..\assets\img\chip.png" alt="" width="60px">
+                    <img src="..\assets\img\visa.png" alt="" width="80px">
                 </div>
-                <div class="row card-no">
-                    <p>{{num1}}</p>
-                    <p>{{num2}}</p>
-                    <p>{{num3}}</p>
-                    <p>{{num4}}</p>
+                <div class="row-card-credit card-no">
+                    <p class="p-credit-card">{{num1}}</p>
+                    <p class="p-credit-card">{{num2}}</p>
+                    <p class="p-credit-card">{{num3}}</p>
+                    <p class="p-credit-card">{{num4}}</p>
                 </div>
-                <div class="row card-holder">
-                    <p>CARD HOLDER</p>
-                    <p>VALID TILL</p>
+                <div class="row-card-credit card-holder">
+                    <p class="p-credit-card">CARD HOLDER</p>
+                    <p class="p-credit-card">VALID TILL</p>
                 </div>
-                <div class="row name">
-                    <p>NOME UTENTE</p>
-                    <p>11 / 27</p>
+                <div class="row-card-credit card-credit-name">
+                    <p class="p-credit-card">NOME UTENTE</p>
+                    <p class="p-credit-card">11 / 27</p>
                 </div>
             </div>
             <div class="back">
-                <img src="map.png" alt="" class="map-img">
+                <img src="..\assets\img\map.png" alt="" class="map-img">
                 <div class="bar"></div>
-                <div class="row card-cvv">
+                <div class="row-card-credit card-cvv">
                     <div>
-                        <img src="pattern.png" alt="">
+                        <img src="..\assets\img\pattern.png" alt="">
                     </div>
-                    <p>{{num5}}</p>
+                    <p class="p-credit-card">{{num5}}</p>
                 </div>
-                <div class="row card-text">
+                <div class="row-card-credit card-text">
                     la Carta virtuale di ReHelp
                 </div>
-                <div class="row signature">
-                    <p>CUSTOMER SIGNATURE</p>
-                    <img src="visa.png" alt="" width="80px">
+                <div class="row-card-credit signature">
+                    <p class="p-credit-card">CUSTOMER SIGNATURE</p>
+                    <img src="..\assets\img\visa.png" alt="" width="80px">
                 </div>
             </div>
         </div>
@@ -45,14 +50,13 @@
 
 
 
-<div class="title">
-    <h1>Wallet</h1>
-</div>
-
-<div class="subtitle">
-    <h3>
-        My Coin:
-    </h3>
+<div class="row-likeHelp" >
+    <p class="row-likeHelp_p">
+        I miei likeHelp:
+    </p>
+    <p class="row-likeHelp_p">
+        numero
+    </p>
 </div>
 
 <div class="transaction" *ngFor="let i of transactions">
@@ -65,12 +69,10 @@
     </div>
 </div>
 
-<div class="numberTransaction">
+<!--<div class="numberTransaction">
     <p>numero di tansazioni</p>
     <p>totale coin spesi e guadagnati</p>
 </div>
+-->
 
-<div class="bottonSend">
-    <p>Send coin </p>
-</div>
 

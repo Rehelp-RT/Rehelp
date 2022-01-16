@@ -122,29 +122,12 @@
 .row-likeHelp_p{
     font-size: 25px;
 }
-
-
-/*.title
-{
+.transaction{
     justify-content: center;
     align-items: center;
 }
-.title h1
-{
-    font-style: bold;
-}
-.subtitle
-{
-    justify-content: center;
-    align-items: center;
+.transaction .all_transaction{
+
 }
 
-.transaction
-{
-    justify-content: center;
-    align-items: center;
-}
-.transaction .all_transaction
-{
-    
-}*/
+

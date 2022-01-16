@@ -1,0 +1,143 @@
+
+<div class="container py-3">
+    <div class="row">
+        <div class="col-lg-10 col-md-9">
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col-6">
+                        <h2 class="display-4">Nuovo post</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3">
+                <div class="card-body">
+                    <form [formGroup]="forumPostForm" *ngIf="model" (ngSubmit)="onSubmit()">
+
+                        <div class="form-row mb-3">
+                            <label class="col-lg-4" for="category">Categoria</label>
+                            <div class="col-lg-8">
+                                <select
+                                    class="form-control mb-3"
+                                    [(ngModel)]="cat1Id"
+                                    [ngModelOptions]="{standalone: true}">
+                                    <option *ngFor="let cat of categories" [value]="cat.id">
+                                        {{ cat.name }}
+                                    </option>
+                                </select>
+                                <select
+                                    class="form-control mb-3"
+                                    [(ngModel)]="cat2Id"
+                                    [ngModelOptions]="{standalone: true}"
+                                    *ngIf="cat1Id && (categories | filterCategories : { id: cat1Id }).length > 0">
+                                    <option *ngFor="let cat of categories | filterCategories : { id: cat1Id }" [value]="cat.id">
+                                        {{ cat.name }}
+                                    </option>
+                                </select>
+                                <select
+                                    class="form-control mb-3"
+                                    [(ngModel)]="cat3Id"
+                                    [ngModelOptions]="{standalone: true}"
+                                    *ngIf="cat2Id && (categories | filterCategories : { id: cat1Id, idChild: cat2Id }).length > 0">
+                                    <option *ngFor="let cat of categories | filterCategories : { id: cat1Id, idChild: cat2Id }" [value]="cat.id">
+                                        {{ cat.name }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                
+
+                        <div class="form-row mb-3">
+                          <label class="col-lg-4" for="description">Descrizione</label>
+                          <div class="col-lg-8">
+                              <textarea
+                                  class="form-control"
+                                  [ngClass]="{ 'is-invalid': submitted && f.description.errors }"
+                                  formControlName="description"
+                                  name="description"
+                                  rows="4"
+                                  placeholder="Ho bisogno di..."
+                                  required>
+                              </textarea>
+                              <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                                  <div *ngIf="f.description.errors.required">Il campo "Descrizione" è obbligatorio</div>
+                              </div>
+                          </div>
+                        </div>
+
+                        <div class="form-row mb-3">
+
+                            <label class="col-lg-4" for="category">Immagine</label>
+
+                            <div class="col-lg-8">
+                                
+                                <div *ngIf="!imageUploaded">
+                                    <!-- <img src="{{ model.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + model.image : (getCategoryById(idCat3) ? 'assets/img/categories/' + getCategoryById(idCat3).image : 'assets/img/placeholder-help.png')  }}"
+                                        alt="{{ model.description }} image" width="100%" class="help-img"> -->
+                                    <img src="{{ getCategoryImage() }}" alt="{{ model.description }} image" width="100%" class="help-img">
+                                </div>
+                                
+                                <div class="file" *ngFor="let response of responses; let i = index; last as isLast">
+                                    <div *ngIf="imageUploaded && isLast">
+                                        <div class="status">
+                                            <p *ngIf="!response.status">Caricamento... {{ response.progress }}%</p>
+                                            <input
+                                                type="hidden"
+                                                [(ngModel)]="model.image"
+                                                [ngModelOptions]="{standalone: true}"
+                                                [value]="response.data.public_id"
+                                                name="image" />
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div *ngIf="!response.status" class="progress" role="progressbar" [style.width.%]="response.progress"></div>
+                                        </div>
+                                        <a target="_blank" href="{{ response.data.url}}">
+                                            <img class="img-fluid" src="{{ response.data.url}}" alt="{{ response.data.public_id }}">
+                                        </a>
+                                        <a (click)="toggleImgUploader()" class="btn btn-outline-danger btn-block col-md-1 mt-2">
+                                            <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div [hidden]="imageUploaded">
+                                    <form id="direct_upload" ng2FileDrop [uploader]="uploader" (fileOver)="fileOverBase($event)" [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }">
+                                        <div class="py-3">
+                                            <div class="form_controls">
+                                                <div class="upload_button_holder">
+                                                    <label class="btn btn-outline-secondary" for="fileupload">
+                                                        <fa-icon [icon]="['fas', 'camera']"></fa-icon> Cambia immagine
+                                                    </label>
+                                                    <!-- onChange hanlder resets the input value to get the change event when uploading the same file consecutively -->
+                                                    <input
+                                                        type="file"
+                                                        id="fileupload"
+                                                        #fileInput
+                                                        ng2FileSelect
+                                                        [style.display]="'none'"
+                                                        [uploader]="uploader"
+                                                        (change)="fileInput.value = ''"
+                                                        multiple />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    
+                                </div>
+
+                            </div>
+                            
+                        </div>
+
+
+                        <div class="form-row mb-3">
+                            <button class="btn btn-outline-primary offset-lg-4 col-lg-8 mb-3" type="submit">
+                                <fa-icon [icon]="['fas', 'save']"></fa-icon> Salva
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

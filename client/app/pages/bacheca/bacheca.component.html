@@ -65,9 +65,18 @@
         </div>
         <div class="banner__copy">
             <div class="banner__copy__text">
-                <h3> {{i.help.title}}</h3>
-                <h4>{{i.help.description}}</h4>
-                <p>{{i.help.id}} </p>
+                <p> categoria: {{i.help.category.name}}</p>
+                <p> descrizione: {{i.help.description}}</p>
+                <p> creator help: {{i.creator.firstname}} </p>
+                <p> feedback del creator: {{i.messageCreator}}</p>
+                <p> stelle feedback del creator: {{i.ratingCreator}}</p>
+                <p> immagine feedback del creator: {{i.imageReviewCreator}} </p>
+                <p> data feedback del creator: {{getDate(i.creatorReviewedAt)}} </p>
+                <p> responder: {{i.responder.firstname}}</p>
+                <p> feedback del responder: {{i.messageResponder}}</p>
+                <p> stelle feedback del responder: {{i.ratingResponder}} </p>
+                <p> immagine feedback del responder: {{i.imageReviewResponder}}</p>
+                <p> data feedback del responder: {{getDate(i.responderReviewedAt)}} </p>
                 
                <!-- <p *ngFor="let comment of postComment">{{comment}}</p>-->
             </div>

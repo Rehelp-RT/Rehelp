@@ -72,8 +72,8 @@ export class BachecaComponent implements OnInit {
           messageResponder: el.messageResponder,
           imageReviewCreator: el.imageReviewCreator,
           imageReviewResponder: el.imageReviewResponder,
-          creatorReviewedAt: el.creatorReviewedAt,
-          responderReviewedAt: el.responderReviewedAt,
+          creatorReviewedAt: new Date(el.creatorReviewedAt),
+          responderReviewedAt: new Date(el.responderReviewedAt),
           ratingCreator: el.ratingCreator,
           ratingResponder: el.ratingResponder,
           help: el.help,
@@ -84,5 +84,9 @@ export class BachecaComponent implements OnInit {
       });
       console.log(this.posts);
     });
+  }
+
+  getDate( date: Date) {
+    return date.toDateString();
   }
 }

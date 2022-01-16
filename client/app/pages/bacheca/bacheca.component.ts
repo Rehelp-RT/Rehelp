@@ -20,6 +20,7 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { ForumPostService } from "@app/services/forum.service";
 import { BachecaPost } from "@app/models/bachecaPost";
+import { createUnionOrIntersectionTypeNode } from "typescript";
 
 
 @Component({
@@ -61,7 +62,26 @@ export class BachecaComponent implements OnInit {
   });*/
 
     this.bs.getAll().subscribe((res) => {
-      this.posts = res;
+      this.posts = res.map(el => {
+        const t: BachecaPost = {
+          id: el.id,
+          completed: el.completed,
+          idHelp: el.help.id,
+          idResponder: el.responder.id,
+          messageCreator: el.messageCreator,
+          messageResponder: el.messageResponder,
+          imageReviewCreator: el.imageReviewCreator,
+          imageReviewResponder: el.imageReviewResponder,
+          creatorReviewedAt: el.creatorReviewedAt,
+          responderReviewedAt: el.responderReviewedAt,
+          ratingCreator: el.ratingCreator,
+          ratingResponder: el.ratingResponder,
+          help: el.help,
+          responder: el.responder,
+          creator: el.help.creator
+        };
+        return t;
+      });
       console.log(this.posts);
     });
   }

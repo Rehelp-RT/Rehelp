@@ -25,7 +25,7 @@ router.get('/', (req, res) => {
     console.log('filters', filters);
 
     db.HelpResponse.findAll({
-        attributes: ['id', 'accepted', 'completed'],
+        attributes: ['id', 'accepted', 'completed', 'messageCreator', 'messageResponder', 'imageReviewCreator', 'imageReviewResponder', 'creatorReviewedAt', 'responderReviewedAt', 'ratingCreator', 'ratingResponder'],
         where: {
             [Op.and]: filters
         },

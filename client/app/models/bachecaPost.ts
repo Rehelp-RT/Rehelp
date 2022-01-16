@@ -3,8 +3,6 @@ import { Help, Message, User } from './';
 export class BachecaPost {
     id: number;
     
-
- 
     completed: boolean;
     idHelp: number;
     idResponder: number;
@@ -20,6 +18,5 @@ export class BachecaPost {
 
     help: Help;
     responder: User;
-    messages: Message[];
-    trade: TradeTypes;
+    creator: User;
 }

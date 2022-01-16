@@ -1,3 +1,36 @@
+.help-img {
+    border: 2px solid #f0f0f0;
+    float: left;
+    width: 100px;
+}
+
+.help-desc {
+    margin-left: 100px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.col-location {
+    max-width: 200px;
+}
+
+h4.display-4 {
+    font-size: 2.5rem;
+}
+
+.filters {
+    background-color: #E8E9EA;
+}
+
+.filters label {
+    display: block;
+}
+
+
+
+/* DI PIETRO */
+
+
 /*----------------
 Banner
 ------------------*/

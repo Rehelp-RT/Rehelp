@@ -1,3 +1,67 @@
+
+    <!-- <section class="py-3">
+
+      <div class="container">
+  
+          <div class="row">
+              <div class="col-md-8">
+                  <h4 class="display-4" >Bacheca</h4>
+              </div>
+          </div>
+  
+              <div class="list-group list-group-flush">
+                  <div class="list-group-item" *ngFor="let i of posts">
+                      <div class="row">
+  
+                          <div class="col-md">
+                              <a class="help-img" [routerLink]="['/helps/', help.id]">
+                                  <img src="{{ i.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + i.image : (i.category.image != null ? 'assets/img/categories/' + i.category.image : 'assets/img/placeholder-help.png')  }}"
+                                  alt="{{ i.description}} image" class="help-img">
+                              </a>
+                              <div class="help-desc">
+                                  <app-categories [category]="i.category"></app-categories>
+                                  <p>
+                                      <a [routerLink]="['/helps/', help.id]" class="text-dark">
+                                       i.description 
+                                  </a>
+                                  </p>
+                              </div>
+                          </div>
+                          <div class="col-md col-location">
+                              <fa-icon [icon]="['fas', 'map-marker-alt']" ></fa-icon>
+                               help.address 
+                              <br>
+                              <span class="text-secondary">
+                                A  getDistance(help.latitude, help.longitude)  da te.
+                              </span>
+                          </div>
+                          <div class="col-lg-1" >
+                               getDayFromNow(help.createdAt) 
+                          </div>
+                          <div class="col-lg-1" >
+                               getRemainingTime(help.dateEndValidity) 
+                          </div>
+                          <div class="col-lg-2">
+                              <app-user-icon [user]="i.creator" [showName]="true" [showAge]="true" [showRating]="true"></app-user-icon>
+                          </div>
+                          <div class="col-lg-2">
+                              <a [routerLink]="['/helps/', help.id]" class="btn btn-outline-secondary btn-block">
+                                  Conosci. Ha bisogno di aiuto
+                              </a>
+                              <a [routerLink]="['/helps/', help.id, 'response']"
+                                  class="btn btn-outline-primary btn-block"
+                                  >
+                                  Offri il tuo aiuto
+                                  <fa-icon title="Cuore" [icon]="['fas', 'heart']" class="mr-2"></fa-icon>
+                              </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+      </div>
+  </section> -->
+
+
 <div class="" *ngFor="let i of posts">
     <section class="banner clearfix">
         <div class="banner__image"></div>
@@ -26,7 +90,3 @@
     </section>
     <app-comment></app-comment>
     </div>
-
- 
-  
-

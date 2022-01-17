@@ -18,7 +18,7 @@ body{
   display: flex;
   flex-direction: column;
   box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.4);
-  background-color: dodgerblue;
+  background-color: rgb(62, 255, 136);
 }
 .header h1{
   color: white;
@@ -31,7 +31,7 @@ body{
   padding: 20px 30px;
 }
 .message{
-  background-color: dodgerblue;
+  background-color: rgb(20, 219, 20);
   padding: 10px;
   color: white;
   width: fit-content;
@@ -59,12 +59,12 @@ form button{
   font-size: 18px;
   border: none;
   outline: none;
-  background-color: dodgerblue;
+  background-color: rgb(38, 255, 30);
   color: white;
   cursor: pointer;
 }
 form button:hover{
-  background-color: blue;
+  background-color: rgb(8, 216, 36);
 }
 
 
@@ -87,7 +87,7 @@ comment
 .accordion .contentBx .label{
     position: relative;
     padding: 10px;
-    background: #2694af;
+    background: #39b83f;
     color: #fff;
     cursor: pointer;
 }

@@ -12,6 +12,9 @@ import { AuthenticationService, CommentService } from '@app/services';
 export class CommentComponent implements OnInit {
   @Input()
 
+  @Input() receivedIdHelp: number = null;
+  @Input() receivedIdPost: number = null;
+
   model: Comment = null;
   // comment: string = null;
   postComments: Comment[] = [];
@@ -48,7 +51,7 @@ export class CommentComponent implements OnInit {
 }
 
   getAllComments() {
-    this.cs.getAll().subscribe((res) => {
+    this.cs.getAll(this.receivedIdPost, this.receivedIdHelp).subscribe((res) => {
       this.postComments = res.map(el => {
         const t: Comment = {
           id: el.id,

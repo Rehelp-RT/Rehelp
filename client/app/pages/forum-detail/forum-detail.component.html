@@ -80,20 +80,22 @@
             <div class="content">
                 {{forumPost.description}}
                 <div class="comment">
-                    <button (click)="showComment()">Comment</button>
+                    <!-- <button (click)="showComment()">Comment</button> -->
                 </div>
             </div>
         </div>
+        <app-comment [receivedIdHelp] = null [receivedIdPost] = "forumPost.id"></app-comment>
+
     </div>
 
     <!--Comment Area-->
-    <div class="comment-area hide" id="comment-area">
+    <!-- <div class="comment-area hide" id="comment-area">
         <textarea name="comment" id="" placeholder="comment here ... "></textarea>
         <input type="submit" value="submit">
-    </div>
+    </div> -->
 
     <!--Comments Section-->
-    <div class="comments-container"  *ngFor="let i of comment">
+    <!-- <div class="comments-container"  *ngFor="let i of comment">
         <div class="body">
             <div class="authors">
                 <div class="username"><a href="">{{i.author.firstname}} {{i.author.lastname}}</a></div>
@@ -109,13 +111,13 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!--Reply Area-->
-    <div class="comment-area hide" id="reply-area">
+    <!-- <div class="comment-area hide" id="reply-area">
         <textarea name="reply" id="" placeholder="reply here ... "></textarea>
         <input type="submit" value="submit">
-    </div>
+    </div> -->
 
 
 

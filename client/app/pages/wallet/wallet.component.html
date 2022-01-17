@@ -7,10 +7,10 @@
     <div class="card-credit">
         <div class="card-inner">
             <div class="front">
-                <img src="..\assets\img\map.png" alt="" class="map-img">
+                <img src="..\assets\img\logo-rehelp.png" alt="" class="map-img">
                 <div class="row-card-credit">
                     <img src="..\assets\img\chip.png" alt="" width="60px">
-                    <img src="..\assets\img\visa.png" alt="" width="80px">
+                    <img src="..\assets\img\logo-mark-rehelp.png" alt="" width="80px" height="80px">
                 </div>
                 <div class="row-card-credit card-no">
                     <p class="p-credit-card">{{num1}}</p>
@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="back">
-                <img src="..\assets\img\map.png" alt="" class="map-img">
+                <img src="..\assets\img\logo-rehelp.png" alt="" class="map-img">
                 <div class="bar"></div>
                 <div class="row-card-credit card-cvv">
                     <div>
@@ -41,7 +41,7 @@
                 </div>
                 <div class="row-card-credit signature">
                     <p class="p-credit-card">CUSTOMER SIGNATURE</p>
-                    <img src="..\assets\img\visa.png" alt="" width="80px">
+                    <img src="..\assets\img\logo-mark-rehelp.png" alt="" width="80px">
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
 
 
 
-<div class="row-likeHelp" >
+<div class="row-likeHelp row-likeHelp-graphic">
     <p class="row-likeHelp_p">
         I miei likeHelp:
     </p>
@@ -59,14 +59,17 @@
     </p>
 </div>
 
-<div class="transaction" *ngFor="let i of transactions">
-    <p>ciao</p>
-    <div class="all_transaction">
-        <h4>TRANSAZIONE</h4>
-        <p>Descrizione: {{i.description}}</p>
-        <p>Data: {{getDate(i.date)}}</p>
-        <p>Likehelp: {{i.likeHelp}}</p>
-        <p>{{i.isPositive === true ? '+' : '-'}}</p>
+<div>
+    <h4 class="transaction">TRANSAZIONI</h4>
+    <div class="all_transaction" *ngFor="let i of transactions">
+        <div class="all_transaction_element">
+            <p>Descrizione: {{i.description}}</p>
+            <p>Likehelp: {{i.isPositive === true ? '+' : '-'}} {{i.likeHelp}}</p>
+        </div>
+        <div class="all_transaction_element">
+            <p></p>   
+            <p>Data: {{getDate(i.date)}}</p>
+        </div>
     </div>
 </div>
 
@@ -75,5 +78,3 @@
     <p>totale coin spesi e guadagnati</p>
 </div>
 -->
-
-

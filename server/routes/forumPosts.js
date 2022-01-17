@@ -64,7 +64,7 @@ router.get('/', (req, res) =>{
 // GET /api/forumPosts/5
 router.get('/:id', (req, res) =>
     db.ForumPosts.findByPk(req.params.id, {
-        attributes: ['image', 'description', 'idCreator', 'title', 'idCategory', 'createdAt'],
+        attributes: ['id', 'image', 'description', 'idCreator', 'title', 'idCategory', 'createdAt'],
         include: [{
             attributes: [
                 'id', 'avatar', 'birthdate', 'city', 'country',

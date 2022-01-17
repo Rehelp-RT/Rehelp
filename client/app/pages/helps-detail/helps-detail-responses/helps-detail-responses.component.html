@@ -126,6 +126,13 @@
                     </button>
                 </div>
 
+                <div *ngIf="canCreatePost(r)" class="mt-3">
+                    <button class="btn btn-block btn-outline-primary mb-2"
+                        (click)="createPost(r)">
+                        Crea post
+                    </button>
+                </div>
+
                 <!-- Modal Feedback -->
                 <app-modal id="modal-complete-{{ r.id }}">
                     <h3>Lascia un feedback e completa la richiesta</h3>

@@ -43,7 +43,7 @@ export class ForumPostService {
       }));
 }
 
-updateHelp(forumPost: ForumPost) {
+updateForumPost(forumPost: ForumPost) {
   return this.http.put<any>(`${environment.apiUrl}/forumPosts/update/` + forumPost.id, forumPost)
       .pipe(map(x => {
           return x;

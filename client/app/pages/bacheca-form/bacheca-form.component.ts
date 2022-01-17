@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AuthenticationService, CategoryService, ForumPostService, HelpService, TypeService } from '@app/services';
+import { AuthenticationService, BachecaService, CategoryService, HelpService, TypeService } from '@app/services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, ViewChild, ElementRef, Input, NgZone, OnInit } from '@angular/core';
@@ -13,7 +13,8 @@ import { Cloudinary } from '@cloudinary/angular-5.x';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 
 // model
-import { ForumPost, HelpCategory, User, HelpType } from '@app/models';
+import { HelpCategory, User, HelpType } from '@app/models';
+import { BachecaPost } from '@app/models/bachecaPost';
 
 @Component({
   selector: 'app-bacheca-form',
@@ -25,8 +26,8 @@ export class BachecaFormComponent implements OnInit {
   responses: Array<any> = [];
 
   submitted = false;
-  model: ForumPost = null;
-  forumPostForm: FormGroup;
+  model: BachecaPost = null;
+  bachecaPostForm: FormGroup;
 
   // categories
   categories: HelpCategory[] = [];
@@ -47,7 +48,7 @@ export class BachecaFormComponent implements OnInit {
     private router: Router,
     private as: AuthenticationService,
     private cs: CategoryService,
-    private fps: ForumPostService,
+    private bs: BachecaService,
     private ts: TypeService,
     private cloudinary: Cloudinary,
     private ngZone: NgZone,
@@ -62,18 +63,22 @@ export class BachecaFormComponent implements OnInit {
   }
 
   private initForm() {
-    this.forumPostForm = this.formBuilder.group({
-      description: [this.model.description, Validators.required],
-      title: [this.model.title, Validators.required]
+    this.bachecaPostForm = this.formBuilder.group({
+      description: [this.model.description, Validators.required]
     });
 }
 
   private initCreatePost() {
-    // forum post
-    this.model = new ForumPost();
+    // bacheca post
+    this.model = new BachecaPost();
     this.model.idCreator = this.as.currentUserValue.id;
     this.model.description = '';
-    this.model.title = '';
+    this.model.image = null;
+    // TODO:
+    this.model.idHelp = this.activeRoute.snapshot.params.idHelp;
+    this.model.idResponder = this.activeRoute.snapshot.params.idResponder;
+
+
 
     // form validation
     this.initForm();
@@ -88,39 +93,38 @@ private initCategories() {
       this.categories = x;
       // console.log('cats', this.categories)
 
-      if (this.model.category) {
-          if (this.model.category.parent !== undefined && this.model.category.parent !== null) {
-              if (this.model.category.parent.parent !== undefined && this.model.category.parent.parent !== null) {
-                  this.cat3Id = this.model.category.id;
-                  this.cat2Id = this.model.category.parent.id;
-                  this.cat1Id = this.model.category.parent.parent.id;
-                  this.catImg = this.model.category.image;
+      if (this.model.help.category) {
+          if (this.model.help.category.parent !== undefined && this.model.help.category.parent !== null) {
+              if (this.model.help.category.parent.parent !== undefined && this.model.help.category.parent.parent !== null) {
+                  this.cat3Id = this.model.help.category.id;
+                  this.cat2Id = this.model.help.category.parent.id;
+                  this.cat1Id = this.model.help.category.parent.parent.id;
+                  this.catImg = this.model.help.category.image;
               } else {
-                  this.cat2Id = this.model.category.id;
-                  this.cat1Id = this.model.category.parent.id;
-                  this.catImg = this.model.category.image;
+                  this.cat2Id = this.model.help.category.id;
+                  this.cat1Id = this.model.help.category.parent.id;
+                  this.catImg = this.model.help.category.image;
               }
           } else {
-              this.cat1Id = this.model.category.id;
-              this.catImg = this.model.category.image;
+              this.cat1Id = this.model.help.category.id;
+              this.catImg = this.model.help.category.image;
           }
       }
   });
 }
 
 // convenience getter for easy access to form fields
-get f() { return this.forumPostForm.controls; }
+get f() { return this.bachecaPostForm.controls; }
 
   onSubmit() {
     this.submitted = true;
 
-    if (this.forumPostForm.invalid) {
+    if (this.bachecaPostForm.invalid) {
       // form is invalid
       return;
     } else {
       // get forms value
       this.model.description = this.f.description.value;
-      this.model.title = this.f.title.value;
 
       // image
       const i = this.responses.length - 1;
@@ -130,7 +134,7 @@ get f() { return this.forumPostForm.controls; }
       }
 
       // category
-      this.model.idCategory = this.cat3Id ? this.cat3Id : (this.cat2Id ? this.cat2Id : this.cat1Id);
+      // this.model.help.idCategory = this.cat3Id ? this.cat3Id : (this.cat2Id ? this.cat2Id : this.cat1Id);
       
     }
     // console.log(this.model);
@@ -139,8 +143,10 @@ get f() { return this.forumPostForm.controls; }
 
 private addPost() {
     // crea l'help
-    this.fps.addForumPost(this.model).subscribe(x => {
-      this.router.navigate(['forum/detail/', x.id]);
+    this.bs.addBachecaPost(this.model).subscribe(x => {
+      // this.router.navigate(['bacheca/detail/', x.id]);
+      this.router.navigate(['bacheca']);
+
       },
       err => {
         console.log(err);

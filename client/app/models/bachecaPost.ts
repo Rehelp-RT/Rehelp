@@ -3,20 +3,16 @@ import { Help, Message, User } from './';
 export class BachecaPost {
     id: number;
     
-    completed: boolean;
     idHelp: number;
     idResponder: number;
+    idCreator: number;
 
-    messageCreator: string;
-    messageResponder: string;
-    imageReviewCreator: string;
-    imageReviewResponder: string;
-    creatorReviewedAt: Date;
-    responderReviewedAt: Date;
-    ratingCreator: number;
-    ratingResponder: number;
-
+    description: string;
+    image: string;
+    createdAt: Date;
+    updatedAt: Date;
+    
     help: Help;
     responder: User;
-    creator: User;
+    author: User;
 }

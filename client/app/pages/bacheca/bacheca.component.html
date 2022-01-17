@@ -60,30 +60,30 @@
 <div class="" *ngFor="let i of posts">
     <section class="banner clearfix">
         <div class="banner__image">
-            <img src="{{ i.help.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + i.help.image : (i.help.category.image != null ? 'assets/img/categories/' + i.help.category.image : 'assets/img/placeholder-help.png')  }}"
+            <img src="{{ i.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + i.image : (i.help.category.image != null ? 'assets/img/categories/' + i.help.category.image : 'assets/img/placeholder-help.png')  }}"
                                 alt="{{ i.help.description}} image" class="banner_image_size">
         </div>
         <div class="banner__copy">
             <div class="banner__copy__text">
               <div class="banner__copy__text__header">
                 <p>
-                  categoria
+                  {{i.help.category.name}}
                 </p>
                 <p>
-                  data
+                  {{getDate(i.createdAt)}}
                 </p>
               </div>
               <div class="banner__copy__text__description">
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat reprehenderit nulla labore sed, architecto iure autem illum, id perferendis in recusandae odit. Earum, aspernatur? Quo, recusandae praesentium? Minima, quasi deleniti.
+                  {{i.description}}
                 </p>
               </div>
               <div class="banner__copy__text__footer">
                 <p>
-                  chi ha fatto il post
+                  {{i.author.firstname}}
                 </p>
                 <p>
-                  chi ti ha aiutato
+                  {{i.responder.firstname}}
                 </p>
               </div>
                <!-- <p> categoria: {{i.help.category.name}}</p>

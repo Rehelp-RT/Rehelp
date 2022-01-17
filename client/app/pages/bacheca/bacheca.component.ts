@@ -62,31 +62,12 @@ export class BachecaComponent implements OnInit {
   });*/
 
     this.bs.getAll().subscribe((res) => {
-      this.posts = res.map(el => {
-        const t: BachecaPost = {
-          id: el.id,
-          completed: el.completed,
-          idHelp: el.help.id,
-          idResponder: el.responder.id,
-          messageCreator: el.messageCreator,
-          messageResponder: el.messageResponder,
-          imageReviewCreator: el.imageReviewCreator,
-          imageReviewResponder: el.imageReviewResponder,
-          creatorReviewedAt: new Date(el.creatorReviewedAt),
-          responderReviewedAt: new Date(el.responderReviewedAt),
-          ratingCreator: el.ratingCreator,
-          ratingResponder: el.ratingResponder,
-          help: el.help,
-          responder: el.responder,
-          creator: el.help.creator
-        };
-        return t;
-      });
+      this.posts = res;
       console.log(this.posts);
     });
   }
 
   getDate( date: Date) {
-    return date.toDateString();
+    return new Date(date).toDateString();
   }
 }

@@ -6,6 +6,7 @@ import { ModalService } from '@app/shared/components';
 import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
 import { Cloudinary } from '@cloudinary/angular-5.x';
 import * as moment from 'moment';
+import { BachecaPost } from '@app/models/bachecaPost';
 
 @Component({
     selector: 'app-helps-detail-responses',
@@ -272,8 +273,13 @@ export class HelpsDetailResponsesComponent implements OnInit {
                 this.help.completed = true;
                 this.modalService.close('modal-complete-' + response.id);
                 this.router.navigate(['/helps/', this.help.id]);
+
             });
         }
+    }
+
+    createPost(response: HelpResponse): void {
+        this.router.navigate(['/bacheca/form', this.help.id, response.idResponder]);
     }
 
     deleteResponse(response: HelpResponse): void {
@@ -326,6 +332,12 @@ export class HelpsDetailResponsesComponent implements OnInit {
             !r.completed && 
             r.idResponder == this.as.currentUserValue.id;
         return reviewEnabled;
+    }
+
+    canCreatePost(r: HelpResponse): boolean {
+        const creationEnabled = 
+            this.isHelpCreator && r.completed;
+        return creationEnabled;
     }
     
     canSeeResponse(r: HelpResponse) {

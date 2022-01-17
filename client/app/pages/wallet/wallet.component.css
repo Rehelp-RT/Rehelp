@@ -111,6 +111,9 @@
 .title-wallet_h1{
     font-size: 60px;
 }
+.title-wallet_h1:hover{
+    color:#57ff40;
+}
 .row-likeHelp{
     display: flex;
     align-items: center;

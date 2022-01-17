@@ -15,8 +15,7 @@ export class CommentComponent implements OnInit {
   @Input() receivedIdHelp: number = null;
   @Input() receivedIdPost: number = null;
 
-  model: Comment = null;
-  // comment: string = null;
+  model: Comment;
   postComments: Comment[] = [];
   check: boolean = false;
   currentUser: User = null;
@@ -33,15 +32,9 @@ export class CommentComponent implements OnInit {
     this.check = !this.check;
 }
 
-// post() {
-//   this.postComment.push(this.comment);
-//   this.comment = "";
-// }
-
-
   ngOnInit(): void {
-    // this.initForm();
     this.getAllComments();
+    this.model = new Comment();
   }
 
   getCurrentUser(): void {
@@ -70,20 +63,15 @@ export class CommentComponent implements OnInit {
     
   }
 
-  // get f() { return this.commentForm.controls; }
-
-  //   private initForm() {
-  //       this.commentForm = this.formBuilder.group({
-  //         description: [this.model.message, Validators.required]
-  //       });
-  //   }
-
   addComment() {
-    // this.model.message = this.f.message.value;
-    // console.log(this.f.message.value)
+    this.model.message = (<HTMLInputElement>document.getElementById("message")).value;
+    this.model.idPost = this.receivedIdPost;
+    this.model.idHelp = this.receivedIdHelp;
+    this.model.idCreator = this.currentUser.id;
+    this.model.author = this.currentUser;
+    
     this.cs.addComment(this.model).subscribe((res) => {
-      // TODO:
-      // this.router.navigate(['/helps/', this.model.id]);
+      this.postComments.push(this.model);
     },
     err => {
       console.log(err);

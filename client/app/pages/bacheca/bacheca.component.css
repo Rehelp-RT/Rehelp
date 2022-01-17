@@ -75,12 +75,12 @@ Banner
   background-position: center center;
 }
 .banner__copy {
-  width: 70%;
+  width: 78%;
   float: left;
   height: 100%;
   display: table;
   text-align: center;
-  
+  padding: 1%;
 }
 .banner__copy__text {
   display: table-cell;

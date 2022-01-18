@@ -209,7 +209,7 @@ h1{
 
 .body{
     display: flex;
-    background-color: #a8c4e0;
+    background: linear-gradient(45deg, #57ff40, #3cb657);
     padding: 10px;
     margin-top: 5px;
 }

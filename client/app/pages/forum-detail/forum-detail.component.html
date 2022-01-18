@@ -59,7 +59,7 @@
     <!--Navigation-->
     <div class="navigate">
         <span><a href="">MyForum - Forums</a> >> <a href="">random subforum</a> >> <a href="">random topic</a></span>
-    </div>
+    </div> 
 
     <!--Topic Section-->
     <div class="topic-container" *ngIf="forumPost" >
@@ -72,10 +72,7 @@
         <div class="body">
             <div class="authors">
                 <div class="username"><a href="">{{forumPost.author.firstname}} {{forumPost.author.lastname}}</a></div>
-                <div>Role : Author</div>
                 <img src="https://cdn.pixabay.com/photo/2015/11/06/13/27/ninja-1027877_960_720.jpg" alt="">
-                <div>Posts: <u>45</u></div>
-                <div>Points: <u>4586</u></div>
             </div>
             <div class="content">
                 {{forumPost.description}}

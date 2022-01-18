@@ -59,10 +59,11 @@
 </header>
 
 <div class="container">
+    <h1 class="container_title">FORUM</h1>
     <div class="subforum" *ngFor="let i of posts" >
-        <div class="subforum-title">
+        <!-- <div class="subforum-title">
             <h1>General Information</h1>
-        </div>
+        </div> -->
         <div class="subforum-row">
             <div class="subforum-icon subforum-column center">
                 <i class="fa fa-car center">{{i.image}}</i>
@@ -71,9 +72,9 @@
                 <h4><a href="forum/detail/{{i.id}}">{{i.category.name}} {{i.id}}</a></h4>
                 <p>{{i.description}}</p>
             </div>
-            <div class="subforum-stats subforum-column center">
+           <!-- <div class="subforum-stats subforum-column center">
                 <span>24 Posts | 12 Topics</span>
-            </div>
+            </div> -->
             <div class="subforum-info subforum-column">
                 <b><a href="">Last post</a></b> by <a href="">{{i.author.firstname}}</a>
                 <br>on <small>{{getDate(i.createdAt)}}</small>
@@ -84,11 +85,11 @@
 </div>
 
 <!-- Forum Info -->
-<div class="forum-info">
+<!-- <div class="forum-info">
     <div class="chart">
         MyForum - Stats &nbsp;<i class="fa fa-bar-chart"></i>
     </div>
     <span><u>5,369</u> Posts in <u>48</u> Topics by <u>8,124</u> Members.</span><br>
     <span>Latest post: <b><a href="">Random post</a></b> on Dec 15 2021 By <a href="">RandomUser</a></span>.<br>
     <span>Check <a href="">the latest posts</a> .</span><br>
-</div>
+</div> -->

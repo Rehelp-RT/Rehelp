@@ -59,6 +59,12 @@ h1{
     color: #ff4081 !important;
 }
 
+.container{
+    margin-top: 15px;
+}
+.navigate{
+
+}
 
   /* Nav Bar styles */
   .navbar{

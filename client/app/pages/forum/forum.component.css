@@ -173,7 +173,6 @@ h1{
 /*           Forums.html                       */
 /* ########################################### */
 .container{
-    margin: 20px;
     padding: 20px;
 }
 
@@ -216,6 +215,15 @@ h1{
 
 .subforum-devider{
     display: none;   
+}
+.container_title{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-size: 40px;
+}
+.container_title:hover{
+    color: #57ff40;
 }
 
 

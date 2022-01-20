@@ -199,3 +199,65 @@ Tablet
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+
+/****************
+NEW BACHECA
+****************/
+.container-bacheca{
+  display: flex;
+  justify-content: center;
+  padding: 13px 5%;
+}
+.main-content{
+  flex-basis: 47%;
+}
+
+.post-container{
+  width: 100%;
+  background: #fff;
+  border-radius: 6px;
+  color: #626262;
+  margin: 20px 0;
+}
+.user-profile{
+  display: flex;
+  align-items: center;
+}
+.user-profile img{
+  width: 45px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.user-profile p{
+  margin-bottom: -5px;
+  font-weight: 500;
+  color: #626262;
+}
+.user-profile span{
+  font-size: 13px;
+  color: #9a9a9a;
+}
+.post-text{
+  color: #9a9a9a;
+  margin: 15px 0;
+  font-size: 15px;
+}
+.post-text a{
+  color: #1876f2;
+}
+.post-img{
+  width: 100%;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+.post-row{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+.activity-icon div{
+  display: inline-flex;
+  align-items: center;
+  margin-right: 30px;
+}

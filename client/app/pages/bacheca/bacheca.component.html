@@ -57,7 +57,7 @@
   </section> -->
 
 
-<div class="" *ngFor="let i of posts">
+<!--<div class="" *ngFor="let i of posts">
     <section class="banner clearfix">
         <div class="banner__image">
             <img src="{{ i.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + i.image : (i.help.category.image != null ? 'assets/img/categories/' + i.help.category.image : 'assets/img/placeholder-help.png')  }}"
@@ -85,7 +85,7 @@
                 <p>
                   {{i.responder.firstname}}
                 </p>
-              </div>
+              </div>-->
                <!-- <p> categoria: {{i.help.category.name}}</p>
                 <p> descrizione: {{i.help.description}}</p>
                 <p> creator help: {{i.creator.firstname}} </p>
@@ -100,7 +100,7 @@
                 <p> data feedback del responder: {{getDate(i.responderReviewedAt)}} </p>-->
                 
                <!-- <p *ngFor="let comment of postComment">{{comment}}</p>-->
-            </div>
+           <!-- </div>-->
            <!-- <div *ngFor="let comment of postComment">
                 <p>{{comment}}</p>
             </div>-->
@@ -114,10 +114,30 @@
                 </div>
               </div>
             </div> -->
-        </div>
+       <!-- </div>
     </section>
     <app-comment [receivedIdHelp] = "i.idHelp" [receivedIdPost] = null></app-comment>
-    </div>
+    </div>-->
+
+    <div class="container-bacheca" *ngFor="let i of posts">
+      <div class="main-content">
+
+          <div class="post-container">
+              <div class="user-profile">
+                  <img src="{{ i.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + i.image : (i.help.category.image != null ? 'assets/img/categories/' + i.help.category.image : 'assets/img/placeholder-help.png')  }}"
+                  alt="{{ i.help.description}} image" alt="">
+                  <div>
+                      <p>{{i.author.firstname}}</p>
+                      <span>{{getDate(i.createdAt)}}</span>
+                  </div>
+              </div>
+              <p class="post-text">{{i.description}} <a href="">{{i.responder.firstname}}</a><a href=""> Categoria: {{i.help.category.name}}</a></p>
+              <img src="{{ i.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + i.image : (i.help.category.image != null ? 'assets/img/categories/' + i.help.category.image : 'assets/img/placeholder-help.png')  }}"
+              alt="{{ i.help.description}} image" alt="" class="post-img">
+          </div>
+          <app-comment [receivedIdHelp] = "i.idHelp" [receivedIdPost] = null></app-comment>
+      </div>
+  </div>
 
   
   

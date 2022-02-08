@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         latitude: DataTypes.FLOAT,
         longitude: DataTypes.FLOAT,
         phoneNumber: DataTypes.STRING,
-
+        cf: DataTypes.STRING,
         likehelps: DataTypes.INTEGER,
         password: DataTypes.STRING,
 

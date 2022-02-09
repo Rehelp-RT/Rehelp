@@ -124,6 +124,12 @@ comment
     justify-content: center;
     color: #fff;
 }
+.row-special{
+  justify-content: space-between;
+}
+.img-special{
+  margin-left: 20px;
+}
 
 /*
 .container{

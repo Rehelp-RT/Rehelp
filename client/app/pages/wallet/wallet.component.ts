@@ -96,6 +96,7 @@ export class WalletComponent implements OnInit {
     this.as.getCurrentUser().subscribe(x => {
         this.currentUser = x;
     });
+   
   }
 
   getAllTransactions() {

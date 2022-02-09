@@ -4,22 +4,25 @@
         <div class="content">
             <div class="container">
                 <div class="body">
-                    <div *ngFor="let comment of postComments"> 
+                    <div *ngFor="let comment of postComments">
                         <div class="message" *ngIf="currentUser.id !== comment.idCreator">
                             <p>{{comment.author.firstname}}</p>
                             <p>{{comment.message}}</p>
                         </div>
                         <div class="message user_message" *ngIf="currentUser.id === comment.idCreator">
-                            <p>{{comment.author.firstname}}</p>
-                            <img src="../../../assets/img/recycle.png" alt="" (click)="deleteComment(comment.id)" (click)="refresh()" width="20px">
-                            <p >{{comment.message}}</p>
+                            <div class="row row-special">
+                                <p>{{comment.author.firstname}}</p>
+                                <img class="img-special" src="../../../assets/img/recycle.png" alt="" (click)="deleteComment(comment.id)"
+                                    (click)="refresh()" width="20px" height="20px">
+                            </div>
+                            <p>{{comment.message}}</p>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="footer">
                     <form action="">
-                        <input id="message"  type="text" placeholder="Type your messages here...">
+                        <input id="message" type="text" placeholder="Type your messages here...">
                         <button (click)="addComment()">SEND</button>
                     </form>
                 </div>

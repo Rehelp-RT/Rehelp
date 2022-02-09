@@ -74,7 +74,8 @@
         </div> -->
         <div class="subforum-row">
             <div class="subforum-icon subforum-column center">
-                <i class="fa fa-car center">{{i.image}}</i>
+               
+                <img class="fa fa-car center" src="{{ i.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + i.image : 'assets/img/placeholder-help.png'  }}" alt="">
             </div>
             <div class="subforum-description subforum-column">
                 <h4><a href="forum/detail/{{i.id}}">{{i.category.name}} {{i.id}}</a></h4>

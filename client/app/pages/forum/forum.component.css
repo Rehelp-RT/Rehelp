@@ -189,7 +189,7 @@ h1{
 
 .subforum-row{
     display: grid;
-    grid-template-columns: 2% 80% 14% 4%;
+    grid-template-columns: 7% 75% 14% 4%
 }
 
 .subforum-column{
@@ -209,8 +209,8 @@ h1{
     align-items: center;
 }
 
-.subforum-icon i{
-    font-size: 45px;
+.subforum-icon img{
+    width: 100%
 }
 
 .subforum-devider{

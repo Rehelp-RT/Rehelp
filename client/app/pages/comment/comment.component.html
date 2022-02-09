@@ -11,6 +11,7 @@
                         </div>
                         <div class="message user_message" *ngIf="currentUser.id === comment.idCreator">
                             <p>{{comment.author.firstname}}</p>
+                            <img src="../../../assets/img/recycle.png" alt="" (click)="deleteComment(comment.id)" (click)="refresh()" width="20px">
                             <p >{{comment.message}}</p>
                         </div>
                     </div>

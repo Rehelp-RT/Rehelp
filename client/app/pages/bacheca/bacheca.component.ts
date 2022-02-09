@@ -22,7 +22,6 @@ import { ForumPostService } from "@app/services/forum.service";
 import { BachecaPost } from "@app/models/bachecaPost";
 import { createUnionOrIntersectionTypeNode } from "typescript";
 
-
 @Component({
   selector: "app-bacheca",
   templateUrl: "./bacheca.component.html",
@@ -35,7 +34,6 @@ export class BachecaComponent implements OnInit {
   // postComment = [];
 
   // check = false;
- 
 
   // open() {
   //     if(this.check==false){
@@ -44,7 +42,6 @@ export class BachecaComponent implements OnInit {
   //       this.check=false;
   //     }
   // }
-  
 
   // post() {
   //   this.postComment.push(this.comment);
@@ -54,7 +51,6 @@ export class BachecaComponent implements OnInit {
   constructor(private bs: BachecaService) {}
 
   ngOnInit(): void {
-    
     /* const idPost = this.actRoute.snapshot.params.id;
     this.cs.getAll<Comment[]>( idPost, null, null, null).subscribe(res => {
       this.comments = res;
@@ -67,7 +63,7 @@ export class BachecaComponent implements OnInit {
     });
   }
 
-  getDate( date: Date) {
+  getDate(date: Date) {
     return new Date(date).toDateString();
   }
 }

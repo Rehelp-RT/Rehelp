@@ -15,13 +15,20 @@ module.exports = {
                     type: Sequelize.STRING
                 }
             ),
+            queryInterface.addColumn(
+                'Users',
+                'cf', {
+                    type: Sequelize.STRING
+                }
+            ),
         ]);
     },
 
     down: (queryInterface, Sequelize) => {
         return Promise.all([
             queryInterface.removeColumn('Users', 'username'),
-            queryInterface.removeColumn('Users', 'password')
+            queryInterface.removeColumn('Users', 'password'),
+            queryInterface.removeColumn('Users', 'cf')
         ]);
     }
 };

@@ -16,13 +16,16 @@ router.get('/version', function(req, res) {
 // POST /api/signup
 router.post('/signup', function(req, res) {
     console.log(req.body);
-    if (!req.body.email || !req.body.password) {
-        res.status(400).send({ msg: 'Please pass email and password.' })
+    if (!req.body.email || !req.body.password || !req.body.cf) {
+        res.status(400).send({ msg: 'Please pass email, password and codice fiscale.' })
     } else {
 
         User.findOne({
                 where: {
-                    email: req.body.email
+                    $or :[
+                        {email: req.body.email},
+                        {cf: req.body.cf}
+                    ]
                 }
             })
             .then((registeredUser) => {
@@ -46,8 +49,11 @@ router.post('/signup', function(req, res) {
                             res.status(400).send(error);
                         });
                 } else {
+                    const msg = 'Informazioni già utilizzate.';
+                    if (registeredUser.email === req.body.email) msg = 'Email già utilizzata.';
+                    else if (registeredUser.cf === req.body.cf) msg = 'Codice fiscale già utilizzato.';
                     return res.status(409).send({
-                        message: 'Email già utilizzata.',
+                        message: msg,
                     });
                 }
             })
@@ -389,6 +395,7 @@ getLoggedUser = function(user, token, expiresIn) {
         country: user.country,
         description: user.description,
         email: user.email,
+        cf:user.cf,
         firstname: user.firstname,
         lastname: user.lastname,
         latitude: user.latitude,

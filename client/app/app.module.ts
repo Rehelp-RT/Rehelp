@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 
 
 
+
 @NgModule({
     imports: [
         AppRoutingModule,
@@ -23,7 +24,7 @@ import { FormsModule } from '@angular/forms';
         BrowserAnimationsModule,
         NgbModule,
         HttpClientModule,
-        FormsModule
+        FormsModule,
     ],
     declarations: [
         AppComponent,

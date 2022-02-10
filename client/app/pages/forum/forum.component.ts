@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ForumPost } from "@app/models";
 import { ForumPostService } from "@app/services";
 
+
 @Component({
   selector: "app-forum",
   templateUrl: "./forum.component.html",
@@ -9,6 +10,7 @@ import { ForumPostService } from "@app/services";
 })
 export class ForumComponent implements OnInit {
   posts: ForumPost[] = [];
+  searchText: string;
 
   constructor(private fps: ForumPostService) {}
 
@@ -32,6 +34,7 @@ export class ForumComponent implements OnInit {
           updatedAt: new Date(el.updatedAt),
           author: el.author,
           category: el.category,
+          
         };
         return t;
       });
@@ -57,5 +60,35 @@ export class ForumComponent implements OnInit {
     navigation.classList.add("hide");
   }
 
-  search(elementSearch) {}
+  Search() {
+    if(this.searchText != ""){
+      this.posts = this.posts.filter(res=>{
+        return res.title.toLocaleLowerCase().match(this.searchText.toLocaleLowerCase());
+      });
+    }else if(this.searchText == "") {
+      this.ngOnInit();
+    }
+    
+    
+    //searchText = searchText.toLocaleLowerCase();
+
+    /* this.posts.filter(x => {
+      if( x.title.toLocaleLowerCase().includes(searchText)){
+     
+        x.title.toLocaleLowerCase().includes(searchText)
+
+       console.log(this.posts);
+      } else {
+        this.posts = [];
+        console.log(this.posts);
+      }
+       
+      // x.toLocaleLowerCase().includes(searchText);
+    });*/
+  }
+
+  
 }
+
+
+

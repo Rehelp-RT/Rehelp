@@ -59,8 +59,8 @@
     </div> -->
     <div class="searchBox">
         <div class="shadow"></div>
-        <input type="text" placeholder="Search Anything You Want...">
-        <img src="../../../assets/img/loupe.png" alt="">
+        <input type="text" placeholder="Search Anything You Want..." [(ngModel)]="searchText" (input)="Search()">
+        <img  src="../../../assets/img/loupe.png" alt=""> <!--(click)="search($event.target.value)" -->
     </div>
 </header>
 

@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
 
 // GET /api/associations/5
 router.get('/:id', (req, res) =>
-    db.Comments.findByPk(req.params.id, {
+    db.Associations.findByPk(req.params.id, {
       attributes: ['name', 'secretId']
     })
     .then(x => {
@@ -32,3 +32,5 @@ router.get('/:id', (req, res) =>
     })
 );
 
+// exports
+module.exports = router;

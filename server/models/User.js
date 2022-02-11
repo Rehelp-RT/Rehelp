@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         cf: DataTypes.STRING,
         likehelps: DataTypes.INTEGER,
         password: DataTypes.STRING,
-
+        donator: DataTypes.BOOLEAN,
         loginLocal: DataTypes.BOOLEAN,
         loginFacebook: DataTypes.BOOLEAN,
         loginGoogle: DataTypes.BOOLEAN,

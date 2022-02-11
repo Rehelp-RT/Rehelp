@@ -28,6 +28,14 @@ module.exports = (sequelize, DataTypes) => {
                 as: 'creator'
             }
         },
+        idDonateTo: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: db.Associations,
+                key: 'id',
+                as: 'donateTo'
+            }
+        },
         description: DataTypes.TEXT,
         image: DataTypes.STRING,
         halfhourValidity: DataTypes.INTEGER,
@@ -36,7 +44,8 @@ module.exports = (sequelize, DataTypes) => {
         latitude: DataTypes.FLOAT,
         longitude: DataTypes.FLOAT,
         address: DataTypes.STRING,
-
+        likehelps: DataTypes.INTEGER,
+        lhToDonate: DataTypes.INTEGER,
         accepted: DataTypes.BOOLEAN,
         reviewed: DataTypes.BOOLEAN,
         completed: DataTypes.BOOLEAN,
@@ -59,6 +68,11 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: "CASCADE",
             foreignKey: 'idCreator',
             as: 'creator'
+        }); 
+        models.Help.belongsTo(models.Associations, {
+            onDelete: "CASCADE",
+            foreignKey: 'idDonateTo',
+            as: 'association'
         });
         models.Help.hasMany(models.HelpResponse, {
             foreignKey: 'idHelp',

@@ -40,7 +40,7 @@ router.get('/', (req, res) => {
                 required: true,
                 as: 'type'
             },{
-                attributes: ['id', 'firstname', 'lastname', 'birthdate', 'avatar', 'likehelps'],
+                attributes: ['id', 'firstname', 'lastname', 'birthdate', 'avatar', 'likehelps', 'cf', 'donator',],
                 model: db.User,
                 required: true,
                 as: 'creator'
@@ -63,7 +63,7 @@ router.get('/', (req, res) => {
         },
         {
             attributes: [
-                'id', 'avatar', 'birthdate', 'city', 'country',
+                'id', 'avatar', 'birthdate', 'city', 'country', 'cf', 'donator',
                 'email', 'firstname', 'lastname', 'latitude', 'longitude',
                 'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
                 'idFacebook', 'idGoogle', 'phoneNumber'
@@ -99,7 +99,7 @@ router.get('/:id', (req, res) => {
         },
         {
             attributes: [
-                'id', 'avatar', 'birthdate', 'city', 'country',
+                'id', 'avatar', 'birthdate', 'city', 'country', 'cf', 'donator',
                 'email', 'firstname', 'lastname', 'latitude', 'longitude',
                 'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
                 'idFacebook', 'idGoogle', 'phoneNumber'

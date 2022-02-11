@@ -36,6 +36,7 @@ router.post('/signup', function(req, res) {
                             password: req.body.password,
                             firstname: req.body.firstname,
                             lastname: req.body.lastname,
+                            cf: req.body.cf,
                             birthdate: req.body.birthdate,
                             loginLocal: true
                         })
@@ -398,6 +399,7 @@ getLoggedUser = function(user, token, expiresIn) {
         cf:user.cf,
         firstname: user.firstname,
         lastname: user.lastname,
+        donator: user.donator,
         latitude: user.latitude,
         longitude: user.longitude,
         likehelps: user.likehelps,

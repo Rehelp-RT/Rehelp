@@ -30,7 +30,7 @@ router.get('/', (req, res) =>{
         include: [{
             attributes: [
                 'id', 'avatar', 'birthdate', 'city', 'country',
-                'email', 'firstname', 'lastname', 'latitude', 'longitude',
+                'email', 'firstname', 'lastname', 'latitude', 'longitude', 'cf', 'donator',
                 'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
                 'idFacebook', 'idGoogle', 'phoneNumber'
             ],
@@ -41,7 +41,7 @@ router.get('/', (req, res) =>{
           {
             attributes: [
                 'id', 'avatar', 'birthdate', 'city', 'country',
-                'email', 'firstname', 'lastname', 'latitude', 'longitude',
+                'email', 'firstname', 'lastname', 'latitude', 'longitude', 'cf', 'donator',
                 'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
                 'idFacebook', 'idGoogle', 'phoneNumber'
             ],
@@ -90,7 +90,7 @@ router.get('/:id', (req, res) =>
         include: [{
             attributes: [
                 'id', 'avatar', 'birthdate', 'city', 'country',
-                'email', 'firstname', 'lastname', 'latitude', 'longitude',
+                'email', 'firstname', 'lastname', 'latitude', 'longitude', 'cf', 'donator',
                 'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
                 'idFacebook', 'idGoogle', 'phoneNumber'
             ],
@@ -101,7 +101,7 @@ router.get('/:id', (req, res) =>
           {
             attributes: [
                 'id', 'avatar', 'birthdate', 'city', 'country',
-                'email', 'firstname', 'lastname', 'latitude', 'longitude',
+                'email', 'firstname', 'lastname', 'latitude', 'longitude', 'cf', 'donator',
                 'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
                 'idFacebook', 'idGoogle', 'phoneNumber'
             ],

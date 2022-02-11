@@ -61,6 +61,7 @@ router.get('/', (req, res) => {
                 'latitude',
                 'longitude',
                 'birthdate',
+                'donator',
                 'loginLocal',
                 'loginFacebook',
                 'loginGoogle',
@@ -129,7 +130,7 @@ router.get('/:id', (req, res) => {
     db.User.findByPk(req.params.id, {
             attributes: [
                 'id', 'avatar', 'birthdate', 'city', 'country', 'description',
-                'email', 'cf', 'firstname', 'lastname', 'latitude', 'longitude',
+                'email', 'firstname', 'lastname', 'latitude', 'longitude', 'cf', 'donator',
                 'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
                 'idFacebook', 'idGoogle', 'phoneNumber'
             ],
@@ -203,6 +204,7 @@ router.get('/:id', (req, res) => {
                 cf: user.cf,
                 firstname: user.firstname,
                 lastname: user.lastname,
+                donator: user.donator,
                 latitude: user.latitude,
                 longitude: user.longitude,
                 likehelps: user.likehelps,
@@ -247,6 +249,7 @@ router.put('/:id/update', function(req, res) {
                             description: body.description,
                             email: body.email,
                             cf: body.cf,
+                            donator: body.donator,
                             phoneNumber: body.phoneNumber,
                             firstname: body.firstname,
                             lastname: body.lastname,

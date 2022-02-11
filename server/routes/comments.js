@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
         
         include: [{
             attributes: [
-                'id', 'avatar', 'birthdate', 'city', 'country',
+                'id', 'avatar', 'birthdate', 'city', 'country', 'cf', 'donator',
                 'email', 'firstname', 'lastname', 'latitude', 'longitude',
                 'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
                 'idFacebook', 'idGoogle', 'phoneNumber'
@@ -52,7 +52,7 @@ router.get('/:id', (req, res) =>
       attributes: ['message', 'idCreator', 'createdAt', 'idHelp', 'idPost'],
       include: [{
           attributes: [
-              'id', 'avatar', 'birthdate', 'city', 'country',
+              'id', 'avatar', 'birthdate', 'city', 'country', 'cf', 'donator',
               'email', 'firstname', 'lastname', 'latitude', 'longitude',
               'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
               'idFacebook', 'idGoogle', 'phoneNumber'

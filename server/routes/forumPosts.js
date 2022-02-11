@@ -29,7 +29,7 @@ router.get('/', (req, res) =>{
         attributes: ['id', 'image', 'description', 'idCreator', 'title', 'idCategory', 'createdAt', 'updatedAt'],
         include: [{
             attributes: [
-                'id', 'avatar', 'birthdate', 'city', 'country',
+                'id', 'avatar', 'birthdate', 'city', 'country', 'cf', 'donator',
                 'email', 'firstname', 'lastname', 'latitude', 'longitude',
                 'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
                 'idFacebook', 'idGoogle', 'phoneNumber'
@@ -67,7 +67,7 @@ router.get('/:id', (req, res) =>
         attributes: ['id', 'image', 'description', 'idCreator', 'title', 'idCategory', 'createdAt'],
         include: [{
             attributes: [
-                'id', 'avatar', 'birthdate', 'city', 'country',
+                'id', 'avatar', 'birthdate', 'city', 'country', 'cf', 'donator',
                 'email', 'firstname', 'lastname', 'latitude', 'longitude',
                 'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
                 'idFacebook', 'idGoogle', 'phoneNumber'

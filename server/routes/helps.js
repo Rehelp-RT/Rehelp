@@ -70,7 +70,9 @@ router.get('/', (req, res) => {
             'accepted',
             'reviewed',
             'completed',
-            'updatedAt'
+            'updatedAt',
+            'likehelps',
+            'lhToDonate'
         ],
         where: {
             [Op.and]: filters
@@ -101,14 +103,14 @@ router.get('/', (req, res) => {
             as: 'category'
         },
         {
-            attributes: ['email', 'firstname', 'lastname', 'avatar', 'id'],
+            attributes: ['email', 'firstname', 'lastname', 'avatar', 'id', 'cf', 'donator',],
             model: db.User,
             required: true,
             as: 'creator'
         },
         {
             include: [{
-                attributes: ['id', 'email', 'firstname', 'lastname', 'avatar'],
+                attributes: ['id', 'email', 'firstname', 'lastname', 'avatar', 'cf', 'donator',],
                 model: db.User,
                 required: true,
                 as: 'responder'
@@ -118,6 +120,12 @@ router.get('/', (req, res) => {
             order: [
                 [{ model: db.Help.HelpResponse, as: 'responses' }, 'ddd', 'desc']
             ]
+        },
+        {
+            attributes: ['name', 'secreteId'],
+            model: db.Associations,
+            required: false,
+            as: 'association'
         }
         ],
         order: [
@@ -156,7 +164,7 @@ router.get('/:id', (req, res) => {
             },
             {
                 attributes: [
-                    'id', 'avatar', 'birthdate', 'city', 'country',
+                    'id', 'avatar', 'birthdate', 'city', 'country', 'cf', 'donator',
                     'email', 'firstname', 'lastname', 'latitude', 'longitude',
                     'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
                     'idFacebook', 'idGoogle', 'phoneNumber'
@@ -169,7 +177,7 @@ router.get('/:id', (req, res) => {
                 include: [
                     {
                         attributes: [
-                            'id', 'avatar', 'birthdate', 'city', 'country',
+                            'id', 'avatar', 'birthdate', 'city', 'country', 'cf', 'donator',
                             'email', 'firstname', 'lastname', 'latitude', 'longitude',
                             'likehelps', 'loginLocal', 'loginFacebook', 'loginGoogle',
                             'idFacebook', 'idGoogle', 'phoneNumber'
@@ -190,6 +198,12 @@ router.get('/:id', (req, res) => {
                 order: [
                     [{ model: db.Help.HelpResponse, as: 'responses' }, 'ddd', 'desc']
                 ]
+            },
+            {
+                attributes: ['name', 'secreteId'],
+                model: db.Associations,
+                required: false,
+                as: 'association'
             }
         ]
     })
@@ -236,6 +250,8 @@ router.post('/add', (req, res) => {
         res.status(400).send({ message: 'latitude is missing' });
     } else if (body.longitude === undefined) {
         res.status(400).send({ message: 'longitude is missing' });
+    }else if (body.likehelps === undefined) {
+        res.status(400).send({ message: 'likehelps are missing' });
     } else {
         const dateEndValidity =
             body.halfhourValidity === undefined
@@ -257,7 +273,10 @@ router.post('/add', (req, res) => {
             latitude: body.latitude,
             longitude: body.longitude,
             address: body.address,
-            isOffer: body.isOffer
+            isOffer: body.isOffer,
+            likehelps: body.likehelps,
+            lhToDonate: body.lhToDonate,
+            idDonateTo: body.idDonateTo
         })
             .then(help => {
                 db.HelpType.findByPk(help.idType).then(type => {
@@ -267,7 +286,8 @@ router.post('/add', (req, res) => {
                                 'id',
                                 'firstname',
                                 'lastname',
-                                'phoneNumber'
+                                'phoneNumber',
+                                'cf', 'donator',
                             ],
                             where: {
                                 [Op.and]: Sequelize.fn(
@@ -370,7 +390,10 @@ router.put('/update/:id', (req, res) => {
                         image: body.image,
                         latitude: body.latitude,
                         longitude: body.longitude,
-                        address: body.address
+                        address: body.address,
+                        likehelps: body.likehelps,
+                        lhToDonate: body.lhToDonate,
+                        idDonateTo: body.idDonateTo
                     })
                         .then(x => {
                             res.status(200).send(help)
@@ -402,7 +425,8 @@ function sendSms(distance, long, lat, description, id) {
             'id',
             'firstname',
             'lastname',
-            'phoneNumber'
+            'phoneNumber',
+            'cf', 'donator',
         ],
         where: {
             [Op.and]: filters,

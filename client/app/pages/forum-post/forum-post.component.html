@@ -1,5 +1,7 @@
 
-    <header>
+   
+<!--SEARCH BAR MOVEMENT-->
+<header>
     <!--NavBar Section-->
    <!-- <div class="navbar">
         <nav class="navigation hide" id="navigation">
@@ -45,57 +47,65 @@
     </div>-->
 
 
-        <!--SearchBox Section-->
-        <div class="search-box">
-            <div>
-                <select name="" id="">
-                    <option value="Everything">Everything</option>
-                    <option value="Titles">Titles</option>
-                    <option value="Descriptions">Descriptions</option>
-                </select>
-                <input type="text" name="q" placeholder="search ...">
-                <button><i class="fa fa-search"></i></button>
+    <!--SearchBox Section-->
+    <!-- <div class="search-box">
+        <div>
+            <select name="" id="">
+                <option value="Everything">Everything</option>
+                <option value="Titles">Titles</option>
+                <option value="Descriptions">Descriptions</option>
+            </select>
+            <input type="text" name="q" placeholder="search ...">
+            <button><i class="fa fa-search"></i></button>
+        </div>
+    </div> -->
+    <div class="searchBox">
+        <div class="shadow"></div>
+        <input type="text" placeholder="Search Anything You Want..." [(ngModel)]="searchText" (input)="Search()">
+        <img  src="../../../assets/img/loupe.png" alt=""> <!--(click)="search($event.target.value)" -->
+    </div>
+</header>
+
+
+<!-- FORUM POST -->
+<div class="container">
+    <h1 class="container_title">Forum di {{currentUser.firstname}} {{currentUser.lastname}}</h1>
+    <div class="subforum" *ngFor="let i of posts" >
+        <div *ngIf="currentUser.id === i.idCreator">
+        <!-- <div class="subforum-title">
+            <h1>General Information</h1>
+        </div> -->
+        <div class="subforum-row">
+            <div class="subforum-icon subforum-column center">
+               
+                <img class="fa fa-car center" src="{{ i.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + i.image : 'assets/img/placeholder-help.png'  }}" alt="">
+            </div>
+            <div class="subforum-description subforum-column">
+                <h4><a href="forum/detail/{{i.id}}">{{i.category.name}} {{i.id}}</a></h4>
+                <p>{{i.description}}</p>
+            </div>
+           <!-- <div class="subforum-stats subforum-column center">
+                <span>24 Posts | 12 Topics</span>
+            </div> -->
+            <div class="subforum-info subforum-column">
+                <b><a href="">Last post</a></b> by <a href="">{{i.author.firstname}}</a>
+                <br>on <small>{{getDate(i.createdAt)}}</small>
             </div>
         </div>
-    </header>
-    <div class="container">
-        <!--Navigation-->
-        <div class="navigate">
-            <span><a href="">MyForum - Forums</a> >> <a href="">random subforum</a></span>
-        </div>
-        <!--Display posts table-->
-        <div class="posts-table">
-            <div class="table-head">
-                <div class="status">Status</div>
-                <div class="subjects">Subjects</div>
-                <div class="replies">Replies/Views</div>
-                <div class="last-reply">Last Reply</div>
-            </div>
-            <div class="table-row">
-                <div class="status"><i class="fa fa-fire"></i></div>
-                <div class="subjects">
-                    <a href="">Is learning Python on 2021 worth it?</a>
-                    <br>
-                    <span>Started by <b><a href="">User</a></b> .</span>
-                </div>
-                <div class="replies">
-                    2 replies <br> 125 views
-                </div>
-
-                <div class="last-reply">
-                    Oct 12 2021
-                    <br>By <b><a href="">User</a></b>
-                </div>
-            </div>
+        <app-comment [receivedIdHelp] = null [receivedIdPost] = "i.id"></app-comment>
     </div>
-
-    <div class="note">
-        <span><i class="fa fa-frown-o"></i>&nbsp; 0 Engagement Topic</span>&nbsp;&nbsp;&nbsp;<a href=""><i class="fa fa-share-square"></i></a><br>
-        <span><i class="fa fa-book"></i>&nbsp; Low Engagement Topic</span>&nbsp;&nbsp;&nbsp;<a href=""><i class="fa fa-share-square"></i></a><br>
-        <span><i class="fa fa-fire"></i>&nbsp; Popular Topic</span>&nbsp;&nbsp;&nbsp;<a href=""><i class="fa fa-share-square"></i></a><br>
-        <span><i class="fa fa-rocket"></i>&nbsp; High Engagement Topic</span>&nbsp;&nbsp;&nbsp;<a href=""><i class="fa fa-share-square"></i></a><br>
-        <span><i class="fa fa-lock"></i>&nbsp; Closed Topic</span>&nbsp;&nbsp;&nbsp;<a href=""><i class="fa fa-share-square"></i></a><br>
     </div>
+</div>
+
+<!-- Forum Info -->
+<!-- <div class="forum-info">
+    <div class="chart">
+        MyForum - Stats &nbsp;<i class="fa fa-bar-chart"></i>
+    </div>
+    <span><u>5,369</u> Posts in <u>48</u> Topics by <u>8,124</u> Members.</span><br>
+    <span>Latest post: <b><a href="">Random post</a></b> on Dec 15 2021 By <a href="">RandomUser</a></span>.<br>
+    <span>Check <a href="">the latest posts</a> .</span><br>
+</div> -->
 
 
 

@@ -78,8 +78,8 @@ export class CommentComponent implements OnInit {
     });
   }
 
-  deleteComment() {
-    this.cs.deleteComment(this.model.id).subscribe(() => {
+  deleteComment(id) {
+    this.cs.deleteComment(id).subscribe(() => {
       // TODO:
       // this.router.navigate(['/helps/', this.model.id]);
     },
@@ -97,5 +97,9 @@ export class CommentComponent implements OnInit {
       console.log(err);
     });
   }
+
+  refresh(): void {
+    window.location.reload();
+}
 
 }

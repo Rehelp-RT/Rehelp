@@ -65,6 +65,7 @@ import { ErrorInterceptor, JwtInterceptor } from './interceptors';
 import { FilterCategoriesPipe } from './pipes';
 import { NotificationsComponent } from './layout/header/notifications/notifications.component';
 import { HelpTypeComponent } from './components/help-type/help-type.component';
+import { FilterPipe } from './pipes/filter.pipe';
 
 // social login configurations
 const config = new AuthServiceConfig([
@@ -112,7 +113,8 @@ export function provideConfig() {
         FooterComponent,
         FilterCategoriesPipe,
         HelpTypeComponent,
-        NotificationsComponent
+        NotificationsComponent,
+        FilterPipe
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
@@ -133,7 +135,8 @@ export function provideConfig() {
         ModalModule, StarRatingModule, StarsModule, UserIconModule,
         FooterComponent, HeaderComponent,
         RecaptchaModule, RecaptchaFormsModule,
-        FilterCategoriesPipe
+        FilterCategoriesPipe,
+        FilterPipe
     ]
 })
 export class SharedModule {

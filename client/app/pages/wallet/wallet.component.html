@@ -23,7 +23,7 @@
                     <p class="p-credit-card">VALID TILL</p>
                 </div>
                 <div class="row-card-credit card-credit-name">
-                    <p class="p-credit-card">NOME UTENTE</p>
+                    <p class="p-credit-card">{{currentUser.firstname}} {{currentUser.lastname}}</p>
                     <p class="p-credit-card">11 / 27</p>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                     la Carta virtuale di ReHelp
                 </div>
                 <div class="row-card-credit signature">
-                    <p class="p-credit-card">CUSTOMER SIGNATURE</p>
+                    <p class="p-credit-card">{{currentUser.firstname}} {{currentUser.lastname}}</p>
                     <img src="..\assets\img\logo-mark-rehelp.png" alt="" width="80px">
                 </div>
             </div>
@@ -55,7 +55,7 @@
         I miei likeHelp:
     </p>
     <p class="row-likeHelp_p">
-        numero
+        {{currentUser.likehelps}}
     </p>
 </div>
 

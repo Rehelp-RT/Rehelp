@@ -12,6 +12,7 @@ router.use('/types', require('./types'));
 router.use('/comments', require('./comments'));
 router.use('/forumPosts', require('./forumPosts'));
 router.use('/bachecaPosts', require('./bachecaPosts'));
+router.use('/associations', require('./associations'));
 
 router.use(function(err, req, res, next) {
     if (err.name === 'ValidationError') {

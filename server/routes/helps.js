@@ -122,7 +122,7 @@ router.get('/', (req, res) => {
             ]
         },
         {
-            attributes: ['name', 'secreteId'],
+            attributes: ['name', 'secretId'],
             model: db.Associations,
             required: false,
             as: 'association'
@@ -200,7 +200,7 @@ router.get('/:id', (req, res) => {
                 ]
             },
             {
-                attributes: ['name', 'secreteId'],
+                attributes: ['name', 'secretId'],
                 model: db.Associations,
                 required: false,
                 as: 'association'

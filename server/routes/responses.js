@@ -412,8 +412,46 @@ router.put('/complete/:id', (req, res) => {
     } else if (body.ratingResponder === undefined) {
         res.status(400).send({ message: 'ratingResponder is missing' });
     } else {
+        db.HelpResponse.findByPk(req.params.id)
+            .then(response => {
+                // check if record exists in db
+                const currentDate = new Date();
+                // update response
+                response.update({
+                    completed: true,
+                    completedAt: currentDate,
+                    responderReviewedAt: currentDate,
+                    imageReviewResponder: body.imageReviewResponder,
+                    messageResponder: body.messageResponder,
+                    ratingResponder: body.ratingResponder
+                }),
+                    // update help
+                    response.help.update({
+                        completed: true
+                    })
+                db.HelpType.findByPk(response.help.idType)
+                    .then(type => {
+                        if (type.code != 'COH') {
+                            db.User.findByPk(response.idResponder).then(user => {
+                                db.Notification.create({
+                                    idUser: response.help.idCreator,
+                                    idHelp: response.help.id,
+                                    message: user.firstname + ' ti ha dato una nuova recensione!',
+                                    createdAt: currentDate
+                                })
+                            })
+                        }
+                        res.status(200).send(response);
+                    })
+            })
+    }
+});
+
+// PUT /api/responses/post/id
+router.put('/responses/post/:id', (req, res) => {
         db.HelpResponse.findByPk(req.params.id, {
             include: [{
+                attributes: ['likehelps', 'lhToDonate'],
                 model: db.Help,
                 required: true,
                 as: 'help',
@@ -437,49 +475,48 @@ router.put('/complete/:id', (req, res) => {
                 const currentDate = new Date();
                 const creatorLh = response.help.creator.likehelps;
                 const responderLh = response.responder.likehelps;
+                const helpLh = response.help.likehelps;
+                const helpLhToDonate = response.help.lhToDonate === undefined ? 0 : response.help.lhToDonate;
+                const lhToReceive = helpLh - helpLhToDonate;
                 // update response
                 response.update({
-                    completed: true,
-                    completedAt: currentDate,
-                    responderReviewedAt: currentDate,
-                    imageReviewResponder: body.imageReviewResponder,
-                    messageResponder: body.messageResponder,
-                    ratingResponder: body.ratingResponder
+                    posted: true,
+                    postedAt: currentDate
                 }),
                     // update help
                     response.help.update({
-                        completed: true
+                        posted: true
                     })
                 db.HelpType.findByPk(response.help.idType)
                     .then(type => {
                         if (type.code != 'COH') {
                             // update creator
                             response.help.creator.update({
-                                likehelps: creatorLh - 1
+                                likehelps: creatorLh - helpLh
                             })
                             // update responder
                             response.responder.update({
-                                likehelps: responderLh + 1
+                                likehelps: responderLh + lhToReceive
                             })
                             db.User.findByPk(response.idResponder).then(user => {
                                 db.Notification.create({
                                     idUser: response.help.idCreator,
                                     idHelp: response.help.id,
-                                    message: user.firstname + ' ti ha dato una nuova recensione!',
+                                    message: user.firstname + ' ha pubblicato un post in bacheca con te!',
                                     createdAt: currentDate
                                 })
                             })
                             db.Notification.create({
                                 idUser: response.idResponder,
                                 idHelp: response.help.id,
-                                message: 'hai guadagnato un likehelp!',
+                                message: 'hai guadagnato ' + lhToReceive + ' likehelps!',
                                 createdAt: currentDate
                             })
                         }
                         res.status(200).send(response);
                     })
             })
-    }
+    // }
 });
 
 // DELETE /api/responses/delete/id

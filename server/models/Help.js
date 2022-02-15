@@ -49,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
         accepted: DataTypes.BOOLEAN,
         reviewed: DataTypes.BOOLEAN,
         completed: DataTypes.BOOLEAN,
-
+        posted: DataTypes.BOOLEAN,
         isOffer: DataTypes.BOOLEAN
     }, {});
 

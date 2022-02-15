@@ -53,6 +53,10 @@ export class ResponseService {
         return this.http.put<any>(`${this.api}/responses/complete/` + response.id, response);
     }
 
+    postResponse(id: HelpResponse) {
+        return this.http.put<any>(`${this.api}/responses/post/` + id, {});
+    }
+
     deleteResponse(response: HelpResponse) {
         return this.http.delete<any>(`${this.api}/responses/delete/` + response.id, {});
     }

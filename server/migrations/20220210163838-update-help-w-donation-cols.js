@@ -20,23 +20,33 @@ module.exports = {
                 'lhToDonate', {
                     type: Sequelize.INTEGER
                 }                
-        ),
+            ),
+            queryInterface.addColumn(
+                'Help',
+                'posted', {
+                    type: Sequelize.BOOLEAN
+                }                
+            ),
         ]);
     },
 
     down: (queryInterface, Sequelize) => {
         return Promise.all([
             queryInterface.removeColumn(
-                'Associations',
+                'Help',
                 'idDonateTo'
             ),
             queryInterface.removeColumn(
-                'Associations',
+                'Help',
                 'likehelps'
             ),
             queryInterface.removeColumn(
-                'Associations',
+                'Help',
                 'lhToDonate'
+            ),
+            queryInterface.removeColumn(
+                'Help',
+                'posted'
             ),
         ])
     }

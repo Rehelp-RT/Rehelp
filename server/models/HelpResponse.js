@@ -19,8 +19,9 @@ module.exports = (sequelize, DataTypes) => {
         accepted: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
         reviewed: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
         completed: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
+        posted: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
         message: DataTypes.STRING,
-
+        postedAt: DataTypes.DATE,
         acceptedAt: DataTypes.DATE,
         canceledAt: DataTypes.DATE,
         creatorReviewedAt: DataTypes.DATE,

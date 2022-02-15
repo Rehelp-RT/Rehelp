@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AuthenticationService, BachecaService, CategoryService, HelpService, TypeService } from '@app/services';
+import { AuthenticationService, BachecaService, CategoryService, HelpService, ResponseService, TypeService } from '@app/services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, ViewChild, ElementRef, Input, NgZone, OnInit } from '@angular/core';
@@ -49,7 +49,7 @@ export class BachecaFormComponent implements OnInit {
     private as: AuthenticationService,
     private cs: CategoryService,
     private bs: BachecaService,
-    private ts: TypeService,
+    private rs: ResponseService,
     private cloudinary: Cloudinary,
     private ngZone: NgZone,
     private mapsAPILoader: MapsAPILoader
@@ -144,24 +144,22 @@ get f() { return this.bachecaPostForm.controls; }
 private addPost() {
     // crea l'help
     this.bs.addBachecaPost(this.model).subscribe(x => {
-      // this.router.navigate(['bacheca/detail/', x.id]);
-      this.router.navigate(['bacheca']);
-
+      this.postResponse();
       },
       err => {
         console.log(err);
       });
-    //     this.response = new HelpResponse();
-    //     this.response.responder = this.userToAsk;
-    //     this.response.idResponder = this.userToAsk.id;
-    //     this.response.help = x;
-    //     this.response.idHelp = x.id;
+      
+}
 
-    //     this.addResponse();
-    // },
-    //     err => {
-    //         console.log('errore addHelp', err);
-    //     });
+private postResponse() {
+  this.rs.postResponse(this.activeRoute.snapshot.params.idResponse).subscribe(x => {
+    this.router.navigate(['bacheca']);
+  },
+    err => {
+      console.log(err);
+    });
+    
 }
 
 private initImages() {

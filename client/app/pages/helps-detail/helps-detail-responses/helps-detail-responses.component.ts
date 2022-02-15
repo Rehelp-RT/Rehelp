@@ -279,7 +279,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
     }
 
     createPost(response: HelpResponse): void {
-        this.router.navigate(['/bacheca/form', this.help.id, response.idResponder]);
+        this.router.navigate(['/bacheca/form', this.help.id, response.idResponder, response.id]);
     }
 
     deleteResponse(response: HelpResponse): void {

@@ -9,11 +9,13 @@ module.exports = {
         onDelete: 'cascade',
         onUpdate: 'cascade'
       })
-    ])
+    ]);
   },
 
   down: (queryInterface, Sequelize) => {
-    queryInterface.removeConstraint('Help', 'custom_fkey_help_associations')
+    return Promise.all([
+      queryInterface.removeConstraint('Help', 'custom_fkey_help_associations')
+    ])
   }
 };
 

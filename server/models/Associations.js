@@ -4,7 +4,7 @@ const db = require('../models');
 module.exports = (sequelize, DataTypes) => {
     const Associations = sequelize.define('Associations', {
         name: DataTypes.STRING,
-        secreteId: DataTypes.STRING,
+        secretId: DataTypes.STRING,
         createdAt: DataTypes.DATE,
         updatedAt: DataTypes.DATE
     }, {});

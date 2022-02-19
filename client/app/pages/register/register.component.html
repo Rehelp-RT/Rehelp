@@ -37,6 +37,20 @@
                                 <input class="form-control"
                                     type="text" formControlName="email"
                                     [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                                    placeholder="Codice Fiscale" />
+                                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                    <div *ngIf="f.email.errors.required">
+                                        Il codice fiscale è obbligatoria
+                                    </div>
+                                    <div *ngIf="f.email.errors?.pattern">
+                                        Inserire il codice fiscale valido
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row mb-3">
+                                <input class="form-control"
+                                    type="text" formControlName="email"
+                                    [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
                                     placeholder="Email" />
                                 <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                                     <div *ngIf="f.email.errors.required">

@@ -10,6 +10,7 @@ export class Help {
     createdAt: Date;
     updatedAt: Date;
     latitude: number;
+    lhToDonate: number;
     longitude: number;
     address: string;
 

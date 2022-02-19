@@ -33,6 +33,10 @@
                             <fa-icon title="Accettato" [icon]="['fas', 'check']"></fa-icon>
                             Accettato
                         </div>
+                        <div *ngIf="help.posted">
+                            <fa-icon title="posted" [icon]="['fas', 'check']"></fa-icon>
+                            Post aggiunto in bacheca
+                        </div>
                         <div *ngIf="!help.accepted && !help.reviewed">
                             In accettazione
                         </div>

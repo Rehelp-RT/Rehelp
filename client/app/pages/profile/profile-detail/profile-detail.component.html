@@ -15,6 +15,9 @@
     <div class="card-body" *ngIf="user">
 
         <h3>Su di me</h3>
+        <p *ngIf="user.donator == true">
+            Questo utente è un donatore
+        </p>
         <p *ngIf="user.description" class="font-italic">
             {{ user.description}}
         </p>

@@ -17,6 +17,7 @@ export class User {
     latitude: number;
     longitude: number;
     phoneNumber: string;
+    donator: boolean;
 
     responsesReviewsCount: number;
     responsesReviewsSum: number;

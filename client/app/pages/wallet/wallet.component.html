@@ -9,8 +9,9 @@
             <div class="front">
                 <img src="..\assets\img\logo-rehelp.png" alt="" class="map-img">
                 <div class="row-card-credit">
-                    <img src="..\assets\img\chip.png" alt="" width="60px">
-                    <img src="..\assets\img\logo-mark-rehelp.png" alt="" width="80px" height="80px">
+                    <img src="..\assets\img\chip.png" alt="" width="60px" class="chip_css">
+                    <img src="..\assets\img\logo-mark-rehelp.png" alt="" width="80px" height="80px"
+                        class="logo-mark-rehelp_css">
                 </div>
                 <div class="row-card-credit card-no">
                     <p class="p-credit-card">{{num1}}</p>
@@ -28,7 +29,7 @@
                 </div>
             </div>
             <div class="back">
-                <img src="..\assets\img\logo-rehelp.png" alt="" class="map-img">
+                <img src="..\assets\img\logo-rehelp.png" alt="" class="map-img_back map-img">
                 <div class="bar"></div>
                 <div class="row-card-credit card-cvv">
                     <div>
@@ -41,7 +42,7 @@
                 </div>
                 <div class="row-card-credit signature">
                     <p class="p-credit-card">{{currentUser.firstname}} {{currentUser.lastname}}</p>
-                    <img src="..\assets\img\logo-mark-rehelp.png" alt="" width="80px">
+                    <img src="..\assets\img\logo-mark-rehelp.png" alt="" width="80px" class="logo-mark-rehelp_css">
                 </div>
             </div>
         </div>
@@ -67,7 +68,7 @@
             <p>Likehelp: {{i.isPositive === true ? '+' : '-'}} {{i.likeHelp}}</p>
         </div>
         <div class="all_transaction_element">
-            <p></p>   
+            <p></p>
             <p>Data: {{getDate(i.date)}}</p>
         </div>
     </div>

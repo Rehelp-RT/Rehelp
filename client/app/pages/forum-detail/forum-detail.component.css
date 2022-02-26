@@ -206,11 +206,11 @@ h1{
 }
 
 .authors{
-    flex: 20%;
+    flex: 50%;
 }
 
 .content{
-    flex: 80%;
+    flex: 50%;
 }
 
 .body{
@@ -259,4 +259,9 @@ h1{
 
 .comment-area input:hover{
     border: solid 1px #000000;
+}
+
+
+.forum__detail{
+    
 }

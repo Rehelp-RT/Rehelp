@@ -18,6 +18,7 @@ export class User {
     longitude: number;
     phoneNumber: string;
     donator: boolean;
+    cf: string;
 
     responsesReviewsCount: number;
     responsesReviewsSum: number;

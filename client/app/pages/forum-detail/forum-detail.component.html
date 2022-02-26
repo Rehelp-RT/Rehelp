@@ -44,6 +44,7 @@
     </div>-->
 
     <!--SearchBox Section-->
+    <!--
     <div class="search-box">
         <div>
             <select name="" id="">
@@ -55,12 +56,15 @@
             <button><i class="fa fa-search"></i></button>
         </div>
     </div>
-<div class="container">
-    <!--Navigation-->
-    <div class="navigate">
-        <span><a href="">MyForum - Forums</a> >> <a href="">random subforum</a> >> <a href="">random topic</a></span>
-    </div> 
 
+   -->
+
+   <div class="forum__detail">
+       <p>Tutti i post di:  {{forumPost.author.firstname}} {{forumPost.author.lastname}}</p>
+   </div>
+
+
+<div class="container">
     <!--Topic Section-->
     <div class="topic-container" *ngIf="forumPost" >
         <!--Original thread-->

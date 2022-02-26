@@ -14,6 +14,7 @@ export class ForumDetailComponent implements OnInit {
   currentUser: User = null;
   comment: Comment[] =[];
 
+
   constructor(
     private fps: ForumPostService,
     private actRoute: ActivatedRoute,
@@ -82,5 +83,7 @@ export class ForumDetailComponent implements OnInit {
     var replyArea = document.getElementById("reply-area");
     replyArea.classList.remove("hide");
   }
+
+  
 
 }

@@ -34,9 +34,27 @@
                                     </div>
                                 </div>
 
-                                <p *ngIf="help.lhToDonate">
-                                    Donazione per: {{help.lhToDonate}}
-                                </p>
+                                <div class="mb-3 row" *ngIf="help.lhToDonate">
+                                    <div class="mb-1 col-md-5"><strong>Donazione per:</strong></div>
+                                    <div class="col-md-7">
+                                        {{help.lhToDonate}}
+                                    </div>
+                                </div>
+ 
+                                <div class="mb-3 row" *ngIf="help.likehelps">
+                                    <div class="mb-1 col-md-5"><strong>Numero di likeHelps:</strong></div>
+                                    <div class="col-md-7">
+                                        {{help.likehelps}}
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row" *ngIf="help.idDonateTo">
+                                    <div class="mb-1 col-md-5"><strong>La donazione è per:</strong></div>
+                                    <div class="col-md-7">
+                                        {{help.idDonateTo}}
+                                    </div>
+                                </div>
+
                                 <!-- <div class="mb-3 row">
                                     <div class="mb-1 col-md-4"><strong>Creato il</strong></div>
                                     <div class="col-md-8">

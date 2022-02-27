@@ -13,6 +13,8 @@ export class Help {
     lhToDonate: number;
     longitude: number;
     address: string;
+    likehelps: number;
+    idDonateTo: number;
 
     // IMH
     halfhourValidity: number;

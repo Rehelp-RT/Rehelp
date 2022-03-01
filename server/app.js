@@ -11,20 +11,76 @@ const socketIO = require('socket.io');
 const db = require('./models');
 
 
+
+
 /*--- Setup ---*/
 
 // start Express
 const app = express();
-
-// setup client for production
-const clientPath = path.join(__dirname, '../public')
-app.use(express.static(clientPath));
 
 // setup parser
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
     extended: true
 }));
+
+const stripe = require('stripe')("***REMOVED-STRIPE-KEY***");
+
+const cors = require('cors')
+
+// setup client for production
+const clientPath = path.join(__dirname, '../public')
+app.use(express.static(clientPath));
+
+
+// setup stripe
+
+
+app.use(cors())
+
+app.post('/checkout', async (req, res) =>{
+
+    try {
+        token = req.body.token;
+        console.log(token.id);
+      const customer = stripe.customers
+        .create({
+          email: "pietro.angelici@studenti.unicam.it",
+          source: token.id
+        })
+        .then((customer) => {
+          //console.log(customer);
+          return stripe.charges.create({
+            amount: 2000,
+            description: "A simple payment",
+            currency: "EUR",
+            customer: customer.id,
+          });
+        })
+        .then((charge) => {
+         // console.log(charge);
+            res.json({
+              data:"success"
+          })
+        })
+        .catch((err) => {
+            res.json({
+              data: "failure",
+            });
+        });
+      return true;
+    } catch (error) {
+      return false;
+    }
+})
+
+app.listen(5000, () => {
+    console.log("App is listening on port 5000")
+})
+
+
+
+
 
 // setup certificates
 var credentials = {};

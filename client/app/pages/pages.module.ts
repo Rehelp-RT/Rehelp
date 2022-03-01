@@ -39,6 +39,7 @@ import { WalletComponent } from './wallet/wallet.component';
 import { ForumFormComponent } from './forum-form/forum-form.component';
 import { CommentComponent } from './comment/comment.component';
 import { BachecaFormComponent } from './bacheca-form/bacheca-form.component';
+import { PaymentComponent } from './payment/payment.component';
 
 @NgModule({
     imports: [
@@ -79,7 +80,8 @@ import { BachecaFormComponent } from './bacheca-form/bacheca-form.component';
         WalletComponent,
         ForumFormComponent,
         CommentComponent,
-        BachecaFormComponent
+        BachecaFormComponent,
+        PaymentComponent
     ],
     exports: []
 })

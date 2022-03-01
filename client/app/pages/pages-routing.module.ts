@@ -29,6 +29,7 @@ import { ForumDetailComponent } from './forum-detail/forum-detail.component';
 import { WalletComponent } from './wallet/wallet.component';
 import { ForumFormComponent } from './forum-form/forum-form.component';
 import { BachecaFormComponent } from './bacheca-form/bacheca-form.component';
+import { PaymentComponent } from './payment/payment.component';
 
 
 const routes: Routes = [
@@ -41,6 +42,7 @@ const routes: Routes = [
   { path: 'forum/form', component: ForumFormComponent, data: {title: 'forum form'} },
   { path: 'forum/post', component: ForumPostComponent, data: {title: 'forum post'} },
   { path: 'forum/detail/:id', component: ForumDetailComponent, data: {title: 'forum detail'} },
+  { path: 'payment', component: PaymentComponent, data: {title: 'payment'} },
   { path: 'bacheca', component: BachecaComponent, data: {title: 'bacheca'} },
   { path: 'bacheca/form/:idHelp/:idResponder/:idResponse', component: BachecaFormComponent, data: {title: 'bacheca form'} },
   { path: 'helps', component: HelpsComponent, data: {title: 'Lista aiuti'}, canActivate: [AuthGuard] },

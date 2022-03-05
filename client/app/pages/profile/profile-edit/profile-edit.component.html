@@ -16,7 +16,8 @@
 
     <div class="form-row mb-3">
         <label class="col-md-4" for="description">Breve descrizione di sé</label>
-        <textarea class="col-md-8 form-control" rows="4" type="text" [(ngModel)]="model.description" name="description" placeholder="Sono appassionato di...">
+        <textarea class="col-md-8 form-control" rows="4" type="text" [(ngModel)]="model.description" name="description"
+            placeholder="Sono appassionato di...">
         </textarea>
     </div>
 
@@ -37,20 +38,33 @@
 
     <div class="form-row mb-3">
         <label class="col-md-4" for="phoneNumber">Donatore</label>
-        <input class="col-md-8 form-control" type="text" [(ngModel)]="model.cf" name="Donatore" required />
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" [(ngModel)]="model.donator"  name="inlineRadioOptions"
+                id="inlineRadio1" value="option1">
+            <label class="form-check-label" for="inlineRadio1">True</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" [(ngModel)]="model.donator"  name="inlineRadioOptions"
+                id="inlineRadio2" value="option2">
+            <label class="form-check-label" for="inlineRadio2">False</label>
+        </div>
+
     </div>
 
     <div class="form-row mb-3">
         <label class="col-md-4" for="location">Zona</label>
         <agm-map class="col-md-8" [latitude]="model.latitude" [longitude]="model.longitude" [zoom]="zoom">
-            <agm-marker [latitude]="model.latitude" [longitude]="model.longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
+            <agm-marker [latitude]="model.latitude" [longitude]="model.longitude" [markerDraggable]="true"
+                (dragEnd)="markerDragEnd($event)">
             </agm-marker>
         </agm-map>
     </div>
 
     <div class="form-row mb-3">
         <label class="col-md-4" for="address">Indirizzo</label>
-        <input type="text" class="col-md-8 form-control" [(ngModel)]="address" name="address" (keydown.enter)="$event.preventDefault()" placeholder="{{address}}" value="{{address}}" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
+        <input type="text" class="col-md-8 form-control" [(ngModel)]="address" name="address"
+            (keydown.enter)="$event.preventDefault()" placeholder="{{address}}" value="{{address}}" autocorrect="off"
+            autocapitalize="off" spellcheck="off" type="text" #search>
     </div>
 
     <div class="form-row mb-3">

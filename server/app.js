@@ -9,8 +9,8 @@ const fs = require('fs');
 const api = require('./routes');
 const socketIO = require('socket.io');
 const db = require('./models');
-
-
+var CodiceFiscale = require('codice-fiscale-js');
+const CodiceFiscaleUtils = require('@marketto/codice-fiscale-utils');
 
 
 /*--- Setup ---*/

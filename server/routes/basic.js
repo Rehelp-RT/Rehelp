@@ -22,39 +22,50 @@ router.post('/signup', function(req, res) {
 
         User.findOne({
                 where: {
-                    $or :[
-                        {email: req.body.email},
-                        {cf: req.body.cf}
-                    ]
+                    email: req.body.email
                 }
             })
             .then((registeredUser) => {
+                
                 if (!registeredUser) {
-                    User
-                        .create({
-                            email: req.body.email,
-                            password: req.body.password,
-                            firstname: req.body.firstname,
-                            lastname: req.body.lastname,
-                            cf: req.body.cf,
-                            birthdate: req.body.birthdate,
-                            loginLocal: true
-                        })
-                        .then((user) => {
-                            var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
-                            var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
-                            res.json(getLoggedUser(user, token, expiresIn));
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                            res.status(400).send(error);
-                        });
+                    User.findOne({
+                        where: {
+                            cf: req.body.cf
+                        }
+                    })
+                    .then((user) => {
+                        if(!user) {
+                            User
+                                .create({
+                                    email: req.body.email,
+                                    password: req.body.password,
+                                    firstname: req.body.firstname,
+                                    lastname: req.body.lastname,
+                                    cf: req.body.cf,
+                                    birthdate: req.body.birthdate,
+                                    loginLocal: true
+                                })
+                                .then((user) => {
+                                    var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
+                                    var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
+                                    res.json(getLoggedUser(user, token, expiresIn));
+                                })
+                                .catch((error) => {
+                                    console.log(error);
+                                    res.status(400).send(error);
+                                });
+                        }
+                        else {
+                            return res.status(409).send({
+                                message: 'Codice fiscale già utilizzato.',
+                            });
+                        }
+                    })
+                    
                 } else {
-                    const msg = 'Informazioni già utilizzate.';
-                    if (registeredUser.email === req.body.email) msg = 'Email già utilizzata.';
-                    else if (registeredUser.cf === req.body.cf) msg = 'Codice fiscale già utilizzato.';
+                    
                     return res.status(409).send({
-                        message: msg,
+                        message: 'Email già utilizzata.',
                     });
                 }
             })

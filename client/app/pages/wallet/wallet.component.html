@@ -62,6 +62,9 @@
 
 <div>
     <h4 class="transaction">TRANSAZIONI</h4>
+    <p *ngIf="transactions.length === 0">
+        Non hai ancora effettuato una transazione
+    </p>
     <div class="all_transaction" *ngFor="let i of transactions">
         <div class="all_transaction_element">
             <p>Descrizione: {{i.description}}</p>

@@ -45,14 +45,14 @@ app.post('/checkout', async (req, res) =>{
         console.log(token.id);
       const customer = stripe.customers
         .create({
-          email: "pietro.angelici@studenti.unicam.it",
+          email: "pietro.angelici@studenti.it",
           source: token.id
         })
         .then((customer) => {
           //console.log(customer);
           return stripe.charges.create({
             amount: 2000,
-            description: "A simple payment",
+            description: "Donazione effettuata da ReHelp",
             currency: "EUR",
             customer: customer.id,
           });

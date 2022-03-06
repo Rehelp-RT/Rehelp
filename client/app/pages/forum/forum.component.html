@@ -67,7 +67,11 @@
 
 <!-- FORUM POST -->
 <div class="container">
-    <h1 class="container_title">FORUM</h1>
+    <div class="sopra_title">
+        <h1 class="container_title">FORUM</h1>
+        <button class="botton_create_post" [routerLink]="['/forum/form/']">+</button>
+    </div>
+    
     <div class="subforum" *ngFor="let i of posts" >
         <!-- <div class="subforum-title">
             <h1>General Information</h1>

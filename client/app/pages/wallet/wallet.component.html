@@ -62,7 +62,7 @@
 
 <div>
     <h4 class="transaction">TRANSAZIONI</h4>
-    <p *ngIf="transactions.length === 0">
+    <p *ngIf="transactions.length === 0" class="noTransaction">
         Non hai ancora effettuato una transazione
     </p>
     <div class="all_transaction" *ngFor="let i of transactions">

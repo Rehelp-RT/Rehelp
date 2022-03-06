@@ -131,7 +131,7 @@
                       <span>{{getDate(i.createdAt)}}</span>
                   </div>
               </div>
-              <p class="post-text">{{i.description}} <a href="">{{i.responder.firstname}}</a><a href=""> Categoria: {{i.help.category.name}}</a></p>
+              <p class="post-text">{{i.description}} <a href=""> Categoria: {{i.help.category.name}}</a></p> <!-- <a href="">{{i.responder.firstname}} </a> -->
               <img src="{{ i.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + i.image : (i.help.category.image != null ? 'assets/img/categories/' + i.help.category.image : 'assets/img/placeholder-help.png')  }}"
               alt="{{ i.help.description}} image" alt="" class="post-img">
           </div>

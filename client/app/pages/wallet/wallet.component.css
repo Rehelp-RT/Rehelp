@@ -154,6 +154,12 @@
   align-items: center;
   justify-content: space-between;
 }
+.noTransaction{
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding: 50px;
+}
 
 @media (max-width: 560px) {
   .title-wallet_h1 {

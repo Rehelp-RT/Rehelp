@@ -24,6 +24,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
     hasUserResponded: boolean = false;
     isUserAccepted: boolean;
     isAtLeastOneResponseAccepted: boolean = false;
+    canAccept: boolean = false;
 
     // feedback
     stars: number[] = [1, 2, 3, 4, 5];
@@ -52,6 +53,9 @@ export class HelpsDetailResponsesComponent implements OnInit {
         this.isResponderAccepted = this.checkResponderAccepted(this.help.responses, this.as.currentUserValue.id);
         this.isAtLeastOneResponseAccepted = this.checkAtLeastOneResponseAccepted(this.help);
         this.initImageUploader();
+        if(this.as.currentUserValue.likehelps > this.help.likehelps) this.canAccept = true;
+        else this.canAccept = false;
+        console.log(this.as.currentUserValue.likehelps > this.help.likehelps)
     }
 
     initImageUploader() {
@@ -279,7 +283,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
     }
 
     createPost(response: HelpResponse): void {
-        this.router.navigate(['/bacheca/form', this.help.id, response.idResponder, response.id]);
+        this.router.navigate(['/bacheca/form', this.help.id, response.idResponder, response.id], { queryParams: { likehelps: this.help.likehelps } });
     }
 
     deleteResponse(response: HelpResponse): void {

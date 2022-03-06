@@ -23,8 +23,9 @@ export class ProfileComponent implements OnInit {
             this.isOwner = params.id === this.authService.currentUserValue.id.toString();
 
             if (this.isOwner) {
-                this.authService.getCurrentUser().subscribe(x => {
+                this.userService.getById(params.id).subscribe(x => {
                     this.user = x;
+                    this.authService.refresh(x);
                 });
             } else {
                 this.userService.getById(params.id).subscribe(x => {

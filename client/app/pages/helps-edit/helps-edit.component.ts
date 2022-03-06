@@ -32,7 +32,8 @@ export class HelpsEditComponent implements OnInit {
     type: HelpType = null;
     model: Help = null;
     currentUser: User;
-    array: Array<any> = [];
+    arrayLhToDonate: Array<any> = [];
+    arrayLh: Array<any> = [];
     associations: Association[] = [];
 
     // categories
@@ -88,7 +89,10 @@ export class HelpsEditComponent implements OnInit {
                     : 'MEH';
                 this.initCreateHelp(type);
             }
-            
+            console.log(this.currentUser.likehelps)
+            for(let i = 1; i <= this.currentUser.likehelps; i++) {
+                this.arrayLh.push(i);
+            }
             // images
             this.initImages();
         });
@@ -508,7 +512,7 @@ export class HelpsEditComponent implements OnInit {
 
     createArray() {
             for(let i = 1; i <= parseInt(this.likehelps); i++) {
-                this.array.push(i);
+                this.arrayLhToDonate.push(i);
             }
         
     }

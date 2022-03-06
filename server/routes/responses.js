@@ -412,7 +412,20 @@ router.put('/complete/:id', (req, res) => {
     } else if (body.ratingResponder === undefined) {
         res.status(400).send({ message: 'ratingResponder is missing' });
     } else {
-        db.HelpResponse.findByPk(req.params.id)
+        db.HelpResponse.findByPk(req.params.id, {
+            include: [{
+                model: db.Help,
+                required: true,
+                as: 'help',
+                include: [{
+                    attributes: ['id', 'likehelps'],
+                    model: db.User,
+                    required: true,
+                    as: 'creator'
+                }]
+            }
+            ]
+        })
             .then(response => {
                 // check if record exists in db
                 const currentDate = new Date();
@@ -448,10 +461,10 @@ router.put('/complete/:id', (req, res) => {
 });
 
 // PUT /api/responses/post/id
-router.put('/responses/post/:id', (req, res) => {
+router.put('/post/:id', (req, res) => {
         db.HelpResponse.findByPk(req.params.id, {
             include: [{
-                attributes: ['likehelps', 'lhToDonate'],
+                attributes: ['id', 'likehelps', 'lhToDonate', 'idType'],
                 model: db.Help,
                 required: true,
                 as: 'help',

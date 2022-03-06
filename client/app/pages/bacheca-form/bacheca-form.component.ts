@@ -24,6 +24,7 @@ import { BachecaPost } from '@app/models/bachecaPost';
 export class BachecaFormComponent implements OnInit {
   @Input()
   responses: Array<any> = [];
+  @Input() likehelps: number;
 
   submitted = false;
   model: BachecaPost = null;
@@ -57,7 +58,7 @@ export class BachecaFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initCreatePost();
-
+    this.likehelps = this.activeRoute.snapshot.queryParams.likehelps;
      // images
     this.initImages();
   }
@@ -84,34 +85,34 @@ export class BachecaFormComponent implements OnInit {
     this.initForm();
 
     // categories
-    this.initCategories();
+    // this.initCategories();
 }
 
-private initCategories() {
-  // categories
-  this.cs.getAll().subscribe(x => {
-      this.categories = x;
-      // console.log('cats', this.categories)
+// private initCategories() {
+//   // categories
+//   this.cs.getAll().subscribe(x => {
+//       this.categories = x;
+//       // console.log('cats', this.categories)
 
-      if (this.model.help.category) {
-          if (this.model.help.category.parent !== undefined && this.model.help.category.parent !== null) {
-              if (this.model.help.category.parent.parent !== undefined && this.model.help.category.parent.parent !== null) {
-                  this.cat3Id = this.model.help.category.id;
-                  this.cat2Id = this.model.help.category.parent.id;
-                  this.cat1Id = this.model.help.category.parent.parent.id;
-                  this.catImg = this.model.help.category.image;
-              } else {
-                  this.cat2Id = this.model.help.category.id;
-                  this.cat1Id = this.model.help.category.parent.id;
-                  this.catImg = this.model.help.category.image;
-              }
-          } else {
-              this.cat1Id = this.model.help.category.id;
-              this.catImg = this.model.help.category.image;
-          }
-      }
-  });
-}
+//       if (this.model.help.category) {
+//           if (this.model.help.category.parent !== undefined && this.model.help.category.parent !== null) {
+//               if (this.model.help.category.parent.parent !== undefined && this.model.help.category.parent.parent !== null) {
+//                   this.cat3Id = this.model.help.category.id;
+//                   this.cat2Id = this.model.help.category.parent.id;
+//                   this.cat1Id = this.model.help.category.parent.parent.id;
+//                   this.catImg = this.model.help.category.image;
+//               } else {
+//                   this.cat2Id = this.model.help.category.id;
+//                   this.cat1Id = this.model.help.category.parent.id;
+//                   this.catImg = this.model.help.category.image;
+//               }
+//           } else {
+//               this.cat1Id = this.model.help.category.id;
+//               this.catImg = this.model.help.category.image;
+//           }
+//       }
+//   });
+// }
 
 // convenience getter for easy access to form fields
 get f() { return this.bachecaPostForm.controls; }
@@ -154,6 +155,9 @@ private addPost() {
 
 private postResponse() {
   this.rs.postResponse(this.activeRoute.snapshot.params.idResponse).subscribe(x => {
+    
+    this.as.currentUserValue.likehelps = this.likehelps;
+    this.as.refresh(this.as.currentUserValue);
     this.router.navigate(['bacheca']);
   },
     err => {

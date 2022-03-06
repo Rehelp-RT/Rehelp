@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 
 // model
-import { Help, HelpCategory, User, HelpType } from '@app/models';
+import { Help, HelpCategory, User, HelpType, Association } from '@app/models';
 
 // image
 import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
@@ -13,6 +13,8 @@ import { Cloudinary } from '@cloudinary/angular-5.x';
 
 // maps
 import { MapsAPILoader, MouseEvent } from '@agm/core';
+import { range } from 'rxjs';
+import { AssociationService } from '@app/services/association.service';
 
 @Component({
     selector: 'app-helps-edit',
@@ -30,6 +32,8 @@ export class HelpsEditComponent implements OnInit {
     type: HelpType = null;
     model: Help = null;
     currentUser: User;
+    array: Array<any> = [];
+    associations: Association[] = [];
 
     // categories
     categories: HelpCategory[] = [];
@@ -37,6 +41,9 @@ export class HelpsEditComponent implements OnInit {
     public cat2Id: number = null;
     public cat3Id: number = null;
     public catImg: string = null;
+    public donateTo: string = null;
+    public lhToDonate: string = null;
+    public likehelps: string = null;
 
     // image
     public hasBaseDropZoneOver = false;
@@ -58,6 +65,7 @@ export class HelpsEditComponent implements OnInit {
         private cs: CategoryService,
         private hs: HelpService,
         private ts: TypeService,
+        private ass: AssociationService,
         private cloudinary: Cloudinary,
         private ngZone: NgZone,
         private mapsAPILoader: MapsAPILoader
@@ -66,6 +74,8 @@ export class HelpsEditComponent implements OnInit {
     ngOnInit() {
         this.activeRoute.params.subscribe(params => {
             console.log('params', params);
+            this.getCurrentUser();
+            this.getAssociations();
             if (params.id) {
                 // edit
                 this.idHelp = params.id
@@ -84,12 +94,25 @@ export class HelpsEditComponent implements OnInit {
         });
     }
 
+    getCurrentUser(): void {
+        this.as.getCurrentUser().subscribe(x => {
+            this.currentUser = x;
+        });
+    }
+
+    getAssociations(): void {
+        this.ass.getAssociations().subscribe(x => {
+            this.associations = x;
+        });
+    }
+
     // convenience getter for easy access to form fields
     get f() { return this.helpsForm.controls; }
 
     private initForm() {
         this.helpsForm = this.formBuilder.group({
           description: [this.model.description, Validators.required]
+        //   likehelps: [this.model.likehelps]
         });
     }
 
@@ -123,6 +146,7 @@ export class HelpsEditComponent implements OnInit {
         this.model = new Help();
         this.model.idCreator = this.as.currentUserValue.id;
         this.model.description = '';
+        // this.model.likehelps = 0;
 
         // get type
         this.ts.getByCode(type).subscribe(x => {
@@ -458,6 +482,9 @@ export class HelpsEditComponent implements OnInit {
         } else {
             // get forms value
             this.model.description = this.f.description.value;
+            this.model.likehelps = parseInt(this.likehelps);
+            this.model.lhToDonate = parseInt(this.lhToDonate);
+            this.model.idDonateTo = parseInt(this.donateTo);
 
             // image
             const i = this.responses.length - 1;
@@ -477,6 +504,13 @@ export class HelpsEditComponent implements OnInit {
                 this.createHelp();
             }
         }
+    }
+
+    createArray() {
+            for(let i = 1; i <= parseInt(this.likehelps); i++) {
+                this.array.push(i);
+            }
+        
     }
 
     private createHelp() {

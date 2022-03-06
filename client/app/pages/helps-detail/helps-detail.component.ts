@@ -52,6 +52,8 @@ export class HelpsDetailComponent implements OnInit {
             return 'Recensito';
         } else if (this.help.accepted) {
             return 'Accettato';
+        } else if (this.help.posted) {
+            return 'Post aggiunto in bacheca';
         } else if (this.isExpired(this.help)) {
             return 'Scaduto';
         } else  {

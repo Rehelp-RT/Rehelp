@@ -6,7 +6,7 @@ const { Op } = require('sequelize');
 // GET /api/associations
 router.get('/', (req, res) => {
     db.Associations.findAll({
-        attributes: ['name', 'secretId']
+        attributes: ['id', 'name', 'secretId']
     })
     .then(x => {
         res.json(x)
@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
 // GET /api/associations/5
 router.get('/:id', (req, res) =>
     db.Associations.findByPk(req.params.id, {
-      attributes: ['name', 'secretId']
+      attributes: ['id', 'name', 'secretId']
     })
     .then(x => {
         res.json(x)

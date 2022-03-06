@@ -1,4 +1,5 @@
 import { HelpCategory, HelpResponse, HelpType, User } from './';
+import { Association } from './association';
 
 export class Help {
     id: number;
@@ -23,6 +24,7 @@ export class Help {
     accepted: boolean;
     reviewed: boolean;
     completed: boolean;
+    posted: boolean;
 
     isOffer: boolean;
 
@@ -30,4 +32,5 @@ export class Help {
     creator: User;
     category: HelpCategory;
     responses: HelpResponse[];
+    association: Association;
 }

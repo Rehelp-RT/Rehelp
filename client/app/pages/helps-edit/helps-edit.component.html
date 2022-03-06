@@ -73,61 +73,47 @@
                         </div>
 
                         <div class="form-row mb-3">
-                            <label class="col-lg-4" for="category">Donazione</label>
+                            <label class="col-lg-4" for="likehelps">Likehelp</label>
                             <div class="col-lg-8">
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>Non specificato</option>
-                                    <option value="1">Si</option>
-                                    <option value="2">No</option>
-                                </select>
+                                <select class="form-control mb-3" [(ngModel)]="likehelps"
+                                [ngModelOptions]="{standalone: true}" (change)="createArray()">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+
+                            </select>
                             </div>
                         </div>
 
-                        <div class="form-row mb-3">
-                            <label class="col-lg-4" for="category">likeHelps</label>
-                            <div class="col-lg-8">
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>0</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-row mb-3">
-                            <label class="col-lg-4" for="category">Per chi è la donazione</label>
-                            <div class="col-lg-8">
-                                <select class="form-control mb-3" [(ngModel)]="cat1Id"
+                        <div *ngIf="currentUser && currentUser.donator === true" >
+                            <div class="form-row mb-3">
+                                <label class="col-lg-4" for="lhToDonate">Likehelp da donare</label>
+                                <div class="col-lg-8">
+                                    <select class="form-control mb-3" [(ngModel)]="lhToDonate"
                                     [ngModelOptions]="{standalone: true}">
-                                    <option *ngFor="let cat of categories" [value]="cat.id">
-                                        {{ cat.name }}
+                                    <option *ngFor="let n of array" [value]="n">
+                                        {{ n }}
                                     </option>
                                 </select>
-                                <select class="form-control mb-3" [(ngModel)]="cat2Id"
-                                    [ngModelOptions]="{standalone: true}"
-                                    *ngIf="cat1Id && (categories | filterCategories : { id: cat1Id }).length > 0">
-                                    <option *ngFor="let cat of categories | filterCategories : { id: cat1Id }"
-                                        [value]="cat.id">
-                                        {{ cat.name }}
+                                </div>
+                            </div>
+                            <div class="form-row mb-3">
+                                <label class="col-lg-4" for="donateTo">Associazione</label>
+                                <div class="col-lg-8">
+                                    <select class="form-control mb-3" [(ngModel)]="donateTo"
+                                    [ngModelOptions]="{standalone: true}">
+                                    <option *ngFor="let a of associations" [value]="a.id">
+                                        {{ a.name }}
                                     </option>
                                 </select>
-                                <select class="form-control mb-3" [(ngModel)]="cat3Id"
-                                    [ngModelOptions]="{standalone: true}"
-                                    *ngIf="cat2Id && (categories | filterCategories : { id: cat1Id, idChild: cat2Id }).length > 0">
-                                    <option
-                                        *ngFor="let cat of categories | filterCategories : { id: cat1Id, idChild: cat2Id }"
-                                        [value]="cat.id">
-                                        {{ cat.name }}
-                                    </option>
-                                </select>
+                                </div>
                             </div>
                         </div>
 

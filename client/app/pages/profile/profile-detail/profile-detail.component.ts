@@ -40,6 +40,7 @@ export class ProfileDetailComponent implements OnInit {
                 this.user = x;
             });
         }
+        console.log(this.user);
     }
 
 }

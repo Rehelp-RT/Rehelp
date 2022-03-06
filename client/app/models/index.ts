@@ -9,3 +9,4 @@ export * from './user';
 export * from './comment';
 export * from './forumPost';
 export * from './transaction';
+export * from './association';

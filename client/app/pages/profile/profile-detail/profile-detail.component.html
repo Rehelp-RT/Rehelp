@@ -14,10 +14,17 @@
                     </div> -->
     <div class="card-body" *ngIf="user">
 
+        <u><h3 *ngIf="user.donator">
+            Donatore
+        </h3></u>
+        <u><h3 *ngIf="!user.donator">
+            Non donatore
+        </h3></u>
+
+        <hr>
+
         <h3>Su di me</h3>
-        <p *ngIf="user.donator == true">
-            Questo utente è un donatore
-        </p>
+        
         <p *ngIf="user.description" class="font-italic">
             {{ user.description}}
         </p>

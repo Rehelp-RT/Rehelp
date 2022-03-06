@@ -55,7 +55,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
         this.initImageUploader();
         if(this.as.currentUserValue.likehelps > this.help.likehelps) this.canAccept = true;
         else this.canAccept = false;
-        console.log(this.as.currentUserValue.likehelps > this.help.likehelps)
+        console.log(this.help)
     }
 
     initImageUploader() {

@@ -46,14 +46,14 @@ export class HelpsDetailComponent implements OnInit {
     }
 
     getStatus(): string {
-        if (this.help.completed) {
+        if (this.help.posted) {
+            return 'Post aggiunto in bacheca';
+        } else if (this.help.completed) {
             return 'Completato';
         } else if (this.help.reviewed) {
             return 'Recensito';
         } else if (this.help.accepted) {
             return 'Accettato';
-        } else if (this.help.posted) {
-            return 'Post aggiunto in bacheca';
         } else if (this.isExpired(this.help)) {
             return 'Scaduto';
         } else  {

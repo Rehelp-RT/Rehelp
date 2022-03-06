@@ -30,7 +30,8 @@ router.get('/', (req, res) => {
             [Op.and]: filters
         },
         include: [{
-            attributes: ['id', 'description', 'image', 'accepted', 'reviewed', 'completed', 'updatedAt', 'idCreator'],
+            attributes: ['id', 'description', 'image', 'accepted', 'reviewed', 'completed', 'updatedAt', 'idCreator', 'likehelps',
+            'lhToDonate', 'idDonateTo'],
             model: db.Help,
             required: true,
             as: 'help',

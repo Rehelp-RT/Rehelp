@@ -67,12 +67,12 @@
     </p>
     <div class="all_transaction" *ngFor="let i of transactions">
         <div class="all_transaction_element">
-            <p>Descrizione: {{i.description}}</p>
+            <p><a [routerLink]="['/helps/', i.idHelp]" class="text-dark">{{i.description}}</a></p>
             <p>Likehelp: {{i.isPositive === true ? '+' : '-'}} {{i.likeHelp}}</p>
         </div>
         <div class="all_transaction_element">
             <p></p>
-            <p>Data: {{getDate(i.date)}}</p>
+            <p>{{getDate(i.date)}}</p>
         </div>
     </div>
 </div>

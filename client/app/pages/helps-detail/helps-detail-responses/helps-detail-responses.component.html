@@ -72,7 +72,12 @@
                             </span>
                         </div>
                         <hr>
-                        <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon> Completato
+                        <div *ngIf="!help.posted">
+                            <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon> Completato
+                        </div>
+                        <div  *ngIf="help.posted">
+                            <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon> Postato
+                        </div>
                     </div>
 
                 </div>
@@ -82,12 +87,13 @@
                         <div *ngIf="canAccept">
                             <a class="btn btn-block btn-outline-success" (click)="accept(r)"
                                 *ngIf="(!isUserAccepted && help.type.code != 'COH' && !r.accepted) ||
-                                help.type.code == 'COH' && !r.accepted && !help.reviewed">
+                                help.type.code == 'COH' && !r.accepted && !help.reviewed && canAccept">
                                 <fa-icon [icon]="['fas', 'check']"></fa-icon>
                                 Accetta
                             </a>
                         </div>
-                        <div *ngIf="!canAccept">
+                        <div *ngIf="(!isUserAccepted && help.type.code != 'COH' && !r.accepted) ||
+                        help.type.code == 'COH' && !r.accepted && !help.reviewed && !canAccept">
                             <h5>Non si hanno likehelp sufficienti per poter accettare!</h5>
                         </div>
 
@@ -113,12 +119,12 @@
 
                 <div *ngIf="!isHelpCreator && help.isOffer" class="mb-3">
                     <div *ngIf="canAccept">
-                        <a class="btn btn-block btn-outline-success" (click)="accept(r)" *ngIf="!isUserAccepted && !r.accepted">
+                        <a class="btn btn-block btn-outline-success" (click)="accept(r)" *ngIf="!isUserAccepted && !r.accepted && canAccept">
                             <fa-icon [icon]="['fas', 'check']"></fa-icon>
                             Accetta
                         </a>
                     </div>
-                    <div *ngIf="!canAccept">
+                    <div *ngIf="!isUserAccepted && !r.accepted && !canAccept">
                         <h5>Non si hanno likehelp sufficienti per poter accettare!</h5>
                     </div>
 

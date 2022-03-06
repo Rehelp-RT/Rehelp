@@ -6,12 +6,12 @@
                 <div class="body">
                     <div *ngFor="let comment of postComments">
                         <div class="message" *ngIf="currentUser.id !== comment.idCreator">
-                            <p>{{comment.author.firstname}}</p>
+                            <p><a [routerLink]="['/profile/', comment.idCreator]" class="text-dark">{{comment.author.firstname}}</a></p>
                             <p>{{comment.message}}</p>
                         </div>
                         <div class="message user_message" *ngIf="currentUser.id === comment.idCreator">
                             <div class="row row-special">
-                                <p>{{comment.author.firstname}}</p>
+                                <p><a [routerLink]="['/profile/', comment.idCreator]" class="text-dark">{{comment.author.firstname}}</a></p>
                                 <img class="img-special" src="../../../assets/img/recycle.png" alt="" (click)="deleteComment(comment.id)"
                                     (click)="refresh()" width="20px" height="20px">
                             </div>

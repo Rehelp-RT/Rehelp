@@ -40,12 +40,14 @@ export class WalletComponent implements OnInit {
           idResponder: el.responder.id,
           description: el.help.description,
           date: new Date(el.help.updatedAt),
-          likeHelp: 1,
+          likeHelp: el.help.likehelps,
           isPositive: true,
           help: el.help,
           creator: el.help.creator,
           responder: el.responder,
         };
+    console.log(el)
+
         return t;
       });
       this.ts.getNegativeTransaction(this.currentUser.id).subscribe((res) => {
@@ -56,7 +58,7 @@ export class WalletComponent implements OnInit {
             idResponder: null,
             description: el.description,
             date: new Date(el.updatedAt),
-            likeHelp: 1,
+            likeHelp: el.likehelps,
             isPositive: false,
             help: el,
             creator: el.creator,

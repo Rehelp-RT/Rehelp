@@ -14,6 +14,11 @@
   width: 100px;
 }
 
+.inline_user {
+  display: flex;
+  justify-content: space-between;
+}
+
 .help-desc {
   margin-left: 100px;
   padding-left: 16px;
@@ -244,6 +249,24 @@ NEW BACHECA
   color: #626262;
 }
 .user-profile span{
+  font-size: 13px;
+  color: #9a9a9a;
+}
+.responder-profile{
+  display: flex;
+  align-items: center;
+}
+.responder-profile img{
+  width: 45px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.responder-profile p{
+  margin-bottom: -5px;
+  font-weight: 500;
+  color: #626262;
+}
+.responder-profile span{
   font-size: 13px;
   color: #9a9a9a;
 }

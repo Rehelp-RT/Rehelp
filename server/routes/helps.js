@@ -40,6 +40,11 @@ router.get('/', (req, res) => {
             completed: req.query.completed
         });
     }
+    if (req.query.posted !== undefined) {
+        filters.push({
+            posted: req.query.posted
+        });
+    }
     if (distance !== undefined && longit !== undefined && latit !== undefined) {
         filters.push({
             [Op.and]: [
@@ -72,7 +77,8 @@ router.get('/', (req, res) => {
             'completed',
             'updatedAt',
             'likehelps',
-            'lhToDonate'
+            'lhToDonate',
+            'posted'
         ],
         where: {
             [Op.and]: filters

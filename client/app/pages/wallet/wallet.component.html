@@ -55,9 +55,9 @@
     <p class="row-likeHelp_p">
         I miei likeHelp:
     </p>
-    <p class="row-likeHelp_p">
+    <h3 class="row-likeHelp_p">
         {{currentUser.likehelps}}
-    </p>
+    </h3>
 </div>
 
 <div>
@@ -65,16 +65,19 @@
     <p *ngIf="transactions.length === 0" class="noTransaction">
         Non hai ancora effettuato una transazione
     </p>
+
     <div class="all_transaction" *ngFor="let i of transactions">
         <div class="all_transaction_element">
-            <p><a [routerLink]="['/helps/', i.idHelp]" class="text-dark">{{i.description}}</a></p>
-            <p>Likehelp: {{i.isPositive === true ? '+' : '-'}} {{i.likeHelp}}</p>
+            <h5><a [routerLink]="['/helps/', i.idHelp]" class="text-dark">{{i.description}}</a></h5>
+            <h4>Likehelp:  {{i.isPositive === true ? '+' : '-'}} {{(i.lhToDonate && i.idCreator !== currentUser.id) ? (i.likeHelp - i.lhToDonate) : i.likeHelp}}</h4>
         </div>
         <div class="all_transaction_element">
-            <p></p>
+            <p *ngIf="i.lhToDonate">Hai donato {{i.lhToDonate}} likehelps</p>
+            <p *ngIf="!i.lhToDonate"></p>
             <p>{{getDate(i.date)}}</p>
         </div>
     </div>
+
 </div>
 
 <!--<div class="numberTransaction">

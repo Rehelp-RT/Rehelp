@@ -60,7 +60,7 @@ router.get('/', (req, res) =>{
             include: [
               {
                 attributes: [
-                    'name', 'image'
+                    'name', 'image', 'id'
                 ],
                 model: db.HelpCategory,
                 required: true,

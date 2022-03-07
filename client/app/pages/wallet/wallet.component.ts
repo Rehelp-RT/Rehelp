@@ -33,6 +33,7 @@ export class WalletComponent implements OnInit {
 
   ngOnInit(): void {
     this.ts.getPositiveTransaction(this.currentUser.id).subscribe((res) => {
+      console.log(res)
       this.positiveTransactions = res.map(el => {
         const t: Transaction = {
           idHelp: el.help.id,
@@ -41,12 +42,14 @@ export class WalletComponent implements OnInit {
           description: el.help.description,
           date: new Date(el.help.updatedAt),
           likeHelp: el.help.likehelps,
+          lhToDonate: el.help.lhToDonate,
+          idDonateTo: el.help.idDonateTo,
           isPositive: true,
           help: el.help,
           creator: el.help.creator,
           responder: el.responder,
+          association: el.help.association
         };
-    console.log(el)
 
         return t;
       });
@@ -59,10 +62,13 @@ export class WalletComponent implements OnInit {
             description: el.description,
             date: new Date(el.updatedAt),
             likeHelp: el.likehelps,
+            lhToDonate:el.lhToDonate,
+            idDonateTo: el.idDonateTo,
             isPositive: false,
             help: el,
             creator: el.creator,
             responder: null,
+            association: el.association
           };
           return t;
         });

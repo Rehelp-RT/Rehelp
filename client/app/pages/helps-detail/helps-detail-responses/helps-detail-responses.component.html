@@ -86,13 +86,13 @@
                     <div *ngIf="!help.isOffer">
                         <div *ngIf="canAccept">
                             <a class="btn btn-block btn-outline-success" (click)="accept(r)"
-                                *ngIf="(!isUserAccepted && help.type.code != 'COH' && !r.accepted) ||
+                                *ngIf="(!isUserAccepted && help.type.code != 'COH' && !r.accepted && canAccept) ||
                                 help.type.code == 'COH' && !r.accepted && !help.reviewed && canAccept">
                                 <fa-icon [icon]="['fas', 'check']"></fa-icon>
                                 Accetta
                             </a>
                         </div>
-                        <div *ngIf="(!isUserAccepted && help.type.code != 'COH' && !r.accepted) ||
+                        <div *ngIf="(!isUserAccepted && help.type.code != 'COH' && !r.accepted && !canAccept) ||
                         help.type.code == 'COH' && !r.accepted && !help.reviewed && !canAccept">
                             <h5>Non si hanno likehelp sufficienti per poter accettare!</h5>
                         </div>

@@ -36,6 +36,19 @@ export class ForumDetailComponent implements OnInit {
       });
   }
 
+  getAvatar(user: User): string {
+    if (user.avatar != null) {
+        return 'https://res.cloudinary.com/hwbyvepex/image/upload/' + user.avatar;
+    } else if (user.loginFacebook && user.idFacebook) {
+        return user.idFacebook;
+    } else if (user.loginGoogle && user.idGoogle) {
+        return user.idGoogle;
+    } else {
+        return 'assets/img/avatar_64.png';
+    }
+}
+
+
   getComment(idPost:number):void{
     this.cs.getAll(idPost).subscribe((res) => {
       this.comment = res.map(el => {

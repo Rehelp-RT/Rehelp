@@ -11,7 +11,7 @@ export class TransactionService {
   constructor(private http: HttpClient) { }
 
   getPositiveTransaction( idUser = null ) {
-    let params = '?completed=true';
+    let params = '?posted=true';
     // params += idUser != null ? 'idResponder=' + idUser + '&' : '';
     // if (params !== '') {
     //   params = '?' + params;
@@ -24,7 +24,7 @@ export class TransactionService {
 }
 
 getNegativeTransaction( idUser = null ) {
-  let params = '?completed=true';
+  let params = '?posted=true';
   if(idUser){
     params += '&idCreator=' + idUser;
   }

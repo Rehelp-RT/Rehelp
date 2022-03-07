@@ -82,15 +82,15 @@
                 <img class="fa fa-car center" src="{{ i.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + i.image : 'assets/img/placeholder-help.png'  }}" alt="">
             </div>
             <div class="subforum-description subforum-column">
-                <h4><a href="forum/detail/{{i.id}}">{{i.category.name}} {{i.id}}</a></h4>
+                <h4><a href="forum/detail/{{i.id}}">{{i.category.name}}</a></h4>
                 <p>{{i.description}}</p>
             </div>
            <!-- <div class="subforum-stats subforum-column center">
                 <span>24 Posts | 12 Topics</span>
             </div> -->
             <div class="subforum-info subforum-column">
-                <b><a href="">Last post</a></b> by <a href="">{{i.author.firstname}}</a>
-                <br>on <small>{{getDate(i.createdAt)}}</small>
+                Post di <a  [routerLink]="['/profile/', i.author.id]" >{{i.author.firstname}}</a>
+                <br><small>{{getDate(i.createdAt)}}</small>
             </div>
         </div>
         <app-comment [receivedIdHelp] = null [receivedIdPost] = "i.id"></app-comment>

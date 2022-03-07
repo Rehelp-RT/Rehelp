@@ -41,7 +41,7 @@ export class PaymentComponent {
     });
 
     const paymentStripe = (striteToken: any) => {
-      this.checkout.makePayment(striteToken).subscribe((data:any) => {
+      this.checkout.makePayment(striteToken, null, null).subscribe((data:any) => {
         console.log(data);    
 
         if (data.data === "success") {

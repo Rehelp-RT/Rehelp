@@ -123,15 +123,27 @@
       <div class="main-content">
 
           <div class="post-container">
+
+            <div class="inline_user">
               <div class="user-profile">
-                  <img src="{{ i.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + i.image : (i.help.category.image != null ? 'assets/img/categories/' + i.help.category.image : 'assets/img/placeholder-help.png')  }}"
-                  alt="{{ i.help.description}} image" alt="">
+                  <img src="{{ getAvatar(i.author) }}"
+                  alt="{{ i.author.firstname}} image" alt="">
                   <div>
                       <p><a [routerLink]="['/profile/', i.author.id]" class="text-dark">{{i.author.firstname}}</a></p>
                       <span>{{getDate(i.createdAt)}}</span>
                   </div>
               </div>
-              <p class="post-text">{{i.description}} <a href=""> Categoria: {{i.help.category.name}}</a></p> <!-- <a href="">{{i.responder.firstname}} </a> -->
+
+              <div class="responder-profile">
+                <img src="{{ getAvatar(i.responder) }}"
+                alt="{{ i.responder.firstname}} image" alt="">
+                <div>
+                    <p><a [routerLink]="['/profile/', i.responder.id]" class="text-dark">{{i.responder.firstname}}</a></p>
+                </div>
+              </div>
+            </div>
+              <p class="post-text">{{i.description}} </p><p> Categoria: {{i.help.category.name}}</p> 
+              
               <img src="{{ i.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + i.image : (i.help.category.image != null ? 'assets/img/categories/' + i.help.category.image : 'assets/img/placeholder-help.png')  }}"
               alt="{{ i.help.description}} image" alt="" class="post-img">
           </div>

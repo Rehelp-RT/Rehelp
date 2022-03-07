@@ -13,8 +13,9 @@ import { Cloudinary } from '@cloudinary/angular-5.x';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 
 // model
-import { HelpCategory, User, HelpType } from '@app/models';
+import { HelpCategory, User, HelpType, Association } from '@app/models';
 import { BachecaPost } from '@app/models/bachecaPost';
+import { CheckoutService } from '@app/services/checkout.service';
 
 @Component({
   selector: 'app-bacheca-form',
@@ -25,10 +26,16 @@ export class BachecaFormComponent implements OnInit {
   @Input()
   responses: Array<any> = [];
   @Input() likehelps: number;
+  @Input() lhToDonate: number;
+  @Input() association: string;
 
   submitted = false;
   model: BachecaPost = null;
   bachecaPostForm: FormGroup;
+  handler: any = null;
+  success: boolean = false;
+  failure: boolean = false;
+  // alreadyDone: boolean = false;
 
   // categories
   categories: HelpCategory[] = [];
@@ -51,6 +58,7 @@ export class BachecaFormComponent implements OnInit {
     private cs: CategoryService,
     private bs: BachecaService,
     private rs: ResponseService,
+    private checkout: CheckoutService,
     private cloudinary: Cloudinary,
     private ngZone: NgZone,
     private mapsAPILoader: MapsAPILoader
@@ -59,8 +67,14 @@ export class BachecaFormComponent implements OnInit {
   ngOnInit(): void {
     this.initCreatePost();
     this.likehelps = this.activeRoute.snapshot.queryParams.likehelps;
+    this.lhToDonate = this.activeRoute.snapshot.queryParams.lhToDonate;
+    // this.association = this.activeRoute.snapshot.queryParams.association;
+
      // images
     this.initImages();
+    this.loadStripe();
+    // TODO:
+    // this.searchPayment();
   }
 
   private initForm() {
@@ -68,6 +82,10 @@ export class BachecaFormComponent implements OnInit {
       description: [this.model.description, Validators.required]
     });
 }
+
+  // private searchPayment() {
+
+  // }
 
   private initCreatePost() {
     // bacheca post
@@ -140,6 +158,63 @@ get f() { return this.bachecaPostForm.controls; }
     }
     // console.log(this.model);
     this.addPost();
+  }
+
+  donate() {    
+ 
+    var handler = (<any>window).StripeCheckout.configure({
+      key: 'pk_test_51KYRwCFzyQwg0ebiijora1CJCpaAejO1J0WSMNtwuvjrLxrHTdcr9tpxyPJx6nGFvdMgx2pMVEXi6z7UQuQyrkgy00sMjvHmPW',
+      locale: 'auto',
+      token: function (striteToken: any) {
+        // You can access the token ID with `token.id`.
+        // Get the token ID to your server-side code for use.
+        console.log(striteToken)
+        // alert('Token Created!!');
+
+        paymentStripe(striteToken)
+
+      },
+    });
+
+    const paymentStripe = (striteToken: any) => {
+      this.checkout.makePayment(striteToken, this.as.currentUserValue.email,this.lhToDonate * 100).subscribe((data:any) => {
+        console.log(data);    
+
+        if (data.data === "success") {
+          this.success = true
+        } else {
+          this.failure = true
+        }
+      });
+    };
+ 
+    handler.open({
+      name: 'Rehelp demo',
+      description: 'A simple payment',
+      amount: this.lhToDonate * 100,
+    });
+  }
+
+  loadStripe() {
+    if(!window.document.getElementById('stripe-script')) {
+      var s = window.document.createElement("script");
+      s.id = "stripe-script";
+      s.type = "text/javascript";
+      s.src = "https://checkout.stripe.com/checkout.js";
+      s.onload = () => {
+        this.handler = (<any>window).StripeCheckout.configure({
+          key: 'pk_test_51KYRwCFzyQwg0ebiijora1CJCpaAejO1J0WSMNtwuvjrLxrHTdcr9tpxyPJx6nGFvdMgx2pMVEXi6z7UQuQyrkgy00sMjvHmPW',
+          locale: 'auto',
+          token: function (striteToken: any) {
+            // You can access the token ID with `token.id`.
+            // Get the token ID to your server-side code for use.
+            console.log(striteToken)
+            alert('Payment Success!!');
+          }
+        });
+      }
+      window.document.body.appendChild(s);
+    }
   }
 
 private addPost() {

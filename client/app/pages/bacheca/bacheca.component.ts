@@ -66,4 +66,16 @@ export class BachecaComponent implements OnInit {
   getDate(date: Date) {
     return new Date(date).toDateString();
   }
+
+  getAvatar(user: User): string {
+    if (user.avatar != null) {
+        return 'https://res.cloudinary.com/hwbyvepex/image/upload/' + user.avatar;
+    } else if (user.loginFacebook && user.idFacebook) {
+        return user.idFacebook;
+    } else if (user.loginGoogle && user.idGoogle) {
+        return user.idGoogle;
+    } else {
+        return 'assets/img/avatar_64.png';
+    }
+}
 }

@@ -141,6 +141,7 @@ get f() { return this.forumPostForm.controls; }
 private addPost() {
     // crea l'help
     this.fps.addForumPost(this.model).subscribe(x => {
+      console.log(x)
       this.router.navigate(['forum/detail/', x.id]);
       },
       err => {

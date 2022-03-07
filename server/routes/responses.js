@@ -22,15 +22,20 @@ router.get('/', (req, res) => {
             completed: req.query.completed
         });
     }
+    if (req.query.posted !== undefined) {
+        filters.push({
+            posted: req.query.posted
+        });
+    }
     console.log('filters', filters);
 
     db.HelpResponse.findAll({
-        attributes: ['id', 'accepted', 'completed', 'messageCreator', 'messageResponder', 'imageReviewCreator', 'imageReviewResponder', 'creatorReviewedAt', 'responderReviewedAt', 'ratingCreator', 'ratingResponder'],
+        attributes: ['id', 'accepted', 'completed', 'messageCreator', 'messageResponder', 'imageReviewCreator', 'imageReviewResponder', 'creatorReviewedAt', 'responderReviewedAt', 'ratingCreator', 'ratingResponder', 'posted'],
         where: {
             [Op.and]: filters
         },
         include: [{
-            attributes: ['id', 'description', 'image', 'accepted', 'reviewed', 'completed', 'updatedAt', 'idCreator', 'likehelps',
+            attributes: ['id', 'description', 'image', 'accepted', 'reviewed', 'completed', 'updatedAt', 'idCreator', 'likehelps', 'posted',
             'lhToDonate', 'idDonateTo'],
             model: db.Help,
             required: true,
@@ -490,8 +495,10 @@ router.put('/post/:id', (req, res) => {
                 const creatorLh = response.help.creator.likehelps;
                 const responderLh = response.responder.likehelps;
                 const helpLh = response.help.likehelps;
-                const helpLhToDonate = response.help.lhToDonate === undefined ? 0 : response.help.lhToDonate;
+                const helpLhToDonate = !response.help.lhToDonate ? 0 : response.help.lhToDonate;
                 const lhToReceive = helpLh - helpLhToDonate;
+                console.log(helpLhToDonate)
+                console.log(lhToReceive)
                 // update response
                 response.update({
                     posted: true,

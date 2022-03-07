@@ -60,7 +60,7 @@
    -->
 
    <div class="forum__detail">
-       <p class="forum__detail_title">Tutti i post di:  {{forumPost.author.firstname}} {{forumPost.author.lastname}}</p>
+       <p class="forum__detail_title">Forum Post Details</p>
    </div>
 
 
@@ -69,16 +69,18 @@
     <div class="topic-container" *ngIf="forumPost" >
         <!--Original thread-->
         <div class="head">
-            <div class="authors">Author : {{forumPost.author.firstname}} {{forumPost.author.lastname}}</div>
+            <div class="authors">
+                <a [routerLink]="['/profile/', forumPost.author.id]" class="text-dark">Author : {{forumPost.author.firstname}} {{forumPost.author.lastname}}</a></div>
             <div class="content">Topic: {{forumPost.category.name}}</div>
         </div>
 
         <div class="body">
-            <div class="authors">
-                <div class="username"><a href="">{{forumPost.author.firstname}} {{forumPost.author.lastname}}</a></div>
-                <img src="https://cdn.pixabay.com/photo/2015/11/06/13/27/ninja-1027877_960_720.jpg" alt="">
-            </div>
-            <div class="content">
+            <!-- <div class="authors"> -->
+                <!-- <div class="username"><a href="">{{forumPost.author.firstname}} {{forumPost.author.lastname}}</a></div> -->
+                <img src="{{ forumPost.image != null ? 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + forumPost.image : 'assets/img/placeholder-help.png'  }}"
+              alt="" alt="" class="post-img">
+            <!-- </div> -->
+            <div class="content-description">
                 {{forumPost.description}}
                 <div class="comment">
                     <!-- <button (click)="showComment()">Comment</button> -->

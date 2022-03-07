@@ -17,7 +17,11 @@
                         {{ r.help.description }}
                     </div>
                     <div class="col-md">
-                        <div *ngIf="r.help.completed">
+                        <div *ngIf="r.help.posted">
+                            <fa-icon title="Postato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon>
+                            Postato
+                        </div>
+                        <div *ngIf="r.help.completed && !r.help.posted">
                             <fa-icon title="Completato" [icon]="['fas', 'star-of-life']" class="text-info"></fa-icon>
                             Completato
                         </div>

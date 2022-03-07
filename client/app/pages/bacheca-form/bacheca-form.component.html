@@ -129,12 +129,22 @@
                             
                         </div>
 
+                        <div class="form-row mb-3" *ngIf="lhToDonate">
+                            <label class="col-lg-4" for="donazione">Donazione</label>
+                                <label class="btn btn-outline-secondary" for="donazione" (click)="donate()">
+                                    Effettua la donazione
+                                </label>
+                        </div>
 
-                        <div class="form-row mb-3">
+                        <div class="form-row mb-3" *ngIf="success || alreadyDonem|| !lhToDonate">
                             <button class="btn btn-outline-primary offset-lg-4 col-lg-8 mb-3" type="submit">
                                 <fa-icon [icon]="['fas', 'save']"></fa-icon> Salva
                             </button>
                         </div>
+
+                        <h4 *ngIf="!success && !failure && !alreadyDone && lhToDonate">Effettuare la donazione per poter pubblicare il post</h4>
+
+                        <h4 *ngIf="failure">Errore nel pagamento</h4>
 
                     </form>
                 </div>

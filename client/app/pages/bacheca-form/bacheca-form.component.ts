@@ -35,7 +35,7 @@ export class BachecaFormComponent implements OnInit {
   handler: any = null;
   success: boolean = false;
   failure: boolean = false;
-  // alreadyDone: boolean = false;
+  alreadyDone: boolean = false;
 
   // categories
   categories: HelpCategory[] = [];

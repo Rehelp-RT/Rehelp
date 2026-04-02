@@ -11,7 +11,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 @Component({
     selector: 'app-helps-response',
     templateUrl: './helps-response.component.html',
-    styleUrls: ['./helps-response.component.scss']
+    styleUrls: ['./helps-response.component.scss'],
+    standalone: false
 })
 export class HelpsResponseComponent implements OnInit {
     author: boolean;

@@ -8,7 +8,8 @@ import { AlertService } from '@app/shared/components';
 @Component({
     selector: 'app-password-reset',
     templateUrl: './password-reset.component.html',
-    styleUrls: ['./password-reset.component.scss']
+    styleUrls: ['./password-reset.component.scss'],
+    standalone: false
 })
 export class PasswordResetComponent implements OnInit {
 

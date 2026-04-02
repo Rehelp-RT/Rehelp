@@ -8,8 +8,9 @@ import { UserService, AuthenticationService } from '@app/services';
 import { AlertService } from '@app/shared/components/alert';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: 'register.component.html'
+    selector: 'app-register',
+    templateUrl: 'register.component.html',
+    standalone: false
 })
 export class RegisterComponent implements OnInit {
   registerForm: UntypedFormGroup;

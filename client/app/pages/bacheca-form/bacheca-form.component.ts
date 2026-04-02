@@ -11,9 +11,10 @@ import { BachecaPost } from '@app/models/bachecaPost';
 import { CheckoutService } from '@app/services/checkout.service';
 
 @Component({
-  selector: 'app-bacheca-form',
-  templateUrl: './bacheca-form.component.html',
-  styleUrls: ['./bacheca-form.component.css']
+    selector: 'app-bacheca-form',
+    templateUrl: './bacheca-form.component.html',
+    styleUrls: ['./bacheca-form.component.css'],
+    standalone: false
 })
 export class BachecaFormComponent implements OnInit {
   @Input()

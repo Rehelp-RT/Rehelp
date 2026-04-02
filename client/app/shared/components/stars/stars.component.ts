@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 
 @Component({
-  selector: 'app-stars',
-  templateUrl: './stars.component.html',
-  styleUrls: ['./stars.component.scss']
+    selector: 'app-stars',
+    templateUrl: './stars.component.html',
+    styleUrls: ['./stars.component.scss'],
+    standalone: false
 })
 export class StarsComponent implements OnInit, AfterViewInit {
 

@@ -4,9 +4,10 @@ import { ForumPost, User,Comment } from '@app/models';
 import { AuthenticationService, CommentService, ForumPostService } from '@app/services';
 
 @Component({
-  selector: 'app-forum-detail',
-  templateUrl: './forum-detail.component.html',
-  styleUrls: ['./forum-detail.component.css']
+    selector: 'app-forum-detail',
+    templateUrl: './forum-detail.component.html',
+    styleUrls: ['./forum-detail.component.css'],
+    standalone: false
 })
 export class ForumDetailComponent implements OnInit {
 

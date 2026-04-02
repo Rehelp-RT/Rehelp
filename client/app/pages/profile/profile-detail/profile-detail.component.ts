@@ -10,7 +10,8 @@ import { User } from '@app/models';
 @Component({
     selector: 'app-profile-detail',
     templateUrl: './profile-detail.component.html',
-    styleUrls: ['./profile-detail.component.css']
+    styleUrls: ['./profile-detail.component.css'],
+    standalone: false
 })
 export class ProfileDetailComponent implements OnInit {
 

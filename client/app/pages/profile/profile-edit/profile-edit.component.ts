@@ -6,7 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
     selector: 'app-profile-edit',
     templateUrl: './profile-edit.component.html',
-    styleUrls: ['./profile-edit.component.scss']
+    styleUrls: ['./profile-edit.component.scss'],
+    standalone: false
 })
 export class ProfileEditComponent implements OnInit {
 

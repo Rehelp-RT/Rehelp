@@ -10,7 +10,8 @@ import { BachecaPost } from '@app/models/bachecaPost';
 @Component({
     selector: 'app-helps-detail-responses',
     templateUrl: './helps-detail-responses.component.html',
-    styleUrls: ['./helps-detail-responses.component.scss']
+    styleUrls: ['./helps-detail-responses.component.scss'],
+    standalone: false
 })
 export class HelpsDetailResponsesComponent implements OnInit {
 

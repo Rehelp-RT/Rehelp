@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '@environments/environment';
 
-import * as io from 'socket.io-client';
+import { io } from 'socket.io-client';
 
 import { Message } from '@app/models';
 

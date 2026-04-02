@@ -22,9 +22,10 @@ import { ForumPostService } from "@app/services/forum.service";
 import { BachecaPost } from "@app/models/bachecaPost";
 
 @Component({
-  selector: "app-bacheca",
-  templateUrl: "./bacheca.component.html",
-  styleUrls: ["./bacheca.component.css"],
+    selector: "app-bacheca",
+    templateUrl: "./bacheca.component.html",
+    styleUrls: ["./bacheca.component.css"],
+    standalone: false
 })
 export class BachecaComponent implements OnInit {
   posts: BachecaPost[] = [];

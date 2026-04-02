@@ -14,7 +14,8 @@ import { AssociationService } from '@app/services/association.service';
 @Component({
     selector: 'app-helps-edit',
     templateUrl: './helps-edit.component.html',
-    styleUrls: ['./helps-edit.component.scss']
+    styleUrls: ['./helps-edit.component.scss'],
+    standalone: false
 })
 export class HelpsEditComponent implements OnInit {
     @Input()

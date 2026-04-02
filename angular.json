@@ -69,18 +69,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "rehelp-web:build"
+            "buildTarget": "rehelp-web:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "rehelp-web:build:production"
+              "buildTarget": "rehelp-web:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "rehelp-web:build"
+            "buildTarget": "rehelp-web:build"
           }
         },
         "test": {

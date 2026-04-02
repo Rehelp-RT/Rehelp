@@ -7,7 +7,8 @@ import * as moment from 'moment';
 @Component({
     selector: 'app-helps',
     templateUrl: './helps.component.html',
-    styleUrls: ['./helps.component.scss']
+    styleUrls: ['./helps.component.scss'],
+    standalone: false
 })
 export class HelpsComponent implements OnInit {
 

@@ -4,7 +4,8 @@ import { HelpType } from '@app/models';
 @Component({
     selector: 'app-help-type',
     templateUrl: './help-type.component.html',
-    styleUrls: ['./help-type.component.css']
+    styleUrls: ['./help-type.component.css'],
+    standalone: false
 })
 export class HelpTypeComponent {
 

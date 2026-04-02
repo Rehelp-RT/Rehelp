@@ -9,9 +9,10 @@ import * as moment from 'moment';
 import { ForumPost, HelpCategory, User, HelpType } from '@app/models';
 
 @Component({
-  selector: 'app-forum-form',
-  templateUrl: './forum-form.component.html',
-  styleUrls: ['./forum-form.component.css']
+    selector: 'app-forum-form',
+    templateUrl: './forum-form.component.html',
+    styleUrls: ['./forum-form.component.css'],
+    standalone: false
 })
 export class ForumFormComponent implements OnInit {
   @Input()

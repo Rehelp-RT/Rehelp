@@ -5,9 +5,10 @@ import { AuthenticationService, CommentService } from '@app/services';
 
 
 @Component({
-  selector: 'app-comment',
-  templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.css']
+    selector: 'app-comment',
+    templateUrl: './comment.component.html',
+    styleUrls: ['./comment.component.css'],
+    standalone: false
 })
 export class CommentComponent implements OnInit {
   @Input()

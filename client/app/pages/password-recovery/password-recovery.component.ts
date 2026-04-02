@@ -7,9 +7,10 @@ import { AuthenticationService, UserService } from '@app/services';
 import { AlertService } from '@app/shared/components/alert';
 
 @Component({
-  selector: 'app-password-recovery',
-  templateUrl: './password-recovery.component.html',
-  styleUrls: ['./password-recovery.component.scss']
+    selector: 'app-password-recovery',
+    templateUrl: './password-recovery.component.html',
+    styleUrls: ['./password-recovery.component.scss'],
+    standalone: false
 })
 export class PasswordRecoveryComponent implements OnInit {
   returnParam = 'returnUrl';

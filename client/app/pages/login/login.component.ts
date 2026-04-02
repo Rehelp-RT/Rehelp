@@ -9,9 +9,10 @@ import { AlertService } from '@app/shared/components/alert';
 import { SocialAuthService, FacebookLoginProvider, GoogleLoginProvider, SocialUser } from '@abacritt/angularx-social-login';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    standalone: false
 })
 export class LoginComponent implements OnInit {
     returnParam = 'returnUrl';

@@ -10,7 +10,8 @@ import { User } from '@app/models';
     selector: 'app-user-icon',
     templateUrl: './user-icon.component.html',
     styleUrls: ['./user-icon.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class UserIconComponent implements OnInit {
 

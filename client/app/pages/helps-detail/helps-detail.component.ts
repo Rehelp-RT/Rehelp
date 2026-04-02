@@ -7,9 +7,10 @@ import { ModalService } from '@app/shared/components';
 import * as moment from 'moment';
 
 @Component({
-  selector: 'app-helps-detail',
-  templateUrl: './helps-detail.component.html',
-  styleUrls: ['./helps-detail.component.scss']
+    selector: 'app-helps-detail',
+    templateUrl: './helps-detail.component.html',
+    styleUrls: ['./helps-detail.component.scss'],
+    standalone: false
 })
 export class HelpsDetailComponent implements OnInit {
 

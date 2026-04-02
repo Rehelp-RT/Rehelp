@@ -7,7 +7,8 @@ import { User } from '@app/models';
 @Component({
     selector: 'app-upload-avatar',
     templateUrl: './upload-avatar.component.html',
-    styleUrls: ['./upload-avatar.component.scss']
+    styleUrls: ['./upload-avatar.component.scss'],
+    standalone: false
 })
 export class UploadAvatarComponent implements OnInit {
     @Input()

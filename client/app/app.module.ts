@@ -9,27 +9,21 @@ import { PagesModule } from './pages';
 import { SharedModule } from './shared';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 
 
 
-@NgModule({
-    imports: [
-        AppRoutingModule,
+@NgModule({ declarations: [
+        AppComponent,
+    ],
+    bootstrap: [AppComponent], imports: [AppRoutingModule,
         CommonModule,
         PagesModule,
         SharedModule,
         BrowserAnimationsModule,
         NgbModule,
-        HttpClientModule,
-        FormsModule,
-    ],
-    declarations: [
-        AppComponent,
-    ],
-    bootstrap: [ AppComponent ]
-})
+        FormsModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {
 }

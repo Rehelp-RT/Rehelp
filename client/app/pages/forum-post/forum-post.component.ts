@@ -4,9 +4,10 @@ import { ForumPostService, AuthenticationService } from "@app/services";
 
 
 @Component({
-  selector: 'app-forum-post',
-  templateUrl: './forum-post.component.html',
-  styleUrls: ['./forum-post.component.css']
+    selector: 'app-forum-post',
+    templateUrl: './forum-post.component.html',
+    styleUrls: ['./forum-post.component.css'],
+    standalone: false
 })
 export class ForumPostComponent implements OnInit {
 

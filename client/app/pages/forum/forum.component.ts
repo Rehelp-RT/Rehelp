@@ -4,9 +4,10 @@ import { ForumPostService } from "@app/services";
 
 
 @Component({
-  selector: "app-forum",
-  templateUrl: "./forum.component.html",
-  styleUrls: ["./forum.component.css"],
+    selector: "app-forum",
+    templateUrl: "./forum.component.html",
+    styleUrls: ["./forum.component.css"],
+    standalone: false
 })
 export class ForumComponent implements OnInit {
   posts: ForumPost[] = [];

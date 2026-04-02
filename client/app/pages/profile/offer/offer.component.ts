@@ -7,7 +7,8 @@ import { UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidatorFn, Un
 @Component({
     selector: 'app-offer',
     templateUrl: './offer.component.html',
-    styleUrls: ['./offer.component.scss']
+    styleUrls: ['./offer.component.scss'],
+    standalone: false
 })
 export class OfferComponent implements OnInit {
 

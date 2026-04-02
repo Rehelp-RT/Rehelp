@@ -8,7 +8,8 @@ import { AlertService } from '@app/shared/components';
 @Component({
     selector: 'app-password-edit',
     templateUrl: './password-edit.component.html',
-    styleUrls: ['./password-edit.component.scss']
+    styleUrls: ['./password-edit.component.scss'],
+    standalone: false
 })
 export class PasswordEditComponent implements OnInit {
 

@@ -6,9 +6,10 @@ import { HttpClient } from '@angular/common/http';
 import { HelpCategory, Help, User, HelpResponse, HelpType } from '@app/models';
 
 @Component({
-  selector: 'app-helps-ask',
-  templateUrl: './helps-ask.component.html',
-  styleUrls: ['./helps-ask.component.scss']
+    selector: 'app-helps-ask',
+    templateUrl: './helps-ask.component.html',
+    styleUrls: ['./helps-ask.component.scss'],
+    standalone: false
 })
 export class HelpsAskComponent implements OnInit {
   @Input()

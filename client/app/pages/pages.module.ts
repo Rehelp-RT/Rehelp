@@ -1,10 +1,10 @@
 // core modules
 import { CommonModule } from '@angular/common';
-import { MatLegacySliderModule as MatSliderModule } from '@angular/material/legacy-slider';
+import { MatSliderModule } from '@angular/material/slider';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 // app modules
 import { PagesRoutingModule } from './pages-routing.module';
 import { SharedModule } from '@app/shared';
@@ -39,23 +39,7 @@ import { CommentComponent } from './comment/comment.component';
 import { BachecaFormComponent } from './bacheca-form/bacheca-form.component';
 import { PaymentComponent } from './payment/payment.component';
 
-@NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        HttpClientModule,
-        MatSliderModule,
-        ReactiveFormsModule,
-        RouterModule,
-
-        HelpsDetailModule,
-        ProfileModule,
-        UsersModule,
-
-        PagesRoutingModule,
-        SharedModule
-    ],
-    declarations: [
+@NgModule({ declarations: [
         AboutComponent,
         ContactComponent,
         FaqComponent,
@@ -80,6 +64,14 @@ import { PaymentComponent } from './payment/payment.component';
         BachecaFormComponent,
         PaymentComponent
     ],
-    exports: []
-})
+    exports: [], imports: [CommonModule,
+        FormsModule,
+        MatSliderModule,
+        ReactiveFormsModule,
+        RouterModule,
+        HelpsDetailModule,
+        ProfileModule,
+        UsersModule,
+        PagesRoutingModule,
+        SharedModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class PagesModule { }

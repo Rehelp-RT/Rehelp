@@ -5,9 +5,10 @@ import { TransactionService } from '@app/services/transaction.service';
 import { ThisMonthInstance } from 'twilio/lib/rest/api/v2010/account/usage/record/thisMonth';
 
 @Component({
-  selector: 'app-wallet',
-  templateUrl: './wallet.component.html',
-  styleUrls: ['./wallet.component.css']
+    selector: 'app-wallet',
+    templateUrl: './wallet.component.html',
+    styleUrls: ['./wallet.component.css'],
+    standalone: false
 })
 export class WalletComponent implements OnInit {
 

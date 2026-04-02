@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { CheckoutService } from '@app/services/checkout.service';
 
 @Component({
-  selector: 'app-payment',
-  templateUrl: './payment.component.html',
-  styleUrls: ['./payment.component.css']
+    selector: 'app-payment',
+    templateUrl: './payment.component.html',
+    styleUrls: ['./payment.component.css'],
+    standalone: false
 })
 export class PaymentComponent {
   handler:any = null;

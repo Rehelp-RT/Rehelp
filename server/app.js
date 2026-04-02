@@ -7,7 +7,7 @@ const http = require('http');
 const https = require('https');
 const fs = require('fs');
 const api = require('./routes');
-const socketIO = require('socket.io');
+const { Server } = require('socket.io');
 const db = require('./models');
 var CodiceFiscale = require('codice-fiscale-js');
 const CodiceFiscaleUtils = require('@marketto/codice-fiscale-utils');
@@ -113,7 +113,7 @@ const server =
     https.createServer(credentials, app);
 
 // setup socket.io
-let io = socketIO(server);
+let io = new Server(server, { cors: { origin: '*', methods: ['GET', 'POST'] } });
 io.on('connection', (socket) => {
 
   socket.on('new-message', (message) => {

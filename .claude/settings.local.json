@@ -27,7 +27,10 @@
       "Bash(npx ng:*)",
       "Bash(npm config:*)",
       "Bash(npm show:*)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(kill %1)",
+      "Bash(curl -s http://localhost:4201/client_app_pages_index_ts.js)",
+      "Bash(node -e \"const v=JSON.parse\\(require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\)\\); console.log\\(v.filter\\(x=>x.startsWith\\('2.'\\)\\).join\\('\\\\n'\\)\\)\")"
     ]
   }
 }

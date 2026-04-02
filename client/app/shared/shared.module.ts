@@ -8,7 +8,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 // third party modules
 import { GoogleMapsModule } from '@angular/google-maps';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider, GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import {
   faAngleDoubleRight,
   faBell,
@@ -69,9 +68,7 @@ import { FilterPipe } from './pipes/filter.pipe';
     GoogleMapsModule,
 
     AlertModule, CategoriesModule, ChatModule,
-    ModalModule, StarRatingModule, StarsModule, UserIconModule,
-
-    SocialLoginModule
+    ModalModule, StarRatingModule, StarsModule, UserIconModule
   ],
   declarations: [
     HeaderComponent,
@@ -83,17 +80,7 @@ import { FilterPipe } from './pipes/filter.pipe';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          { id: GoogleLoginProvider.PROVIDER_ID, provider: new GoogleLoginProvider('777650088501-7v0eembic12t9esbnht9lmmhi95tho4j.apps.googleusercontent.com') },
-          { id: FacebookLoginProvider.PROVIDER_ID, provider: new FacebookLoginProvider('220996429157029') }
-        ]
-      } as SocialAuthServiceConfig
-    }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   exports: [
     GoogleMapsModule,

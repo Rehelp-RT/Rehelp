@@ -1,16 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService, CategoryService, ForumPostService, HelpService, TypeService } from '@app/services';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Component, ViewChild, ElementRef, Input, NgZone, OnInit } from '@angular/core';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { Component, ViewChild, ElementRef, Input, OnInit } from '@angular/core';
 import * as moment from 'moment';
-
-// image
-import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
-import { Cloudinary } from '@cloudinary/angular-5.x';
-
-// maps
-import { MapsAPILoader, MouseEvent } from '@agm/core';
 
 // model
 import { ForumPost, HelpCategory, User, HelpType } from '@app/models';
@@ -26,7 +19,7 @@ export class ForumFormComponent implements OnInit {
 
   submitted = false;
   model: ForumPost = null;
-  forumPostForm: FormGroup;
+  forumPostForm: UntypedFormGroup;
 
   // categories
   categories: HelpCategory[] = [];
@@ -36,30 +29,22 @@ export class ForumFormComponent implements OnInit {
   public catImg: string = null;
 
    // image
-   public hasBaseDropZoneOver = false;
-   public uploader: FileUploader;
    public imageUploaded = false;
+   public uploading = false;
 
   constructor(
-    // private http:HttpClient,
+        private http: HttpClient,
         private activeRoute: ActivatedRoute,
-        private formBuilder: FormBuilder,
+        private formBuilder: UntypedFormBuilder,
         private router: Router,
         private as: AuthenticationService,
         private cs: CategoryService,
         private fps: ForumPostService,
-        private ts: TypeService,
-        private cloudinary: Cloudinary,
-        private ngZone: NgZone,
-        private mapsAPILoader: MapsAPILoader
-
+        private ts: TypeService
   ) { }
 
   ngOnInit(): void {
     this.initCreatePost();
-
-     // images
-    this.initImages();
   }
 
   private initForm() {
@@ -87,7 +72,6 @@ private initCategories() {
   // categories
   this.cs.getAll().subscribe(x => {
       this.categories = x;
-      // console.log('cats', this.categories)
 
       if (this.model.category) {
           if (this.model.category.parent !== undefined && this.model.category.parent !== null) {
@@ -132,14 +116,12 @@ get f() { return this.forumPostForm.controls; }
 
       // category
       this.model.idCategory = this.cat3Id ? this.cat3Id : (this.cat2Id ? this.cat2Id : this.cat1Id);
-      
+
     }
-    // console.log(this.model);
     this.addPost();
   }
 
 private addPost() {
-    // crea l'help
     this.fps.addForumPost(this.model).subscribe(x => {
       console.log(x)
       this.router.navigate(['forum/detail/', x.id]);
@@ -147,108 +129,25 @@ private addPost() {
       err => {
         console.log(err);
       });
-    //     this.response = new HelpResponse();
-    //     this.response.responder = this.userToAsk;
-    //     this.response.idResponder = this.userToAsk.id;
-    //     this.response.help = x;
-    //     this.response.idHelp = x.id;
-
-    //     this.addResponse();
-    // },
-    //     err => {
-    //         console.log('errore addHelp', err);
-    //     });
 }
 
-private initImages() {
-
-  const uploaderOptions: FileUploaderOptions = {
-    url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/upload`,
-    // Upload files automatically upon addition to upload queue
-    autoUpload: true,
-    // Use xhrTransport in favor of iframeTransport
-    isHTML5: true,
-    // Calculate progress independently for each uploaded file
-    removeAfterUpload: true,
-    // XHR request headers
-    headers: [
-      {
-        name: 'X-Requested-With',
-        value: 'XMLHttpRequest'
-      }
-    ]
-  };
-  this.uploader = new FileUploader(uploaderOptions);
-  this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
-      // Add Cloudinary's unsigned upload preset to the upload form
-      form.append('upload_preset', 'preset_help');
-      console.log(this.cloudinary.config().upload_preset);
-      // Add built-in and custom tags for displaying the uploaded photo in the list
-      const tags = 'myphotoalbum';
-      // Upload to a custom folder
-      // Note that by default, when uploading via the API, folders are not automatically created in your Media Library.
-      // In order to automatically create the folders based on the API requests,
-      // please go to your account upload settings and set the 'Auto-create folders' option to enabled.
-      form.append('folder', 'angular_sample');
-      // Add custom tags
-      form.append('tags', tags);
-      // Add file to upload
-      form.append('file', fileItem);
-
-      // Use default 'withCredentials' value for CORS requests
-      fileItem.withCredentials = false;
-      return { fileItem, form };
-  };
-
-  // Insert or update an entry in the responses array
-  const upsertResponse = fileItem => {
-      // Run the update in a custom zone since for some reason change detection isn't performed
-      // as part of the XHR request to upload the files.
-      // Running in a custom zone forces change detection
-      this.ngZone.run(() => {
-        // Update an existing entry if it's upload hasn't completed yet
-
-        // Find the id of an existing item
-        const existingId = this.responses.reduce((prev, current, index) => {
-          if (current.file.name === fileItem.file.name && !current.status) {
-            return index;
-          }
-          return prev;
-        }, -1);
-        if (existingId > -1) {
-          // Update existing item with new data
-          this.responses[existingId] = Object.assign(
-            this.responses[existingId],
-            fileItem
-          );
-        } else {
-          // Create new response
-          this.responses.push(fileItem);
-        }
-        this.imageUploaded = true;
-      });
-  };
-
-  // Update model on completion of uploading a file
-  this.uploader.onCompleteItem = (
-      item: any,
-      response: string,
-      status: number,
-      headers: ParsedResponseHeaders
-  ) =>
-      upsertResponse({
-          file: item.file,
-          status,
-          data: JSON.parse(response)
-      });
-
-  // Update model on upload progress event
-  this.uploader.onProgressItem = (fileItem: any, progress: any) =>
-      upsertResponse({
-          file: fileItem.file,
-          progress,
-          data: {}
-      });
+onFileSelected(event: Event) {
+  const file = (event.target as HTMLInputElement).files[0];
+  if (!file) return;
+  const formData = new FormData();
+  formData.append('upload_preset', 'preset_help');
+  formData.append('folder', 'angular_sample');
+  formData.append('tags', 'myphotoalbum');
+  formData.append('file', file);
+  this.uploading = true;
+  this.http.post('https://api.cloudinary.com/v1_1/hwbyvepex/upload', formData).subscribe(
+    (response: any) => {
+      this.uploading = false;
+      this.imageUploaded = true;
+      this.responses.push({ file: { name: file.name }, status: 200, data: response });
+    },
+    err => { this.uploading = false; console.error(err); }
+  );
 }
 
 toggleImgUploader() {
@@ -256,12 +155,7 @@ toggleImgUploader() {
 }
 
 deleteImage = function(data: any, index: number) {
-  // Delete an uploaded image
-  // Requires setting 'Return delete token' to 'Yes' in your upload preset configuration
-  // See also https://support.cloudinary.com/hc/en-us/articles/202521132-How-to-delete-an-image-from-the-client-side-
-  const url = `https://api.cloudinary.com/v1_1/${
-      this.cloudinary.config().cloud_name
-  }/delete_by_token`;
+  const url = `https://api.cloudinary.com/v1_1/hwbyvepex/delete_by_token`;
   const headers = new Headers({
       'Content-Type': 'application/json',
       'X-Requested-With': 'XMLHttpRequest'
@@ -276,10 +170,6 @@ deleteImage = function(data: any, index: number) {
       this.responses.splice(index, 1);
   });
 };
-
-fileOverBase(e: any): void {
-  this.hasBaseDropZoneOver = e;
-}
 
 getFileProperties(fileProperties: any) {
   // Transforms Javascript Object to an iterable to be used by *ngFor
@@ -299,7 +189,7 @@ getCategoryImage() {
       const catId = this.cat3Id ? this.cat3Id : (this.cat2Id ? this.cat2Id : this.cat1Id);
       const catLevel = this.cat3Id ? 3 : (this.cat2Id ? 2 : 1);
       var cat: HelpCategory;
-      
+
       this.categories.find(c1 => {
               if (catLevel == 1) {
                   if (c1.id == catId) {

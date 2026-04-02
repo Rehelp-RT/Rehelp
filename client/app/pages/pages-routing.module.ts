@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 // middlewares
-import { AuthGuard } from '@app/guards';
+import { authGuard } from '@app/guards';
 
 // pages
 import { AboutComponent } from './about/about.component';
@@ -45,21 +45,21 @@ const routes: Routes = [
   { path: 'payment', component: PaymentComponent, data: {title: 'payment'} },
   { path: 'bacheca', component: BachecaComponent, data: {title: 'bacheca'} },
   { path: 'bacheca/form/:idHelp/:idResponder/:idResponse', component: BachecaFormComponent, data: {title: 'bacheca form'} },
-  { path: 'helps', component: HelpsComponent, data: {title: 'Lista aiuti'}, canActivate: [AuthGuard] },
-  { path: 'helps/add/:type', component: HelpsEditComponent, data: {title: 'Nuovo aiuto'}, canActivate: [AuthGuard] },
-  { path: 'helps/add', component: HelpsEditComponent, data: {title: 'Nuovo aiuto'}, canActivate: [AuthGuard], pathMatch: 'full' },
-  { path: 'helps/ask/:id', component: HelpsAskComponent, data: {title: 'Chiedi aiuto'}, canActivate: [AuthGuard] },
-  { path: 'helps/:id', component: HelpsDetailComponent,  data: {title: 'Dettagli aiuto'}, canActivate: [AuthGuard] },
-  { path: 'helps/edit/:id', component: HelpsEditComponent,  data: {title: 'Modifica aiuto'}, canActivate: [AuthGuard] },
-  { path: 'helps/:id/response', component: HelpsResponseComponent,  data: {title: 'Offri Aiuto'}, canActivate: [AuthGuard] },
+  { path: 'helps', component: HelpsComponent, data: {title: 'Lista aiuti'}, canActivate: [authGuard] },
+  { path: 'helps/add/:type', component: HelpsEditComponent, data: {title: 'Nuovo aiuto'}, canActivate: [authGuard] },
+  { path: 'helps/add', component: HelpsEditComponent, data: {title: 'Nuovo aiuto'}, canActivate: [authGuard], pathMatch: 'full' },
+  { path: 'helps/ask/:id', component: HelpsAskComponent, data: {title: 'Chiedi aiuto'}, canActivate: [authGuard] },
+  { path: 'helps/:id', component: HelpsDetailComponent,  data: {title: 'Dettagli aiuto'}, canActivate: [authGuard] },
+  { path: 'helps/edit/:id', component: HelpsEditComponent,  data: {title: 'Modifica aiuto'}, canActivate: [authGuard] },
+  { path: 'helps/:id/response', component: HelpsResponseComponent,  data: {title: 'Offri Aiuto'}, canActivate: [authGuard] },
   { path: 'login', component: LoginComponent },
-  // { path: 'meet-and-help', component: MeetAndHelpComponent, canActivate: [AuthGuard] },
+  // { path: 'meet-and-help', component: MeetAndHelpComponent, canActivate: [authGuard] },
   { path: 'password-recovery', component: PasswordRecoveryComponent },
   { path: 'password-reset/:token', component: PasswordResetComponent },
   { path: 'privacy', component: PrivacyComponent },
-  { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'profile/:id', component: ProfileComponent, canActivate: [authGuard] },
   { path: 'register', component: RegisterComponent },
-  { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
+  { path: 'users', component: UsersComponent, canActivate: [authGuard] },
   { path: '', component: HomeComponent, pathMatch: 'full' }
 ];
 

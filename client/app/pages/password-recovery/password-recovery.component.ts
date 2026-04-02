@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,12 +14,12 @@ import { AlertService } from '@app/shared/components/alert';
 export class PasswordRecoveryComponent implements OnInit {
   returnParam = 'returnUrl';
     returnUrl: string;
-    passwordRecoveryForm: FormGroup;
+    passwordRecoveryForm: UntypedFormGroup;
     loading = false;
     submitted = false;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthenticationService,

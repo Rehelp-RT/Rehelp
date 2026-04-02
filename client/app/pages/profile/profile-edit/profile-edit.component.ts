@@ -3,9 +3,6 @@ import { User } from '@app/models';
 import { UserService, AuthenticationService } from '@app/services';
 import { ActivatedRoute, Router } from '@angular/router';
 
-// maps
-import { MapsAPILoader, MouseEvent } from '@agm/core';
-
 @Component({
     selector: 'app-profile-edit',
     templateUrl: './profile-edit.component.html',
@@ -29,7 +26,6 @@ export class ProfileEditComponent implements OnInit {
         private activeRouter: ActivatedRoute,
         private as: AuthenticationService,
         private us: UserService,
-        private mapsAPILoader: MapsAPILoader,
         private ngZone: NgZone
         ) { }
 
@@ -41,7 +37,7 @@ export class ProfileEditComponent implements OnInit {
                     // model
                     console.log('utente', x)
                     this.model = x;
-    
+
                     // maps
                     this.initMaps();
                 });
@@ -53,31 +49,28 @@ export class ProfileEditComponent implements OnInit {
 
     initMaps() {
       this.setCurrentLocation();
-      this.mapsAPILoader.load().then(() => {
-        this.geoCoder = new google.maps.Geocoder();
-        setTimeout(() => {
-          const autocomplete = new google.maps.places.Autocomplete(
-            this.searchElementRef.nativeElement, {
-              types: ['address']
+      this.geoCoder = new google.maps.Geocoder();
+      setTimeout(() => {
+        const autocomplete = new google.maps.places.Autocomplete(
+          this.searchElementRef.nativeElement, {
+            types: ['address']
+          }
+        );
+
+        autocomplete.addListener('place_changed', () => {
+          this.ngZone.run(() => {
+            // get the place result
+            const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+            // verify result
+            if (place.geometry === undefined || place.geometry === null) {
+              return;
+            } else {
+              this.setPlace(place);
             }
-          );
-
-          autocomplete.addListener('place_changed', () => {
-            this.ngZone.run(() => {
-              // get the place result
-              const place: google.maps.places.PlaceResult = autocomplete.getPlace();
-
-              // verify result
-              if (place.geometry === undefined || place.geometry === null) {
-                return;
-              } else {
-                this.setPlace(place);
-              }
-            });
           });
-        }, 500);
-
-      });
+        });
+      }, 500);
     }
 
     // Get current location coordinates
@@ -99,9 +92,9 @@ export class ProfileEditComponent implements OnInit {
       }
     }
 
-    markerDragEnd($event: MouseEvent) {
-      this.model.latitude = $event.coords.lat;
-      this.model.longitude = $event.coords.lng;
+    markerDragEnd(event: google.maps.MapMouseEvent) {
+      this.model.latitude = event.latLng.lat();
+      this.model.longitude = event.latLng.lng();
       this.getAddress(this.model.latitude, this.model.longitude);
     }
 

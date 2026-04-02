@@ -6,20 +6,16 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // third party modules
-import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
-import { FileUploadModule } from 'ng2-file-upload';
-import { CloudinaryModule } from '@cloudinary/angular-5.x';
-import { Cloudinary as CloudinaryCore } from 'cloudinary-core';
-export const cloudinaryLib = { Cloudinary: CloudinaryCore };
+import { GoogleMapsModule } from '@angular/google-maps';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { SocialLoginModule, AuthServiceConfig, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
+import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider, GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import {
   faAngleDoubleRight,
   faBell,
   faCamera, faCheck, faChevronLeft, faCircle, faClock, faCloudUploadAlt , faCoffee,
   faEnvelope,
   faHands,
-  faHandPaper,
+  faHand,
   faHeart,
   faImage,
   faKey,
@@ -65,40 +61,12 @@ import { NotificationsComponent } from './layout/header/notifications/notificati
 import { HelpTypeComponent } from './components/help-type/help-type.component';
 import { FilterPipe } from './pipes/filter.pipe';
 
-// social login configurations
-const config = new AuthServiceConfig([
-  {
-    id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider('777650088501-7v0eembic12t9esbnht9lmmhi95tho4j.apps.googleusercontent.com')
-  },
-  {
-    id: FacebookLoginProvider.PROVIDER_ID,
-    // provider prod
-    provider: new FacebookLoginProvider('220996429157029')
-
-    // provider test
-    // provider: new FacebookLoginProvider('688443305245420')
-  }
-]);
-export function provideConfig() {
-  return config;
-}
-
 @NgModule({
   imports: [
-    CommonModule, FileUploadModule, FormsModule, ReactiveFormsModule, RouterModule,
+    CommonModule, FormsModule, ReactiveFormsModule, RouterModule,
 
     FontAwesomeModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAbbsrna-196ECj0O-Gc2-BWQcT5IfVj-8',
-      libraries: ['places']
-    }),
-    CloudinaryModule.forRoot(cloudinaryLib, {
-      cloud_name: 'hwbyvepex',
-      api_key: '179729361229299',
-      api_secret: 'bvVksVM28wciVB6_e2GG-dne3bI',
-      upload_preset: 'preset_avatar'
-    }),
+    GoogleMapsModule,
 
     AlertModule, CategoriesModule, ChatModule,
     ModalModule, StarRatingModule, StarsModule, UserIconModule,
@@ -116,11 +84,19 @@ export function provideConfig() {
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: AuthServiceConfig, useFactory: provideConfig },
-    GoogleMapsAPIWrapper
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          { id: GoogleLoginProvider.PROVIDER_ID, provider: new GoogleLoginProvider('777650088501-7v0eembic12t9esbnht9lmmhi95tho4j.apps.googleusercontent.com') },
+          { id: FacebookLoginProvider.PROVIDER_ID, provider: new FacebookLoginProvider('220996429157029') }
+        ]
+      } as SocialAuthServiceConfig
+    }
   ],
   exports: [
-    AgmCoreModule,
+    GoogleMapsModule,
     FontAwesomeModule,
     AlertModule, CategoriesModule, ChatModule,
     HelpTypeComponent,
@@ -137,7 +113,7 @@ export class SharedModule {
       faAngleDoubleRight, faBell,
       faCamera, faCircle, faCheck, faChevronLeft, faClock, faCloudUploadAlt, faCoffee,
       faEnvelope, faFacebook, faGoogle,
-      faHands, faHandPaper, faHeart, faImage, faKey,
+      faHands, faHand, faHeart, faImage, faKey,
       faMapMarkerAlt, faPencilAlt, faFilePdf, faPlus,
       faSave, faSpinner, faSquare, faStar, faStarOfLife, faSync,
       faTrashAlt, faUsers,

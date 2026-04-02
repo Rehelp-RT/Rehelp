@@ -3,10 +3,7 @@ import { Location } from '@angular/common';
 import { AuthenticationService, CategoryService, HelpService, ResponseService, UserService, TypeService } from '@app/services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { HelpCategory, Help, User, HelpResponse, HelpType } from '@app/models';
-import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
-import { Cloudinary } from '@cloudinary/angular-5.x';
 
 @Component({
   selector: 'app-helps-ask',
@@ -31,8 +28,7 @@ export class HelpsAskComponent implements OnInit {
 
   // image
   public imageUploaded = false;
-  public hasBaseDropZoneOver = false;
-  public uploader: FileUploader;
+  public uploading = false;
 
   // map
   zoom: number;
@@ -51,10 +47,8 @@ export class HelpsAskComponent implements OnInit {
     private hs: HelpService,
     private as: AuthenticationService,
     private ts: TypeService,
-    private cloudinary: Cloudinary,
     private ngZone: NgZone,
     private location: Location,
-    private mapsAPILoader: MapsAPILoader,
     private userService: UserService,
     private activeRoute: ActivatedRoute,
     private responseService: ResponseService
@@ -79,9 +73,6 @@ export class HelpsAskComponent implements OnInit {
     // init map
     this.initMaps();
 
-    // init image
-    this.initImage();
-
   }
 
   toggleImgUploader() {
@@ -92,9 +83,7 @@ export class HelpsAskComponent implements OnInit {
   // Requires setting 'Return delete token' to 'Yes' in your upload preset configuration
   // See also https://support.cloudinary.com/hc/en-us/articles/202521132-How-to-delete-an-image-from-the-client-side-
   deleteImage = function (data: any, index: number) {
-    const url = `https://api.cloudinary.com/v1_1/${
-      this.cloudinary.config().cloud_name
-    }/delete_by_token`;
+    const url = `https://api.cloudinary.com/v1_1/hwbyvepex/delete_by_token`;
     console.log(url, 'url');
     const headers = [{
       name: 'X-Requested-With',
@@ -114,8 +103,23 @@ export class HelpsAskComponent implements OnInit {
     this.imageUploaded = !this.imageUploaded;
   };
 
-  fileOverBase(e: any): void {
-    this.hasBaseDropZoneOver = e;
+  onFileSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    if (!file) return;
+    const formData = new FormData();
+    formData.append('upload_preset', 'preset_help');
+    formData.append('folder', 'angular_sample');
+    formData.append('tags', 'myphotoalbum');
+    formData.append('file', file);
+    this.uploading = true;
+    this.http.post('https://api.cloudinary.com/v1_1/hwbyvepex/upload', formData).subscribe(
+      (response: any) => {
+        this.uploading = false;
+        this.imageUploaded = true;
+        this.responses.push({ file: { name: file.name }, status: 200, data: response });
+      },
+      err => { this.uploading = false; console.error(err); }
+    );
   }
 
   getFileProperties(fileProperties: any) {
@@ -141,9 +145,9 @@ export class HelpsAskComponent implements OnInit {
     }
   }
 
-  markerDragEnd($event: MouseEvent) {
-    this.model.latitude = $event.coords.lat;
-    this.model.longitude = $event.coords.lng;
+  markerDragEnd(event: google.maps.MapMouseEvent) {
+    this.model.latitude = event.latLng.lat();
+    this.model.longitude = event.latLng.lng();
     this.getAddress(this.model.latitude, this.model.longitude);
   }
 
@@ -195,120 +199,32 @@ export class HelpsAskComponent implements OnInit {
   }
 
   initMaps() {
-    this.mapsAPILoader.load().then(() => {
-      this.setCurrentLocation();
-      this.geoCoder = new google.maps.Geocoder();
+    this.setCurrentLocation();
+    this.geoCoder = new google.maps.Geocoder();
 
-      const autocomplete = new google.maps.places.Autocomplete(
-        this.searchElementRef.nativeElement,
-        {
-          types: ['address']
-        }
-      );
-      autocomplete.addListener('place_changed', () => {
-        this.ngZone.run(() => {
-          // get the place result
-          const place: google.maps.places.PlaceResult = autocomplete.getPlace();
-
-          // verify result
-          if (place.geometry === undefined || place.geometry === null) {
-            return;
-          }
-
-          // set latitude, longitude and zoom
-          this.model.latitude = place.geometry.location.lat();
-          this.model.longitude = place.geometry.location.lng();
-          this.zoom = 12;
-          this.getAddress(this.model.latitude, this.model.longitude);
-        });
-      });
-    });
-  }
-
-  initImage() {
-    // init image - create the file uploader, wire it to upload to your account
-    const uploaderOptions: FileUploaderOptions = {
-      url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/upload`,
-      // Upload files automatically upon addition to upload queue
-      autoUpload: true,
-      // Use xhrTransport in favor of iframeTransport
-      isHTML5: true,
-      // Calculate progress independently for each uploaded file
-      removeAfterUpload: true,
-      // XHR request headers
-      headers: [{
-        name: 'X-Requested-With',
-        value: 'XMLHttpRequest'
-      }]
-    };
-    this.uploader = new FileUploader(uploaderOptions);
-    this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
-      // Add Cloudinary's unsigned upload preset to the upload form
-      form.append('upload_preset', 'preset_help');
-      console.log(this.cloudinary.config().upload_preset);
-      // Add built-in and custom tags for displaying the uploaded photo in the list
-      const tags = 'myphotoalbum';
-      // Upload to a custom folder
-      // Note that by default, when uploading via the API, folders are not automatically created in your Media Library.
-      // In order to automatically create the folders based on the API requests,
-      // please go to your account upload settings and set the 'Auto-create folders' option to enabled.
-      form.append('folder', 'angular_sample');
-      // Add custom tags
-      form.append('tags', tags);
-      // Add file to upload
-      form.append('file', fileItem);
-
-      // Use default 'withCredentials' value for CORS requests
-      fileItem.withCredentials = false;
-      return { fileItem, form };
-    };
-    // Insert or update an entry in the responses array
-    const upsertResponse = fileItem => {
-      // Run the update in a custom zone since for some reason change detection isn't performed
-      // as part of the XHR request to upload the files.
-      // Running in a custom zone forces change detection
+    const autocomplete = new google.maps.places.Autocomplete(
+      this.searchElementRef.nativeElement,
+      {
+        types: ['address']
+      }
+    );
+    autocomplete.addListener('place_changed', () => {
       this.ngZone.run(() => {
-        // Update an existing entry if it's upload hasn't completed yet
+        // get the place result
+        const place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
-        // Find the id of an existing item
-        const existingId = this.responses.reduce((prev, current, index) => {
-          if (current.file.name === fileItem.file.name && !current.status) {
-            return index;
-          }
-          return prev;
-        }, -1);
-        if (existingId > -1) {
-          // Update existing item with new data
-          this.responses[existingId] = Object.assign(
-            this.responses[existingId],
-            fileItem
-          );
-        } else {
-          // Create new response
-          this.responses.push(fileItem);
+        // verify result
+        if (place.geometry === undefined || place.geometry === null) {
+          return;
         }
-        this.imageUploaded = true;
-      });
-    };
-    // Update model on completion of uploading a file
-    this.uploader.onCompleteItem = (
-      item: any,
-      response: string,
-      status: number,
-      headers: ParsedResponseHeaders
-    ) => upsertResponse({
-      file: item.file,
-      status,
-      data: JSON.parse(response)
-    });
 
-    // Update model on upload progress event
-    this.uploader.onProgressItem = (fileItem: any, progress: any) =>
-      upsertResponse({
-        file: fileItem.file,
-        progress,
-        data: {}
+        // set latitude, longitude and zoom
+        this.model.latitude = place.geometry.location.lat();
+        this.model.longitude = place.geometry.location.lng();
+        this.zoom = 12;
+        this.getAddress(this.model.latitude, this.model.longitude);
       });
+    });
   }
 
   onSubmit() {
@@ -363,22 +279,6 @@ export class HelpsAskComponent implements OnInit {
         console.log('errore acceptResponse', err);
       });
   }
-
-  // async addHelpPromise(): Promise<any> {
-  //   return new Promise((resolve) => {
-  //     this.addHelp();
-  //     setTimeout(() => resolve(), 500);
-  //   })
-  //     .then(() => {
-  //       new Promise((resolve) => {
-  //         this.addResponse();
-  //         setTimeout(() => resolve(), 500);
-  //       })
-  //       .then(() => {
-  //         this.acceptResponse();
-  //       });
-  //     });
-  // }
 
   getCategoryFullname(cat: HelpCategory): string {
     let result = '';

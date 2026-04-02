@@ -1,12 +1,10 @@
 // core modules
 import { CommonModule } from '@angular/common';
-import { MatSliderModule } from '@angular/material/slider';
+import { MatLegacySliderModule as MatSliderModule } from '@angular/material/legacy-slider';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { FileUploadModule } from 'ng2-file-upload';
-
 // app modules
 import { PagesRoutingModule } from './pages-routing.module';
 import { SharedModule } from '@app/shared';
@@ -44,7 +42,6 @@ import { PaymentComponent } from './payment/payment.component';
 @NgModule({
     imports: [
         CommonModule,
-        FileUploadModule,
         FormsModule,
         HttpClientModule,
         MatSliderModule,

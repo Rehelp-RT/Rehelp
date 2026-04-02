@@ -15,9 +15,6 @@ import {
 } from '@app/services';
 import { ActivatedRoute } from '@angular/router';
 
-// maps
-import { MapsAPILoader } from '@agm/core';
-
 @Component({
     selector: 'app-users',
     templateUrl: './users.component.html',
@@ -55,8 +52,7 @@ export class UsersComponent implements OnInit {
         private ds: DistanceService,
         private ts: TypeService,
         private us: UserService,
-        private ngZone: NgZone,
-        private mapsAPILoader: MapsAPILoader
+        private ngZone: NgZone
     ) {}
 
     ngOnInit() {
@@ -77,7 +73,7 @@ export class UsersComponent implements OnInit {
             this.cs.getAll(type.id).subscribe(cats => {
                 this.categories = cats;
             });
-            
+
             // load type's users
             this.us.getAll(this.currentUser.id, this.type.code).subscribe(users => {
                 this.users = users;
@@ -119,9 +115,7 @@ export class UsersComponent implements OnInit {
 
     private initMaps() {
       this.setCurrentLocation();
-      this.mapsAPILoader.load().then(() => {
-        this.geoCoder = new google.maps.Geocoder();
-      });
+      this.geoCoder = new google.maps.Geocoder();
     }
 
     // Get current location coordinates

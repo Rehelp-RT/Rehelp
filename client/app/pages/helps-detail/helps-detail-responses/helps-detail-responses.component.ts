@@ -1,10 +1,9 @@
-import { Component, OnInit, Input, NgZone } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Help, HelpResponse, User } from '@app/models';
 import { ResponseService, AuthenticationService } from '@app/services';
 import { Router } from '@angular/router';
 import { ModalService } from '@app/shared/components';
-import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
-import { Cloudinary } from '@cloudinary/angular-5.x';
+import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
 import { BachecaPost } from '@app/models/bachecaPost';
 
@@ -16,7 +15,6 @@ import { BachecaPost } from '@app/models/bachecaPost';
 export class HelpsDetailResponsesComponent implements OnInit {
 
     @Input() help: Help;
-    // @Input() currentUser: User;
 
     // responses
     isHelpCreator: boolean;
@@ -34,8 +32,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
     // image
     @Input() responses: Array<any> = [];
     public imageUploaded = false;
-    public hasBaseDropZoneOver = false;
-    public uploader: FileUploader;
+    public uploading = false;
     uploadedImage: string = null;
 
     constructor(
@@ -43,8 +40,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
         private router: Router,
         private modalService: ModalService,
         private as: AuthenticationService,
-        private cloudinary: Cloudinary,
-        private ngZone: NgZone) { }
+        private http: HttpClient) { }
 
     ngOnInit() {
         this.checkHelpCreator();
@@ -52,83 +48,29 @@ export class HelpsDetailResponsesComponent implements OnInit {
         this.isUserAccepted = this.checkUserAccept(this.help.responses);
         this.isResponderAccepted = this.checkResponderAccepted(this.help.responses, this.as.currentUserValue.id);
         this.isAtLeastOneResponseAccepted = this.checkAtLeastOneResponseAccepted(this.help);
-        this.initImageUploader();
         if(this.as.currentUserValue.likehelps >= this.help.likehelps) this.canAccept = true;
         else this.canAccept = false;
         console.log(this.help)
     }
 
-    initImageUploader() {
-        // init image - create the file uploader, wire it to upload to your account
-        const uploaderOptions: FileUploaderOptions = {
-            url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/upload`,
-            // Upload files automatically upon addition to upload queue
-            autoUpload: true,
-            // Use xhrTransport in favor of iframeTransport
-            isHTML5: true,
-            // Calculate progress independently for each uploaded file
-            removeAfterUpload: true,
-            // XHR request headers
-            headers: [{ name: 'X-Requested-With', value: 'XMLHttpRequest' }]
-        };
-        this.uploader = new FileUploader(uploaderOptions);
-        this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
-            // Add Cloudinary's unsigned upload preset to the upload form
-            form.append('upload_preset', 'preset_review');
-            form.append('file', fileItem);
-
-            // Use default 'withCredentials' value for CORS requests
-            fileItem.withCredentials = false;
-            return { fileItem, form };
-        };
-
-        // Insert or update an entry in the responses array
-        const upsertResponse = fileItem => {
-            // Run the update in a custom zone since for some reason change detection isn't performed
-            // as part of the XHR request to upload the files.
-            // Running in a custom zone forces change detection
-            this.ngZone.run(() => {
-              // Update an existing entry if it's upload hasn't completed yet
-
-              // Find the id of an existing item
-              const existingId = this.responses.reduce((prev, current, index) => {
-                if (current.file.name === fileItem.file.name && !current.status) {
-                  return index;
-                }
-                return prev;
-              }, -1);
-              if (existingId > -1) {
-                // Update existing item with new data
-                this.responses[existingId] = Object.assign(
-                  this.responses[existingId],
-                  fileItem
-                );
-              } else {
-                // Create new response
-                this.responses.push(fileItem);
-              }
-              this.imageUploaded = true;
-            });
-        };
-
-        // Update model on completion of uploading a file
-        this.uploader.onCompleteItem = (
-            item: any,
-            response: string,
-            status: number,
-            headers: ParsedResponseHeaders
-        ) => upsertResponse({
-            file: item.file,
-            status,
-            data: JSON.parse(response)
-        });
-
-        // Update model on upload progress event
-        this.uploader.onProgressItem = (fileItem: any, progress: any) => upsertResponse({
-            file: fileItem.file,
-            progress,
-            data: {}
-        });
+    onFileSelected(event: Event) {
+        const file = (event.target as HTMLInputElement).files[0];
+        if (!file) return;
+        const formData = new FormData();
+        formData.append('upload_preset', 'preset_review');
+        formData.append('folder', 'angular_sample');
+        formData.append('tags', 'myphotoalbum');
+        formData.append('file', file);
+        this.uploading = true;
+        this.http.post('https://api.cloudinary.com/v1_1/hwbyvepex/upload', formData).subscribe(
+            (response: any) => {
+                this.uploading = false;
+                this.imageUploaded = true;
+                this.uploadedImage = response.public_id;
+                this.responses.push({ file: { name: file.name }, status: 200, data: response });
+            },
+            err => { this.uploading = false; console.error(err); }
+        );
     }
 
     toggleImgUploader() {
@@ -137,9 +79,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
 
     // Delete an uploaded image
     deleteImage = function (data: any, index: number) {
-        const url = `https://api.cloudinary.com/v1_1/${
-            this.cloudinary.config().cloud_name
-            }/delete_by_token`;
+        const url = `https://api.cloudinary.com/v1_1/hwbyvepex/delete_by_token`;
         console.log(url, 'url');
         const headers = [{
             name: 'X-Requested-With',
@@ -157,10 +97,6 @@ export class HelpsDetailResponsesComponent implements OnInit {
         });
         this.imageUploaded = !this.imageUploaded;
     };
-
-    fileOverBase(e: any): void {
-        this.hasBaseDropZoneOver = e;
-    }
 
     getFileProperties(fileProperties: any) {
         // Transforms Javascript Object to an iterable to be used by *ngFor
@@ -304,55 +240,48 @@ export class HelpsDetailResponsesComponent implements OnInit {
         this.selectedValue = stars ? stars : 1;
     }
 
-
-
-
     canRespond() {
-        return !this.help.accepted && 
-            !this.help.reviewed && 
-            !this.isExpired(this.help) && 
-            !this.hasUserResponded && 
+        return !this.help.accepted &&
+            !this.help.reviewed &&
+            !this.isExpired(this.help) &&
+            !this.hasUserResponded &&
             !this.isHelpCreator;
     }
 
     canChat(r: HelpResponse): boolean {
-        const chatEnabled = 
+        const chatEnabled =
             !this.help.completed &&
             (
                 this.help.accepted ||
                 (this.help.type.code == 'COH' && this.isAtLeastOneResponseAccepted)
-            ) && 
+            ) &&
             (
-                this.as.currentUserValue.id == this.help.idCreator || 
+                this.as.currentUserValue.id == this.help.idCreator ||
                 (this.as.currentUserValue.id == r.idResponder && r.accepted)
             );
         return chatEnabled;
     }
 
     canReview(r: HelpResponse): boolean {
-        const reviewEnabled = 
+        const reviewEnabled =
             this.isResponderAccepted &&
-            r.reviewed && 
-            !r.completed && 
+            r.reviewed &&
+            !r.completed &&
             r.idResponder == this.as.currentUserValue.id;
         return reviewEnabled;
     }
 
     canCreatePost(r: HelpResponse): boolean {
-        const creationEnabled = 
+        const creationEnabled =
             this.isHelpCreator && r.completed;
         return creationEnabled;
     }
-    
+
     canSeeResponse(r: HelpResponse) {
         const responseDisplayed =
             r.accepted ||
             !this.help.accepted ||
             this.help.type.code == 'COH';
-        // console.log('----')
-        // console.log('!this.help.accepted',!this.help.accepted)
-        // console.log('responseDisplayed',responseDisplayed)
-        // console.log('----')
         return responseDisplayed;
     }
 
@@ -362,11 +291,6 @@ export class HelpsDetailResponsesComponent implements OnInit {
             this.isHelpCreator ||
             !this.help.accepted && this.help.type.code != 'COH' ||
             r.idResponder === this.as.currentUserValue.id && !this.help.reviewed && this.help.type.code == 'COH';
-        // console.log('----')
-        // console.log('r.accepted',r.accepted)
-        // console.log('this.isHelpCreator',this.isHelpCreator)
-        // console.log('responseDisplayed Message',responseDisplayed)
-        // console.log('----')
         return responseDisplayed;
     }
 

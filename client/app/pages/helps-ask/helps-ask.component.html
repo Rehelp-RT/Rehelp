@@ -49,24 +49,11 @@
                             </label>
                             <div class="col-lg-8">
                                 <div [hidden]="imageUploaded">
-                                    <form id="direct_upload" ng2FileDrop [uploader]="uploader"
-                                        (fileOver)="fileOverBase($event)"
-                                        [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }">
-                                        <div class="py-3">
-                                            <div class="form_controls">
-                                                <div class="upload_button_holder">
-                                                    <label class="btn btn-outline-secondary" for="fileupload">
-                                                        <fa-icon [icon]="['fas', 'cloud-upload-alt']"></fa-icon> Carica immagine
-                                                    </label>
-                                                    <!-- onChange hanlder resets the input value to get the change event when uploading the same file consecutively -->
-                                                    <input type="file" id="fileupload"
-                                                        accept=".png, .jpg, image/jpg, image/png" #fileInput
-                                                        ng2FileSelect [style.display]="'none'" [uploader]="uploader"
-                                                        (change)="fileInput.value = ''" multiple />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
+                                  <label class="btn btn-outline-secondary">
+                                    <fa-icon [icon]="['fas', 'cloud-upload-alt']"></fa-icon> Carica immagine
+                                    <input type="file" accept=".png,.jpg,image/jpg,image/png" style="display:none" (change)="onFileSelected($event)">
+                                  </label>
+                                  <span *ngIf="uploading" class="ml-2">Caricamento in corso...</span>
                                 </div>
                                 <div class="file" *ngFor="let response of responses; let i = index; last as isLast">
                                     <div *ngIf="imageUploaded && isLast">
@@ -105,12 +92,10 @@
 
                         <div class="form-row mb-3">
                             <label class="col-lg-4" for="location">Zona</label>
-                            <agm-map class="col-lg-8" [latitude]="model.latitude" [longitude]="model.longitude"
-                                [zoom]="zoom">
-                                <agm-marker [latitude]="model.latitude" [longitude]="model.longitude"
-                                    [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
-                                </agm-marker>
-                            </agm-map>
+                            <google-map class="col-lg-8" [center]="{lat: model.latitude, lng: model.longitude}" [zoom]="zoom" width="100%" height="400px">
+                                <map-marker [position]="{lat: model.latitude, lng: model.longitude}" [options]="{draggable: true}" (mapDragend)="markerDragEnd($event)">
+                                </map-marker>
+                            </google-map>
                         </div>
 
                         <div class="form-row mb-3">

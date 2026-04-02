@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { User } from '@app/models';
 import { UserService, AuthenticationService } from '@app/services';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,11 +15,11 @@ export class PasswordEditComponent implements OnInit {
     // model
     submitted = false;
     loading = false;
-    passwordEditForm: FormGroup;
+    passwordEditForm: UntypedFormGroup;
     model: User = null;
 
     constructor(
-        private formBuilder: FormBuilder,
+        private formBuilder: UntypedFormBuilder,
         private router: Router,
         private activeRoute: ActivatedRoute,
         private as: AuthenticationService,
@@ -73,7 +73,7 @@ export class PasswordEditComponent implements OnInit {
 }
 
 export function MustMatch(controlName: string, matchingControlName: string) {
-    return (formGroup: FormGroup) => {
+    return (formGroup: UntypedFormGroup) => {
         const control = formGroup.controls[controlName];
         const matchingControl = formGroup.controls[matchingControlName];
 

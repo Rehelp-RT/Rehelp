@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, Input, NgZone, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Comment, User } from '@app/models';
 import { AuthenticationService, CommentService } from '@app/services';
 
@@ -19,12 +19,12 @@ export class CommentComponent implements OnInit {
   postComments: Comment[] = [];
   check: boolean = false;
   currentUser: User = null;
-  commentForm: FormGroup;
+  commentForm: UntypedFormGroup;
 
   constructor(
     private cs: CommentService,
     private as: AuthenticationService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
 
     ) { this.getCurrentUser(); }
 

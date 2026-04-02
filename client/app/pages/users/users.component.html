@@ -65,7 +65,7 @@
                                         [queryParams]="{type: type.code}"
                                         class="btn btn-block btn-outline-primary mt-3"
                                         *ngIf="user.categories.length > 0">
-                                        <fa-icon title="Aiuto" [icon]="['fas', 'hand-paper']" class="mr-2"></fa-icon>
+                                        <fa-icon title="Aiuto" [icon]="['fas', 'hand']" class="mr-2"></fa-icon>
                                         Chiedi aiuto
                                     </a>
                                 </div>
@@ -78,27 +78,17 @@
                     </div>
 
                     <div class="col-md-6 p-0" *ngIf="currentUser">
-                        <agm-map
-                            (mapClick)="closeMarkerWindow()"
+                        <google-map
                             class="col-lg-8 p-0"
-                            [latitude]="currentUser.latitude"
-                            [longitude]="currentUser.longitude"
-                            [zoom]=10>
-                            <agm-marker
-                            *ngFor="let user of users;"
-                                (markerClick)="selectMarker(infoWindow);"
-                                [latitude]="user.latitude"
-                                [longitude]="user.longitude">
-                                <agm-info-window #infoWindow>
-                                    <app-user-icon [user]="user" [showName]="true" [showAge]="true" [showRating]="true"></app-user-icon>
-                                    <hr style="clear: both;">
-                                    <a [routerLink]="['/helps/ask', user.id]" class="btn btn-block btn-outline-primary" *ngIf="user.categories.length > 0">
-                                        <fa-icon title="Aiuto" [icon]="['fas', 'hand-paper']" class="mr-2"></fa-icon>
-                                        Chiedi aiuto
-                                    </a>
-                                </agm-info-window>
-                            </agm-marker>
-                        </agm-map>
+                            [center]="{lat: currentUser.latitude, lng: currentUser.longitude}"
+                            [zoom]="10"
+                            width="100%"
+                            height="400px">
+                            <map-marker
+                                *ngFor="let user of users;"
+                                [position]="{lat: user.latitude, lng: user.longitude}">
+                            </map-marker>
+                        </google-map>
                     </div>
 
                 </div>

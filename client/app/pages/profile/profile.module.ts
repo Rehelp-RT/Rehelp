@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { FileUploadModule } from 'ng2-file-upload';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileRoutingModule } from './profile-routing.module';
@@ -21,7 +20,6 @@ import { UploadAvatarComponent } from './upload-avatar/upload-avatar.component';
     imports: [
         CommonModule,
         FormsModule,
-        FileUploadModule,
         NgbModule,
         ProfileRoutingModule,
         ReactiveFormsModule,

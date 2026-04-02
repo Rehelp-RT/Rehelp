@@ -1,18 +1,13 @@
 import { Component, ViewChild, ElementRef, Input, NgZone, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService, CategoryService, HelpService, TypeService } from '@app/services';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
+import { HttpClient } from '@angular/common/http';
 
 // model
 import { Help, HelpCategory, User, HelpType, Association } from '@app/models';
 
-// image
-import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
-import { Cloudinary } from '@cloudinary/angular-5.x';
-
-// maps
-import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { range } from 'rxjs';
 import { AssociationService } from '@app/services/association.service';
 
@@ -27,7 +22,7 @@ export class HelpsEditComponent implements OnInit {
 
     // model
     submitted = false;
-    helpsForm: FormGroup;
+    helpsForm: UntypedFormGroup;
     idHelp: number = null;
     type: HelpType = null;
     model: Help = null;
@@ -47,9 +42,8 @@ export class HelpsEditComponent implements OnInit {
     public likehelps: string = null;
 
     // image
-    public hasBaseDropZoneOver = false;
-    public uploader: FileUploader;
     public imageUploaded = false;
+    public uploading = false;
 
     // maps
     zoom: number;
@@ -60,16 +54,15 @@ export class HelpsEditComponent implements OnInit {
 
     constructor(
         private activeRoute: ActivatedRoute,
-        private formBuilder: FormBuilder,
+        private formBuilder: UntypedFormBuilder,
         private router: Router,
         private as: AuthenticationService,
         private cs: CategoryService,
         private hs: HelpService,
         private ts: TypeService,
         private ass: AssociationService,
-        private cloudinary: Cloudinary,
-        private ngZone: NgZone,
-        private mapsAPILoader: MapsAPILoader
+        private http: HttpClient,
+        private ngZone: NgZone
     ) { }
 
     ngOnInit() {
@@ -93,8 +86,6 @@ export class HelpsEditComponent implements OnInit {
             for(let i = 1; i <= this.currentUser.likehelps; i++) {
                 this.arrayLh.push(i);
             }
-            // images
-            this.initImages();
         });
     }
 
@@ -116,7 +107,6 @@ export class HelpsEditComponent implements OnInit {
     private initForm() {
         this.helpsForm = this.formBuilder.group({
           description: [this.model.description, Validators.required]
-        //   likehelps: [this.model.likehelps]
         });
     }
 
@@ -150,7 +140,6 @@ export class HelpsEditComponent implements OnInit {
         this.model = new Help();
         this.model.idCreator = this.as.currentUserValue.id;
         this.model.description = '';
-        // this.model.likehelps = 0;
 
         // get type
         this.ts.getByCode(type).subscribe(x => {
@@ -176,7 +165,6 @@ export class HelpsEditComponent implements OnInit {
         // categories
         this.cs.getAll(idType).subscribe(x => {
             this.categories = x;
-            // console.log('cats', this.categories)
 
             if (this.model.category) {
                 if (this.model.category.parent !== undefined && this.model.category.parent !== null) {
@@ -201,126 +189,51 @@ export class HelpsEditComponent implements OnInit {
 
     private initMaps() {
       this.setCurrentLocation();
-      this.mapsAPILoader.load().then(() => {
-        this.geoCoder = new google.maps.Geocoder();
-        setTimeout(() => {
-          const autocomplete = new google.maps.places.Autocomplete(
-            this.searchElementRef.nativeElement, {
-              types: ['address']
+      this.geoCoder = new google.maps.Geocoder();
+      setTimeout(() => {
+        const autocomplete = new google.maps.places.Autocomplete(
+          this.searchElementRef.nativeElement, {
+            types: ['address']
+          }
+        );
+
+        autocomplete.addListener('place_changed', () => {
+          this.ngZone.run(() => {
+            // get the place result
+            const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+            // verify result
+            if (place.geometry === undefined || place.geometry === null) {
+              return;
             }
-          );
 
-          autocomplete.addListener('place_changed', () => {
-            this.ngZone.run(() => {
-              // get the place result
-              const place: google.maps.places.PlaceResult = autocomplete.getPlace();
-
-              // verify result
-              if (place.geometry === undefined || place.geometry === null) {
-                return;
-              }
-
-              // set latitude, longitude and zoom
-              this.model.latitude = place.geometry.location.lat();
-              this.model.longitude = place.geometry.location.lng();
-              this.zoom = 12;
-              this.getAddress(this.model.latitude, this.model.longitude);
-            });
+            // set latitude, longitude and zoom
+            this.model.latitude = place.geometry.location.lat();
+            this.model.longitude = place.geometry.location.lng();
+            this.zoom = 12;
+            this.getAddress(this.model.latitude, this.model.longitude);
           });
-        }, 500);
-
-      });
+        });
+      }, 500);
     }
 
-    private initImages() {
-
-      const uploaderOptions: FileUploaderOptions = {
-        url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/upload`,
-        // Upload files automatically upon addition to upload queue
-        autoUpload: true,
-        // Use xhrTransport in favor of iframeTransport
-        isHTML5: true,
-        // Calculate progress independently for each uploaded file
-        removeAfterUpload: true,
-        // XHR request headers
-        headers: [
-          {
-            name: 'X-Requested-With',
-            value: 'XMLHttpRequest'
-          }
-        ]
-      };
-      this.uploader = new FileUploader(uploaderOptions);
-      this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
-          // Add Cloudinary's unsigned upload preset to the upload form
-          form.append('upload_preset', 'preset_help');
-          console.log(this.cloudinary.config().upload_preset);
-          // Add built-in and custom tags for displaying the uploaded photo in the list
-          const tags = 'myphotoalbum';
-          // Upload to a custom folder
-          // Note that by default, when uploading via the API, folders are not automatically created in your Media Library.
-          // In order to automatically create the folders based on the API requests,
-          // please go to your account upload settings and set the 'Auto-create folders' option to enabled.
-          form.append('folder', 'angular_sample');
-          // Add custom tags
-          form.append('tags', tags);
-          // Add file to upload
-          form.append('file', fileItem);
-
-          // Use default 'withCredentials' value for CORS requests
-          fileItem.withCredentials = false;
-          return { fileItem, form };
-      };
-
-      // Insert or update an entry in the responses array
-      const upsertResponse = fileItem => {
-          // Run the update in a custom zone since for some reason change detection isn't performed
-          // as part of the XHR request to upload the files.
-          // Running in a custom zone forces change detection
-          this.ngZone.run(() => {
-            // Update an existing entry if it's upload hasn't completed yet
-
-            // Find the id of an existing item
-            const existingId = this.responses.reduce((prev, current, index) => {
-              if (current.file.name === fileItem.file.name && !current.status) {
-                return index;
-              }
-              return prev;
-            }, -1);
-            if (existingId > -1) {
-              // Update existing item with new data
-              this.responses[existingId] = Object.assign(
-                this.responses[existingId],
-                fileItem
-              );
-            } else {
-              // Create new response
-              this.responses.push(fileItem);
-            }
-            this.imageUploaded = true;
-          });
-      };
-
-      // Update model on completion of uploading a file
-      this.uploader.onCompleteItem = (
-          item: any,
-          response: string,
-          status: number,
-          headers: ParsedResponseHeaders
-      ) =>
-          upsertResponse({
-              file: item.file,
-              status,
-              data: JSON.parse(response)
-          });
-
-      // Update model on upload progress event
-      this.uploader.onProgressItem = (fileItem: any, progress: any) =>
-          upsertResponse({
-              file: fileItem.file,
-              progress,
-              data: {}
-          });
+    onFileSelected(event: Event) {
+      const file = (event.target as HTMLInputElement).files[0];
+      if (!file) return;
+      const formData = new FormData();
+      formData.append('upload_preset', 'preset_help');
+      formData.append('folder', 'angular_sample');
+      formData.append('tags', 'myphotoalbum');
+      formData.append('file', file);
+      this.uploading = true;
+      this.http.post('https://api.cloudinary.com/v1_1/hwbyvepex/upload', formData).subscribe(
+        (response: any) => {
+          this.uploading = false;
+          this.imageUploaded = true;
+          this.responses.push({ file: { name: file.name }, status: 200, data: response });
+        },
+        err => { this.uploading = false; console.error(err); }
+      );
     }
 
     toggleImgUploader() {
@@ -328,12 +241,7 @@ export class HelpsEditComponent implements OnInit {
     }
 
     deleteImage = function(data: any, index: number) {
-        // Delete an uploaded image
-        // Requires setting 'Return delete token' to 'Yes' in your upload preset configuration
-        // See also https://support.cloudinary.com/hc/en-us/articles/202521132-How-to-delete-an-image-from-the-client-side-
-        const url = `https://api.cloudinary.com/v1_1/${
-            this.cloudinary.config().cloud_name
-        }/delete_by_token`;
+        const url = `https://api.cloudinary.com/v1_1/hwbyvepex/delete_by_token`;
         const headers = new Headers({
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest'
@@ -348,10 +256,6 @@ export class HelpsEditComponent implements OnInit {
             this.responses.splice(index, 1);
         });
     };
-
-    fileOverBase(e: any): void {
-        this.hasBaseDropZoneOver = e;
-    }
 
     getFileProperties(fileProperties: any) {
         // Transforms Javascript Object to an iterable to be used by *ngFor
@@ -383,17 +287,17 @@ export class HelpsEditComponent implements OnInit {
         }
     }
 
-    markerDragEnd($event: MouseEvent) {
-        this.model.latitude = $event.coords.lat;
-        this.model.longitude = $event.coords.lng;
+    markerDragEnd(event: google.maps.MapMouseEvent) {
+        this.model.latitude = event.latLng.lat();
+        this.model.longitude = event.latLng.lng();
         this.getAddress(this.model.latitude, this.model.longitude);
     }
 
     getAddress(latitude, longitude) {
         if (this.geoCoder) {
-            this.geoCoder.geocode({ 
+            this.geoCoder.geocode({
                 location: {
-                    lat: latitude, 
+                    lat: latitude,
                     lng: longitude
                 }
             },
@@ -437,7 +341,7 @@ export class HelpsEditComponent implements OnInit {
             const catId = this.cat3Id ? this.cat3Id : (this.cat2Id ? this.cat2Id : this.cat1Id);
             const catLevel = this.cat3Id ? 3 : (this.cat2Id ? 2 : 1);
             var cat: HelpCategory;
-            
+
             this.categories.find(c1 => {
                     if (catLevel == 1) {
                         if (c1.id == catId) {
@@ -514,7 +418,7 @@ export class HelpsEditComponent implements OnInit {
             for(let i = 1; i <= parseInt(this.likehelps); i++) {
                 this.arrayLhToDonate.push(i);
             }
-        
+
     }
 
     private createHelp() {

@@ -125,7 +125,6 @@
       }
     }
   },
-  "defaultProject": "rehelp-web",
   "cli": {
     "analytics": "ad44c2a0-6e24-4e3f-b734-f528be57be4d",
     "schematicCollections": [

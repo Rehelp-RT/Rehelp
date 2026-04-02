@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FileUploadModule } from 'ng2-file-upload';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
@@ -11,7 +10,6 @@ import { SharedModule } from '@app/shared';
 @NgModule({
     imports: [
         CommonModule,
-        FileUploadModule,
         FormsModule,
         ReactiveFormsModule,
         RouterModule,

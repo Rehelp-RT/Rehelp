@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { HelpCategory } from '@app/models';
 import { UserService } from '@app/services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormArray, FormControl, FormGroup, ValidatorFn, FormBuilder } from '@angular/forms';
+import { UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidatorFn, UntypedFormBuilder } from '@angular/forms';
 
 @Component({
     selector: 'app-offer',
@@ -17,10 +17,10 @@ export class OfferComponent implements OnInit {
     @Input() idUser: number;
     
     categoriesData: HelpCategory[] = [];
-    form: FormGroup;
+    form: UntypedFormGroup;
 
     constructor(
-        private formBuilder: FormBuilder,
+        private formBuilder: UntypedFormBuilder,
         private userService: UserService,
         private modalService: NgbModal) { }
 
@@ -46,7 +46,7 @@ export class OfferComponent implements OnInit {
 
     initModal() {
         this.form = this.formBuilder.group({
-            categories: new FormArray([], minSelectedCheckboxes(1))
+            categories: new UntypedFormArray([], minSelectedCheckboxes(1))
         });
         
         // async categories
@@ -65,16 +65,16 @@ export class OfferComponent implements OnInit {
     }
 
     private addCheckboxes() {
-        const formArray = this.form.controls.categories as FormArray;
+        const formArray = this.form.controls.categories as UntypedFormArray;
         this.categoriesData.forEach((cat, i) => {
-            const control = new FormControl(i === 0);
+            const control = new UntypedFormControl(i === 0);
             control.patchValue(cat.checked);
             formArray.push(control);
         });
     }
 
     getFormCategories() {
-        return (this.form.get('categories') as FormArray).controls;
+        return (this.form.get('categories') as UntypedFormArray).controls;
     }
 
     submit() {
@@ -91,7 +91,7 @@ export class OfferComponent implements OnInit {
 }
 
 function minSelectedCheckboxes(min = 1) {
-    const validator: ValidatorFn = (formArray: FormArray) => {
+    const validator: ValidatorFn = (formArray: UntypedFormArray) => {
         const totalSelected = formArray.controls
             .map(control => control.value)
             .reduce((prev, next) => next ? prev + next : prev, 0);

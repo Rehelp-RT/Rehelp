@@ -10,7 +10,8 @@
     "module": "es2020",
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2015",
+    "target": "ES2022",
+    "skipLibCheck": true,
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -19,9 +20,14 @@
       "dom"
     ],
     "paths": {
-      "@app/*": ["client/app/*"],
-      "@environments/*": ["client/environments/*"]
-    }
+      "@app/*": [
+        "client/app/*"
+      ],
+      "@environments/*": [
+        "client/environments/*"
+      ]
+    },
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "strictInjectionParameters": true,

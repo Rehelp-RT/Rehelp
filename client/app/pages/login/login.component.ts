@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AuthenticationService, UserService } from '@app/services';
 import { AlertService } from '@app/shared/components/alert';
 
-import { AuthService, FacebookLoginProvider, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
+import { SocialAuthService, FacebookLoginProvider, GoogleLoginProvider, SocialUser } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'app-login',
@@ -16,18 +16,18 @@ import { AuthService, FacebookLoginProvider, GoogleLoginProvider, SocialUser } f
 export class LoginComponent implements OnInit {
     returnParam = 'returnUrl';
     returnUrl: string;
-    loginForm: FormGroup;
+    loginForm: UntypedFormGroup;
     loading = false;
     submitted = false;
     public socialUser: SocialUser;
 
   constructor(
-      private formBuilder: FormBuilder,
+      private formBuilder: UntypedFormBuilder,
       private route: ActivatedRoute,
       private router: Router,
       private authService: AuthenticationService,
       private alertService: AlertService,
-      private socialAuthService: AuthService,
+      private socialAuthService: SocialAuthService,
       private userService: UserService
   ) {
       // redirect to home if already logged in

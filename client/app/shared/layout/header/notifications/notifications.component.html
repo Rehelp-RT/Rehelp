@@ -1,6 +1,6 @@
 <div *ngIf="currentUser">
     <div class="dropdown" [ngClass]="{'show': isOpen}">
-        <li class="dropdown-toggle"
+        <div class="dropdown-toggle"
             (click)="isOpen = !isOpen"
             role="button"
             id="dropdownMenuLink"
@@ -19,7 +19,7 @@
                     Notifiche
                 </span>
             </span>
-        </li>
+        </div>
 
         <div class="dropdown-menu dropdown-menu-right" [ngClass]="{'show': isOpen}" aria-labelledby="dropdownMenuLink">
             <p class="p-3 m-0" *ngIf="notifications.length == 0">

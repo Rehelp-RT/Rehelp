@@ -20,7 +20,6 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { ForumPostService } from "@app/services/forum.service";
 import { BachecaPost } from "@app/models/bachecaPost";
-import { createUnionOrIntersectionTypeNode } from "typescript";
 
 @Component({
   selector: "app-bacheca",

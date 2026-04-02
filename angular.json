@@ -18,7 +18,6 @@
             "main": "client/main.ts",
             "polyfills": "client/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": true,
             "assets": [
               "client/favicon.ico",
               "client/assets"
@@ -28,7 +27,13 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "client/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -41,7 +46,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -59,7 +63,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -96,19 +101,6 @@
             "scripts": []
           }
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        },
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
@@ -120,17 +112,29 @@
               "devServerTarget": "rehelp-web:serve:production"
             }
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "client/**/*.ts",
+              "client/**/*.html"
+            ]
+          }
         }
       }
     }
   },
   "defaultProject": "rehelp-web",
   "cli": {
-    "analytics": "ad44c2a0-6e24-4e3f-b734-f528be57be4d"
+    "analytics": "ad44c2a0-6e24-4e3f-b734-f528be57be4d",
+    "schematicCollections": [
+      "angular-eslint"
+    ]
   },
   "schematics": {
     "@schematics/angular:component": {
-      "styleext": "scss"
+      "style": "scss"
     }
   }
 }

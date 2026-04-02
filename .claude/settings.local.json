@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(nvm list:*)",
+      "Bash(xargs grep:*)",
+      "Bash(psql:*)",
+      "Bash(\"/c/Program Files/PostgreSQL/18/bin/psql.exe\" -U postgres -d rehelp -c 'SELECT COUNT\\(*\\) FROM \"HelpCategories\";')",
+      "Bash(\"/c/Program Files/PostgreSQL/18/bin/psql.exe\" -U postgres -d rehelp -c \"SELECT COUNT\\(*\\) FROM HelpCategories;\" 2>&1)",
+      "Bash(PGPASSWORD=123456 \"/c/Program Files/PostgreSQL/18/bin/psql.exe\" -U postgres -d rehelp -c \"SELECT COUNT\\(*\\) FROM \"\"HelpCategories\"\";\")",
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(npx sequelize-cli:*)",
+      "Bash(node -e \":*)",
+      "Bash(PGPASSWORD=123456 \"/c/Program Files/PostgreSQL/18/bin/psql.exe\" -U postgres -d rehelp -c 'SELECT COUNT\\(*\\) FROM \"HelpCategories\";' 2>&1)",
+      "Bash(PGPASSWORD=123456 \"/c/Program Files/PostgreSQL/18/bin/psql.exe\" -U postgres -d rehelp -c 'SELECT COUNT\\(*\\) FROM \"HelpTypes\";' 2>&1)",
+      "Bash(PGPASSWORD=123456 \"/c/Program Files/PostgreSQL/18/bin/psql.exe\" -U postgres -d rehelp -c 'SELECT COUNT\\(*\\) FROM \"HelpCategories\"; SELECT COUNT\\(*\\) FROM \"HelpTypes\";' 2>&1)",
+      "Bash(PGPASSWORD=123456 \"/c/Program Files/PostgreSQL/18/bin/psql.exe\" -U postgres -d rehelp -c \"\\\\dt\" 2>&1)",
+      "Bash(PGPASSWORD=123456 \"/c/Program Files/PostgreSQL/18/bin/psql.exe\" -U postgres -d rehelp -c 'SELECT name FROM \"SequelizeMeta\" ORDER BY name;' 2>&1)",
+      "Bash(PGPASSWORD=123456 \"/c/Program Files/PostgreSQL/18/bin/psql.exe\" -U postgres -d rehelp -c 'SELECT COUNT\\(*\\) as \"HelpTypes\" FROM \"HelpTypes\"; SELECT COUNT\\(*\\) as \"HelpCategories\" FROM \"HelpCategories\";' 2>&1)",
+      "Bash(PGPASSWORD=123456 \"/c/Program Files/PostgreSQL/18/bin/psql.exe\" -U postgres -d rehelp -c '\\\\d \"Users\"' 2>&1)",
+      "Bash(PGPASSWORD=123456 \"/c/Program Files/PostgreSQL/18/bin/psql.exe\" -U postgres -d rehelp -c 'ALTER TABLE \"Users\" ADD COLUMN \"cf\" VARCHAR\\(255\\);' 2>&1)",
+      "Bash(find . -type f -name *bacheca*)",
+      "Read(//mnt/c/Progetti/ReHelp/rehelp-web/**)",
+      "Bash(find C:/Progetti/ReHelp/rehelp-web/server -name *.json -o -name .env -o -name *.env)",
+      "Bash(npm -v)",
+      "Bash(rm:*)",
+      "Bash(npm install:*)",
+      "Bash(npx ng:*)",
+      "Bash(npm config:*)",
+      "Bash(npm show:*)",
+      "Bash(npm uninstall:*)"
+    ]
+  }
+}

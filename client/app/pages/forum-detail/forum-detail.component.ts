@@ -1,4 +1,4 @@
-import { Component, OnInit, SystemJsNgModuleLoader } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ForumPost, User,Comment } from '@app/models';
 import { AuthenticationService, CommentService, ForumPostService } from '@app/services';

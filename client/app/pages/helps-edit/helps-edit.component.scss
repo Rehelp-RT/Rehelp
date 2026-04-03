@@ -1,4 +1,10 @@
 google-map {
   height: 300px;
   width: 100%;
+  display: block;
+}
+
+.map-container {
+  position: relative;
+  overflow: hidden;
 }

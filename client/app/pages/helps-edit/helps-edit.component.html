@@ -180,10 +180,12 @@
 
                         <div class="form-row mb-3">
                             <label class="col-lg-4" for="location">Zona</label>
-                            <google-map class="col-lg-8" [center]="{lat: model.latitude, lng: model.longitude}" [zoom]="zoom" width="100%" height="400px">
-                                <map-marker [position]="{lat: model.latitude, lng: model.longitude}" [options]="{draggable: true}" (mapDragend)="markerDragEnd($event)">
-                                </map-marker>
-                            </google-map>
+                            <div class="col-lg-8 map-container">
+                                <google-map [center]="{lat: model.latitude, lng: model.longitude}" [zoom]="zoom" width="100%" height="300px">
+                                    <map-marker [position]="{lat: model.latitude, lng: model.longitude}" [options]="{draggable: true}" (mapDragend)="markerDragEnd($event)">
+                                    </map-marker>
+                                </google-map>
+                            </div>
                         </div>
 
                         <div class="form-row mb-3">

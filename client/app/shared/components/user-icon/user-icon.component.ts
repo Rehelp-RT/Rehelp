@@ -5,6 +5,7 @@ import {
     OnInit
 } from '@angular/core';
 import { User } from '@app/models';
+import { environment } from '../../../../environments/environment';
 
 @Component({
     selector: 'app-user-icon',
@@ -60,7 +61,7 @@ export class UserIconComponent implements OnInit {
 
     getAvatar(): string {
         if (this.user.avatar != null) {
-            return 'https://res.cloudinary.com/hwbyvepex/image/upload/' + this.user.avatar;
+            return `https://res.cloudinary.com/${environment.cloudinaryCloudName}/image/upload/` + this.user.avatar;
         } else if (this.user.loginFacebook && this.user.idFacebook) {
             return this.user.idFacebook;
         } else if (this.user.loginGoogle && this.user.idGoogle) {

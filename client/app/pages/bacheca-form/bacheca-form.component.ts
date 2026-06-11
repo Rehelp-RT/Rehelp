@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService, BachecaService, CategoryService, HelpService, ResponseService, TypeService } from '@app/services';
+import { environment } from '../../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Component, ViewChild, ElementRef, Input, OnInit } from '@angular/core';
@@ -180,12 +181,12 @@ onFileSelected(event: Event) {
   const file = (event.target as HTMLInputElement).files[0];
   if (!file) return;
   const formData = new FormData();
-  formData.append('upload_preset', 'preset_help');
+  formData.append('upload_preset', environment.cloudinaryHelpPreset);
   formData.append('folder', 'angular_sample');
   formData.append('tags', 'myphotoalbum');
   formData.append('file', file);
   this.uploading = true;
-  this.http.post('https://api.cloudinary.com/v1_1/hwbyvepex/upload', formData).subscribe(
+  this.http.post(`https://api.cloudinary.com/v1_1/${environment.cloudinaryCloudName}/upload`, formData).subscribe(
     (response: any) => {
       this.uploading = false;
       this.imageUploaded = true;
@@ -200,7 +201,7 @@ toggleImgUploader() {
 }
 
 deleteImage = function(data: any, index: number) {
-  const url = `https://api.cloudinary.com/v1_1/hwbyvepex/delete_by_token`;
+  const url = `https://api.cloudinary.com/v1_1/${environment.cloudinaryCloudName}/delete_by_token`;
   const headers = new Headers({
       'Content-Type': 'application/json',
       'X-Requested-With': 'XMLHttpRequest'
@@ -229,7 +230,7 @@ getFileProperties(fileProperties: any) {
 
 getCategoryImage() {
   if (this.model.image) {
-      return 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + this.model.image;
+      return `https://res.cloudinary.com/${environment.cloudinaryCloudName}/image/upload/v1582196512/` + this.model.image;
   } else if (this.cat1Id || this.cat2Id || this.cat3Id) {
       const catId = this.cat3Id ? this.cat3Id : (this.cat2Id ? this.cat2Id : this.cat1Id);
       const catLevel = this.cat3Id ? 3 : (this.cat2Id ? 2 : 1);

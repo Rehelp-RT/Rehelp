@@ -5,7 +5,10 @@
 export const environment = {
   production: false,
   apiUrl: '/api',
-  socketioUrl: 'https://localhost:3000/'
+  socketioUrl: 'https://localhost:3000/',
+  cloudinaryCloudName: 'dhr23uuab',
+  cloudinaryAvatarPreset: 'preset_avatar',
+  cloudinaryHelpPreset: 'preset_help',
 };
 
 /*

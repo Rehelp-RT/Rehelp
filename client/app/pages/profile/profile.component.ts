@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '@app/models';
 import { AuthenticationService, UserService } from '@app/services';
+import { environment } from '../../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -23,16 +24,13 @@ export class ProfileComponent implements OnInit {
         this.actRoute.params.subscribe(params => {
             this.isOwner = params.id === this.authService.currentUserValue.id.toString();
 
-            if (this.isOwner) {
-                this.userService.getById(params.id).subscribe(x => {
-                    this.user = x;
-                    this.authService.refresh(x);
-                });
-            } else {
-                this.userService.getById(params.id).subscribe(x => {
-                    this.user = x;
-                });
-            }
+            this.userService.getById(params.id).subscribe(x => {
+                this.user = x;
+                if (this.isOwner) {
+                    const current = this.authService.currentUserValue;
+                    this.authService.refresh({ ...current, ...x, token: current.token });
+                }
+            });
         });
     }
 
@@ -75,7 +73,7 @@ export class ProfileComponent implements OnInit {
 
     getAvatar() {
         if (this.user.avatar != null) {
-            return 'https://res.cloudinary.com/hwbyvepex/image/upload/' + this.user.avatar;
+            return `https://res.cloudinary.com/${environment.cloudinaryCloudName}/image/upload/` + this.user.avatar;
         } else if (this.user.loginFacebook && this.user.idFacebook) {
             return this.user.idFacebook;
         } else if (this.user.loginGoogle && this.user.idGoogle) {

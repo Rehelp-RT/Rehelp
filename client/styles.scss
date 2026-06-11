@@ -19,6 +19,32 @@ $theme: mat.m2-define-light-theme((
 
 @include mat.all-component-themes($theme);
 
+// Bootstrap 5 CSS variables required by ng-bootstrap v18
+:root {
+    --bs-modal-zindex: 1055;
+    --bs-backdrop-zindex: 1050;
+    --bs-backdrop-bg: #000;
+    --bs-backdrop-opacity: 0.5;
+    --bs-modal-margin: 0.5rem;
+    --bs-modal-bg: #fff;
+    --bs-modal-border-width: 1px;
+    --bs-modal-border-color: rgba(0, 0, 0, 0.2);
+    --bs-modal-border-radius: 0.3rem;
+    --bs-modal-inner-border-radius: calc(0.3rem - 1px);
+    --bs-modal-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --bs-modal-header-padding: 1rem;
+    --bs-modal-footer-bg: transparent;
+    --bs-modal-width: 500px;
+}
+
+ngb-modal-backdrop {
+    z-index: var(--bs-backdrop-zindex) !important;
+}
+
+ngb-modal-window {
+    z-index: var(--bs-modal-zindex) !important;
+}
+
 .modal {
     overflow: auto;
 }

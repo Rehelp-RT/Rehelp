@@ -54,6 +54,7 @@
     "cloudinary-core": "^2.8.2",
     "codice-fiscale-js": "^2.3.15",
     "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
     "express": "^4.17.3",
     "font-awesome": "^4.7.0",
     "jquery": "^3.5.0",

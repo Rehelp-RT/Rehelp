@@ -1,6 +1,7 @@
-import { Component, ViewChild, ElementRef, Input, NgZone, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, Input, NgZone, OnInit, AfterViewInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { AuthenticationService, CategoryService, HelpService, ResponseService, UserService, TypeService } from '@app/services';
+import { environment } from '../../../environments/environment';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { HelpCategory, Help, User, HelpResponse, HelpType } from '@app/models';
@@ -11,7 +12,7 @@ import { HelpCategory, Help, User, HelpResponse, HelpType } from '@app/models';
     styleUrls: ['./helps-ask.component.scss'],
     standalone: false
 })
-export class HelpsAskComponent implements OnInit {
+export class HelpsAskComponent implements OnInit, AfterViewInit {
   @Input()
   responses: Array<any> = [];
 
@@ -67,13 +68,17 @@ export class HelpsAskComponent implements OnInit {
     this.model.idCreator = this.currentUser.id;
     this.model.idType = 1;
     this.model.isOffer = true;
+    this.model.latitude = this.currentUser.latitude;
+    this.model.longitude = this.currentUser.longitude;
+    this.zoom = 12;
 
     // get type
     this.initTypes(codeType);
 
-    // init map
-    this.initMaps();
+  }
 
+  ngAfterViewInit() {
+    this.initMaps();
   }
 
   toggleImgUploader() {
@@ -84,7 +89,7 @@ export class HelpsAskComponent implements OnInit {
   // Requires setting 'Return delete token' to 'Yes' in your upload preset configuration
   // See also https://support.cloudinary.com/hc/en-us/articles/202521132-How-to-delete-an-image-from-the-client-side-
   deleteImage = function (data: any, index: number) {
-    const url = `https://api.cloudinary.com/v1_1/hwbyvepex/delete_by_token`;
+    const url = `https://api.cloudinary.com/v1_1/${environment.cloudinaryCloudName}/delete_by_token`;
     console.log(url, 'url');
     const headers = [{
       name: 'X-Requested-With',
@@ -108,12 +113,12 @@ export class HelpsAskComponent implements OnInit {
     const file = (event.target as HTMLInputElement).files[0];
     if (!file) return;
     const formData = new FormData();
-    formData.append('upload_preset', 'preset_help');
+    formData.append('upload_preset', environment.cloudinaryHelpPreset);
     formData.append('folder', 'angular_sample');
     formData.append('tags', 'myphotoalbum');
     formData.append('file', file);
     this.uploading = true;
-    this.http.post('https://api.cloudinary.com/v1_1/hwbyvepex/upload', formData).subscribe(
+    this.http.post(`https://api.cloudinary.com/v1_1/${environment.cloudinaryCloudName}/upload`, formData).subscribe(
       (response: any) => {
         this.uploading = false;
         this.imageUploaded = true;

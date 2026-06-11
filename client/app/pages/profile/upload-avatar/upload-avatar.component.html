@@ -25,4 +25,6 @@
     </div>
 </div>
 
+<div *ngIf="errorMsg" class="alert alert-danger mt-3">{{ errorMsg }}</div>
+
 <button class="btn btn-outline-secondary" [routerLink]="['/profile', user?.id ]">Annulla</button>

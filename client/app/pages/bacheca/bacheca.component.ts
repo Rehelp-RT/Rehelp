@@ -8,6 +8,7 @@ import {
   CategoryService,
   BachecaService,
 } from "@app/services";
+import { environment } from '../../../environments/environment';
 import {
   Help,
   User,
@@ -69,7 +70,7 @@ export class BachecaComponent implements OnInit {
 
   getAvatar(user: User): string {
     if (user.avatar != null) {
-        return 'https://res.cloudinary.com/hwbyvepex/image/upload/' + user.avatar;
+        return `https://res.cloudinary.com/${environment.cloudinaryCloudName}/image/upload/` + user.avatar;
     } else if (user.loginFacebook && user.idFacebook) {
         return user.idFacebook;
     } else if (user.loginGoogle && user.idGoogle) {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { AuthenticationService, HelpService } from '@app/services';
+import { environment } from '../../../environments/environment';
 import { Help, User } from '@app/models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ModalService } from '@app/shared/components';
@@ -64,7 +65,7 @@ export class HelpsDetailComponent implements OnInit {
 
     getImage(help: Help) {
         if (help.image != null) {
-            return 'https://res.cloudinary.com/hwbyvepex/image/upload/v1582196512/' + help.image;
+            return `https://res.cloudinary.com/${environment.cloudinaryCloudName}/image/upload/v1582196512/` + help.image;
         } else if (help.category.image != null) {
             return 'assets/img/categories/' + help.category.image;
         } else {

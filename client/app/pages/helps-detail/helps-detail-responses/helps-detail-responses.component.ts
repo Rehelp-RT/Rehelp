@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Help, HelpResponse, User } from '@app/models';
 import { ResponseService, AuthenticationService } from '@app/services';
+import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
 import { ModalService } from '@app/shared/components';
 import { HttpClient } from '@angular/common/http';
@@ -58,12 +59,12 @@ export class HelpsDetailResponsesComponent implements OnInit {
         const file = (event.target as HTMLInputElement).files[0];
         if (!file) return;
         const formData = new FormData();
-        formData.append('upload_preset', 'preset_review');
+        formData.append('upload_preset', environment.cloudinaryHelpPreset);
         formData.append('folder', 'angular_sample');
         formData.append('tags', 'myphotoalbum');
         formData.append('file', file);
         this.uploading = true;
-        this.http.post('https://api.cloudinary.com/v1_1/hwbyvepex/upload', formData).subscribe(
+        this.http.post(`https://api.cloudinary.com/v1_1/${environment.cloudinaryCloudName}/upload`, formData).subscribe(
             (response: any) => {
                 this.uploading = false;
                 this.imageUploaded = true;
@@ -80,7 +81,7 @@ export class HelpsDetailResponsesComponent implements OnInit {
 
     // Delete an uploaded image
     deleteImage = function (data: any, index: number) {
-        const url = `https://api.cloudinary.com/v1_1/hwbyvepex/delete_by_token`;
+        const url = `https://api.cloudinary.com/v1_1/${environment.cloudinaryCloudName}/delete_by_token`;
         console.log(url, 'url');
         const headers = [{
             name: 'X-Requested-With',

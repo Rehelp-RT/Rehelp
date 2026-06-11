@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ForumPost, User,Comment } from '@app/models';
 import { AuthenticationService, CommentService, ForumPostService } from '@app/services';
+import { environment } from '../../../environments/environment';
 
 @Component({
     selector: 'app-forum-detail',
@@ -39,7 +40,7 @@ export class ForumDetailComponent implements OnInit {
 
   getAvatar(user: User): string {
     if (user.avatar != null) {
-        return 'https://res.cloudinary.com/hwbyvepex/image/upload/' + user.avatar;
+        return `https://res.cloudinary.com/${environment.cloudinaryCloudName}/image/upload/` + user.avatar;
     } else if (user.loginFacebook && user.idFacebook) {
         return user.idFacebook;
     } else if (user.loginGoogle && user.idGoogle) {

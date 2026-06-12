@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Help, HelpResponse, User } from '@app/models';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Help, HelpResponse, Message, User } from '@app/models';
 import { ResponseService, AuthenticationService } from '@app/services';
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
@@ -7,6 +7,9 @@ import { ModalService } from '@app/shared/components';
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
 import { BachecaPost } from '@app/models/bachecaPost';
+import { ChatService } from '@app/shared/components/chat/chat.service';
+import { LoadingService } from '@app/shared/services/loading.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-helps-detail-responses',
@@ -14,7 +17,7 @@ import { BachecaPost } from '@app/models/bachecaPost';
     styleUrls: ['./helps-detail-responses.component.scss'],
     standalone: false
 })
-export class HelpsDetailResponsesComponent implements OnInit {
+export class HelpsDetailResponsesComponent implements OnInit, OnDestroy {
 
     @Input() help: Help;
 
@@ -37,12 +40,20 @@ export class HelpsDetailResponsesComponent implements OnInit {
     public uploading = false;
     uploadedImage: string = null;
 
+    // inline reply
+    replyOpen: {[id: number]: boolean} = {};
+    replyMessages: {[id: number]: Message[]} = {};
+    replyText: {[id: number]: string} = {};
+    private replySubscription: Subscription = null;
+
     constructor(
         private rs: ResponseService,
         private router: Router,
         private modalService: ModalService,
         private as: AuthenticationService,
-        private http: HttpClient) { }
+        private http: HttpClient,
+        private chatService: ChatService,
+        private loadingService: LoadingService) { }
 
     ngOnInit() {
         this.checkHelpCreator();
@@ -64,14 +75,16 @@ export class HelpsDetailResponsesComponent implements OnInit {
         formData.append('tags', 'myphotoalbum');
         formData.append('file', file);
         this.uploading = true;
+        this.loadingService.show();
         this.http.post(`https://api.cloudinary.com/v1_1/${environment.cloudinaryCloudName}/upload`, formData).subscribe(
             (response: any) => {
                 this.uploading = false;
+                this.loadingService.hide();
                 this.imageUploaded = true;
                 this.uploadedImage = response.public_id;
                 this.responses.push({ file: { name: file.name }, status: 200, data: response });
             },
-            err => { this.uploading = false; console.error(err); }
+            err => { this.uploading = false; this.loadingService.hide(); console.error(err); }
         );
     }
 
@@ -303,5 +316,50 @@ export class HelpsDetailResponsesComponent implements OnInit {
         return timespan < 0;
     }
 
+    ngOnDestroy(): void {
+        if (this.replySubscription) {
+            this.replySubscription.unsubscribe();
+        }
+    }
+
+    canReply(r: HelpResponse): boolean {
+        if (this.canChat(r)) return false;
+        return !this.help.completed && (
+            this.isHelpCreator ||
+            r.idResponder === this.as.currentUserValue.id
+        );
+    }
+
+    toggleReply(r: HelpResponse): void {
+        const isOpening = !this.replyOpen[r.id];
+        this.replyOpen[r.id] = isOpening;
+
+        if (isOpening) {
+            if (this.replyText[r.id] === undefined) {
+                this.replyText[r.id] = '';
+            }
+            this.chatService.getAll(this.help.id, r.id).subscribe(messages => {
+                this.replyMessages[r.id] = messages;
+            });
+            if (!this.replySubscription) {
+                this.replySubscription = this.chatService.getMessages().subscribe(message => {
+                    if (message.idHelp === this.help.id && message.idResponse) {
+                        const responseId = message.idResponse;
+                        if (this.replyOpen[responseId] && this.replyMessages[responseId]) {
+                            this.replyMessages[responseId].push(message);
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    sendReply(r: HelpResponse): void {
+        const text = this.replyText[r.id];
+        if (text && text.trim().length > 0) {
+            this.chatService.sendMessage(text.trim(), this.help.id, this.as.currentUserValue.id, r.id);
+            this.replyText[r.id] = '';
+        }
+    }
 
 }

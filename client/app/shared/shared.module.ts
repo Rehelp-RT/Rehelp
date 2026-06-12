@@ -42,6 +42,7 @@ import {
   AlertModule,
   CategoriesModule,
   ChatModule,
+  LoadingModule,
   ModalModule,
   StarRatingModule,
   StarsModule,
@@ -52,7 +53,7 @@ import {
 import { FooterComponent, HeaderComponent } from './layout';
 
 // app interceptors
-import { ErrorInterceptor, JwtInterceptor } from './interceptors';
+import { ErrorInterceptor, JwtInterceptor, LoadingInterceptor } from './interceptors';
 
 // app pipes
 import { FilterCategoriesPipe } from './pipes';
@@ -68,7 +69,7 @@ import { FilterPipe } from './pipes/filter.pipe';
     GoogleMapsModule,
 
     AlertModule, CategoriesModule, ChatModule,
-    ModalModule, StarRatingModule, StarsModule, UserIconModule
+    LoadingModule, ModalModule, StarRatingModule, StarsModule, UserIconModule
   ],
   declarations: [
     HeaderComponent,
@@ -80,6 +81,7 @@ import { FilterPipe } from './pipes/filter.pipe';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   exports: [
@@ -87,7 +89,7 @@ import { FilterPipe } from './pipes/filter.pipe';
     FontAwesomeModule,
     AlertModule, CategoriesModule, ChatModule,
     HelpTypeComponent,
-    ModalModule, StarRatingModule, StarsModule, UserIconModule,
+    LoadingModule, ModalModule, StarRatingModule, StarsModule, UserIconModule,
     FooterComponent, HeaderComponent,
     FilterCategoriesPipe,
     FilterPipe

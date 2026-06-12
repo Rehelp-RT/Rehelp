@@ -7,6 +7,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             references: { model: db.Help, key: 'id' }
         },
+        idResponse: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            references: { model: 'HelpResponses', key: 'id' }
+        },
         idAuthor: {
             type: DataTypes.INTEGER,
             references: { model: db.User, key: 'id' }
@@ -26,6 +31,10 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: "CASCADE",
             foreignKey: 'idAuthor',
             as: 'author'
+        });
+        models.Message.belongsTo(models.HelpResponse, {
+            foreignKey: 'idResponse',
+            as: 'response'
         });
     };
 

@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import { HelpCategory, User, HelpType, Association } from '@app/models';
 import { BachecaPost } from '@app/models/bachecaPost';
 import { CheckoutService } from '@app/services/checkout.service';
+import { LoadingService } from '@app/shared/services/loading.service';
 
 @Component({
     selector: 'app-bacheca-form',
@@ -52,7 +53,8 @@ export class BachecaFormComponent implements OnInit {
     private cs: CategoryService,
     private bs: BachecaService,
     private rs: ResponseService,
-    private checkout: CheckoutService
+    private checkout: CheckoutService,
+    private loadingService: LoadingService
   ) { }
 
   ngOnInit(): void {
@@ -186,13 +188,15 @@ onFileSelected(event: Event) {
   formData.append('tags', 'myphotoalbum');
   formData.append('file', file);
   this.uploading = true;
+  this.loadingService.show();
   this.http.post(`https://api.cloudinary.com/v1_1/${environment.cloudinaryCloudName}/upload`, formData).subscribe(
     (response: any) => {
       this.uploading = false;
+      this.loadingService.hide();
       this.imageUploaded = true;
       this.responses.push({ file: { name: file.name }, status: 200, data: response });
     },
-    err => { this.uploading = false; console.error(err); }
+    err => { this.uploading = false; this.loadingService.hide(); console.error(err); }
   );
 }
 

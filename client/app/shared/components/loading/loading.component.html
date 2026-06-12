@@ -1,0 +1,5 @@
+<div class="loading-overlay" *ngIf="isLoading$ | async" role="status" aria-label="Caricamento in corso">
+    <div class="loading-spinner">
+        <fa-icon [icon]="['fas', 'spinner']" [spin]="true" size="3x"></fa-icon>
+    </div>
+</div>

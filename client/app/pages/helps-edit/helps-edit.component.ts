@@ -11,6 +11,7 @@ import { Help, HelpCategory, User, HelpType, Association } from '@app/models';
 import { range } from 'rxjs';
 import { AssociationService } from '@app/services/association.service';
 import { environment } from '../../../environments/environment';
+import { LoadingService } from '@app/shared/services/loading.service';
 
 @Component({
     selector: 'app-helps-edit',
@@ -64,7 +65,8 @@ export class HelpsEditComponent implements OnInit {
         private ts: TypeService,
         private ass: AssociationService,
         private http: HttpClient,
-        private ngZone: NgZone
+        private ngZone: NgZone,
+        private loadingService: LoadingService
     ) { }
 
     ngOnInit() {
@@ -228,13 +230,15 @@ export class HelpsEditComponent implements OnInit {
       formData.append('tags', 'myphotoalbum');
       formData.append('file', file);
       this.uploading = true;
+      this.loadingService.show();
       this.http.post(`https://api.cloudinary.com/v1_1/${environment.cloudinaryCloudName}/upload`, formData).subscribe(
         (response: any) => {
           this.uploading = false;
+          this.loadingService.hide();
           this.imageUploaded = true;
           this.responses.push({ file: { name: file.name }, status: 200, data: response });
         },
-        err => { this.uploading = false; console.error(err); }
+        err => { this.uploading = false; this.loadingService.hide(); console.error(err); }
       );
     }
 

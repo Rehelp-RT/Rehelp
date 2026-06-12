@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { HelpCategory, Help, User, HelpResponse, HelpType } from '@app/models';
+import { LoadingService } from '@app/shared/services/loading.service';
 
 @Component({
     selector: 'app-helps-ask',
@@ -53,7 +54,8 @@ export class HelpsAskComponent implements OnInit, AfterViewInit {
     private location: Location,
     private userService: UserService,
     private activeRoute: ActivatedRoute,
-    private responseService: ResponseService
+    private responseService: ResponseService,
+    private loadingService: LoadingService
   ) { }
 
   ngOnInit() {
@@ -118,13 +120,15 @@ export class HelpsAskComponent implements OnInit, AfterViewInit {
     formData.append('tags', 'myphotoalbum');
     formData.append('file', file);
     this.uploading = true;
+    this.loadingService.show();
     this.http.post(`https://api.cloudinary.com/v1_1/${environment.cloudinaryCloudName}/upload`, formData).subscribe(
       (response: any) => {
         this.uploading = false;
+        this.loadingService.hide();
         this.imageUploaded = true;
         this.responses.push({ file: { name: file.name }, status: 200, data: response });
       },
-      err => { this.uploading = false; console.error(err); }
+      err => { this.uploading = false; this.loadingService.hide(); console.error(err); }
     );
   }
 

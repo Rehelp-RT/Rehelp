@@ -18,18 +18,21 @@ export class ChatService {
         this.socket = io(environment.socketioUrl);
     }
 
-    public getAll(idHelp: number) {
-        return this.http.get<Message[]>(`${this.api}/messages?idHelp=${idHelp}`);
+    public getAll(idHelp: number, idResponse?: number) {
+        let url = `${this.api}/messages?idHelp=${idHelp}`;
+        if (idResponse !== undefined) url += `&idResponse=${idResponse}`;
+        return this.http.get<Message[]>(url);
     }
-    
-    public sendMessage(messageBody: string, idHelp: number, idAuthor: number) {
+
+    public sendMessage(messageBody: string, idHelp: number, idAuthor: number, idResponse?: number) {
         const currentTime = new Date();
-        const message = {
+        const message: any = {
             body: messageBody,
             idHelp,
             idAuthor,
             createdAt: currentTime
         };
+        if (idResponse !== undefined) message.idResponse = idResponse;
         this.socket.emit('new-message', message);
     }
 

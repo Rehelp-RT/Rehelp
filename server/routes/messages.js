@@ -1,10 +1,14 @@
 var router = require('express').Router();
 const db = require('../models');
 
-// GET /api/messages?idHelp=4
-router.get('/', (req, res) =>
+// GET /api/messages?idHelp=4&idResponse=7
+router.get('/', (req, res) => {
+    const where = { idHelp: req.query.idHelp };
+    if (req.query.idResponse !== undefined) {
+        where.idResponse = req.query.idResponse;
+    }
     db.Message.findAll({
-        attributes: ['body', 'idAuthor', 'createdAt'],
+        attributes: ['id', 'body', 'idAuthor', 'idResponse', 'createdAt'],
         include: [{
             attributes: [
                 'id', 'avatar', 'birthdate', 'city', 'country',
@@ -16,7 +20,7 @@ router.get('/', (req, res) =>
             required: true,
             as: 'author'
         }],
-        where: { idHelp: req.query.idHelp }
+        where
     })
     .then(x => {
         res.json(x)
@@ -24,8 +28,8 @@ router.get('/', (req, res) =>
     .catch(err => {
         console.error(err);
         res.sendStatus(500)
-    })
-);
+    });
+});
 
 // exports
 module.exports = router;

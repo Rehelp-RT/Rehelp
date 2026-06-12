@@ -4,6 +4,7 @@ import { UserService, AuthenticationService } from '@app/services';
 import { environment } from '../../../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '@app/models';
+import { LoadingService } from '@app/shared/services/loading.service';
 
 @Component({
     selector: 'app-upload-avatar',
@@ -24,7 +25,8 @@ export class UploadAvatarComponent implements OnInit {
         private as: AuthenticationService,
         private us: UserService,
         private router: Router,
-        private activeRouter: ActivatedRoute
+        private activeRouter: ActivatedRoute,
+        private loadingService: LoadingService
     ) { }
 
 
@@ -51,9 +53,11 @@ export class UploadAvatarComponent implements OnInit {
         formData.append('file', file);
         this.uploading = true;
         this.errorMsg = null;
+        this.loadingService.show();
         this.http.post(`https://api.cloudinary.com/v1_1/${environment.cloudinaryCloudName}/upload`, formData).subscribe(
             (response: any) => {
                 this.uploading = false;
+                this.loadingService.hide();
                 const avatarPath = (response as any).public_id;
                 this.us.uploadAvatar(this.user.id, avatarPath).subscribe(() => {
                     const updatedUser = { ...this.as.currentUserValue, avatar: avatarPath };
@@ -66,6 +70,7 @@ export class UploadAvatarComponent implements OnInit {
             },
             err => {
                 this.uploading = false;
+                this.loadingService.hide();
                 this.errorMsg = 'Errore caricamento immagine: ' + (err?.error?.error?.message || err?.message || err?.statusText);
                 console.error(err);
             }

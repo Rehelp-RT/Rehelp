@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-body">
-        
+
         <div *ngIf="hasUserResponded || isHelpCreator || help.accepted || help.reviewed">
             <h4>Risposte</h4>
 
@@ -80,6 +80,42 @@
                         </div>
                     </div>
 
+                </div>
+
+                <!-- inline reply -->
+                <div *ngIf="canReply(r)" class="mt-2 mb-2">
+                    <button class="btn btn-sm btn-outline-secondary" (click)="toggleReply(r)">
+                        <fa-icon [icon]="['far', 'comment']"></fa-icon>
+                        {{ replyOpen[r.id] ? 'Chiudi' : 'Rispondi' }}
+                    </button>
+
+                    <div *ngIf="replyOpen[r.id]" class="mt-2 border-left pl-3">
+                        <div *ngFor="let msg of replyMessages[r.id]" class="mb-2">
+                            <small class="text-muted">
+                                <strong>{{ msg.author?.firstname }}</strong>
+                                &nbsp;{{ msg.createdAt | date:'dd/MM HH:mm' }}
+                            </small>
+                            <p class="mb-0 small">{{ msg.body }}</p>
+                        </div>
+                        <p *ngIf="replyMessages[r.id]?.length === 0" class="small text-muted">
+                            Nessun messaggio ancora.
+                        </p>
+                        <div class="input-group mt-2">
+                            <textarea
+                                class="form-control form-control-sm"
+                                rows="2"
+                                [(ngModel)]="replyText[r.id]"
+                                placeholder="Scrivi un messaggio..."
+                                (keydown.enter)="$event.preventDefault()"
+                                (keyup.enter)="sendReply(r)">
+                            </textarea>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-primary btn-sm" (click)="sendReply(r)">
+                                    Invia
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div *ngIf="isHelpCreator" class="mb-3">
@@ -229,7 +265,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="offset-md-4">
                             <a *ngIf="isHelpCreator" class="btn btn-lg btn-outline-primary ml-3" (click)="review(r)">

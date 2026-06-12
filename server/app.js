@@ -135,6 +135,7 @@ io.on('connection', (socket) => {
       // save it
       db.Message.create({
         idHelp: message.idHelp,
+        idResponse: message.idResponse || null,
         idAuthor: message.idAuthor,
         body: message.body,
         createdAt: message.createdAt,

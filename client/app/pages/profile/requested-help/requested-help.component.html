@@ -1,7 +1,5 @@
 <h3 class="mb-3">Richieste di aiuto</h3>
 
-<fa-icon [icon]="['fas', 'sync']" [spin]="isLoading" *ngIf="isLoading"></fa-icon>
-
 <div *ngIf="!isLoading">
     <p *ngIf="helps.length == 0">Nessun risultato trovato.</p>
     <div *ngIf="helps.length > 0">

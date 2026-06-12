@@ -8,6 +8,7 @@ import * as moment from 'moment';
 
 // model
 import { ForumPost, HelpCategory, User, HelpType } from '@app/models';
+import { LoadingService } from '@app/shared/services/loading.service';
 
 @Component({
     selector: 'app-forum-form',
@@ -42,7 +43,8 @@ export class ForumFormComponent implements OnInit {
         private as: AuthenticationService,
         private cs: CategoryService,
         private fps: ForumPostService,
-        private ts: TypeService
+        private ts: TypeService,
+        private loadingService: LoadingService
   ) { }
 
   ngOnInit(): void {
@@ -142,13 +144,15 @@ onFileSelected(event: Event) {
   formData.append('tags', 'myphotoalbum');
   formData.append('file', file);
   this.uploading = true;
+  this.loadingService.show();
   this.http.post(`https://api.cloudinary.com/v1_1/${environment.cloudinaryCloudName}/upload`, formData).subscribe(
     (response: any) => {
       this.uploading = false;
+      this.loadingService.hide();
       this.imageUploaded = true;
       this.responses.push({ file: { name: file.name }, status: 200, data: response });
     },
-    err => { this.uploading = false; console.error(err); }
+    err => { this.uploading = false; this.loadingService.hide(); console.error(err); }
   );
 }
 

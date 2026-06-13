@@ -10,12 +10,6 @@ export class LoadingInterceptor implements HttpInterceptor {
     constructor(private loadingService: LoadingService) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const isApiRequest = request.url.startsWith('/api');
-        if (!isApiRequest) return next.handle(request);
-
-        this.loadingService.show();
-        return next.handle(request).pipe(
-            finalize(() => this.loadingService.hide())
-        );
+        return next.handle(request);
     }
 }

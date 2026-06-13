@@ -37,6 +37,7 @@ export class HelpsAskComponent implements OnInit, AfterViewInit {
   zoom: number;
   address: string;
   lastAddress: string;
+  mapsAvailable = false;
   private geoCoder;
   @ViewChild('search')
   public searchElementRef: ElementRef;
@@ -120,15 +121,13 @@ export class HelpsAskComponent implements OnInit, AfterViewInit {
     formData.append('tags', 'myphotoalbum');
     formData.append('file', file);
     this.uploading = true;
-    this.loadingService.show();
     this.http.post(`https://api.cloudinary.com/v1_1/${environment.cloudinaryCloudName}/upload`, formData).subscribe(
       (response: any) => {
         this.uploading = false;
-        this.loadingService.hide();
         this.imageUploaded = true;
         this.responses.push({ file: { name: file.name }, status: 200, data: response });
       },
-      err => { this.uploading = false; this.loadingService.hide(); console.error(err); }
+      err => { this.uploading = false; console.error(err); }
     );
   }
 
@@ -210,6 +209,10 @@ export class HelpsAskComponent implements OnInit, AfterViewInit {
 
   initMaps() {
     this.setCurrentLocation();
+    if (typeof google === 'undefined' || !google.maps) {
+      return;
+    }
+    this.mapsAvailable = true;
     this.geoCoder = new google.maps.Geocoder();
 
     const autocomplete = new google.maps.places.Autocomplete(
@@ -220,15 +223,12 @@ export class HelpsAskComponent implements OnInit, AfterViewInit {
     );
     autocomplete.addListener('place_changed', () => {
       this.ngZone.run(() => {
-        // get the place result
         const place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
-        // verify result
         if (place.geometry === undefined || place.geometry === null) {
           return;
         }
 
-        // set latitude, longitude and zoom
         this.model.latitude = place.geometry.location.lat();
         this.model.longitude = place.geometry.location.lng();
         this.zoom = 12;

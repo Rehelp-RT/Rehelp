@@ -63,7 +63,23 @@ export class HelpsDetailResponsesComponent implements OnInit, OnDestroy {
         this.isAtLeastOneResponseAccepted = this.checkAtLeastOneResponseAccepted(this.help);
         if(this.as.currentUserValue.likehelps >= this.help.likehelps) this.canAccept = true;
         else this.canAccept = false;
-        console.log(this.help)
+        console.log(this.help);
+
+        this.help.responses.forEach(r => {
+            this.replyText[r.id] = '';
+            this.chatService.getAll(this.help.id, r.id).subscribe(messages => {
+                this.replyMessages[r.id] = messages;
+            });
+        });
+
+        this.replySubscription = this.chatService.getMessages().subscribe(message => {
+            if (message.idHelp === this.help.id && message.idResponse) {
+                const responseId = message.idResponse;
+                if (this.replyMessages[responseId] && message.idAuthor !== this.as.currentUserValue.id) {
+                    this.replyMessages[responseId].push(message);
+                }
+            }
+        });
     }
 
     onFileSelected(event: Event) {
@@ -75,16 +91,14 @@ export class HelpsDetailResponsesComponent implements OnInit, OnDestroy {
         formData.append('tags', 'myphotoalbum');
         formData.append('file', file);
         this.uploading = true;
-        this.loadingService.show();
         this.http.post(`https://api.cloudinary.com/v1_1/${environment.cloudinaryCloudName}/upload`, formData).subscribe(
             (response: any) => {
                 this.uploading = false;
-                this.loadingService.hide();
                 this.imageUploaded = true;
                 this.uploadedImage = response.public_id;
                 this.responses.push({ file: { name: file.name }, status: 200, data: response });
             },
-            err => { this.uploading = false; this.loadingService.hide(); console.error(err); }
+            err => { this.uploading = false; console.error(err); }
         );
     }
 
@@ -331,33 +345,25 @@ export class HelpsDetailResponsesComponent implements OnInit, OnDestroy {
     }
 
     toggleReply(r: HelpResponse): void {
-        const isOpening = !this.replyOpen[r.id];
-        this.replyOpen[r.id] = isOpening;
-
-        if (isOpening) {
-            if (this.replyText[r.id] === undefined) {
-                this.replyText[r.id] = '';
-            }
-            this.chatService.getAll(this.help.id, r.id).subscribe(messages => {
-                this.replyMessages[r.id] = messages;
-            });
-            if (!this.replySubscription) {
-                this.replySubscription = this.chatService.getMessages().subscribe(message => {
-                    if (message.idHelp === this.help.id && message.idResponse) {
-                        const responseId = message.idResponse;
-                        if (this.replyOpen[responseId] && this.replyMessages[responseId]) {
-                            this.replyMessages[responseId].push(message);
-                        }
-                    }
-                });
-            }
-        }
+        this.replyOpen[r.id] = !this.replyOpen[r.id];
     }
 
     sendReply(r: HelpResponse): void {
         const text = this.replyText[r.id];
         if (text && text.trim().length > 0) {
-            this.chatService.sendMessage(text.trim(), this.help.id, this.as.currentUserValue.id, r.id);
+            const currentUser = this.as.currentUserValue;
+            this.chatService.sendMessage(text.trim(), this.help.id, currentUser.id, r.id);
+            if (!this.replyMessages[r.id]) {
+                this.replyMessages[r.id] = [];
+            }
+            const optimistic = new Message();
+            optimistic.idHelp = this.help.id;
+            optimistic.idResponse = r.id;
+            optimistic.idAuthor = currentUser.id;
+            optimistic.body = text.trim();
+            optimistic.createdAt = new Date();
+            optimistic.author = currentUser as any;
+            this.replyMessages[r.id].push(optimistic);
             this.replyText[r.id] = '';
         }
     }

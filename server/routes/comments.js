@@ -7,14 +7,11 @@ const { Op } = require('sequelize');
 router.get('/', (req, res) => {
     var filters = [];
     if (req.query.idHelp !== undefined) {
-        filters.push({
-            idHelp: req.query.idHelp
-        });
-    }
-    else if (req.query.idPost !== undefined) {
-        filters.push({
-            idPost: req.query.idPost
-        });
+        filters.push({ idHelp: req.query.idHelp });
+    } else if (req.query.idPost !== undefined) {
+        filters.push({ idPost: req.query.idPost });
+    } else if (req.query.idBachecaPost !== undefined) {
+        filters.push({ idBachecaPost: req.query.idBachecaPost });
     }
     db.Comments.findAll({
         attributes: ['id', 'message', 'idCreator', 'createdAt','updatedAt', 'idHelp', 'idPost'],
@@ -83,16 +80,17 @@ router.post('/add', (req, res) => {
   console.log('--------------')
   if (body == undefined) {
       res.sendStatus(400)
-  } else if (body.idHelp === undefined && body.idPost === undefined) {
-      res.status(400).send({ message: 'idHelp or idPost is missing' });
+  } else if (body.idHelp === undefined && body.idPost === undefined && body.idBachecaPost === undefined) {
+      res.status(400).send({ message: 'idHelp, idPost or idBachecaPost is missing' });
   } else if (body.idCreator === undefined) {
       res.status(400).send({ message: 'idCreator is missing' });
   } else if (body.message === undefined) {
       res.status(400).send({ message: 'message is missing' });
   } else {
       db.Comments.create({
-          idPost: body.idPost,
-          idHelp: body.idHelp,
+          idPost: body.idPost || null,
+          idBachecaPost: body.idBachecaPost || null,
+          idHelp: body.idHelp || null,
           idCreator: body.idCreator,
           message: body.message
       })

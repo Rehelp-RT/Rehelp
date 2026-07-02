@@ -30,7 +30,12 @@
       "Bash(npm uninstall:*)",
       "Bash(kill %1)",
       "Bash(curl -s http://localhost:4201/client_app_pages_index_ts.js)",
-      "Bash(node -e \"const v=JSON.parse\\(require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\)\\); console.log\\(v.filter\\(x=>x.startsWith\\('2.'\\)\\).join\\('\\\\n'\\)\\)\")"
+      "Bash(node -e \"const v=JSON.parse\\(require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\)\\); console.log\\(v.filter\\(x=>x.startsWith\\('2.'\\)\\).join\\('\\\\n'\\)\\)\")",
+      "Bash(node -e \"const p = require\\('./package.json'\\); console.log\\(p.dependencies ? Object.keys\\(p.dependencies\\).filter\\(k=>k.includes\\('dotenv'\\)\\).join\\(','\\) : 'none'\\)\")",
+      "Bash(node -e \"require\\('dotenv'\\); console.log\\('ok'\\)\")",
+      "Bash(findstr -i sequelize)",
+      "Bash(git *)",
+      "Bash(npx tsc *)"
     ]
   }
 }

@@ -15,9 +15,11 @@ export class CommentComponent implements OnInit {
 
   @Input() receivedIdHelp: number = null;
   @Input() receivedIdPost: number = null;
+  @Input() receivedIdBachecaPost: number = null;
 
   model: Comment;
   postComments: Comment[] = [];
+  newMessage: string = '';
   check: boolean = false;
   currentUser: User = null;
   commentForm: UntypedFormGroup;
@@ -45,7 +47,7 @@ export class CommentComponent implements OnInit {
 }
 
   getAllComments() {
-    this.cs.getAll(this.receivedIdPost, this.receivedIdHelp).subscribe((res) => {
+    this.cs.getAll(this.receivedIdPost, this.receivedIdHelp, this.receivedIdBachecaPost).subscribe((res) => {
       this.postComments = res.map(el => {
         const t: Comment = {
           id: el.id,
@@ -65,14 +67,18 @@ export class CommentComponent implements OnInit {
   }
 
   addComment() {
-    this.model.message = (<HTMLInputElement>document.getElementById("message")).value;
+    if (!this.newMessage.trim()) return;
+    this.model.message = this.newMessage.trim();
     this.model.idPost = this.receivedIdPost;
     this.model.idHelp = this.receivedIdHelp;
+    this.model.idBachecaPost = this.receivedIdBachecaPost;
     this.model.idCreator = this.currentUser.id;
     this.model.author = this.currentUser;
-    
+
     this.cs.addComment(this.model).subscribe((res) => {
-      this.postComments.push(this.model);
+      this.postComments.push({ ...this.model });
+      this.newMessage = '';
+      this.model = new Comment();
     },
     err => {
       console.log(err);

@@ -12,11 +12,13 @@ export class CommentService {
   constructor(private http: HttpClient) { }
 
   getAll(
-    idPost = null,  
-    idHelp = null) {
+    idPost = null,
+    idHelp = null,
+    idBachecaPost = null) {
     let params = '';
     params += idPost != null ? 'idPost=' + idPost + '&' : '';
     params += idHelp != null ? 'idHelp=' + idHelp + '&' : '';
+    params += idBachecaPost != null ? 'idBachecaPost=' + idBachecaPost + '&' : '';
     // params += message != null ? 'message=' + message + '&' : '';
     // params += idCreator != null ? 'idCreator=' + idCreator + '&' : '';
     if (params !== '') {

@@ -7,6 +7,11 @@ module.exports = (sequelize, DataTypes) => {
           type: DataTypes.INTEGER,
           references: { model: db.ForumPosts, key: 'id' }
         },
+        idBachecaPost: {
+          type: DataTypes.INTEGER,
+          allowNull: true,
+          references: { model: 'BachecaPosts', key: 'id' }
+        },
         idHelp: {
             type: DataTypes.INTEGER,
             references: { model: db.Help, key: 'id' }
@@ -25,6 +30,11 @@ module.exports = (sequelize, DataTypes) => {
           onDelete: "CASCADE",
           foreignKey: 'idPost',
           as: 'post'
+        });
+        models.Comments.belongsTo(models.BachecaPosts, {
+          onDelete: "CASCADE",
+          foreignKey: 'idBachecaPost',
+          as: 'bachecaPost'
         });
         models.Comments.belongsTo(models.Help, {
             onDelete: "CASCADE",

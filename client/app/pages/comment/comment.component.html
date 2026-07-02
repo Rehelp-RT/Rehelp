@@ -21,8 +21,8 @@
 
                 </div>
                 <div class="footer">
-                    <form action="">
-                        <input id="message" type="text" placeholder="Type your messages here...">
+                    <form action="" (submit)="$event.preventDefault()">
+                        <input type="text" [(ngModel)]="newMessage" name="newMessage" placeholder="Type your messages here...">
                         <button (click)="addComment()">SEND</button>
                     </form>
                 </div>

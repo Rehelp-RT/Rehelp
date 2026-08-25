@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
             references: { model: db.User, key: 'id' }
         },
         body: DataTypes.STRING,
+        imageUrl: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
         createdAt: DataTypes.DATE,
         updatedAt: DataTypes.DATE
     }, {});

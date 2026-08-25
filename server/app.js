@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
 
-const stripe = require('stripe')("***REMOVED-STRIPE-KEY***");
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const cors = require('cors')
 
@@ -85,13 +85,6 @@ app.post('/checkout', async (req, res) =>{
   }
 })
 
-app.listen(5000, () => {
-  console.log("App is listening on port 5000")
-})
-
-
-
-
 
 // setup certificates
 var credentials = {};
@@ -125,8 +118,8 @@ io.on('connection', (socket) => {
       console.error('idHelp is missing:', message);
     } else if (message.idAuthor === undefined) {
       console.error('idAuthor is missing:', message);
-    } else if (message.body === undefined) {
-      console.error('body is missing:', message);
+    } else if (!message.body && !message.imageUrl) {
+      console.error('body or imageUrl is required:', message);
     } else {
       // assign a date
       const currentDate = new Date();
@@ -137,7 +130,8 @@ io.on('connection', (socket) => {
         idHelp: message.idHelp,
         idResponse: message.idResponse || null,
         idAuthor: message.idAuthor,
-        body: message.body,
+        body: message.body || null,
+        imageUrl: message.imageUrl || null,
         createdAt: message.createdAt,
         updatedAt: message.updatedAt
       })

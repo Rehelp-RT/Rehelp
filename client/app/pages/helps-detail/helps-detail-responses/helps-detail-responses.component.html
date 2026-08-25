@@ -89,7 +89,8 @@
                             <strong>{{ msg.author?.firstname }}</strong>
                             &nbsp;{{ msg.createdAt | date:'dd/MM HH:mm' }}
                         </small>
-                        <p class="mb-0 small">{{ msg.body }}</p>
+                        <img *ngIf="msg.imageUrl" [src]="msg.imageUrl" class="reply-message-image d-block mt-1 mb-1" />
+                        <p *ngIf="msg.body" class="mb-0 small">{{ msg.body }}</p>
                     </div>
                 </div>
 
@@ -100,6 +101,13 @@
                         {{ replyOpen[r.id] ? 'Chiudi' : 'Rispondi' }}
                     </button>
                     <div *ngIf="replyOpen[r.id]" class="mt-2">
+                        <div class="reply-image-preview" *ngIf="replyImagePreviewUrl[r.id]">
+                            <img [src]="replyImagePreviewUrl[r.id]" />
+                            <span *ngIf="replyUploading[r.id]" class="uploading-label">Caricamento...</span>
+                            <button type="button" class="remove-image-btn" (click)="removeReplyImage(r)" [disabled]="replyUploading[r.id]">
+                                <fa-icon [icon]="['fas', 'xmark']"></fa-icon>
+                            </button>
+                        </div>
                         <div class="input-group">
                             <textarea
                                 class="form-control form-control-sm"
@@ -110,6 +118,10 @@
                                 (keyup.enter)="sendReply(r)">
                             </textarea>
                             <div class="input-group-append">
+                                <input #replyFileInput type="file" accept="image/*" hidden (change)="onReplyFileSelected($event, r)" />
+                                <button class="btn btn-outline-secondary btn-sm" type="button" (click)="replyFileInput.click()" title="Allega immagine">
+                                    <fa-icon [icon]="['fas', 'paperclip']"></fa-icon>
+                                </button>
                                 <button class="btn btn-outline-primary btn-sm" (click)="sendReply(r)">
                                     Invia
                                 </button>

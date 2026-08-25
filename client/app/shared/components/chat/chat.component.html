@@ -10,7 +10,8 @@
                     <app-user-icon [showName]="false" [user]="currentUser" class="user"></app-user-icon>
                     <div class="card">
                         <div class="card-body">
-                            <p class="m-0 pb-2">
+                            <img *ngIf="message.imageUrl" [src]="message.imageUrl" class="message-image mb-2" />
+                            <p *ngIf="message.body" class="m-0 pb-2">
                                 {{ message.body }}
                             </p>
                             <sub class="float-right text-secondary">
@@ -23,7 +24,8 @@
                     <app-user-icon [showName]="false" [user]="message.author" class="user"></app-user-icon>
                     <div class="card">
                         <div class="card-body">
-                            <p class="m-0 pb-2">
+                            <img *ngIf="message.imageUrl" [src]="message.imageUrl" class="message-image mb-2" />
+                            <p *ngIf="message.body" class="m-0 pb-2">
                                 {{ message.body }}
                             </p>
                             <sub class="float-right text-secondary">
@@ -35,7 +37,20 @@
             </div>
         </div>
         <div class="card-footer">
-            <textarea [(ngModel)]="messageBody" (keydown.enter)="onKeyDown($event)" (keyup.enter)="sendMessage()" class="form-control"></textarea>
+            <div class="image-preview" *ngIf="imagePreviewUrl">
+                <img [src]="imagePreviewUrl" />
+                <span *ngIf="uploading" class="uploading-label">Caricamento...</span>
+                <button type="button" class="remove-image-btn" (click)="removeSelectedImage()" [disabled]="uploading">
+                    <fa-icon [icon]="['fas', 'xmark']"></fa-icon>
+                </button>
+            </div>
+            <div class="input-row">
+                <textarea [(ngModel)]="messageBody" (keydown.enter)="onKeyDown($event)" (keyup.enter)="sendMessage()" class="form-control"></textarea>
+                <input #fileInput type="file" accept="image/*" hidden (change)="onFileSelected($event)" />
+                <button type="button" class="btn btn-outline-secondary attach-btn" (click)="fileInput.click()" title="Allega immagine">
+                    <fa-icon [icon]="['fas', 'paperclip']"></fa-icon>
+                </button>
+            </div>
         </div>
     </div>
     <div class="chat-collapsed" *ngIf="!isOpen">

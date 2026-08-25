@@ -35,7 +35,22 @@
       "Bash(node -e \"require\\('dotenv'\\); console.log\\('ok'\\)\")",
       "Bash(findstr -i sequelize)",
       "Bash(git *)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(pg_isready)",
+      "Bash(npm run *)",
+      "Bash(npx sequelize *)",
+      "Bash(echo \"started with pid $!\")",
+      "Skill(run)",
+      "Bash(chromium-cli --help)",
+      "Bash(npx --yes playwright --version)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" --max-time 8 https://api.cloudinary.com/v1_1/dhr23uuab/upload)",
+      "Bash(node -e ' *)",
+      "Bash(node \"C:/Users/Federico/AppData/Local/Temp/claude/C--Progetti-ReHelp-rehelp-web/8b28f06d-bb29-46d3-bcbb-047db8e47d44/scratchpad/seed-chat-test.js\")",
+      "Bash(npx playwright *)",
+      "PowerShell(Get-CimInstance *)",
+      "Bash(node *)",
+      "WebSearch",
+      "WebFetch(domain:www.register.it)"
     ]
   }
 }

@@ -44,6 +44,9 @@ export class HelpsDetailResponsesComponent implements OnInit, OnDestroy {
     replyOpen: {[id: number]: boolean} = {};
     replyMessages: {[id: number]: Message[]} = {};
     replyText: {[id: number]: string} = {};
+    replyImagePreviewUrl: {[id: number]: string} = {};
+    replyUploadedImageUrl: {[id: number]: string} = {};
+    replyUploading: {[id: number]: boolean} = {};
     private replySubscription: Subscription = null;
 
     constructor(
@@ -349,10 +352,12 @@ export class HelpsDetailResponsesComponent implements OnInit, OnDestroy {
     }
 
     sendReply(r: HelpResponse): void {
-        const text = this.replyText[r.id];
-        if (text && text.trim().length > 0) {
+        if (this.replyUploading[r.id]) return;
+        const text = (this.replyText[r.id] || '').trim();
+        const imageUrl = this.replyUploadedImageUrl[r.id];
+        if (text.length > 0 || imageUrl) {
             const currentUser = this.as.currentUserValue;
-            this.chatService.sendMessage(text.trim(), this.help.id, currentUser.id, r.id);
+            this.chatService.sendMessage(text, this.help.id, currentUser.id, r.id, imageUrl);
             if (!this.replyMessages[r.id]) {
                 this.replyMessages[r.id] = [];
             }
@@ -360,12 +365,49 @@ export class HelpsDetailResponsesComponent implements OnInit, OnDestroy {
             optimistic.idHelp = this.help.id;
             optimistic.idResponse = r.id;
             optimistic.idAuthor = currentUser.id;
-            optimistic.body = text.trim();
+            optimistic.body = text;
+            optimistic.imageUrl = imageUrl;
             optimistic.createdAt = new Date();
             optimistic.author = currentUser as any;
             this.replyMessages[r.id].push(optimistic);
             this.replyText[r.id] = '';
+            this.removeReplyImage(r);
         }
+    }
+
+    onReplyFileSelected(event: Event, r: HelpResponse) {
+        const file = (event.target as HTMLInputElement).files[0];
+        (event.target as HTMLInputElement).value = '';
+        if (!file || !file.type.startsWith('image/')) return;
+
+        this.replyImagePreviewUrl[r.id] = URL.createObjectURL(file);
+        this.replyUploadedImageUrl[r.id] = null;
+
+        const formData = new FormData();
+        formData.append('upload_preset', environment.cloudinaryHelpPreset);
+        formData.append('folder', 'chat');
+        formData.append('file', file);
+
+        this.replyUploading[r.id] = true;
+        this.http.post(`https://api.cloudinary.com/v1_1/${environment.cloudinaryCloudName}/upload`, formData).subscribe(
+            (response: any) => {
+                this.replyUploading[r.id] = false;
+                this.replyUploadedImageUrl[r.id] = response.secure_url;
+            },
+            err => {
+                this.replyUploading[r.id] = false;
+                this.removeReplyImage(r);
+                console.error(err);
+            }
+        );
+    }
+
+    removeReplyImage(r: HelpResponse) {
+        if (this.replyImagePreviewUrl[r.id]) {
+            URL.revokeObjectURL(this.replyImagePreviewUrl[r.id]);
+        }
+        this.replyImagePreviewUrl[r.id] = null;
+        this.replyUploadedImageUrl[r.id] = null;
     }
 
 }

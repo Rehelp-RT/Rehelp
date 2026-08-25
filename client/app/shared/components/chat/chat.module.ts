@@ -6,7 +6,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 
 // third party modules
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faPaperclip, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 // components
 import { ChatComponent } from './chat.component';
@@ -19,6 +19,6 @@ import { UserIconModule } from '../user-icon';
         UserIconModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class ChatModule {
     constructor(private library: FaIconLibrary) {
-        library.addIcons(faEnvelope);
+        library.addIcons(faEnvelope, faPaperclip, faXmark);
     }
 }

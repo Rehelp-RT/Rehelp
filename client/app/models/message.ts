@@ -6,6 +6,7 @@ export class Message {
     idResponse: number;
     idAuthor: number;
     body: string;
+    imageUrl: string;
     createdAt: Date;
     updatedAt: Date;
 

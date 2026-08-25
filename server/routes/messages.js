@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
         where.idResponse = req.query.idResponse;
     }
     db.Message.findAll({
-        attributes: ['id', 'body', 'idAuthor', 'idResponse', 'createdAt'],
+        attributes: ['id', 'body', 'imageUrl', 'idAuthor', 'idResponse', 'createdAt'],
         include: [{
             attributes: [
                 'id', 'avatar', 'birthdate', 'city', 'country',

@@ -24,7 +24,7 @@ export class ChatService {
         return this.http.get<Message[]>(url);
     }
 
-    public sendMessage(messageBody: string, idHelp: number, idAuthor: number, idResponse?: number) {
+    public sendMessage(messageBody: string, idHelp: number, idAuthor: number, idResponse?: number, imageUrl?: string) {
         const currentTime = new Date();
         const message: any = {
             body: messageBody,
@@ -33,6 +33,7 @@ export class ChatService {
             createdAt: currentTime
         };
         if (idResponse !== undefined) message.idResponse = idResponse;
+        if (imageUrl) message.imageUrl = imageUrl;
         this.socket.emit('new-message', message);
     }
 

@@ -46,7 +46,7 @@ router.post('/signup', function(req, res) {
                                     loginLocal: true
                                 })
                                 .then((user) => {
-                                    var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
+                                    var token = jwt.sign(JSON.parse(JSON.stringify(user)), process.env.JWT_SECRET);
                                     var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
                                     res.json(getLoggedUser(user, token, expiresIn));
                                 })
@@ -113,9 +113,9 @@ router.post('/signin', function(req, res) {
             }
             user.comparePassword(req.body.password, (err, isMatch) => {
                 if (isMatch && !err) {
-                    var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
+                    var token = jwt.sign(JSON.parse(JSON.stringify(user)), process.env.JWT_SECRET);
                     var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
-                    jwt.verify(token, '***REMOVED-JWT-SECRET***', function(err, data) {
+                    jwt.verify(token, process.env.JWT_SECRET, function(err, data) {
                         console.log(err, data);
                     });
 
@@ -215,7 +215,7 @@ router.post('/socialLogin', function(req, res) {
                             loginGoogle: req.body.provider === 'GOOGLE' ? true : false
                         })
                         .then(user => {
-                            var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
+                            var token = jwt.sign(JSON.parse(JSON.stringify(user)), process.env.JWT_SECRET);
                             var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
                             res.json(getLoggedUser(user, token, expiresIn));
                         })
@@ -225,7 +225,7 @@ router.post('/socialLogin', function(req, res) {
                         });
                 } else {
                     // registered user
-                    var token = jwt.sign(JSON.parse(JSON.stringify(user)), '***REMOVED-JWT-SECRET***');
+                    var token = jwt.sign(JSON.parse(JSON.stringify(user)), process.env.JWT_SECRET);
                     var expiresIn = JSON.parse(JSON.stringify(86400 * 30));
 
                     // sum reviews where user is responder
@@ -286,7 +286,7 @@ router.post('/recaptcha_token_validate', function(req, res) {
   let token = req.body.recaptcha;
 
   // the secret key from your google admin console;
-  const secretKey = "***REMOVED-RECAPTCHA-SECRET***";
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
 
   // token validation url is URL: https://www.google.com/recaptcha/api/siteverify
   // METHOD used is: POST
@@ -326,8 +326,8 @@ router.post('/recoveryPassword', function(req, res) {
       // port: 587,
       secure: true, // true for 465, false for other ports
       auth: {
-        user: "monitor.rehelp@gmail.com",
-        pass: "***REMOVED-GMAIL-PASSWORD***",
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASSWORD,
       },
     });
     User.findOne({

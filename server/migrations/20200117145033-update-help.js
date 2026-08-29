@@ -2,7 +2,8 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return Promise.all([
-      queryInterface.addConstraint('Help', ['id_category'], {
+      queryInterface.addConstraint('Help', {
+        fields: ['id_category'],
         type: 'foreign key',
         name: 'custom_fkey_help_helpCategories',
         references: { table: 'HelpCategories', field: 'id' },

@@ -8,7 +8,8 @@ module.exports = {
                     type: Sequelize.INTEGER
                 }
             ),
-            queryInterface.addConstraint('Feedbacks', ['idHelp'], {
+            queryInterface.addConstraint('Feedbacks', {
+        fields: ['idHelp'],
                 type: 'foreign key',
                 name: 'custom_fkey_feedbacks_help',
                 references: { table: 'Help', field: 'id' },

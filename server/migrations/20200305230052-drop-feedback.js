@@ -20,7 +20,8 @@ module.exports = {
                 ratingCreator: { type: Sequelize.INTEGER },
                 ratingResponder: { type: Sequelize.INTEGER }
             }),
-            queryInterface.addConstraint('Feedbacks', ['idResponse'], {
+            queryInterface.addConstraint('Feedbacks', {
+        fields: ['idResponse'],
                 type: 'foreign key',
                 name: 'custom_fkey_feedbacks_response',
                 references: { table: 'HelpResponses', field: 'id' },

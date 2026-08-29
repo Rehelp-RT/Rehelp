@@ -3,7 +3,8 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return Promise.all([
-        queryInterface.addConstraint('Notifications', ['idUser'], {
+        queryInterface.addConstraint('Notifications', {
+        fields: ['idUser'],
           type: 'foreign key',
           name: 'custom_fkey_notifications_user',
           references: { table: 'Users', field: 'id' },

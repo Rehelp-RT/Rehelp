@@ -3,14 +3,16 @@
 module.exports = {
     up: (queryInterface, Sequelize) => {
         return Promise.all([
-            queryInterface.addConstraint('Categories_Users', ['idCategory'], {
+            queryInterface.addConstraint('Categories_Users', {
+        fields: ['idCategory'],
                 type: 'foreign key',
                 name: 'custom_fkey_categoriesusers_categories',
                 references: { table: 'HelpCategories', field: 'id' },
                 onDelete: 'cascade',
                 onUpdate: 'cascade'
             }),
-            queryInterface.addConstraint('Categories_Users', ['idUser'], {
+            queryInterface.addConstraint('Categories_Users', {
+        fields: ['idUser'],
                 type: 'foreign key',
                 name: 'custom_fkey_categoriesusers_users',
                 references: { table: 'Users', field: 'id' },

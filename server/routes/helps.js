@@ -4,7 +4,7 @@ const { Op, Sequelize } = require('sequelize');
 const moment = require('moment');
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = require('twilio')(accountSid, authToken);
+const client = (accountSid && authToken) ? require('twilio')(accountSid, authToken) : null;
 
 // GET /api/helps
 router.get('/', (req, res) => {
@@ -323,14 +323,16 @@ router.post('/add', (req, res) => {
                                             var numberToSend = x[y].phoneNumber.substring(0, 3) == '+39' ?
                                                 x[y].phoneNumber : '+39' + x[y].phoneNumber
                                             console.log('numberToSend', numberToSend);
-                                            client.messages
-                                                .create({
-                                                    body: help.description + ' https://rehelp.app/helps/' + help.id,
-                                                    from: '+12513090971',
-                                                    to: numberToSend
-                                                })
-                                                .then(message => console.log('message', message.sid))
-                                                .catch(err => console.log('errSendSMS', err));
+                                            if (client) {
+                                                client.messages
+                                                    .create({
+                                                        body: help.description + ' https://rehelp.app/helps/' + help.id,
+                                                        from: '+12513090971',
+                                                        to: numberToSend
+                                                    })
+                                                    .then(message => console.log('message', message.sid))
+                                                    .catch(err => console.log('errSendSMS', err));
+                                            }
                                         }
                                     }
                                 })
@@ -444,13 +446,15 @@ function sendSms(distance, long, lat, description, id) {
         .then(x => {
             for (var y in x) {
                 console.log('+39' + x[y].phoneNumber);
-                client.messages
-                    .create({
-                        body: description + ' https://localhost:4200/helps/' + id,
-                        from: '+12513090971',
-                        to: '+39' + x[y].phoneNumber
-                    })
-                    .then(message => console.log(message.sid));
+                if (client) {
+                    client.messages
+                        .create({
+                            body: description + ' https://localhost:4200/helps/' + id,
+                            from: '+12513090971',
+                            to: '+39' + x[y].phoneNumber
+                        })
+                        .then(message => console.log(message.sid));
+                }
             }
             res.json(x)
         })

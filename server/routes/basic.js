@@ -340,7 +340,7 @@ router.post('/recoveryPassword', function(req, res) {
           });
           } else {
               // registered user
-              const appUrl = (process.env.MODE === 'production') ? 'rehelp.app' : `localhost:4200`;
+              const appUrl = (process.env.MODE === 'production') ? 'rehelp.it' : `localhost:4200`;
 
               let token = crypto.randomBytes(16).toString('hex');
 

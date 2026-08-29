@@ -170,7 +170,7 @@ app.get('*', (req, res) => {
 /*--- Start ---*/
 
 server.listen(port, function() {
-  const appUrl = (process.env.MODE === 'production') ? 'rehelp.app' : `localhost:${port}`;
+  const appUrl = (process.env.MODE === 'production') ? 'rehelp.it' : `localhost:${port}`;
   console.log(`ReHelp API running on https://${appUrl}/api/version`);
   console.log(`ReHelp Web App running on https://${appUrl}`);
 });

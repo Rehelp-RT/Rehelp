@@ -326,7 +326,7 @@ router.post('/add', (req, res) => {
                                             if (client) {
                                                 client.messages
                                                     .create({
-                                                        body: help.description + ' https://rehelp.app/helps/' + help.id,
+                                                        body: help.description + ' https://rehelp.it/helps/' + help.id,
                                                         from: '+12513090971',
                                                         to: numberToSend
                                                     })

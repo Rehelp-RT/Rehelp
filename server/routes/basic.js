@@ -7,6 +7,51 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const nodemailer = require("nodemailer");
 const crypto = require("crypto")
+const { OAuth2Client } = require('google-auth-library');
+
+// OAuth client ids are public: the same values are in client/app/app.module.ts
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '777650088501-7v0eembic12t9esbnht9lmmhi95tho4j.apps.googleusercontent.com';
+const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID || '220996429157029';
+const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
+
+// Verifies the social login token with the provider and returns the profile it vouches for.
+// Never trust email/name sent by the client: anyone could post someone else's email.
+async function verifySocialUser(body) {
+    if (body.provider === 'GOOGLE') {
+        const ticket = await googleClient.verifyIdToken({ idToken: body.idToken, audience: GOOGLE_CLIENT_ID });
+        const payload = ticket.getPayload();
+        if (!payload.email || !payload.email_verified) {
+            throw new Error('Google account email not verified');
+        }
+        return {
+            provider: 'GOOGLE',
+            email: payload.email,
+            firstName: payload.given_name,
+            lastName: payload.family_name,
+            photoUrl: payload.picture
+        };
+    }
+    if (body.provider === 'FACEBOOK') {
+        const token = encodeURIComponent(body.authToken);
+        // the token must have been issued to our app, not to any other Facebook app
+        const app = await (await fetch(`https://graph.facebook.com/app?access_token=${token}`)).json();
+        if (app.id !== FACEBOOK_APP_ID) {
+            throw new Error('Facebook token issued for another app');
+        }
+        const me = await (await fetch(`https://graph.facebook.com/me?fields=id,email,first_name,last_name&access_token=${token}`)).json();
+        if (!me.id || !me.email) {
+            throw new Error('Facebook profile without email');
+        }
+        return {
+            provider: 'FACEBOOK',
+            email: me.email,
+            firstName: me.first_name,
+            lastName: me.last_name,
+            photoUrl: `https://graph.facebook.com/${me.id}/picture?type=normal`
+        };
+    }
+    throw new Error('Unsupported social provider');
+}
 
 // GET /api/version
 router.get('/version', function(req, res) {
@@ -166,12 +211,20 @@ router.post('/signin', function(req, res) {
 });
 
 // POST /api/socialLogin
-router.post('/socialLogin', function(req, res) {
+router.post('/socialLogin', async function(req, res) {
     if (req.body == null || req.body == undefined) {
         res.status(400).send({ msg: 'Something goes wrong.' })
     } else {
+        let socialUser;
+        try {
+            socialUser = await verifySocialUser(req.body);
+        } catch (error) {
+            console.log(error);
+            return res.status(401).send({ message: 'Autenticazione fallita. Accesso social non valido.' });
+        }
+
         User.findOne({
-                where: { email: req.body.email },
+                where: { email: socialUser.email },
                 include: [{
                         required: false,
                         model: db.Help,
@@ -205,14 +258,14 @@ router.post('/socialLogin', function(req, res) {
                     var randomstring = Math.random().toString(36).slice(-8);
 
                     User.create({
-                            email: req.body.email,
+                            email: socialUser.email,
                             password: randomstring,
-                            firstname: req.body.firstName,
-                            lastname: req.body.lastName,
-                            idFacebook: req.body.provider === 'FACEBOOK' ? req.body.photoUrl : null,
-                            idGoogle: req.body.provider === 'GOOGLE' ? req.body.photoUrl : null,
-                            loginFacebook: req.body.provider === 'FACEBOOK' ? true : false,
-                            loginGoogle: req.body.provider === 'GOOGLE' ? true : false
+                            firstname: socialUser.firstName,
+                            lastname: socialUser.lastName,
+                            idFacebook: socialUser.provider === 'FACEBOOK' ? socialUser.photoUrl : null,
+                            idGoogle: socialUser.provider === 'GOOGLE' ? socialUser.photoUrl : null,
+                            loginFacebook: socialUser.provider === 'FACEBOOK' ? true : false,
+                            loginGoogle: socialUser.provider === 'GOOGLE' ? true : false
                         })
                         .then(user => {
                             var token = jwt.sign(JSON.parse(JSON.stringify(user)), process.env.JWT_SECRET);
@@ -258,14 +311,14 @@ router.post('/socialLogin', function(req, res) {
                         return prev + cur.ratingResponder;
                     }, 0);
 
-                    if (req.body.provider === 'FACEBOOK' && (user.idFacebook === null || user.loginFacebook === null)) {
+                    if (socialUser.provider === 'FACEBOOK' && (user.idFacebook === null || user.loginFacebook === null)) {
                         // update with Facebook id
-                        user.update({ idFacebook: req.body.photoUrl, loginFacebook: true }).then(user => {
+                        user.update({ idFacebook: socialUser.photoUrl, loginFacebook: true }).then(user => {
                             res.json(getLoggedUser(user, token, expiresIn));
                         });
-                    } else if (req.body.provider === 'GOOGLE' && (user.idGoogle === null || user.loginGoogle === null)) {
+                    } else if (socialUser.provider === 'GOOGLE' && (user.idGoogle === null || user.loginGoogle === null)) {
                         // update with Google id
-                        user.update({ idGoogle: req.body.photoUrl, loginGoogle: true }).then(user => {
+                        user.update({ idGoogle: socialUser.photoUrl, loginGoogle: true }).then(user => {
                             res.json(getLoggedUser(user, token, expiresIn));
                         });
                     } else {

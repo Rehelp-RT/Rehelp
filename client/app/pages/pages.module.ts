@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
 // app modules
 import { PagesRoutingModule } from './pages-routing.module';
 import { SharedModule } from '@app/shared';
@@ -69,6 +70,7 @@ import { PaymentComponent } from './payment/payment.component';
         MatSliderModule,
         ReactiveFormsModule,
         RouterModule,
+        GoogleSigninButtonModule,
         HelpsDetailModule,
         ProfileModule,
         UsersModule,

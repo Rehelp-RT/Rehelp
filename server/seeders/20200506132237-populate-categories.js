@@ -3,8 +3,7 @@
 module.exports = {
     up: (queryInterface, Sequelize) => {
         const date = new Date();
-        return Promise.all([
-            queryInterface.bulkDelete('HelpCategories', null, {}),
+        return queryInterface.bulkDelete('HelpCategories', null, {}).then(() =>
             queryInterface.bulkInsert('HelpCategories', [
                 // Meet & Help Categories
                 { id: 1,   code: 'MEH', idHelpType: 1, createdAt: date, updatedAt: date, name: 'affitto temporaneo', image: 'meh-aff.jpg' },
@@ -337,8 +336,7 @@ module.exports = {
                 { id: 319, code: 'MES', idHelpType: 4, idParent: 313, createdAt: date, updatedAt: date, name: 'moto / scooter', image: 'mes-vei-06.jpg' },
                 { id: 320, code: 'MES', idHelpType: 4, idParent: 313, createdAt: date, updatedAt: date, name: 'roulotte', image: 'mes-vei-07.jpg' }
 
-            ], {}),
-        ]);
+            ], {}));
     },
 
     down: (queryInterface, Sequelize) => {
